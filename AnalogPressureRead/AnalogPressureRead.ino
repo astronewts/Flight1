@@ -147,16 +147,12 @@ void loop() {
 //################# ASTRONEWTS ####################
 //#################################################
 
-  int pressNeg;
-  int pressPos;
-
   // change the resolution to 12 bit
   analogReadResolution(12);
 
   // read analog pins and format data
-  pressNeg = analogRead(A1);
-  pressPos = analogRead(A2);
-  bout << ',' << pressPos - pressNeg;
+  int extPressure = analogRead(A0);
+  bout << ',' << extPressure;
 
   bout << endl;
   
