@@ -21,7 +21,8 @@ ofstream logfile;
 ArduinoOutStream cout(Serial);
 
 // buffer to format data - makes it eaiser to echo to Serial
-char buf[80];
+char buf[120];
+
 //------------------------------------------------------------------------------
 #if SENSOR_COUNT > 6
 #error SENSOR_COUNT too large
@@ -45,7 +46,7 @@ RTC_DS1307 RTC;  // define the Real Time Clock object
 //------------------------------------------------------------------------------
 // call back for file timestamps
 void dateTime(uint16_t* date, uint16_t* time) {
-    DateTime now = RTC.now();
+  DateTime now = RTC.now();
 
   // return date using FAT_DATE macro to format fields
   *date = FAT_DATE(now.year(), now.month(), now.day());
@@ -65,8 +66,8 @@ ostream& operator << (ostream& os, DateTime& dt) {
 //------------------------------------------------------------------------------
 void setup() {
   Serial.begin(9600);
-  while (!Serial){}  // wait for Leonardo
-  
+  while (!Serial) {} // wait for Leonardo
+
   // pstr stores strings in flash to save RAM
   cout << endl << pstr("FreeRam: ") << FreeRam() << endl;
 
@@ -88,23 +89,23 @@ void setup() {
 #endif  // USE_DS1307
 
   // initialize the SD card at SPI_HALF_SPEED to avoid bus errors with
- // Removed by Guilhem // if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorHalt();
+  // Removed by Guilhem // if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorHalt();
 
   // create a new file in root, the current working directory
   char name[] = "LOGGER00.CSV";
 
-// Removed by Guilhem //  for (uint8_t i = 0; i < 100; i++) {
-// Removed by Guilhem //    name[6] = i/10 + '0';
-// Removed by Guilhem //    name[7] = i%10 + '0';
-// Removed by Guilhem //    if (sd.exists(name)) continue;
-// Removed by Guilhem //    logfile.open(name);
-// Removed by Guilhem //    break;
-// Removed by Guilhem //  }
-// Removed by Guilhem //  if (!logfile.is_open()) error("file.open");
+  // Removed by Guilhem //  for (uint8_t i = 0; i < 100; i++) {
+  // Removed by Guilhem //    name[6] = i/10 + '0';
+  // Removed by Guilhem //    name[7] = i%10 + '0';
+  // Removed by Guilhem //    if (sd.exists(name)) continue;
+  // Removed by Guilhem //    logfile.open(name);
+  // Removed by Guilhem //    break;
+  // Removed by Guilhem //  }
+  // Removed by Guilhem //  if (!logfile.is_open()) error("file.open");
 
   cout << pstr("Logging to: ") << name << endl;
   cout << pstr("Type any character to stop\n\n");
-  
+
   // format header in buffer
   obufstream bout(buf, sizeof(buf));
 
@@ -114,8 +115,8 @@ void setup() {
   bout << pstr(",date,time");
 #endif  // USE_DS1307
 
-  bout << pstr(",Tre Sensor");
-  
+  bout << pstr(", Flight Comp, External, Battery1T1, Battery1T2, Battery2T1, Battery2T2");
+
   logfile << buf << endl;
 
 #if ECHO_TO_SERIAL
@@ -143,24 +144,31 @@ void loop() {
 #endif  // USE_DS1307
 
 
-//#################################################
-//################# ASTRONEWTS ####################
-//#################################################
+  //#################################################
+  //################# ASTRONEWTS ####################
+  //#################################################
 
   // change the resolution to 12 bit
   analogReadResolution(12);
 
   // read analog pins and format data
-  int extTre = analogRead(A6);
-  bout << ',' << extTre;
+  int flight_comp_temp = analogRead(A6);
+  int external_temp = analogRead(A7);
+  int battery1_temp1 = analogRead(A8);
+  int battery1_temp2 = analogRead(A9);
+  int battery2_temp1 = analogRead(A10);
+  int battery2_temp2 = analogRead(A11);
+  bout << ", " << flight_comp_temp << ", " << external_temp
+       << ", " << battery1_temp1 << ", " << battery1_temp2
+       << ", " << battery2_temp1 << ", " << battery2_temp2;
 
   bout << endl;
-  
+
   // log data and flush to SD
-// Removed by Guilhem //  logfile << buf << flush;
+  // Removed by Guilhem //  logfile << buf << flush;
 
   // check for error
-// Removed by Guilhem //  if (!logfile) error("write data failed");
+  // Removed by Guilhem //  if (!logfile) error("write data failed");
 
 #if ECHO_TO_SERIAL
   cout << buf;
@@ -168,10 +176,10 @@ void loop() {
 
   // don't log two points in the same millis
   if (m == millis()) delay(1);
-  
-//##########################################
-//##########################################
-//##########################################
+
+  //##########################################
+  //##########################################
+  //##########################################
   if (!Serial.available()) return;
   logfile.close();
   cout << pstr("Done!");
