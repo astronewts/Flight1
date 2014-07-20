@@ -11,17 +11,6 @@
 #define WAIT_TO_START    1  // Wait for serial input in setup()
 #define ADC_DELAY       10  // ADC delay for high impedence sensors
 
-// file system object
-SdFat sd;
-
-// text file for logging
-ofstream logfile;
-
-// Serial print stream
-ArduinoOutStream cout(Serial);
-
-// buffer to format data - makes it eaiser to echo to Serial
-char buf[80];
 //------------------------------------------------------------------------------
 #if SENSOR_COUNT > 6
 #error SENSOR_COUNT too large
@@ -30,44 +19,10 @@ char buf[80];
 // store error strings in flash to save RAM
 #define error(s) sd.errorHalt_P(PSTR(s))
 //------------------------------------------------------------------------------
-#if USE_DS1307
-// use RTClib from Adafruit
-// https://github.com/adafruit/RTClib
 
-// The Arduino IDE has a bug that causes Wire and RTClib to be loaded even
-// if USE_DS1307 is false.
-
-#error remove this line and uncomment the next two lines.
-//#include <Wire.h>
-//#include <RTClib.h>
-
-RTC_DS1307 RTC;  // define the Real Time Clock object
 //------------------------------------------------------------------------------
-// call back for file timestamps
-void dateTime(uint16_t* date, uint16_t* time) {
-    DateTime now = RTC.now();
-
-  // return date using FAT_DATE macro to format fields
-  *date = FAT_DATE(now.year(), now.month(), now.day());
-
-  // return time using FAT_TIME macro to format fields
-  *time = FAT_TIME(now.hour(), now.minute(), now.second());
-}
-//------------------------------------------------------------------------------
-// format date/time
-ostream& operator << (ostream& os, DateTime& dt) {
-  os << dt.year() << '/' << int(dt.month()) << '/' << int(dt.day()) << ',';
-  os << int(dt.hour()) << ':' << setfill('0') << setw(2) << int(dt.minute());
-  os << ':' << setw(2) << int(dt.second()) << setfill(' ');
-  return os;
-}
-#endif  // USE_DS1307
-//------------------------------------------------------------------------------
-void setup() {
-  Serial.begin(9600);
-  while (!Serial){}  // wait for Leonardo
-  
-  // pstr stores strings in flash to save RAM
+void air_pressure_setup() {
+  //Display Free RAM
   cout << endl << pstr("FreeRam: ") << FreeRam() << endl;
 
 #if WAIT_TO_START

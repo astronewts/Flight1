@@ -1,32 +1,23 @@
-int ret_val = 0;
-
 void setup() 
 {
-   Serial.begin(9600); 
-   char* string_buffer = (char*)malloc(512);
+   char* string_buffer = (char*)malloc(512);;
 }
 
 void loop() 
 {
-/*
-   // Check if there is any data waiting for us from ROCKBLOCK
-   ret_val = read_satellite_data(&satellite_commands);
    
-   if(ret_val == COMMANDS_TO_PROCESS)
-   {
-     //Process satellite commands from ROCKBLOCK, blocking unless it's time to make a loop cycle
-     // 1 - Cord Snap
-     // 2 - Turn on/off feed from solar panels
-     // 3 - Set hi/low temperature thresholds 
-     // 4 - Set sampling rate
-     // 5 - Set camera rate
-     // 6 - Set data format
-     process_satellite_command(&satellite_commands);
-     
-     //Write satellie data to SD card
-     write_satallite_data_to_sd(string_buffer);
-   }
-*/   
+  //Process satellite commands from ROCKBLOCK, blocking unless it's time to make a loop cycle
+   // 1 - Cord Snap
+   // 2 - Turn on/off feed from solar panels
+   // 3 - Set hi/low temperature thresholds 
+   // 4 - Set sampling rate
+   // 5 - Set camera rate
+   // 6 - Set data format
+   process_satellite_command(&satellite_commands);
+   
+   //Write satellie command to SD card, if any
+   write_satallite_command_to_sd(string_buffer);   
+   
    //Collect telemetry
    colect_telemetry(struct telemetry_data_struct* telemetry_data);
    
@@ -50,7 +41,7 @@ void loop()
    
    //Receive any data from satellite
    receive_from_satellite(struct satellite_command_struct* satellite_commands);
-  
+
    //Format received satellite data, realloc if need be
    format_satellite_data_for_sd(&satellite_commands, string_buffer);  
    
