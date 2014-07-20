@@ -20,13 +20,12 @@ void setup()
 {
    Serial.begin(9600); 
    Serial.println("Flight1 starting up");
-   parameters.loop_sleep = 1000;
+   parameters.loop_sleep = 2000;
 }
 
 void loop() 
 {
    // Check if there is any data waiting for us from ROCKBLOCK
-   Serial.println("Calling read");
    ret_val = read_satellite_data(&satellite_data);
    
    if(ret_val == COMMANDS_TO_PROCESS)
