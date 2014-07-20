@@ -1,26 +1,16 @@
 #include <TinyGPS++.h>
-/*#include <SoftwareSerial.h>*/
-/*
-   This sample code demonstrates the normal use of a TinyGPS++ (TinyGPSPlus) object.
-   It requires the use of SoftwareSerial, and assumes that you have a
-   4800-baud serial GPS device hooked up on pins 4(rx) and 3(tx).
-*/
+#include "Arduino.h"
+
 static const int RXPin = 4, TXPin = 3;
 static const uint32_t GPSBaud = 4800;
 
 // The TinyGPS++ object
 TinyGPSPlus gps;
 
-// The serial connection to the GPS device
-/*SoftwareSerial ss(RXPin, TXPin);*/
-
-void setup()
+void gps_setup()
 {
-  /*Serial.begin(115200);
-  ss.begin(GPSBaud);*/
-  
+ 
   Serial.begin(115200);
-
   Serial.println(F("FullExample.ino"));
   Serial.println(F("An extensive example of many interesting TinyGPS++ features"));
   Serial.print(F("Testing TinyGPS++ library v. ")); Serial.println(TinyGPSPlus::libraryVersion());
@@ -33,7 +23,7 @@ void setup()
   Serial1.begin(4800);
 }
 
-void loop()
+void gps_loop()
 {
   static const double LONDON_LAT = 51.508131, LONDON_LON = -0.128002;
 

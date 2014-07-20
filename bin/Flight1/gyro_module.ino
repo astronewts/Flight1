@@ -1,3 +1,5 @@
+#include "Arduino.h"
+
 ////////////////////////////////////////////////////////////////////////////
 //
 //  This file is part of MPU9150Lib
@@ -36,15 +38,7 @@
 //
 //  The calibration data is stored in flash and is overwritten every time a new sketch is uploaded.
 
-#include <Wire.h>
-#include "I2Cdev.h"
-#include "MPU9150Lib.h"
-#include "CalLib.h"
-#include "DueFlash.h"
-#include <dmpKey.h>
-#include <dmpmap.h>
-#include <inv_mpu.h>
-#include <inv_mpu_dmp_motion_driver.h>
+
 
 //  DEVICE_TO_USE selects whether the IMU at address 0x68 (default) or 0x69 is used
 //    0 = use the device at 0x68
@@ -113,7 +107,7 @@ boolean duePoll()
   return false;                                              // try again next time round
 }
 
-void setup()
+void gyro_setup()
 {
   Serial.begin(SERIAL_PORT_SPEED);
   Serial.print("Arduino9150 starting using device "); Serial.println(DEVICE_TO_USE);
@@ -124,7 +118,7 @@ void setup()
   lastPollTime = millis();
 }
 
-void loop()
+void gyro_loop()
 {  
   if (Serial.available()) {
     switch (Serial.read()) {
