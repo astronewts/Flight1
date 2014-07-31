@@ -67,6 +67,12 @@ void colect_telemetry(struct telemetry_data_struct* telemetry_data)
   Serial.print("Battery Voltage 2: ");
   Serial.println(actual_val);    
   
+  //GPS Data
+  get_gps_data();
+  
+  //Gyro Data
+  get_gyro_data();
+  
   Serial.println("");  
   Serial.println("");  
   Serial.println("");  

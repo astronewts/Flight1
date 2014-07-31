@@ -20,6 +20,8 @@ void setup()
 {
    Serial.begin(9600); 
    Serial.println("Flight1 starting up");
+   Serial1.begin(4800);
+   gyro_setup();
    parameters.loop_sleep = 2000;
 }
 

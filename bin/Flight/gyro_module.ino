@@ -46,15 +46,13 @@
 
 #define  DEVICE_TO_USE    0
 
-MPU9150Lib dueMPU;                                              // the MPU object
+MPU9150Lib dueMPU;   // the MPU object
 
 //  MPU_UPDATE_RATE defines the rate (in Hz) at which the MPU updates the sensor data and DMP output
-
 #define MPU_UPDATE_RATE  (20)
 
 //  MAG_UPDATE_RATE defines the rate (in Hz) at which the MPU updates the magnetometer data
 //  MAG_UPDATE_RATE should be less than or equal to the MPU_UPDATE_RATE
-
 #define MAG_UPDATE_RATE  (10)
 
 //  MPU_MAG_MIX defines the influence that the magnetometer has on the yaw output.
@@ -109,8 +107,6 @@ boolean duePoll()
 
 void gyro_setup()
 {
-  Serial.begin(SERIAL_PORT_SPEED);
-  Serial.print("Arduino9150 starting using device "); Serial.println(DEVICE_TO_USE);
   Wire.begin();
   mpuInit();
   loopState = LOOPSTATE_NORMAL;
@@ -118,8 +114,9 @@ void gyro_setup()
   lastPollTime = millis();
 }
 
-void gyro_loop()
+void get_gyro_data()
 {  
+/*
   if (Serial.available()) {
     switch (Serial.read()) {
       case 'm':
@@ -133,11 +130,11 @@ void gyro_loop()
         return;
     }
   }  
-  
+*/
   dueMPU.selectDevice(DEVICE_TO_USE);                         // only needed if device has changed since init but good form anyway
   switch (loopState) {
     case LOOPSTATE_NORMAL:
-      if (duePoll()) {                                        // get the latest data if ready yet
+        dueMPU.read();                               // get the latest data if ready yet
 //      dueMPU.printQuaternion(dueMPU.m_rawQuaternion);       // print the raw quaternion from the dmp
 //      dueMPU.printVector(dueMPU.m_rawMag);                  // print the raw mag data
 //      dueMPU.printVector(dueMPU.m_rawAccel);                // print the raw accel data
@@ -146,7 +143,7 @@ void gyro_loop()
 //      dueMPU.printVector(dueMPU.m_calMag);                  // print the calibrated mag data
         dueMPU.printAngles(dueMPU.m_fusedEulerPose);          // print the output of the data fusion
         Serial.println();
-      }
+
       break;
         
     case LOOPSTATE_MAGCAL:

@@ -1,13 +1,3 @@
-#include <TinyGPS++.h>
-#include <Wire.h>
-#include "I2Cdev.h"
-#include "MPU9150Lib.h"
-#include "CalLib.h"
-#include "DueFlash.h"
-#include <dmpKey.h>
-#include <dmpmap.h>
-#include <inv_mpu.h>
-#include <inv_mpu_dmp_motion_driver.h>
 
 #define NO_COMMANDS_TO_PROCESS        0 
 #define COMMANDS_TO_PROCESS           1
@@ -19,7 +9,6 @@
 #define VOLTAGE_CONSTANT_1  3.3
 #define VOLTAGE_CONSTANT_2  4095
 #define VOLTAGE_CONSTANT_3  3.83
-
 
 
 //Pins
@@ -36,9 +25,31 @@
 
 #define RESOLUTION_PRESSURE_SENSOR   12
 
+
+
+struct gps_struct
+{
+  
+};
+
+struct gyro_struct
+{
+  
+};
+
 struct telemetry_data_struct
 {
-  int air_pressure_value;
+  float air_pressure;
+  float battery_temp_1_1;
+  float battery_temp_1_2;
+  float battery_temp_2_1;
+  float battery_temp_2_2;
+  float battery_voltage_1;
+  float battery_voltage_2;
+  struct gps_struct gps_values;
+  struct gyro_struct gyro_values;
+  int charge_flag;
+  int temp_fault_flag;  
 };
 
 struct satellite_data_struct
