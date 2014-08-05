@@ -1,49 +1,8 @@
 #include "Arduino.h"
 
-////////////////////////////////////////////////////////////////////////////
-//
-//  This file is part of MPU9150Lib
-//
-//  Copyright (c) 2013 Pansenti, LLC
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of 
-//  this software and associated documentation files (the "Software"), to deal in 
-//  the Software without restriction, including without limitation the rights to use, 
-//  copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the 
-//  Software, and to permit persons to whom the Software is furnished to do so, 
-//  subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in all 
-//  copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
-//  PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
-//  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-//  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
-//  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-//  The Due version has built in tools for accela nd mag calibration. While in normal mode,
-//  enter:
-//
-//  'a' - enter accel calibration mode.
-//  'm' - enter mag calibration mode.
-//
-//  The calibration routines behave just like the individual sketches for AVR Arduinos.
-//  Enter 's' to save the data, 'x' to exit. So, move the MPU-9150 around as normal for caliibration
-//  and then enter 's' to save the data, followed by 'x'. If something went wrong, just enter 'x'
-//  to discard the data.
-//
-//  *** Inportant Note ***
-//
-//  The calibration data is stored in flash and is overwritten every time a new sketch is uploaded.
-
-
-
 //  DEVICE_TO_USE selects whether the IMU at address 0x68 (default) or 0x69 is used
 //    0 = use the device at 0x68
 //    1 = use the device at ox69
-
 #define  DEVICE_TO_USE    0
 
 MPU9150Lib dueMPU;   // the MPU object
@@ -69,7 +28,6 @@ MPU9150Lib dueMPU;   // the MPU object
 #define MPU_LPF_RATE   100
 
 //  SERIAL_PORT_SPEED defines the speed to use for the debug serial port
-
 #define  SERIAL_PORT_SPEED  9600
 
 int loopState;                                              // what code to run in the loop
@@ -131,18 +89,32 @@ void get_gyro_data()
     }
   }  
 */
-  dueMPU.selectDevice(DEVICE_TO_USE);                         // only needed if device has changed since init but good form anyway
+
   switch (loopState) {
     case LOOPSTATE_NORMAL:
-        dueMPU.read();                               // get the latest data if ready yet
-//      dueMPU.printQuaternion(dueMPU.m_rawQuaternion);       // print the raw quaternion from the dmp
-//      dueMPU.printVector(dueMPU.m_rawMag);                  // print the raw mag data
-//      dueMPU.printVector(dueMPU.m_rawAccel);                // print the raw accel data
-//      dueMPU.printAngles(dueMPU.m_dmpEulerPose);            // the Euler angles from the dmp quaternion
-//      dueMPU.printVector(dueMPU.m_calAccel);                // print the calibrated accel data
-//      dueMPU.printVector(dueMPU.m_calMag);                  // print the calibrated mag data
-        dueMPU.printAngles(dueMPU.m_fusedEulerPose);          // print the output of the data fusion
+        dueMPU.read();  // get the latest data if ready yet
+		Serial.print("Quaternion: ");
+        dueMPU.printQuaternion(dueMPU.m_rawQuaternion);       // print the raw quaternion from the dmp
         Serial.println();
+		Serial.print("Raw Mag Data: ");      
+		dueMPU.printVector(dueMPU.m_rawMag);                  // print the raw mag data
+        Serial.println();
+		Serial.print("Raw Accel Data: ");
+        dueMPU.printVector(dueMPU.m_rawAccel);                // print the raw accel data
+		Serial.println();
+		Serial.print("Euler angles from DMP: ");
+        dueMPU.printAngles(dueMPU.m_dmpEulerPose);            // the Euler angles from the dmp quaternion
+		Serial.println();
+		Serial.print("Calibrated Accel Data: ");
+        dueMPU.printVector(dueMPU.m_calAccel);                // print the calibrated accel data
+		Serial.println();
+		Serial.print("Calibrated Mag Data: ");
+        dueMPU.printVector(dueMPU.m_calMag);                  // print the calibrated mag data
+		Serial.println();
+		Serial.print("Data Fusion: ");
+        dueMPU.printAngles(dueMPU.m_fusedEulerPose);          // print the output of the data fusion
+		Serial.println();
+		
 
       break;
         

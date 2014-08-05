@@ -1,4 +1,3 @@
-#include <TinyGPS++.h>
 #include "Arduino.h"
 
 static const int RXPin = 4, TXPin = 3;
@@ -10,6 +9,11 @@ TinyGPSPlus gps;
 
 void get_gps_data()
 {
+  if(Serial1.available())
+  {
+     gps.encode(Serial1.read());
+  }
+
   Serial.println(F("Sats HDOP Latitude   Longitude   Fix  Date       Time     Date Alt    Course Speed Card  Distance Course Card  Chars Sentences Checksum"));
   Serial.println(F("          (deg)      (deg)       Age                      Age  (m)    --- from GPS ----  ---- to London  ----  RX    RX        Fail"));
   Serial.println(F("---------------------------------------------------------------------------------------------------------------------------------------"));

@@ -44,6 +44,9 @@ struct telemetry_data_struct
   float battery_temp_1_2;
   float battery_temp_2_1;
   float battery_temp_2_2;
+  float inner_external_temp;
+  float outter_external_temp;
+  float internal_temp;
   float battery_voltage_1;
   float battery_voltage_2;
   struct gps_struct gps_values;
