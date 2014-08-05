@@ -50,6 +50,8 @@ void loop()
    // 2 - Check voltage time() to check if cutdown is needed
    // 3 - Mode change (Low/Normal/High)
    process_telemetry(&telemetry_data);
+
+   print_telemetry(&telemetry_data);
    
    //Is it time to turn camera on/off?
    process_camera_function();

@@ -74,6 +74,7 @@ void format_satellite_data_for_sd(struct satellite_data_struct* sattelite_data, 
 void write_satallite_data_to_sd(char* string_buffer);
 void colect_telemetry(struct telemetry_data_struct* telemetry_data);
 void process_telemetry(struct telemetry_data_struct* telemetry_data);
+void print_telemetry(struct telemetry_data_struct* telemetry_data);
 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\arduino.h"
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x\pins_arduino.h" 
