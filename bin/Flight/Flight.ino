@@ -23,6 +23,12 @@ void setup()
    Serial1.begin(4800);
    gyro_setup();
    parameters.loop_sleep = 2000;
+
+   //Setup outout pins
+   pinMode(PIN_POWER_SHUTDOWN, OUTPUT);
+   pinMode(PIN_CUTDOWN, OUTPUT);
+   pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
+   pinMode(PIN_HEATER_CONTROL_2, OUTPUT);
 }
 
 void loop() 

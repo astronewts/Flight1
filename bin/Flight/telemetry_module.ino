@@ -4,8 +4,6 @@ float actual_val;
 
 void colect_telemetry(struct telemetry_data_struct* telemetry_data)
 { 
-
-
   // Change the resolution to 12 bits
   analogReadResolution(RESOLUTION_PRESSURE_SENSOR);
   
@@ -49,7 +47,13 @@ void colect_telemetry(struct telemetry_data_struct* telemetry_data)
   raw_val = analogRead(PIN_BATTERY_VOLTAGE_2);
   telemetry_data->battery_voltage_2 = ((raw_val * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
 
+  //Charge Flag
+  raw_val = digitalRead(PIN_CHARGE_FLAG);
+  telemetry_data->charge_flag = raw_val;
 
+  //Temperature Fault Flag
+  raw_val = digitalRead(PIN_TEMP_FAULT_FLAG);
+  telemetry_data->temp_fault_flag = raw_val;
   
   Serial.println("");  
   Serial.println("");  
@@ -83,6 +87,10 @@ void print_telemetry(struct telemetry_data_struct* telemetry_data)
   Serial.println(telemetry_data->battery_voltage_1);   
   Serial.print("Battery Voltage 2: ");
   Serial.println(telemetry_data->battery_voltage_2);   
+  Serial.print("Temperature Fault Flag: ");
+  Serial.println(telemetry_data->temp_fault_flag);
+  Serial.print("Charge Flag: ");
+  Serial.println(telemetry_data->charge_flag);
 
     //GPS Data
   get_gps_data();
