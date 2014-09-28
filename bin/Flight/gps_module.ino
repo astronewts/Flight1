@@ -20,13 +20,13 @@ void get_gps_data()
   
   printInt(gps.satellites.value(), gps.satellites.isValid(), 5);
   printInt(gps.hdop.value(), gps.hdop.isValid(), 5);
-  printFloat(gps.location.lat(), gps.location.isValid(), 11, 6);
-  printFloat(gps.location.lng(), gps.location.isValid(), 12, 6);
+  printdouble(gps.location.lat(), gps.location.isValid(), 11, 6);
+  printdouble(gps.location.lng(), gps.location.isValid(), 12, 6);
   printInt(gps.location.age(), gps.location.isValid(), 5);
   printDateTime(gps.date, gps.time);
-  printFloat(gps.altitude.meters(), gps.altitude.isValid(), 7, 2);
-  printFloat(gps.course.deg(), gps.course.isValid(), 7, 2);
-  printFloat(gps.speed.kmph(), gps.speed.isValid(), 6, 2);
+  printdouble(gps.altitude.meters(), gps.altitude.isValid(), 7, 2);
+  printdouble(gps.course.deg(), gps.course.isValid(), 7, 2);
+  printdouble(gps.speed.kmph(), gps.speed.isValid(), 6, 2);
   printStr(gps.course.isValid() ? TinyGPSPlus::cardinal(gps.course.value()) : "*** ", 6);
 
   unsigned long distanceKmToLondon = (unsigned long)TinyGPSPlus::distanceBetween(gps.location.lat(),
@@ -40,7 +40,7 @@ void get_gps_data()
                                                 LONDON_LAT, 
                                                 LONDON_LON);
 
-  printFloat(courseToLondon, gps.location.isValid(), 7, 2);
+  printdouble(courseToLondon, gps.location.isValid(), 7, 2);
 
   const char *cardinalToLondon = TinyGPSPlus::cardinal(courseToLondon);
 
@@ -72,7 +72,7 @@ static void smartDelay(unsigned long ms)
   } while (millis() - start < ms);
 }
 
-static void printFloat(float val, bool valid, int len, int prec)
+static void printdouble(double val, bool valid, int len, int prec)
 {
   if (!valid)
   {

@@ -51,10 +51,12 @@ extern "C" void __cxa_pure_virtual() {;}
 
 //
 //
+void set_defaults();
+void set_pins();
 void process_camera_function();
 void get_gps_data();
 static void smartDelay(unsigned long ms);
-static void printFloat(float val, bool valid, int len, int prec);
+static void printdouble(double val, bool valid, int len, int prec);
 static void printInt(unsigned long val, bool valid, int len);
 static void printDateTime(TinyGPSDate &d, TinyGPSTime &t);
 static void printStr(const char *str, int len);
@@ -66,15 +68,15 @@ void magCalStart(void);
 void magCalLoop();
 void accelCalStart(void);
 void accelCalLoop();
-void process_satellite_data(struct satellite_data_struct* satellite_data);
-int read_satellite_data(struct satellite_data_struct* satellite_data);
+void process_satellite_data();
+int read_satellite_data();
 void format_telemetry_data_for_sd(struct telemetry_data_struct* telemetry_data, char* string_buffer);
 void write_telemetry_data_to_sd(char* string_buffer);
 void format_satellite_data_for_sd(struct satellite_data_struct* sattelite_data, char* string_buffer);
 void write_satallite_data_to_sd(char* string_buffer);
-void colect_telemetry(struct telemetry_data_struct* telemetry_data);
-void process_telemetry(struct telemetry_data_struct* telemetry_data);
-void print_telemetry(struct telemetry_data_struct* telemetry_data);
+void colect_telemetry();
+void process_telemetry();
+void print_telemetry();
 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\arduino.h"
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x\pins_arduino.h" 

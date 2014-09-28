@@ -1,4 +1,4 @@
-
+//Command Sentinels
 #define NO_COMMANDS_TO_PROCESS        0 
 #define COMMANDS_TO_PROCESS           1
 
@@ -9,6 +9,14 @@
 #define VOLTAGE_CONSTANT_1  3.3
 #define VOLTAGE_CONSTANT_2  4095
 #define VOLTAGE_CONSTANT_3  3.83
+
+
+//Defaults
+#define DEFAULT_LOOP_SLEEP                1
+#define DEFAULT_VOLTAGE_LOW_LIMIT         8.5
+#define DEFAULT_BATTERY_TEMP_LIMIT_HIGH   27
+#define DEFAULT_BATTERY_TEMP_LIMIT_LOW    23
+#define DEFAULT_LOW_VOLTAGE_TIME_LIMIT    1800
 
 
 //Pins
@@ -46,16 +54,16 @@ struct gyro_struct
 
 struct telemetry_data_struct
 {
-  float air_pressure;
-  float battery_temp_1_1;
-  float battery_temp_1_2;
-  float battery_temp_2_1;
-  float battery_temp_2_2;
-  float inner_external_temp;
-  float outter_external_temp;
-  float internal_temp;
-  float battery_voltage_1;
-  float battery_voltage_2;
+  double air_pressure;
+  double battery_temp_1_1;
+  double battery_temp_1_2;
+  double battery_temp_2_1;
+  double battery_temp_2_2;
+  double inner_external_temp;
+  double outter_external_temp;
+  double internal_temp;
+  double battery_voltage_1;
+  double battery_voltage_2;
   struct gps_struct gps_values;
   struct gyro_struct gyro_values;
   int charge_flag;
@@ -70,4 +78,13 @@ struct satellite_data_struct
 struct parameter_struct
 {
   int loop_sleep;
+  
+  int battery_temperature_limit_high;
+  int battery_temperature_limit_low;
+  double low_voltage_limit;
+  int low_voltage_time_limit;
+  bool battery_1_low_voltage_flag;
+  bool battery_2_low_voltage_flag;
+  int battery_1_low_voltage_start_time;
+  int battery_2_low_voltage_start_time;
 };
