@@ -93,25 +93,25 @@ void get_gyro_data()
   switch (loopState) {
     case LOOPSTATE_NORMAL:
         dueMPU.read();  // get the latest data if ready yet
-		Serial.print("Quaternion: ");
+		Serial.print("Gyro - Quaternion: ");
         dueMPU.printQuaternion(dueMPU.m_rawQuaternion);       // print the raw quaternion from the dmp
         Serial.println();
-		Serial.print("Raw Mag Data: ");      
+		Serial.print("Gyro - Raw Mag Data: ");      
 		dueMPU.printVector(dueMPU.m_rawMag);                  // print the raw mag data
         Serial.println();
-		Serial.print("Raw Accel Data: ");
+		Serial.print("Gyro - Raw Accel Data: ");
         dueMPU.printVector(dueMPU.m_rawAccel);                // print the raw accel data
 		Serial.println();
-		Serial.print("Euler angles from DMP: ");
+		Serial.print("Gyro - Euler angles from DMP: ");
         dueMPU.printAngles(dueMPU.m_dmpEulerPose);            // the Euler angles from the dmp quaternion
 		Serial.println();
-		Serial.print("Calibrated Accel Data: ");
+		Serial.print("Gyro - Calibrated Accel Data: ");
         dueMPU.printVector(dueMPU.m_calAccel);                // print the calibrated accel data
 		Serial.println();
-		Serial.print("Calibrated Mag Data: ");
+		Serial.print("Gyro - Calibrated Mag Data: ");
         dueMPU.printVector(dueMPU.m_calMag);                  // print the calibrated mag data
 		Serial.println();
-		Serial.print("Data Fusion: ");
+		Serial.print("Gyro - Data Fusion: ");
         dueMPU.printAngles(dueMPU.m_fusedEulerPose);          // print the output of the data fusion
 		Serial.println();
 		

@@ -1,3 +1,5 @@
+#include <time.h>
+
 //Command Sentinels
 #define NO_COMMANDS_TO_PROCESS        0 
 #define COMMANDS_TO_PROCESS           1
@@ -12,9 +14,9 @@
 
 
 //Defaults
-#define DEFAULT_LOOP_SLEEP                1
+#define DEFAULT_LOOP_SLEEP                3000
 #define DEFAULT_VOLTAGE_LOW_LIMIT         8.5
-#define DEFAULT_BATTERY_TEMP_LIMIT_HIGH   27
+#define DEFAULT_BATTERY_TEMP_LIMIT_HIGH   300
 #define DEFAULT_BATTERY_TEMP_LIMIT_LOW    23
 #define DEFAULT_LOW_VOLTAGE_TIME_LIMIT    1800
 
@@ -32,7 +34,7 @@
 #define PIN_BATTERY_VOLTAGE_2        A4
 #define PIN_TEMP_FAULT_FLAG          5
 #define PIN_CHARGE_FLAG              6
-#define PIN_POWER_SHUTDOWN           7
+#define PIN_POWER_ACTIVATION         7
 #define PIN_CUTDOWN                  9
 #define PIN_HEATER_CONTROL_1         11
 #define PIN_HEATER_CONTROL_2         12
@@ -78,13 +80,10 @@ struct satellite_data_struct
 struct parameter_struct
 {
   int loop_sleep;
-  
   int battery_temperature_limit_high;
   int battery_temperature_limit_low;
   double low_voltage_limit;
   int low_voltage_time_limit;
-  bool battery_1_low_voltage_flag;
-  bool battery_2_low_voltage_flag;
-  int battery_1_low_voltage_start_time;
-  int battery_2_low_voltage_start_time;
+  bool battery_low_voltage_flag;
+  time_t battery_low_voltage_start_time;
 };

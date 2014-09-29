@@ -9,8 +9,7 @@
 #include <dmpmap.h>
 #include <inv_mpu.h>
 #include <inv_mpu_dmp_motion_driver.h>
-#include "Time.h"
-
+#include <Time.h>  
 
 struct telemetry_data_struct telemetry_data;
 struct satellite_data_struct satellite_data;
@@ -23,13 +22,15 @@ void setup()
    Serial.begin(9600); 
    Serial1.begin(4800);
    Serial.println("Flight1 starting up");
+   set_output_pins();
    set_defaults();
-   set_pins();
    gyro_setup();
 }
 
 void loop() 
 {
+   //digitalWrite(PIN_POWER_ACTIVATION, LOW);
+   //digitalWrite(PIN_CUTDOWN, LOW);
    // Check if there is any data waiting for us from ROCKBLOCK
    ret_val = read_satellite_data();
    
@@ -70,15 +71,27 @@ void set_defaults()
   parameters.battery_temperature_limit_high = DEFAULT_BATTERY_TEMP_LIMIT_HIGH;
   parameters.battery_temperature_limit_low = DEFAULT_BATTERY_TEMP_LIMIT_LOW;
   parameters.low_voltage_time_limit = DEFAULT_LOW_VOLTAGE_TIME_LIMIT;
-  parameters.battery_1_low_voltage_flag = false;
-  parameters.battery_2_low_voltage_flag = false;
+  parameters.battery_low_voltage_flag = false;
+  parameters.battery_low_voltage_flag = false;
+  
+  //Set Digital Pin States
+  digitalWrite(PIN_POWER_ACTIVATION, HIGH);
+  digitalWrite(PIN_CUTDOWN, LOW);
+  
+  // Change the analog read resolution to 12 bits
+  analogReadResolution(RESOLUTION_PRESSURE_SENSOR);
 }
 
-void set_pins()
+void set_output_pins()
 {
    //Setup outout pins
-   pinMode(PIN_POWER_SHUTDOWN, OUTPUT);
+   pinMode(PIN_POWER_ACTIVATION, OUTPUT);
    pinMode(PIN_CUTDOWN, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_2, OUTPUT);
+}
+
+void set_load_shed_mod()
+{
+
 }

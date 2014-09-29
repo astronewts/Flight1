@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="C:\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x;C:\Program Files (x86)\Arduino\hardware\arduino\sam\libraries\Wire;C:\Program Files (x86)\Arduino\hardware\arduino\sam\libraries\Wire\utility;C:\Users\751696\Documents\Arduino\libraries\I2CDev;C:\Users\751696\Documents\Arduino\libraries\I2CDev\utility;C:\Users\751696\Documents\Arduino\libraries\MPU9150Lib;C:\Users\751696\Documents\Arduino\libraries\MPU9150Lib\utility;C:\Users\751696\Documents\Arduino\libraries\CalLib;C:\Users\751696\Documents\Arduino\libraries\CalLib\utility;C:\Users\751696\Documents\Arduino\libraries\DueFlash;C:\Users\751696\Documents\Arduino\libraries\DueFlash\utility;C:\Users\751696\Documents\Arduino\libraries\TinyGPSPlus;C:\Users\751696\Documents\Arduino\libraries\TinyGPSPlus\utility;C:\Users\751696\Documents\Arduino\libraries\MotionDriver;C:\Users\751696\Documents\Arduino\libraries\MotionDriver\utility;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\sam\libraries;C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers;C:\Users\751696\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\sam\system\CMSIS\CMSIS\Include\;C:\Program Files (x86)\Arduino\hardware\arduino\sam\system\CMSIS\Device\ATMEL\;C:\Program Files (x86)\Arduino\hardware\arduino\sam\system\libsam;C:\Program Files (x86)\Arduino\hardware\arduino\sam\system\libsam\include;C:\Program Files (x86)\Arduino\/hardware/tools/g++_arm_none_eabi\arm-none-eabi\include;C:\Program Files (x86)\Arduino\/hardware/tools/g++_arm_none_eabi\arm_none_eabi\include\;C:\Program Files (x86)\Arduino\/hardware/tools/g++_arm_none_eabi\lib\gcc\arm-none-eabi\4.4.1\include;C:\Program Files (x86)\Arduino\/hardware/tools/g++_arm_none_eabi\lib\gcc\arm-none-eabi\4.4.1\include\;"
+				AdditionalIncludeDirectories="C:\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x;C:\Program Files (x86)\Arduino\hardware\arduino\sam\libraries\Wire;C:\Program Files (x86)\Arduino\hardware\arduino\sam\libraries\Wire\utility;C:\Users\751696\Documents\Arduino\libraries\I2CDev;C:\Users\751696\Documents\Arduino\libraries\I2CDev\utility;C:\Users\751696\Documents\Arduino\libraries\MPU9150Lib;C:\Users\751696\Documents\Arduino\libraries\MPU9150Lib\utility;C:\Users\751696\Documents\Arduino\libraries\CalLib;C:\Users\751696\Documents\Arduino\libraries\CalLib\utility;C:\Users\751696\Documents\Arduino\libraries\DueFlash;C:\Users\751696\Documents\Arduino\libraries\DueFlash\utility;C:\Users\751696\Documents\Arduino\libraries\Time;C:\Users\751696\Documents\Arduino\libraries\Time\utility;C:\Users\751696\Documents\Arduino\libraries\TinyGPSPlus;C:\Users\751696\Documents\Arduino\libraries\TinyGPSPlus\utility;C:\Users\751696\Documents\Arduino\libraries\MotionDriver;C:\Users\751696\Documents\Arduino\libraries\MotionDriver\utility;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\sam\libraries;C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers;C:\Users\751696\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\sam\system\CMSIS\CMSIS\Include\;C:\Program Files (x86)\Arduino\hardware\arduino\sam\system\CMSIS\Device\ATMEL\;C:\Program Files (x86)\Arduino\hardware\arduino\sam\system\libsam;C:\Program Files (x86)\Arduino\hardware\arduino\sam\system\libsam\include;C:\Program Files (x86)\Arduino\/hardware/tools/g++_arm_none_eabi\arm-none-eabi\include;C:\Program Files (x86)\Arduino\/hardware/tools/g++_arm_none_eabi\arm_none_eabi\include\;C:\Program Files (x86)\Arduino\/hardware/tools/g++_arm_none_eabi\lib\gcc\arm-none-eabi\4.4.1\include;C:\Program Files (x86)\Arduino\/hardware/tools/g++_arm_none_eabi\lib\gcc\arm-none-eabi\4.4.1\include\;"
 				PreprocessorDefinitions="__SAM3X8E__;USB_VID=0x2341;USB_PID=0x003e;USBCON;USB_MANUFACTURER=&quot;\&quot;Unknown\&quot;&quot;;USB_PRODUCT=&quot;\&quot;Arduino Due\&quot;&quot;;ARDUINO=156;ARDUINO_MAIN;printf=iprintf;__SAM__;__sam__;F_CPU=84000000L;__cplusplus"
 				IgnoreStandardIncludePath="true"
 				MinimalRebuild="true"
@@ -48,7 +48,7 @@
 				RuntimeLibrary="3"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				ForcedIncludeFiles="C:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Visual Micro\.Flight.vsarduino.h"
+				ForcedIncludeFiles="C:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Visual Micro\.Source Files.vsarduino.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -160,423 +160,52 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<File
-				RelativePath=".\Visual Micro\.Flight.vsarduino.h"
-				>
-			</File>
-			<File
-				RelativePath=".\definitions.h"
-				FileType="0"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
-		</Filter>
-		<Filter
-			Name="_core"
-			>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Arduino.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\binary.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Client.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\cortex_handlers.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\cxxabi-compat.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\HardwareSerial.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\hooks.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\iar_calls_sam3.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\IPAddress.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\IPAddress.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\itoa.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\itoa.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x\pins_arduino.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Print.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Print.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Printable.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Reset.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Reset.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\RingBuffer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\RingBuffer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Server.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Stream.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Stream.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\syscalls.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\syscalls_sam3.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Tone.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\UARTClass.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\UARTClass.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\Udp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\USARTClass.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\USARTClass.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x\variant.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\WCharacter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\WInterrupts.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\WInterrupts.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring_analog.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring_analog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring_constants.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring_digital.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring_digital.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring_private.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring_pulse.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring_pulse.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring_shift.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\wiring_shift.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\WMath.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\WMath.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\WString.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\WString.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="_libraries"
-			>
-			<Filter
-				Name="Wire"
-				>
-				<File
-					RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\libraries\Wire\Wire.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\..\..\..\Program Files (x86)\Arduino\hardware\arduino\sam\libraries\Wire\Wire.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="I2CDev"
-				>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\I2CDev\I2Cdev.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\I2CDev\I2Cdev.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="MPU9150Lib"
-				>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MPU9150Lib\MPU9150Lib.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MPU9150Lib\MPU9150Lib.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MPU9150Lib\MPUQuaternion.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MPU9150Lib\MPUQuaternion.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MPU9150Lib\MPUVector3.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MPU9150Lib\MPUVector3.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="CalLib"
-				>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\CalLib\CalLib.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\CalLib\CalLib.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="DueFlash"
-				>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\DueFlash\DueFlash.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\DueFlash\DueFlash.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\DueFlash\efc.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\DueFlash\efc.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\DueFlash\flash_efc.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\DueFlash\flash_efc.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="TinyGPSPlus"
-				>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\TinyGPSPlus\TinyGPS++.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\TinyGPSPlus\TinyGPS++.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="MotionDriver"
-				>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MotionDriver\dmpKey.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MotionDriver\dmpmap.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MotionDriver\inv_mpu.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MotionDriver\inv_mpu.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MotionDriver\inv_mpu_dmp_motion_driver.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\..\Arduino\libraries\MotionDriver\inv_mpu_dmp_motion_driver.h"
-					>
-				</File>
-			</Filter>
-		</Filter>
 		<File
-			RelativePath=".\camera_module.ino"
+			RelativePath=".\Visual Micro\.Flight.vsarduino.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Visual Micro\.Source Files.vsarduino.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Source Files\camera_module.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\Flight.ino"
+			RelativePath=".\Source Files\definitions.h"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\gps_module.ino"
+			RelativePath=".\Source Files\Flight.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\gyro_module.ino"
+			RelativePath=".\Source Files\gps_module.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\rockblock_module.ino"
+			RelativePath=".\Source Files\gyro_module.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\sd_module.ino"
+			RelativePath=".\Source Files\rockblock_module.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\telemetry_module.ino"
+			RelativePath=".\Source Files\sd_module.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\temperature_module.ino"
+			RelativePath=".\Source Files\telemetry_module.ino"
 			FileType="0"
-			>
-		</File>
-		<File
-			RelativePath=".\Time.h.ino"
 			>
 		</File>
 	</Files>
