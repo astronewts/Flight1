@@ -56,6 +56,8 @@ void colect_telemetry()
   //Temperature Fault Flag
   raw_val = digitalRead(PIN_TEMP_FAULT_FLAG);
   telemetry_data.temp_fault_flag = raw_val;
+ 
+  
 }
 
 void process_telemetry()

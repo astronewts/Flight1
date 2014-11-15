@@ -3,7 +3,7 @@
 #define COMMANDS_TO_PROCESS           1
 
 //Constants
-#define PRESSURE_CONSTANT   0.230769231
+#define PRESSURE_CONSTANT   0.0036140
 #define TEMP_CONSTANT_1     0.0497
 #define TEMP_CONSTANT_2     54.794
 #define VOLTAGE_CONSTANT_1  3.3
@@ -33,9 +33,12 @@
 #define PIN_TEMP_FAULT_FLAG          5
 #define PIN_CHARGE_FLAG              6
 #define PIN_POWER_SHUTDOWN           7
-#define PIN_CUTDOWN                  9
+#define PIN_PYRO_ENABLE              2
+#define PIN_PYRO_1_FIRE              3
+#define PIN_PYRO_2_FIRE              4 
 #define PIN_HEATER_CONTROL_1         11
 #define PIN_HEATER_CONTROL_2         12
+#define PIN_CAMERA_SWITCH            9
 
 
 #define RESOLUTION_PRESSURE_SENSOR   12

@@ -78,7 +78,10 @@ void set_pins()
 {
    //Setup outout pins
    pinMode(PIN_POWER_SHUTDOWN, OUTPUT);
-   pinMode(PIN_CUTDOWN, OUTPUT);
+   pinMode(PIN_PYRO_ENABLE, OUTPUT);
+   pinMode(PIN_PYRO_1_FIRE, OUTPUT);
+   pinMode(PIN_PYRO_2_FIRE, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_2, OUTPUT);
+   pinMode(PIN_CAMERA_SWITCH, OUTPUT);
 }
