@@ -53,7 +53,7 @@ extern "C" void __cxa_pure_virtual() {;}
 //
 void set_defaults();
 void set_output_pins();
-void set_load_shed_mod();
+void set_load_shed_mode();
 void process_camera_function();
 void get_gps_data();
 static void smartDelay(unsigned long ms);

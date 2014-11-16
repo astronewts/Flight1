@@ -51,6 +51,8 @@ void colect_telemetry()
   //Temperature Fault Flag
   raw_val = digitalRead(PIN_TEMP_FAULT_FLAG);
   telemetry_data.temp_fault_flag = raw_val;
+ 
+  
 }
 
 void process_telemetry()
@@ -184,9 +186,13 @@ void print_telemetry()
   
   //Gyro Data
   get_gyro_data();
+<<<<<<< HEAD:bin/Flight/Source Files/telemetry_module.ino
 
   
   Serial.println("");
   Serial.println("");
   Serial.println("");
 }
+=======
+}
+>>>>>>> cee29446929d4292d6b2342d299cbddfe0b3ee8d:bin/Flight/telemetry_module.ino

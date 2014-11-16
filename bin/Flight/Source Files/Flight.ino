@@ -85,6 +85,7 @@ void set_defaults()
 void set_output_pins()
 {
    //Setup outout pins
+<<<<<<< HEAD:bin/Flight/Source Files/Flight.ino
    pinMode(PIN_POWER_ACTIVATION, OUTPUT);
    pinMode(PIN_CUTDOWN, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
@@ -95,3 +96,13 @@ void set_load_shed_mod()
 {
 
 }
+=======
+   pinMode(PIN_POWER_SHUTDOWN, OUTPUT);
+   pinMode(PIN_PYRO_ENABLE, OUTPUT);
+   pinMode(PIN_PYRO_1_FIRE, OUTPUT);
+   pinMode(PIN_PYRO_2_FIRE, OUTPUT);
+   pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
+   pinMode(PIN_HEATER_CONTROL_2, OUTPUT);
+   pinMode(PIN_CAMERA_SWITCH, OUTPUT);
+}
+>>>>>>> cee29446929d4292d6b2342d299cbddfe0b3ee8d:bin/Flight/Flight.ino
