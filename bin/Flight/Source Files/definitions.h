@@ -12,40 +12,41 @@
 #define VOLTAGE_CONSTANT_2  4095
 #define VOLTAGE_CONSTANT_3  3.83
 
-
 //Defaults
-#define DEFAULT_LOOP_SLEEP                3000
-#define DEFAULT_VOLTAGE_LOW_LIMIT         8.5
-#define DEFAULT_BATTERY_TEMP_LIMIT_HIGH   300
-#define DEFAULT_BATTERY_TEMP_LIMIT_LOW    23
-#define DEFAULT_LOW_VOLTAGE_TIME_LIMIT    1800
+#define DEFAULT_LOOP_SLEEP                         3000
+#define DEFAULT_VOLTAGE_LOW_LIMIT                  8.5
+#define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             1800
+#define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_HIGH     300
+#define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_LOW      23
+#define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_HIGH   300
+#define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW    23
+#define DEFAULT_NORMAL_TRANSMIT_RATE               10
+#define DEFAULT_TEST_TRANSMIT_RATE                 5
+#define DEFAULT_TRANSIT_TRANSMIT_RATE              30
+#define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60
 
-
-//Pins
+//Analog Pins
 #define PIN_PRESSURE_SENSOR          A0
+#define PIN_BATTERY_VOLTAGE_1        A3
+#define PIN_BATTERY_VOLTAGE_2        A4
+#define PIN_EXTERNAL_OUTTER_TEMP     A5
+#define PIN_INTERNAL_TEMP            A6
+#define PIN_EXTERNAL_INNER_TEMP      A7
 #define PIN_BATTERY1_1_TEMP          A8
 #define PIN_BATTERY1_2_TEMP          A9
 #define PIN_BATTERY2_1_TEMP          A10
 #define PIN_BATTERY2_2_TEMP          A11
-#define PIN_EXTERNAL_OUTTER_TEMP     A5
-#define PIN_EXTERNAL_INNER_TEMP      A7
-#define PIN_INTERNAL_TEMP            A6
-#define PIN_BATTERY_VOLTAGE_1        A3
-#define PIN_BATTERY_VOLTAGE_2        A4
-#define PIN_TEMP_FAULT_FLAG          5
-#define PIN_CHARGE_FLAG              6
-<<<<<<< HEAD:bin/Flight/Source Files/definitions.h
-#define PIN_POWER_ACTIVATION         7
-#define PIN_CUTDOWN                  9
-=======
-#define PIN_POWER_SHUTDOWN           7
+
+//Digital Pins
 #define PIN_PYRO_ENABLE              2
 #define PIN_PYRO_1_FIRE              3
 #define PIN_PYRO_2_FIRE              4 
->>>>>>> cee29446929d4292d6b2342d299cbddfe0b3ee8d:bin/Flight/definitions.h
+#define PIN_TEMP_FAULT_FLAG          5
+#define PIN_CHARGE_FLAG              6
+#define PIN_POWER_ACTIVATION         7
+#define PIN_CAMERA_SWITCH            9
 #define PIN_HEATER_CONTROL_1         11
 #define PIN_HEATER_CONTROL_2         12
-#define PIN_CAMERA_SWITCH            9
 
 
 #define RESOLUTION_PRESSURE_SENSOR   12
@@ -88,6 +89,7 @@ struct satellite_data_struct
 struct parameter_struct
 {
   int loop_sleep;
+  int transmit_rate;
   int battery_temperature_limit_high;
   int battery_temperature_limit_low;
   double low_voltage_limit;
@@ -95,3 +97,16 @@ struct parameter_struct
   bool battery_low_voltage_flag;
   time_t battery_low_voltage_start_time;
 };
+
+struct threshold_struct
+{
+  int normal_battery_temperature_limit_high;
+  int normal_battery_temperature_limit_low;
+  int survival_battery_temperature_limit_high;
+  int survival_battery_temperature_limit_low;
+  int normal_transmit_rate;
+  int test_transmit_rate;
+  int transit_transmit_rate;
+  int load_shed_transmit_rate;
+};
+  

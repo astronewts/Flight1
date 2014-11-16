@@ -14,6 +14,7 @@
 struct telemetry_data_struct telemetry_data;
 struct satellite_data_struct satellite_data;
 struct parameter_struct parameters;
+struct threshold_struct thresholds;
 
 int ret_val = 0;
 
@@ -66,17 +67,29 @@ void loop()
 
 void set_defaults()
 {
+
+  thresholds.normal_battery_temperature_limit_high = DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_HIGH;
+  thresholds.normal_battery_temperature_limit_low  = DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_LOW;
+  thresholds.survival_battery_temperature_limit_high = DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_HIGH;
+  thresholds.survival_battery_temperature_limit_low  = DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW;
+  
+  thresholds.normal_transmit_rate = DEFAULT_NORMAL_TRANSMIT_RATE;
+  thresholds.test_transmit_rate = DEFAULT_TEST_TRANSMIT_RATE;
+  thresholds.transit_transmit_rate = DEFAULT_TRANSIT_TRANSMIT_RATE;
+  thresholds.load_shed_transmit_rate = DEFAULT_LOAD_SHED_TRANSMIT_RATE;
+
   parameters.loop_sleep = DEFAULT_LOOP_SLEEP;
   parameters.low_voltage_limit = DEFAULT_VOLTAGE_LOW_LIMIT;
-  parameters.battery_temperature_limit_high = DEFAULT_BATTERY_TEMP_LIMIT_HIGH;
-  parameters.battery_temperature_limit_low = DEFAULT_BATTERY_TEMP_LIMIT_LOW;
+  parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
+  parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
   parameters.low_voltage_time_limit = DEFAULT_LOW_VOLTAGE_TIME_LIMIT;
   parameters.battery_low_voltage_flag = false;
   parameters.battery_low_voltage_flag = false;
+  parameters.transmit_rate = thresholds.normal_transmit_rate;
   
   //Set Digital Pin States
   digitalWrite(PIN_POWER_ACTIVATION, HIGH);
-  digitalWrite(PIN_CUTDOWN, LOW);
+  //digitalWrite(PIN_CUTDOWN, LOW);
   
   // Change the analog read resolution to 12 bits
   analogReadResolution(RESOLUTION_PRESSURE_SENSOR);
@@ -85,24 +98,56 @@ void set_defaults()
 void set_output_pins()
 {
    //Setup outout pins
-<<<<<<< HEAD:bin/Flight/Source Files/Flight.ino
    pinMode(PIN_POWER_ACTIVATION, OUTPUT);
-   pinMode(PIN_CUTDOWN, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_2, OUTPUT);
-}
-
-void set_load_shed_mod()
-{
-
-}
-=======
-   pinMode(PIN_POWER_SHUTDOWN, OUTPUT);
    pinMode(PIN_PYRO_ENABLE, OUTPUT);
    pinMode(PIN_PYRO_1_FIRE, OUTPUT);
    pinMode(PIN_PYRO_2_FIRE, OUTPUT);
-   pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
-   pinMode(PIN_HEATER_CONTROL_2, OUTPUT);
    pinMode(PIN_CAMERA_SWITCH, OUTPUT);
 }
->>>>>>> cee29446929d4292d6b2342d299cbddfe0b3ee8d:bin/Flight/Flight.ino
+
+void set_load_shed_mode()
+{
+   //Turn Camera Off
+   digitalWrite(PIN_CAMERA_SWITCH, LOW);
+  
+   //Set Heater Threshols to Survival settings
+   parameters.battery_temperature_limit_high = thresholds.survival_battery_temperature_limit_high;
+   parameters.battery_temperature_limit_low = thresholds.survival_battery_temperature_limit_low;
+   
+   //Turn Power On
+   digitalWrite(PIN_POWER_ACTIVATION, HIGH);
+   
+   //Set Transmit Rate
+   parameters.transmit_rate = thresholds.load_shed_transmit_rate;
+}
+
+void set_normal_mode()
+{ 
+   //Set Heater Threshols to Survival settings
+   parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
+   parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
+   
+   //Set Transmit Rate
+   parameters.transmit_rate = thresholds.normal_transmit_rate;
+}
+
+void set_test_mode()
+{   
+   //Set Heater Threshols to Survival settings
+   parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
+   parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
+   
+   //Set Transmit Rate
+   parameters.transmit_rate = thresholds.test_transmit_rate;
+}
+
+void set_emergency_decent_mode()
+{
+   //Turn Camera Off
+   digitalWrite(PIN_CAMERA_SWITCH, LOW);
+   
+   //Set Transmit Rate
+   parameters.transmit_rate = thresholds.transit_transmit_rate;
+}

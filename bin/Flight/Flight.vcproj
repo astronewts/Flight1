@@ -210,5 +210,53 @@
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="arduino.board.desc"
+			Value="Arduino Due (Programming Port)"
+		/>
+		<Global
+			Name="arduino.board.name"
+			Value="arduino_due_x_dbg"
+		/>
+		<Global
+			Name="arduino.board.property_bag"
+			Value="name=Arduino Due (Programming Port)&#x0D;&#x0A;vid.0=0x2341&#x0D;&#x0A;pid.0=0x003d&#x0D;&#x0A;upload.tool=bossac&#x0D;&#x0A;upload.protocol=sam-ba&#x0D;&#x0A;upload.maximum_size=524288&#x0D;&#x0A;upload.use_1200bps_touch=true&#x0D;&#x0A;upload.wait_for_upload_port=false&#x0D;&#x0A;upload.native_usb=false&#x0D;&#x0A;build.mcu=cortex-m3&#x0D;&#x0A;build.f_cpu=84000000L&#x0D;&#x0A;build.usb_product=&quot;Arduino Due&quot;&#x0D;&#x0A;build.board=SAM_DUE&#x0D;&#x0A;build.core=arduino&#x0D;&#x0A;build.extra_flags=-D__SAM3X8E__ -mthumb {build.usb_flags}&#x0D;&#x0A;build.ldscript=linker_scripts/gcc/flash.ld&#x0D;&#x0A;build.variant=arduino_due_x&#x0D;&#x0A;build.variant_system_lib=libsam_sam3x8e_gcc_rel.a&#x0D;&#x0A;build.vid=0x2341&#x0D;&#x0A;build.pid=0x003e&#x0D;&#x0A;runtime.ide.path=C:\Program Files (x86)\Arduino\&#x0D;&#x0A;build.system.path=C:\Program Files (x86)\Arduino\hardware\arduino\sam\system&#x0D;&#x0A;runtime.ide.version=156&#x0D;&#x0A;originalid=arduino_due_x_dbg&#x0D;&#x0A;intellisense.tools.path={runtime.ide.path}/hardware/tools/g++_arm_none_eabi&#x0D;&#x0A;intellisense.include.paths={vm.boardsource.path}\system\CMSIS\CMSIS\Include\;{vm.boardsource.path}\system\CMSIS\Device\ATMEL\;{vm.boardsource.path}\system\libsam;{vm.boardsource.path}\system\libsam\include;{intellisense.tools.path}\arm-none-eabi\include;{intellisense.tools.path}\arm_none_eabi\include\;{intellisense.tools.path}\lib\gcc\arm-none-eabi\4.4.1\include;{intellisense.tools.path}\lib\gcc\arm-none-eabi\4.4.1\include\;&#x0D;&#x0A;version=1.5.6&#x0D;&#x0A;compiler.path={runtime.ide.path}/hardware/tools/g++_arm_none_eabi/bin/&#x0D;&#x0A;compiler.c.cmd=arm-none-eabi-gcc&#x0D;&#x0A;compiler.c.flags=-c -g -Os -w -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -Dprintf=iprintf&#x0D;&#x0A;compiler.c.elf.cmd=arm-none-eabi-g++&#x0D;&#x0A;compiler.c.elf.flags=-Os -Wl,--gc-sections&#x0D;&#x0A;compiler.S.flags=-c -g -x assembler-with-cpp&#x0D;&#x0A;compiler.cpp.cmd=arm-none-eabi-g++&#x0D;&#x0A;compiler.cpp.flags=-c -g -Os -w -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -Dprintf=iprintf&#x0D;&#x0A;compiler.ar.cmd=arm-none-eabi-ar&#x0D;&#x0A;compiler.ar.flags=rcs&#x0D;&#x0A;compiler.objcopy.cmd=arm-none-eabi-objcopy&#x0D;&#x0A;compiler.objcopy.eep.flags=-O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0&#x0D;&#x0A;compiler.elf2hex.flags=-O binary&#x0D;&#x0A;compiler.elf2hex.cmd=arm-none-eabi-objcopy&#x0D;&#x0A;compiler.ldflags=&#x0D;&#x0A;compiler.size.cmd=arm-none-eabi-size&#x0D;&#x0A;compiler.define=-DARDUINO=&#x0D;&#x0A;compiler.libsam.c.flags=&quot;-I{build.system.path}/libsam&quot; &quot;-I{build.system.path}/CMSIS/CMSIS/Include/&quot; &quot;-I{build.system.path}/CMSIS/Device/ATMEL/&quot;&#x0D;&#x0A;build.usb_flags=-DUSB_VID={build.vid} -DUSB_PID={build.pid} -DUSBCON &apos;-DUSB_MANUFACTURER={build.usb_manufacturer}&apos; &apos;-DUSB_PRODUCT={build.usb_product}&apos;&#x0D;&#x0A;build.usb_manufacturer=&quot;Unknown&quot;&#x0D;&#x0A;recipe.c.o.pattern=&quot;{compiler.path}{compiler.c.cmd}&quot; {compiler.c.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {build.extra_flags} {compiler.libsam.c.flags} {includes} &quot;{source_file}&quot; -o &quot;{object_file}&quot;&#x0D;&#x0A;recipe.cpp.o.pattern=&quot;{compiler.path}{compiler.cpp.cmd}&quot; {compiler.cpp.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {build.extra_flags} {compiler.libsam.c.flags} {includes} &quot;{source_file}&quot; -o &quot;{object_file}&quot;&#x0D;&#x0A;recipe.ar.pattern=&quot;{compiler.path}{compiler.ar.cmd}&quot; {compiler.ar.flags} &quot;{build.path}/{archive_file}&quot; &quot;{object_file}&quot;&#x0D;&#x0A;recipe.c.combine.pattern=&quot;{compiler.path}{compiler.c.elf.cmd}&quot; {compiler.c.elf.flags} -mcpu={build.mcu} &quot;-T{build.variant.path}/{build.ldscript}&quot; &quot;-Wl,-Map,{build.path}/{build.project_name}.map&quot; -o &quot;{build.path}/{build.project_name}.elf&quot; &quot;-L{build.path}&quot; -lm -lgcc -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--entry=Reset_Handler -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -Wl,--warn-unresolved-symbols -Wl,--start-group &quot;{build.path}/syscalls_sam3.c.o&quot; {object_files} &quot;{build.variant.path}/{build.variant_system_lib}&quot; &quot;{build.path}/{archive_file}&quot; -Wl,--end-group&#x0D;&#x0A;recipe.objcopy.eep.pattern=&#x0D;&#x0A;recipe.objcopy.hex.pattern=&quot;{compiler.path}{compiler.elf2hex.cmd}&quot; {compiler.elf2hex.flags} &quot;{build.path}/{build.project_name}.elf&quot; &quot;{build.path}/{build.project_name}.bin&quot;&#x0D;&#x0A;recipe.size.pattern=&quot;{compiler.path}{compiler.size.cmd}&quot; -A &quot;{build.path}/{build.project_name}.elf&quot;&#x0D;&#x0A;recipe.size.regex=\.text\s+([0-9]+).*&#x0D;&#x0A;tools.bossac.cmd=bossac.exe&#x0D;&#x0A;tools.bossac.cmd.windows=bossac.exe&#x0D;&#x0A;tools.bossac.path={runtime.ide.path}/hardware/tools&#x0D;&#x0A;tools.bossac.upload.params.verbose=-i -d&#x0D;&#x0A;tools.bossac.upload.params.quiet=&#x0D;&#x0A;tools.bossac.upload.pattern=&quot;{path}/{cmd}&quot; {upload.verbose} --port={serial.port.file} -U {upload.native_usb} -e -w -v -b &quot;{build.path}/{build.project_name}.bin&quot; -R&#x0D;&#x0A;vm.platform.root.path=C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\arduino15x&#x0D;&#x0A;vm.core.include=arduino.h&#x0D;&#x0A;ide.hint=Arduino 1.5 Ide&#x0D;&#x0A;ide.location.key=Arduino15x&#x0D;&#x0A;ide.location.ide.winreg=Arduino 1.5.x Application&#x0D;&#x0A;ide.location.sketchbook.winreg=Arduino 1.5.x Sketchbook&#x0D;&#x0A;ide.location.sketchbook.preferences=sketchbook.path&#x0D;&#x0A;ide.location.preferences=%VM_APPDATA_ROAMING%\arduino15\preferences.txt&#x0D;&#x0A;ide.location.preferences_fallback=%VM_APPDATA_ROAMING%\arduino\preferences.txt&#x0D;&#x0A;ide.default.version=150&#x0D;&#x0A;ide.default.package=arduino&#x0D;&#x0A;ide.default.platform=avr&#x0D;&#x0A;ide.multiplatform=true&#x0D;&#x0A;ide.includes=arduino.h&#x0D;&#x0A;ide.platformswithoutpackage=false&#x0D;&#x0A;ide.includes.fallback=wprogram.h&#x0D;&#x0A;ide.extension=ino&#x0D;&#x0A;ide.extension.fallback=pde&#x0D;&#x0A;ide.versionGTEQ=150&#x0D;&#x0A;ide.exe=arduino.exe&#x0D;&#x0A;ide.hosts=atmel&#x0D;&#x0A;ide.url=http://arduino.cc/en/Main/Software&#x0D;&#x0A;vm.debug=true&#x0D;&#x0A;software=ARDUINO&#x0D;&#x0A;ssh.user.name=root&#x0D;&#x0A;ssh.user.default.password=arduino&#x0D;&#x0A;ssh.host.wwwfiles.path=/www/sd&#x0D;&#x0A;build.working_directory={runtime.ide.path}&#x0D;&#x0A;ide.appid=arduino15x&#x0D;&#x0A;location.sketchbook=C:\Users\751696\Documents\Arduino&#x0D;&#x0A;vm.boardsource.path=C:\Program Files (x86)\Arduino\hardware\arduino\sam&#x0D;&#x0A;vm.platformname.name=sam&#x0D;&#x0A;build.arch=SAM&#x0D;&#x0A;build.architecture=g++_arm_none_eabi&#x0D;&#x0A;vmresolved.compiler.path=C:\Program Files (x86)\Arduino\hardware\tools\g++_arm_none_eabi\bin\&#x0D;&#x0A;vmresolved.tools.path=C:\Program Files (x86)\Arduino\hardware\tools\g++_arm_none_eabi&#x0D;&#x0A;vm.runtime.compiler.showwarnings=false&#x0D;&#x0A;includes= -I&quot;C:\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino&quot;  -I&quot;C:\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x&quot;  -I&quot;C:\Program Files (x86)\Arduino\hardware\arduino\sam\libraries\Wire&quot;  -I&quot;C:\Users\751696\Documents\Arduino\libraries\I2CDev&quot;  -I&quot;C:\Users\751696\Documents\Arduino\libraries\MPU9150Lib&quot;  -I&quot;C:\Users\751696\Documents\Arduino\libraries\CalLib&quot;  -I&quot;C:\Users\751696\Documents\Arduino\libraries\DueFlash&quot;  -I&quot;C:\Users\751696\Documents\Arduino\libraries\Time&quot;  -I&quot;C:\Users\751696\Documents\Arduino\libraries\TinyGPSPlus&quot;  -I&quot;C:\Users\751696\Documents\Arduino\libraries\MotionDriver&quot;  -I&quot;C:\Program Files (x86)\Arduino\libraries&quot;  -I&quot;C:\Program Files (x86)\Arduino\hardware\arduino\sam\libraries&quot;  -I&quot;C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers&quot;  -I&quot;C:\Users\751696\Documents\Arduino\libraries&quot; &#x0D;&#x0A;build.path=C:\Users\751696\AppData\Local\VMicro\Arduino\Builds\Flight\arduino_due_x_dbg&#x0D;&#x0A;build.project_name=Flight&#x0D;&#x0A;build.variant.path=C:\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x&#x0D;&#x0A;archive_file=core.a&#x0D;&#x0A;object_file=C:\Users\751696\AppData\Local\VMicro\Arduino\Builds\Flight\arduino_due_x_dbg\MotionDriver\inv_mpu_dmp_motion_driver.cpp.o&#x0D;&#x0A;source_file=C:\Users\751696\Documents\Arduino\libraries\MotionDriver\inv_mpu_dmp_motion_driver.cpp&#x0D;&#x0A;"
+		/>
+		<Global
+			Name="arduino.build.core"
+			Value="arduino"
+		/>
+		<Global
+			Name="arduino.build.f_cpu"
+			Value="84000000L"
+		/>
+		<Global
+			Name="arduino.build.mcu"
+			Value="cortex-m3"
+		/>
+		<Global
+			Name="arduino.upload.maximum_size"
+			Value="524288"
+		/>
+		<Global
+			Name="arduino.upload.protocol"
+			Value="sam-ba"
+		/>
+		<Global
+			Name="arduino.upload.speed"
+			Value=""
+		/>
+		<Global
+			Name="visualmicro.application.name"
+			Value="arduino15x"
+		/>
+		<Global
+			Name="visualmicro.package.name"
+			Value="arduino"
+		/>
+		<Global
+			Name="visualmicro.platform.name"
+			Value="sam"
+		/>
 	</Globals>
 </VisualStudioProject>

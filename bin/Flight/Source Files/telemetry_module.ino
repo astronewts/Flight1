@@ -51,13 +51,12 @@ void colect_telemetry()
   //Temperature Fault Flag
   raw_val = digitalRead(PIN_TEMP_FAULT_FLAG);
   telemetry_data.temp_fault_flag = raw_val;
- 
-  
 }
 
 void process_telemetry()
 {
    double value = 0.0;
+   
    // Check the battery temperatures
    // Battery 1
    value = (telemetry_data.battery_temp_1_1 + telemetry_data.battery_temp_1_2)/2.0;
@@ -68,7 +67,7 @@ void process_telemetry()
    {
       //Turn heating element on
       digitalWrite(PIN_HEATER_CONTROL_1, HIGH);
-      sprintf(buffer, "Heating element #1 turned on due to battery temperature of %f going below threshhold of %f,",
+      sprintf(buffer, "Heating element #1 turned on due to average battery temperature of %f going below threshhold of %f,",
                     value, parameters.battery_temperature_limit_low);
       Serial.println(buffer);
    }
@@ -76,7 +75,7 @@ void process_telemetry()
    {
       //Turn heating element off
       digitalWrite(PIN_HEATER_CONTROL_1, LOW);
-      sprintf(buffer, "Heating element #1 turned off due to battery temperature of %f going above threshhold of %f,",
+      sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
                     value, parameters.battery_temperature_limit_high);
       Serial.println(buffer);
    }
@@ -90,7 +89,7 @@ void process_telemetry()
    {
       //Turn heating element on
       digitalWrite(PIN_HEATER_CONTROL_2, HIGH);
-      sprintf(buffer, "Heating element #2 turned on due to battery temperature of %f going below threshhold of %f,",
+      sprintf(buffer, "Heating element #2 turned on due to average battery temperature of %f going below threshhold of %f,",
                     value, parameters.battery_temperature_limit_low);
       Serial.println(buffer);
    }
@@ -98,7 +97,7 @@ void process_telemetry()
    {
       //Turn heating element of
       digitalWrite(PIN_HEATER_CONTROL_2, LOW);
-      sprintf(buffer, "Heating element #1 turned off due to battery temperature of %f going above threshhold of %f,",
+      sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
                     value, parameters.battery_temperature_limit_high);
       Serial.println(buffer);
    }
@@ -186,13 +185,8 @@ void print_telemetry()
   
   //Gyro Data
   get_gyro_data();
-<<<<<<< HEAD:bin/Flight/Source Files/telemetry_module.ino
 
-  
   Serial.println("");
   Serial.println("");
   Serial.println("");
 }
-=======
-}
->>>>>>> cee29446929d4292d6b2342d299cbddfe0b3ee8d:bin/Flight/telemetry_module.ino
