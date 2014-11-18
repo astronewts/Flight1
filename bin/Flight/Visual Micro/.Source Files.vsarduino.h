@@ -53,6 +53,7 @@ extern "C" void __cxa_pure_virtual() {;}
 //
 void set_defaults();
 void set_output_pins();
+void set_load_shed_mode();
 void process_camera_function();
 void get_gps_data();
 static void smartDelay(unsigned long ms);
@@ -81,13 +82,12 @@ void print_telemetry();
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\arduino.h"
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x\pins_arduino.h" 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x\variant.h" 
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Flight.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\camera_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\definitions.h"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\gps_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\gyro_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\rockblock_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\sd_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\telemetry_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\temperature_module.ino"
+#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\Flight.ino"
+#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\camera_module.ino"
+#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\definitions.h"
+#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\gps_module.ino"
+#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\gyro_module.ino"
+#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\rockblock_module.ino"
+#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\sd_module.ino"
+#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\telemetry_module.ino"
 #endif

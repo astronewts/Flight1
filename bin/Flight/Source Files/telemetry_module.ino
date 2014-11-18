@@ -1,14 +1,9 @@
-#include "Arduino.h"
-#include "Time.h"
-
 double raw_val;
 double actual_val;
+char buffer[128];
 
 void colect_telemetry()
 { 
-  // Change the resolution to 12 bits
-  analogReadResolution(RESOLUTION_PRESSURE_SENSOR);
-  
   //Air Pressure Data
   raw_val = analogRead(PIN_PRESSURE_SENSOR);
   telemetry_data.air_pressure = raw_val * PRESSURE_CONSTANT;
@@ -62,110 +57,105 @@ void colect_telemetry()
 
 void process_telemetry()
 {
-
-   double avg_temp = 0.0;
+   double value = 0.0;
    // Check the battery temperatures
    // Battery 1
-   avg_temp = (telemetry_data.battery_temp_1_1 + telemetry_data.battery_temp_1_2)/2.0;
+   value = (telemetry_data.battery_temp_1_1 + telemetry_data.battery_temp_1_2)/2.0;
 
-
-   if(avg_temp < parameters.battery_temperature_limit_low)
+   sprintf(buffer, "Battery 1 avg. temp. = %f", value);
+   Serial.println(buffer);
+   if(value < parameters.battery_temperature_limit_low)
    {
       //Turn heating element on
       digitalWrite(PIN_HEATER_CONTROL_1, HIGH);
-      //LOG - "Heating element #1 turned on due to battery temperature of __ being below threshold of ___
+      sprintf(buffer, "Heating element #1 turned on due to battery temperature of %f going below threshhold of %f,",
+                    value, parameters.battery_temperature_limit_low);
+      Serial.println(buffer);
    }
-   else if(avg_temp > parameters.battery_temperature_limit_high)
+   else if(value > parameters.battery_temperature_limit_high)
    {
-      //Turn heating element of
+      //Turn heating element off
       digitalWrite(PIN_HEATER_CONTROL_1, LOW);
-      //LOG - "Heating element #1 turned off due to battery temperature of __ being above threshold of ___
+      sprintf(buffer, "Heating element #1 turned off due to battery temperature of %f going above threshhold of %f,",
+                    value, parameters.battery_temperature_limit_high);
+      Serial.println(buffer);
    }
   
    // Battery 2
-   avg_temp = (telemetry_data.battery_temp_2_1 + telemetry_data.battery_temp_2_2)/2.0;
+   value = (telemetry_data.battery_temp_2_1 + telemetry_data.battery_temp_2_2)/2.0;
+   sprintf(buffer, "Battery 2 avg. temp. = %f", value);
+   Serial.println(buffer);
 
-
-   if(avg_temp < parameters.battery_temperature_limit_low)
+   if(value < parameters.battery_temperature_limit_low)
    {
       //Turn heating element on
       digitalWrite(PIN_HEATER_CONTROL_2, HIGH);
-      //LOG - "Heating element #2 turned on due to battery temperature of __ being below threshold of ___
+      sprintf(buffer, "Heating element #2 turned on due to battery temperature of %f going below threshhold of %f,",
+                    value, parameters.battery_temperature_limit_low);
+      Serial.println(buffer);
    }
-   else if(avg_temp > parameters.battery_temperature_limit_high)
+   else if(value > parameters.battery_temperature_limit_high)
    {
       //Turn heating element of
       digitalWrite(PIN_HEATER_CONTROL_2, LOW);
-      //LOG - "Heating element #2 turned off due to battery temperature of __ being above threshold of ___
+      sprintf(buffer, "Heating element #1 turned off due to battery temperature of %f going above threshhold of %f,",
+                    value, parameters.battery_temperature_limit_high);
+      Serial.println(buffer);
    }
 
    //Check Battery Voltage
-   //Battery 1
-   if(telemetry_data.battery_voltage_1 < parameters.low_voltage_limit)
+   
+   //Get the highest voltage
+   if(telemetry_data.battery_voltage_1 >= telemetry_data.battery_voltage_1)
+   {
+      value = telemetry_data.battery_voltage_1;
+   }
+   else
+   {
+      value = telemetry_data.battery_voltage_2;
+   }
+   
+   //Compare voltage to limit
+   if(value < parameters.low_voltage_limit)
    {
       // Check if flag is already set
-      if(parameters.battery_1_low_voltage_flag == true)
+      if(parameters.battery_low_voltage_flag == true)
 	  {
 		  //Check if the timer has reached 
 		  //the the low voltage time limit
-		  if ((now() - parameters.battery_1_low_voltage_start_time) > parameters.low_voltage_time_limit)
+		  if ((now() - parameters.battery_low_voltage_start_time) > parameters.low_voltage_time_limit)
 		  {
              //Going into Drop Mode  
-		     //LOG - ""
+		     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Drop Mode.",
+                    value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
+             Serial.println(buffer);
 		  }
 	  }
 	  else
 	  {
          //Battery voltage is low - set flag and mark time
-	     parameters.battery_1_low_voltage_flag = true;
-         parameters.battery_1_low_voltage_start_time = now();
-         //LOG
+	     parameters.battery_low_voltage_flag = true;
+         parameters.battery_low_voltage_start_time = now();
+         sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).",
+                         value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
+             Serial.println(buffer);
       }
    }
    else
    {
-      if(parameters.battery_1_low_voltage_flag == true)
+      if(parameters.battery_low_voltage_flag == true)
       {
-         parameters.battery_1_low_voltage_flag = false;
+         parameters.battery_low_voltage_flag = false;
       }
    }
-   
-   //Check Battery Voltage
-   //Battery 2
-   if(telemetry_data.battery_voltage_2 < parameters.low_voltage_limit)
-   {
-      // Check if flag is already set
-      if(parameters.battery_2_low_voltage_flag == true)
-	  {
-		  //Check if the timer has reached 
-		  //the the low voltage time limit
-		  if ((now() - parameters.battery_2_low_voltage_start_time) > parameters.low_voltage_time_limit)
-		  {
-             //Going into Drop Mode  
-		     //LOG - ""
-		  }
-	  }
-	  else
-	  {
-         //Battery voltage is low - set flag and mark time
-	     parameters.battery_2_low_voltage_flag = true;
-         parameters.battery_2_low_voltage_start_time = now();
-         //LOG
-      }
-   }
-   else
-   {
-      if(parameters.battery_2_low_voltage_flag == true)
-      {
-         parameters.battery_2_low_voltage_flag = false;
-      }
-   }
-   
 }
 
 void print_telemetry()
 {
+  Serial.println("-----------Telemetry---------------");
   Serial.print("Air Pressure: ");
+  Serial.print(analogRead(PIN_PRESSURE_SENSOR));
+  Serial.print("  ");
   Serial.println(telemetry_data.air_pressure);
   Serial.print("Battery 1-1 Temp: ");
   Serial.println(telemetry_data.battery_temp_1_1);
@@ -190,9 +180,19 @@ void print_telemetry()
   Serial.print("Charge Flag: ");
   Serial.println(telemetry_data.charge_flag);
 
+
     //GPS Data
   get_gps_data();
   
   //Gyro Data
   get_gyro_data();
+<<<<<<< HEAD:bin/Flight/Source Files/telemetry_module.ino
+
+  
+  Serial.println("");
+  Serial.println("");
+  Serial.println("");
 }
+=======
+}
+>>>>>>> cee29446929d4292d6b2342d299cbddfe0b3ee8d:bin/Flight/telemetry_module.ino
