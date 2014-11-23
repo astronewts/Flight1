@@ -72,19 +72,37 @@ void process_satellite_data()
         // This is a command to set the Transmit Rates Permode
         
         // Normal Ops Transmit Rate = CommandString.substring(14,17)
+        normal_transmit_rate = CommandString.substring(14,17);
+        
         // Loadshed Transmit Rate = CommandString.substring(18,21)
+        load_shed_transmit_rate = CommandString.substring(18,21);
+        
         // Transit Transmit Rate = CommandString.substring(22,25)
+        transit_transmit_rate = CommandString.substring(22,25);
+        
         // Emergency Transit Transmit Rate = CommandString.substring(26,29)
+        
         // Test Transmit Rate = CommandString.substring(30,33)
+        test_transmit_rate = CommandString.substring(30,33);
+        
         }
        if (CommandString.substring(6,13) == "42330100") {
         // This is a command to set the TCS Thresholds
         
         // Sanity Check High Temp Threshold  = CommandString.substring(14,15)
+        
         // Normal OPS High Temp Threshold  = CommandString.substring(16,17)
+        normal_battery_temperature_limit_high = CommandString.substring(16,17);
+        
         // Normal OPS Low Temp Threshold  = CommandString.substring(18,19)
+        normal_battery_temperature_limit_low = CommandString.substring(18,19);
+        
         // Loadshed High Temp Threshold = CommandString.substring(20,21)
+        survival_battery_temperature_limit_high = CommandString.substring(20,21);
+        
         // Loadshed High Temp Threshold = CommandString.substring(22,23)
+        survival_battery_temperature_limit_low = CommandString.substring(22,23);
+        
         // Sanity Check Low Temp Threshold  = CommandString.substring(24,25)
         }
        if (CommandString.substring(6,13) == "42330200") {
