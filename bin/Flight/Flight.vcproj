@@ -48,7 +48,7 @@
 				RuntimeLibrary="3"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				ForcedIncludeFiles="C:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Visual Micro\.Source Files.vsarduino.h"
+				ForcedIncludeFiles="C:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Visual Micro\.Flight.vsarduino.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -169,42 +169,42 @@
 			>
 		</File>
 		<File
-			RelativePath=".\Source Files\camera_module.ino"
+			RelativePath=".\camera_module.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\Source Files\definitions.h"
+			RelativePath=".\definitions.h"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\Source Files\Flight.ino"
+			RelativePath=".\Flight.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\Source Files\gps_module.ino"
+			RelativePath=".\gps_module.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\Source Files\gyro_module.ino"
+			RelativePath=".\gyro_module.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\Source Files\rockblock_module.ino"
+			RelativePath=".\rockblock_module.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\Source Files\sd_module.ino"
+			RelativePath=".\sd_module.ino"
 			FileType="0"
 			>
 		</File>
 		<File
-			RelativePath=".\Source Files\telemetry_module.ino"
+			RelativePath=".\telemetry_module.ino"
 			FileType="0"
 			>
 		</File>

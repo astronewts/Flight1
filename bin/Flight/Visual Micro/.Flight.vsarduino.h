@@ -53,6 +53,10 @@ extern "C" void __cxa_pure_virtual() {;}
 //
 void set_defaults();
 void set_output_pins();
+void set_load_shed_mode();
+void set_normal_mode();
+void set_test_mode();
+void set_emergency_decent_mode();
 void process_camera_function();
 void get_gps_data();
 static void smartDelay(unsigned long ms);
@@ -68,6 +72,7 @@ void magCalStart(void);
 void magCalLoop();
 void accelCalStart(void);
 void accelCalLoop();
+void process_satellite_data();
 void process_satellite_data();
 int read_satellite_data();
 void format_telemetry_data_for_sd(struct telemetry_data_struct* telemetry_data, char* string_buffer);
@@ -89,5 +94,4 @@ void print_telemetry();
 #include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\rockblock_module.ino"
 #include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\sd_module.ino"
 #include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\telemetry_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\temperature_module.ino"
 #endif

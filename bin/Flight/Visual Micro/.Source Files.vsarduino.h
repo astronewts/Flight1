@@ -49,48 +49,8 @@ extern "C" void __cxa_pure_virtual() {;}
 
 
 
-//
-//
-void set_defaults();
-void set_output_pins();
-void set_load_shed_mode();
-void set_normal_mode();
-void set_test_mode();
-void set_emergency_decent_mode();
-void process_camera_function();
-void get_gps_data();
-static void smartDelay(unsigned long ms);
-static void printdouble(double val, bool valid, int len, int prec);
-static void printInt(unsigned long val, bool valid, int len);
-static void printDateTime(TinyGPSDate &d, TinyGPSTime &t);
-static void printStr(const char *str, int len);
-void mpuInit();
-boolean duePoll();
-void gyro_setup();
-void get_gyro_data();
-void magCalStart(void);
-void magCalLoop();
-void accelCalStart(void);
-void accelCalLoop();
-void process_satellite_data();
-int read_satellite_data();
-void format_telemetry_data_for_sd(struct telemetry_data_struct* telemetry_data, char* string_buffer);
-void write_telemetry_data_to_sd(char* string_buffer);
-void format_satellite_data_for_sd(struct satellite_data_struct* sattelite_data, char* string_buffer);
-void write_satallite_data_to_sd(char* string_buffer);
-void colect_telemetry();
-void process_telemetry();
-void print_telemetry();
 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\sam\cores\arduino\arduino.h"
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x\pins_arduino.h" 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\sam\variants\arduino_due_x\variant.h" 
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\Flight.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\camera_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\definitions.h"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\gps_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\gyro_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\rockblock_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\sd_module.ino"
-#include "c:\Users\751696\Documents\GitHub\Flight1\bin\Flight\Source Files\telemetry_module.ino"
 #endif
