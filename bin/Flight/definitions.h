@@ -23,7 +23,9 @@
 #define DEFAULT_NORMAL_TRANSMIT_RATE               10
 #define DEFAULT_TEST_TRANSMIT_RATE                 5
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              30
+#define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60
+#define DEFAULT_PYRO_PULSE_WIDTH_SECS              2
 
 //Analog Pins
 #define PIN_PRESSURE_SENSOR          A0
@@ -43,7 +45,7 @@
 #define PIN_PYRO_2_FIRE              4 
 #define PIN_TEMP_FAULT_FLAG          5
 #define PIN_CHARGE_FLAG              6
-#define PIN_POWER_ACTIVATION         7
+#define PIN_POWER_SHUTDOWN           7
 #define PIN_CAMERA_SWITCH            9
 #define PIN_HEATER_CONTROL_1         11
 #define PIN_HEATER_CONTROL_2         12
@@ -96,6 +98,9 @@ struct parameter_struct
   int low_voltage_time_limit;
   bool battery_low_voltage_flag;
   time_t battery_low_voltage_start_time;
+  time_t pyro_initiation_start_time;
+  int pyro_pulse_width_secs;
+  bool camera_flag;
 };
 
 struct threshold_struct

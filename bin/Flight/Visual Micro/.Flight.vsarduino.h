@@ -57,6 +57,7 @@ void set_load_shed_mode();
 void set_normal_mode();
 void set_test_mode();
 void set_emergency_decent_mode();
+void pyro_fire();
 void process_camera_function();
 void get_gps_data();
 static void smartDelay(unsigned long ms);

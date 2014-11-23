@@ -30,8 +30,6 @@ void setup()
 
 void loop() 
 {
-   //digitalWrite(PIN_POWER_ACTIVATION, LOW);
-   //digitalWrite(PIN_CUTDOWN, LOW);
    // Check if there is any data waiting for us from ROCKBLOCK
    ret_val = read_satellite_data();
    
@@ -67,7 +65,6 @@ void loop()
 
 void set_defaults()
 {
-
   thresholds.normal_battery_temperature_limit_high = DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_HIGH;
   thresholds.normal_battery_temperature_limit_low  = DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_LOW;
   thresholds.survival_battery_temperature_limit_high = DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_HIGH;
@@ -77,6 +74,7 @@ void set_defaults()
   thresholds.test_transmit_rate = DEFAULT_TEST_TRANSMIT_RATE;
   thresholds.transit_transmit_rate = DEFAULT_TRANSIT_TRANSMIT_RATE;
   thresholds.load_shed_transmit_rate = DEFAULT_LOAD_SHED_TRANSMIT_RATE;
+  thresholds.emergency_transit_transmit_rate = DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE;
 
   parameters.loop_sleep = DEFAULT_LOOP_SLEEP;
   parameters.low_voltage_limit = DEFAULT_VOLTAGE_LOW_LIMIT;
@@ -86,10 +84,13 @@ void set_defaults()
   parameters.battery_low_voltage_flag = false;
   parameters.battery_low_voltage_flag = false;
   parameters.transmit_rate = thresholds.normal_transmit_rate;
+  parametere.pyro_pulse_width_secs = DEFAULT_PYRO_PULSE_WIDTH_SECS;
   
   //Set Digital Pin States
-  digitalWrite(PIN_POWER_ACTIVATION, HIGH);
-  //digitalWrite(PIN_CUTDOWN, LOW);
+  digitalWrite(PIN_POWER_SHUTDOWN, LOW);
+  digitalWrite(PIN_PYRO_ENABLE, LOW);
+  digitalWrite(PIN_PYRO_1_FIRE, LOW);
+  digitalWrite(PIN_PYRO_2_FIRE, LOW);
   
   // Change the analog read resolution to 12 bits
   analogReadResolution(RESOLUTION_PRESSURE_SENSOR);
@@ -109,15 +110,15 @@ void set_output_pins()
 
 void set_load_shed_mode()
 {
-   //Turn Camera Off
-   digitalWrite(PIN_CAMERA_SWITCH, LOW);
+   //Set Camera flag to false
+   parameters.camera_flag = false;
   
    //Set Heater Threshols to Survival settings
    parameters.battery_temperature_limit_high = thresholds.survival_battery_temperature_limit_high;
    parameters.battery_temperature_limit_low = thresholds.survival_battery_temperature_limit_low;
    
    //Turn Power On
-   digitalWrite(PIN_POWER_ACTIVATION, HIGH);
+   digitalWrite(PIN_POWER_SHUTDOWN, LOW);
    
    //Set Transmit Rate
    parameters.transmit_rate = thresholds.load_shed_transmit_rate;
@@ -125,6 +126,9 @@ void set_load_shed_mode()
 
 void set_normal_mode()
 { 
+   //Set Camera flag to true
+   parameters.camera_flag = true;
+   
    //Set Heater Threshols to Survival settings
    parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
    parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
@@ -135,7 +139,10 @@ void set_normal_mode()
 
 void set_test_mode()
 {   
-   //Set Heater Threshols to Survival settings
+   //Set Camera flag to true
+   parameters.camera_flag = true;
+   
+   //Set Heater Thresholds to normal settings
    parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
    parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
    
@@ -145,9 +152,28 @@ void set_test_mode()
 
 void set_emergency_decent_mode()
 {
-   //Turn Camera Off
-   digitalWrite(PIN_CAMERA_SWITCH, LOW);
+   //Turn Camera Flag to false
+   parameters.camera_flag = false;
+   
+   //Set Heater Thresholds to survival settings
+   parameters.battery_temperature_limit_high = thresholds.survival_battery_temperature_limit_high;
+   parameters.battery_temperature_limit_low = thresholds.survival_battery_temperature_limit_low;
    
    //Set Transmit Rate
-   parameters.transmit_rate = thresholds.transit_transmit_rate;
+   parameters.transmit_rate = thresholds.emergency_transit_transmit_rate;
+   
+   //Fire Pyro
+   pyro_fire();
+}
+
+void pyro_fire()
+{
+   //Enable Pyro pin
+   digitalWrite(PIN_PYRO_ENABLE, HIGH);
+   
+   //Set primary pin to high
+   digitalWrite(PIN_PYRO_1_FIRE, HIGH);
+   
+   //Mark time that pyro was initiated 
+   parameters.pyro_initiation_start_time = now();
 }

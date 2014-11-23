@@ -55,11 +55,39 @@ void colect_telemetry()
 
 void process_telemetry()
 {
+   int state;
    double value = 0.0;
+   
+   //Check Pyros
+   if(digitalRead(PIN_PYRO_1_FIRE) == HIGH)
+   {
+     if(now() - parameters.pyro_initiation_start_time) >= parametere.pyro_pulse_width_secs)
+     {
+        //Set Primary Pyro to Low
+        digitalWrite(PIN_PYRO_1_FIRE, LOW);
+        
+        //Set Backup Pyro to High
+        digitalWrite(PIN_PYRO_2_FIRE, HIGH);
+        
+        //Reset the initiation time
+        parameters.pyro_initiation_start_time = now();
+     }
+   }
+   
+   if(digitalRead(PIN_PYRO_2_FIRE) == HIGH)
+   {
+     if(now() - parameters.pyro_initiation_start_time) >= parametere.pyro_pulse_width_secs)
+     {
+        //Set Backup Pyro to Low
+        digitalWrite(PIN_PYRO_2_FIRE, LOW);
+        
+        //Disable the Pyro Pin
+        digitalWrite(PIN_PYRO_ENABLE, LOW);
+     }
+   }
    
    // Check the battery temperatures
    // Battery 1
-   
    value = (telemetry_data.battery_temp_1_1 + telemetry_data.battery_temp_1_2)/2.0;
 
    sprintf(buffer, "Battery 1 avg. temp. = %f", value);
@@ -96,7 +124,7 @@ void process_telemetry()
    }
    else if(value > parameters.battery_temperature_limit_high)
    {
-      //Turn heating element of
+      //Turn heating element off
       digitalWrite(PIN_HEATER_CONTROL_2, LOW);
       sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
                     value, parameters.battery_temperature_limit_high);
@@ -125,10 +153,12 @@ void process_telemetry()
 		  //the the low voltage time limit
 		  if ((now() - parameters.battery_low_voltage_start_time) > parameters.low_voltage_time_limit)
 		  {
-             //Going into Drop Mode  
-		     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Drop Mode.",
+		     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Emergency Descent Mode.",
                     value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
              Serial.println(buffer);
+             
+             //Enter Emergency Descent Mode
+             set_emergency_decent_mode();
 		  }
 	  }
 	  else
@@ -136,9 +166,12 @@ void process_telemetry()
          //Battery voltage is low - set flag and mark time
 	     parameters.battery_low_voltage_flag = true;
          parameters.battery_low_voltage_start_time = now();
-         sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).",
+         sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).  Goind into Load Shed Mode.",
                          value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
-             Serial.println(buffer);
+         Serial.println(buffer);
+         
+         //Enter Load Shed Mode
+         set_load_shed_mode();
       }
    }
    else
