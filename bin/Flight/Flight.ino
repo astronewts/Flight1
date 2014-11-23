@@ -84,7 +84,7 @@ void set_defaults()
   parameters.battery_low_voltage_flag = false;
   parameters.battery_low_voltage_flag = false;
   parameters.transmit_rate = thresholds.normal_transmit_rate;
-  parametere.pyro_pulse_width_secs = DEFAULT_PYRO_PULSE_WIDTH_SECS;
+  parameters.pyro_pulse_width_secs = DEFAULT_PYRO_PULSE_WIDTH_SECS;
   
   //Set Digital Pin States
   digitalWrite(PIN_POWER_SHUTDOWN, LOW);
@@ -99,7 +99,7 @@ void set_defaults()
 void set_output_pins()
 {
    //Setup outout pins
-   pinMode(PIN_POWER_ACTIVATION, OUTPUT);
+   pinMode(PIN_POWER_SHUTDOWN, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_2, OUTPUT);
    pinMode(PIN_PYRO_ENABLE, OUTPUT);

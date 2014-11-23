@@ -1,4 +1,5 @@
 #include "Arduino.h"
+#include <string>
 
 void process_satellite_data()
 {
@@ -61,19 +62,19 @@ void process_satellite_data()
         // This is a command to set the Transmit Rates Permode
         
         // Normal Ops Transmit Rate = CommandString.substring(14,17)
-        normal_transmit_rate = CommandString.substring(14,17);
+        thresholds.normal_transmit_rate = CommandString.substring(14,17).toInt();
         
         // Loadshed Transmit Rate = CommandString.substring(18,21)
-        load_shed_transmit_rate = CommandString.substring(18,21);
+        thresholds.load_shed_transmit_rate = CommandString.substring(18,21).toInt();
         
         // Transit Transmit Rate = CommandString.substring(22,25)
-        transit_transmit_rate = CommandString.substring(22,25);
+        thresholds.transit_transmit_rate = CommandString.substring(22,25).toInt();
         
         // Emergency Transit Transmit Rate = CommandString.substring(26,29)
-        emergency_transit_transmit_rate =  CommandString.substring(26,29);
+        thresholds.emergency_transit_transmit_rate =  CommandString.substring(26,29).toInt();
         
         // Test Transmit Rate = CommandString.substring(30,33)
-        test_transmit_rate = CommandString.substring(30,33);
+        thresholds.test_transmit_rate = CommandString.substring(30,33).toInt();
         
         }
        if (CommandString.substring(6,13) == "42330100") {
@@ -82,16 +83,16 @@ void process_satellite_data()
         // Sanity Check High Temp Threshold  = CommandString.substring(14,15)
         
         // Normal OPS High Temp Threshold  = CommandString.substring(16,17)
-        normal_battery_temperature_limit_high = CommandString.substring(16,17);
+        thresholds.normal_battery_temperature_limit_high = CommandString.substring(16,17).toInt();
         
         // Normal OPS Low Temp Threshold  = CommandString.substring(18,19)
-        normal_battery_temperature_limit_low = CommandString.substring(18,19);
+        thresholds.normal_battery_temperature_limit_low = CommandString.substring(18,19).toInt();
         
         // Loadshed High Temp Threshold = CommandString.substring(20,21)
-        survival_battery_temperature_limit_high = CommandString.substring(20,21);
+        thresholds.survival_battery_temperature_limit_high = CommandString.substring(20,21).toInt();
         
         // Loadshed High Temp Threshold = CommandString.substring(22,23)
-        survival_battery_temperature_limit_low = CommandString.substring(22,23);
+        thresholds.survival_battery_temperature_limit_low = CommandString.substring(22,23).toInt();
         
         // Sanity Check Low Temp Threshold  = CommandString.substring(24,25)
         }
@@ -149,6 +150,7 @@ void process_satellite_data()
   else{
     // Increment an Error in regard to bad commands getting through.
   }
+}
 
 //Receive any data from satellite
 int read_satellite_data()
