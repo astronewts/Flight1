@@ -40,11 +40,26 @@ void process_satellite_data()
            // Enable Battery Charding 
          }
       }
+      if (CommandString.substring(6,13) == "25330004") {
+        // This is a command change the Camera Enable Status
+         if (CommandString.substring(14,15) == "F") {
+         // Enable the Camera
+         
+         
+         }
+         if (CommandString.substring(14,15) == "0") {
+         // Disable the Camera
+         
+         
+         }
+      } 
       
        if (CommandString.substring(6,13) == "23330008") {
         // This is a command to Fire the Pyro and Initiate Descent
          if (CommandString.substring(14,15) == "F") {
             // Enable Pyro Relay, Fire Pyros, and disable Pyro Relay
+            
+            // This will also initiate transition to Transit Mode
           }
        }
        if (CommandString.substring(6,13) == "23330010") {
