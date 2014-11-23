@@ -50,9 +50,9 @@ void loop()
    print_telemetry();
    #endif
    
-   //Is it time to turn camera on/off?
+   //Process Camera
    process_camera_function();
-   
+
    //Check if time to write data to ROCKBLOCK
    if(parameters.transmit_elapsed_time > parameters.transmit_rate)
    {
@@ -86,12 +86,17 @@ void set_defaults()
   parameters.low_voltage_limit = DEFAULT_VOLTAGE_LOW_LIMIT;
   parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
   parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
+  parameters.battery_temperature_sanity_check_high = DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH;
+  parameters.battery_temperature_sanity_check_low = DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW;
   parameters.low_voltage_time_limit = DEFAULT_LOW_VOLTAGE_TIME_LIMIT;
   parameters.battery_low_voltage_flag = false;
   parameters.battery_low_voltage_flag = false;
   parameters.transmit_rate = thresholds.normal_transmit_rate;
   parameters.sd_card_write_rate = DEFAULT_SD_CARD_WRITE_RATE;
   parameters.pyro_pulse_width = DEFAULT_PYRO_PULSE_WIDTH;
+  parameters.camera_flag = true;
+  parameters.camera_period = DEFAULT_CAMERA_PERIOD;
+  parameters.camera_on_time = DEFAULT_CAMERA_ON_TIME;
   
   //Set Digital Pin States
   digitalWrite(PIN_POWER_SHUTDOWN, LOW);
@@ -117,6 +122,9 @@ void set_output_pins()
 
 void set_load_shed_mode()
 {
+   //Turn Camera Off
+   digitalWrite(PIN_CAMERA_SWITCH, LOW);
+   
    //Set Camera flag to false
    parameters.camera_flag = false;
   
@@ -144,6 +152,19 @@ void set_normal_mode()
    parameters.transmit_rate = thresholds.normal_transmit_rate;
 }
 
+void set_transit_mode()
+{ 
+   //Set Camera flag to true
+   parameters.camera_flag = true;
+   
+   //Set Heater Threshols to Survival settings
+   parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
+   parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
+   
+   //Set Transmit Rate
+   parameters.transmit_rate = thresholds.transit_transmit_rate;
+}
+
 void set_test_mode()
 {   
    //Set Camera flag to true
@@ -159,6 +180,9 @@ void set_test_mode()
 
 void set_emergency_decent_mode()
 {
+   //Turn Camera Off
+   digitalWrite(PIN_CAMERA_SWITCH, LOW);
+
    //Turn Camera Flag to false
    parameters.camera_flag = false;
    

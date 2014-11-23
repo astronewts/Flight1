@@ -22,6 +22,8 @@
 #define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_LOW      23
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_HIGH   300
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW    23
+#define DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH     150
+#define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80    
 #define DEFAULT_NORMAL_TRANSMIT_RATE               10000
 #define DEFAULT_TEST_TRANSMIT_RATE                 5000
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              30000
@@ -29,6 +31,9 @@
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
 #define DEFAULT_PYRO_PULSE_WIDTH                   2000
 #define DEFAULT_SD_CARD_WRITE_RATE                 60000
+#define DEFAULT_CAMERA_PERIOD                      1200000
+#define DEFAULT_CAMERA_ON_TIME                     10000
+           
 
 //Analog Pins
 #define PIN_PRESSURE_SENSOR          A0
@@ -93,16 +98,22 @@ struct satellite_data_struct
 
 struct parameter_struct
 {
-  int loop_sleep;
-  int transmit_rate;  
-  int sd_card_write_rate;
+  unsigned long loop_sleep;
+  unsigned long transmit_rate;  
+  unsigned long sd_card_write_rate;
   int battery_temperature_limit_high;
   int battery_temperature_limit_low;
+  int battery_temperature_sanity_check_high;
+  int battery_temperature_sanity_check_low;
   double low_voltage_limit;
-  int low_voltage_time_limit;
+  unsigned long low_voltage_time_limit;
   bool battery_low_voltage_flag;
-  int pyro_pulse_width;
+  unsigned long pyro_pulse_width;
   bool camera_flag;
+  unsigned long camera_period;
+  unsigned long camera_on_time;
+  elapsedMillis camera_period_elapsed_time;
+  elapsedMillis camera_on_elapsed_time;
   elapsedMillis battery_low_voltage_elapsed_time;
   elapsedMillis pyro_initiation_elapsed_time;
   elapsedMillis transmit_elapsed_time;
@@ -115,10 +126,10 @@ struct threshold_struct
   int normal_battery_temperature_limit_low;
   int survival_battery_temperature_limit_high;
   int survival_battery_temperature_limit_low;
-  int normal_transmit_rate;
-  int test_transmit_rate;
-  int transit_transmit_rate;
-  int emergency_transit_transmit_rate;
-  int load_shed_transmit_rate;
+  unsigned long normal_transmit_rate;
+  unsigned long test_transmit_rate;
+  unsigned long transit_transmit_rate;
+  unsigned long emergency_transit_transmit_rate;
+  unsigned long load_shed_transmit_rate;
 };
   

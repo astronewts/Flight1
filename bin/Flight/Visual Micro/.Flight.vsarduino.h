@@ -55,6 +55,7 @@ void set_defaults();
 void set_output_pins();
 void set_load_shed_mode();
 void set_normal_mode();
+void set_transit_mode();
 void set_test_mode();
 void set_emergency_decent_mode();
 void pyro_fire();

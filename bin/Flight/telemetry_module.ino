@@ -61,7 +61,7 @@ void colect_telemetry()
 
 void process_telemetry()
 {
-   int state;
+   int valid_data = true;
    double value = 0.0;
    
    //Check Pyros
@@ -94,25 +94,55 @@ void process_telemetry()
    
    // Check the battery temperatures
    // Battery 1
-   value = (telemetry_data.battery_temp_1_1 + telemetry_data.battery_temp_1_2)/2.0;
-
-   sprintf(buffer, "Battery 1 avg. temp. = %f", value);
-   Serial.println(buffer);
-   if(value < parameters.battery_temperature_limit_low)
+   
+   //Sanity Check
+   valid_data = true;
+   if((telemetry_data.battery_temp_1_1 <= parameters.battery_temperature_sanity_check_high) &&
+      (telemetry_data.battery_temp_1_1 >= parameters.battery_temperature_sanity_check_low))
    {
-      //Turn heating element on
-      digitalWrite(PIN_HEATER_CONTROL_1, HIGH);
-      sprintf(buffer, "Heating element #1 turned on due to average battery temperature of %f going below threshhold of %f,",
-                    value, parameters.battery_temperature_limit_low);
-      Serial.println(buffer);
+	   if((telemetry_data.battery_temp_1_2 <= parameters.battery_temperature_sanity_check_high) &&
+		  (telemetry_data.battery_temp_1_2 >= parameters.battery_temperature_sanity_check_low))
+	   { 
+          value = (telemetry_data.battery_temp_1_1 + telemetry_data.battery_temp_1_2)/2.0;
+       }
+       else
+       {
+          value = telemetry_data.battery_temp_1_1;
+       }
    }
-   else if(value > parameters.battery_temperature_limit_high)
+   else
    {
-      //Turn heating element off
-      digitalWrite(PIN_HEATER_CONTROL_1, LOW);
-      sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
-                    value, parameters.battery_temperature_limit_high);
-      Serial.println(buffer);
+       if((telemetry_data.battery_temp_1_2 <= parameters.battery_temperature_sanity_check_high) &&
+		  (telemetry_data.battery_temp_1_2 >= parameters.battery_temperature_sanity_check_low))
+	   { 
+		  value = telemetry_data.battery_temp_1_2;
+	   }
+	   else
+	   {
+	      valid_data = false;
+	   }
+   }
+
+   if(valid_data == true)
+   {
+	   sprintf(buffer, "Battery 1 avg. temp. = %f", value);
+	   Serial.println(buffer);
+	   if(value < parameters.battery_temperature_limit_low)
+	   {
+		  //Turn heating element on
+		  digitalWrite(PIN_HEATER_CONTROL_1, HIGH);
+		  sprintf(buffer, "Heating element #1 turned on due to average battery temperature of %f going below threshhold of %f,",
+						value, parameters.battery_temperature_limit_low);
+		  Serial.println(buffer);
+	   }
+	   else if(value > parameters.battery_temperature_limit_high)
+	   {
+		  //Turn heating element off
+		  digitalWrite(PIN_HEATER_CONTROL_1, LOW);
+		  sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
+						value, parameters.battery_temperature_limit_high);
+		  Serial.println(buffer);
+	   }
    }
   
    // Battery 2
