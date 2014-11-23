@@ -74,7 +74,6 @@ void magCalLoop();
 void accelCalStart(void);
 void accelCalLoop();
 void process_satellite_data();
-void process_satellite_data();
 int read_satellite_data();
 void format_telemetry_data_for_sd(struct telemetry_data_struct* telemetry_data, char* string_buffer);
 void write_telemetry_data_to_sd(char* string_buffer);

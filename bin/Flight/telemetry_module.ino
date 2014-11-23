@@ -61,7 +61,7 @@ void process_telemetry()
    //Check Pyros
    if(digitalRead(PIN_PYRO_1_FIRE) == HIGH)
    {
-     if(now() - parameters.pyro_initiation_start_time) >= parametere.pyro_pulse_width_secs)
+     if((now() - parameters.pyro_initiation_start_time) >= parameters.pyro_pulse_width_secs)
      {
         //Set Primary Pyro to Low
         digitalWrite(PIN_PYRO_1_FIRE, LOW);
@@ -76,7 +76,7 @@ void process_telemetry()
    
    if(digitalRead(PIN_PYRO_2_FIRE) == HIGH)
    {
-     if(now() - parameters.pyro_initiation_start_time) >= parametere.pyro_pulse_width_secs)
+     if((now() - parameters.pyro_initiation_start_time) >= parameters.pyro_pulse_width_secs)
      {
         //Set Backup Pyro to Low
         digitalWrite(PIN_PYRO_2_FIRE, LOW);
