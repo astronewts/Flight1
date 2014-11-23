@@ -107,6 +107,7 @@ struct threshold_struct
   int normal_transmit_rate;
   int test_transmit_rate;
   int transit_transmit_rate;
+  int emergency_transit_transmit_rate;
   int load_shed_transmit_rate;
 };
   

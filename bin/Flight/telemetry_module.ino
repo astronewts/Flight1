@@ -59,6 +59,7 @@ void process_telemetry()
    
    // Check the battery temperatures
    // Battery 1
+   
    value = (telemetry_data.battery_temp_1_1 + telemetry_data.battery_temp_1_2)/2.0;
 
    sprintf(buffer, "Battery 1 avg. temp. = %f", value);

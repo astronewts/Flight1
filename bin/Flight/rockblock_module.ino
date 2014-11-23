@@ -9,8 +9,8 @@ void process_satellite_data()
   if (CommandString.substring(0,5) == "030133") {
     // INCREMENT VALID COMMAND RECIEVED
     
-    
     // PUT LOGIC IN HERE TO SEE IF THE PARITY IS CORRECT
+    
     if (CommandString.substring(538) == "7") {
       // Parity Check is correct! *** This is TEMP -> Fix her
       
@@ -81,6 +81,7 @@ void process_satellite_data()
         transit_transmit_rate = CommandString.substring(22,25);
         
         // Emergency Transit Transmit Rate = CommandString.substring(26,29)
+        emergency_transit_transmit_rate =  CommandString.substring(26,29);
         
         // Test Transmit Rate = CommandString.substring(30,33)
         test_transmit_rate = CommandString.substring(30,33);
