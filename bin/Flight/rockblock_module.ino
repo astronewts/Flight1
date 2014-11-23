@@ -39,7 +39,8 @@ void process_satellite_data()
          if (CommandString.substring(14,15) == "0") {
            // Enable Battery Charding 
          }
-         
+      }
+      
        if (CommandString.substring(6,13) == "23330008") {
         // This is a command to Fire the Pyro and Initiate Descent
          if (CommandString.substring(14,15) == "F") {
@@ -49,7 +50,7 @@ void process_satellite_data()
        if (CommandString.substring(6,13) == "23330010") {
         // This is a command set Pyro Fire Pulse Width
         // Pulse Width = CommandString.substring(14,15)
-        
+       }
        if (CommandString.substring(6,13) == "24330020") {
         // This is a command set the SD Card Write Period
         // SD Card Write Period = CommandString.substring(14,15)
