@@ -50,15 +50,13 @@ void process_satellite_data()
          
        if (CommandString.substring(6,13) == "23330008") {
         // This is a command to Fire the Pyro and Initiate Descent
-        if (CommandString.substring(14,15) == "1") {
-           // Fire Pyro #1
+        if (CommandString.substring(14,15) == "F") {
+           // Fire Pyros
          }
-         if (CommandString.substring(14,15) == "2") {
-           // Fire Pyro #1
-         }
+
        if (CommandString.substring(6,13) == "23330010") {
         // This is a command set Pyro Fire Pulse Width
-        // Pulse Width = CommandString.substring(14,21)
+        // Pulse Width = CommandString.substring(14,15)
         
        if (CommandString.substring(6,13) == "24330020") {
         // This is a command set the SD Card Write Period
