@@ -58,7 +58,7 @@ void process_satellite_data()
          }
        if (CommandString.substring(6,13) == "23330010") {
         // This is a command set Pyro Fire Pulse Width
-        // Pulse Width = CommandString.substring(14,15)
+        // Pulse Width = CommandString.substring(14,21)
         
        if (CommandString.substring(6,13) == "24330020") {
         // This is a command set the SD Card Write Period
@@ -148,7 +148,7 @@ void process_satellite_data()
        if (CommandString.substring(6,13) == "48338000") {
         // This is a command to set the Length of time in Loadshed Mode until we trigger Emergency Descent
         
-        // Time in Loadshed Trigger  = CommandString.substring(14,15)
+        // Time in Loadshed Trigger  = CommandString.substring(14,21)
        }
     
     }// Parity Check is correct!
