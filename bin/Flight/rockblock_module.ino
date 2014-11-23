@@ -42,10 +42,10 @@ void process_satellite_data()
          
        if (CommandString.substring(6,13) == "23330008") {
         // This is a command to Fire the Pyro and Initiate Descent
-        if (CommandString.substring(14,15) == "F") {
-           // Enable Pyro Relay, Fire Pyros, and disable Pyro Relay
-         }
-
+         if (CommandString.substring(14,15) == "F") {
+            // Enable Pyro Relay, Fire Pyros, and disable Pyro Relay
+          }
+       }
        if (CommandString.substring(6,13) == "23330010") {
         // This is a command set Pyro Fire Pulse Width
         // Pulse Width = CommandString.substring(14,15)
