@@ -39,19 +39,10 @@ void process_satellite_data()
            // Enable Battery Charding 
          }
          
-       if (CommandString.substring(6,13) == "23330004") {
-        // This is a command to Change the Pyro Enable Relay State
-        if (CommandString.substring(14,15) == "F") {
-           // Enable Pyro Relay
-         }
-         if (CommandString.substring(14,15) == "0") {
-           // Disable Pyro Relay
-         }
-         
        if (CommandString.substring(6,13) == "23330008") {
         // This is a command to Fire the Pyro and Initiate Descent
         if (CommandString.substring(14,15) == "F") {
-           // Fire Pyros
+           // Enable Pyro Relay, Fire Pyros, and disable Pyro Relay
          }
 
        if (CommandString.substring(6,13) == "23330010") {
