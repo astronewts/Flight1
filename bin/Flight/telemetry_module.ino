@@ -4,6 +4,12 @@ char buffer[128];
 
 void colect_telemetry()
 { 
+  //GPS Data
+  //get_gps_data();
+  
+  //Gyro Data
+  get_gyro_data();
+  
   //Air Pressure Data
   raw_val = analogRead(PIN_PRESSURE_SENSOR);
   telemetry_data.air_pressure = raw_val * PRESSURE_CONSTANT;
@@ -61,7 +67,7 @@ void process_telemetry()
    //Check Pyros
    if(digitalRead(PIN_PYRO_1_FIRE) == HIGH)
    {
-     if((now() - parameters.pyro_initiation_start_time) >= parameters.pyro_pulse_width_secs)
+     if(parameters.pyro_initiation_elapsed_time >= parameters.pyro_pulse_width)
      {
         //Set Primary Pyro to Low
         digitalWrite(PIN_PYRO_1_FIRE, LOW);
@@ -69,14 +75,14 @@ void process_telemetry()
         //Set Backup Pyro to High
         digitalWrite(PIN_PYRO_2_FIRE, HIGH);
         
-        //Reset the initiation time
-        parameters.pyro_initiation_start_time = now();
+        //Reset the initiation elapsed time
+        parameters.pyro_initiation_elapsed_time = 0;
      }
    }
    
    if(digitalRead(PIN_PYRO_2_FIRE) == HIGH)
    {
-     if((now() - parameters.pyro_initiation_start_time) >= parameters.pyro_pulse_width_secs)
+     if(parameters.pyro_initiation_elapsed_time >= parameters.pyro_pulse_width)
      {
         //Set Backup Pyro to Low
         digitalWrite(PIN_PYRO_2_FIRE, LOW);
@@ -151,7 +157,7 @@ void process_telemetry()
 	  {
 		  //Check if the timer has reached 
 		  //the the low voltage time limit
-		  if ((now() - parameters.battery_low_voltage_start_time) > parameters.low_voltage_time_limit)
+		  if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
 		  {
 		     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Emergency Descent Mode.",
                     value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
@@ -165,7 +171,7 @@ void process_telemetry()
 	  {
          //Battery voltage is low - set flag and mark time
 	     parameters.battery_low_voltage_flag = true;
-         parameters.battery_low_voltage_start_time = now();
+         parameters.battery_low_voltage_elapsed_time = 0;
          sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).  Goind into Load Shed Mode.",
                          value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
          Serial.println(buffer);
@@ -213,12 +219,6 @@ void print_telemetry()
   Serial.print("Charge Flag: ");
   Serial.println(telemetry_data.charge_flag);
 
-
-    //GPS Data
-  get_gps_data();
-  
-  //Gyro Data
-  get_gyro_data();
 
   Serial.println("");
   Serial.println("");

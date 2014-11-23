@@ -159,3 +159,8 @@ int read_satellite_data()
   return NO_COMMANDS_TO_PROCESS;
 }
 
+void write_satellite_data()
+{
+
+}
+

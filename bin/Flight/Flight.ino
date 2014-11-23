@@ -9,7 +9,7 @@
 #include <dmpmap.h>
 #include <inv_mpu.h>
 #include <inv_mpu_dmp_motion_driver.h>
-#include <Time.h>  
+#include <elapsedMillis.h>
 
 struct telemetry_data_struct telemetry_data;
 struct satellite_data_struct satellite_data;
@@ -17,6 +17,7 @@ struct parameter_struct parameters;
 struct threshold_struct thresholds;
 
 int ret_val = 0;
+
 
 void setup() 
 {
@@ -29,38 +30,43 @@ void setup()
 }
 
 void loop() 
-{
+{ 
    // Check if there is any data waiting for us from ROCKBLOCK
    ret_val = read_satellite_data();
    
    if(ret_val == COMMANDS_TO_PROCESS)
    {
-     //Process satellite commands from ROCKBLOCK, blocking unless it's time to make a loop cycle
-     // 1 - Cord Snap
-     // 2 - Turn on/off feed from solar panels
-     // 3 - Set hi/low temperature thresholds 
-     // 4 - Set sampling rate
-     // 5 - Set camera rate
-     // 6 - Set data format
      process_satellite_data();
    }
-  
+   
    //Collect telemetry
    colect_telemetry();
    
-   //Is there anything to act on from tolemety read?
-   // 1 - Turn heating element on/off if temperature breaks threshold()
-   // 2 - Check voltage time() to check if cutdown is needed
-   // 3 - Mode change (Low/Normal/High)
+   //Process telemetry
    process_telemetry();
 
+   //Print telemetry
+   #ifdef DEBUG
    print_telemetry();
+   #endif
    
    //Is it time to turn camera on/off?
    process_camera_function();
- 
-   //Either sleep or continue looping, based on battery draw tests
-   delay(parameters.loop_sleep);
+   
+   //Check if time to write data to ROCKBLOCK
+   if(parameters.transmit_elapsed_time > parameters.transmit_rate)
+   {
+      write_satellite_data();
+      parameters.transmit_elapsed_time = 0;
+   }
+   
+   //Check if time to write data to SD Card 
+   if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_rate)
+   {
+   
+      //write_telemetry_data_to_sd();
+      parameters.sd_card_write_elapsed_time = 0;
+   }
 }
 
 void set_defaults()
@@ -84,7 +90,8 @@ void set_defaults()
   parameters.battery_low_voltage_flag = false;
   parameters.battery_low_voltage_flag = false;
   parameters.transmit_rate = thresholds.normal_transmit_rate;
-  parameters.pyro_pulse_width_secs = DEFAULT_PYRO_PULSE_WIDTH_SECS;
+  parameters.sd_card_write_rate = DEFAULT_SD_CARD_WRITE_RATE;
+  parameters.pyro_pulse_width = DEFAULT_PYRO_PULSE_WIDTH;
   
   //Set Digital Pin States
   digitalWrite(PIN_POWER_SHUTDOWN, LOW);
@@ -175,5 +182,5 @@ void pyro_fire()
    digitalWrite(PIN_PYRO_1_FIRE, HIGH);
    
    //Mark time that pyro was initiated 
-   parameters.pyro_initiation_start_time = now();
+   parameters.pyro_initiation_elapsed_time = 0;
 }

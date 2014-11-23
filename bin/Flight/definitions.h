@@ -1,4 +1,6 @@
-#include <time.h>
+#include <elapsedMillis.h>
+
+#define DEBUG
 
 //Command Sentinels
 #define NO_COMMANDS_TO_PROCESS        0 
@@ -20,12 +22,13 @@
 #define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_LOW      23
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_HIGH   300
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW    23
-#define DEFAULT_NORMAL_TRANSMIT_RATE               10
-#define DEFAULT_TEST_TRANSMIT_RATE                 5
-#define DEFAULT_TRANSIT_TRANSMIT_RATE              30
-#define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45
-#define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60
-#define DEFAULT_PYRO_PULSE_WIDTH_SECS              2
+#define DEFAULT_NORMAL_TRANSMIT_RATE               10000
+#define DEFAULT_TEST_TRANSMIT_RATE                 5000
+#define DEFAULT_TRANSIT_TRANSMIT_RATE              30000
+#define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45000
+#define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
+#define DEFAULT_PYRO_PULSE_WIDTH                   2000
+#define DEFAULT_SD_CARD_WRITE_RATE                 60000
 
 //Analog Pins
 #define PIN_PRESSURE_SENSOR          A0
@@ -91,16 +94,19 @@ struct satellite_data_struct
 struct parameter_struct
 {
   int loop_sleep;
-  int transmit_rate;
+  int transmit_rate;  
+  int sd_card_write_rate;
   int battery_temperature_limit_high;
   int battery_temperature_limit_low;
   double low_voltage_limit;
   int low_voltage_time_limit;
   bool battery_low_voltage_flag;
-  time_t battery_low_voltage_start_time;
-  time_t pyro_initiation_start_time;
-  int pyro_pulse_width_secs;
+  int pyro_pulse_width;
   bool camera_flag;
+  elapsedMillis battery_low_voltage_elapsed_time;
+  elapsedMillis pyro_initiation_elapsed_time;
+  elapsedMillis transmit_elapsed_time;
+  elapsedMillis sd_card_write_elapsed_time;
 };
 
 struct threshold_struct
