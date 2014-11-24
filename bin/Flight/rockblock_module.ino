@@ -144,13 +144,7 @@ void process_satellite_data()
         
         // Voltage Descent Trigger  = CommandString.substring(14,15)
         }
-       if (CommandString.substring(6,13) == "48334000") {
-        // This is a command to set the Pressure  Descent Trigger
-        
-        // Sanity Check High Pressure Threshold  = CommandString.substring(14,17)
-        // Pressure Descent Trigger  = CommandString.substring(18,21)
-        
-        }
+     
        if (CommandString.substring(6,13) == "48338000") {
         // This is a command to set the Length of time in Loadshed Mode until we trigger Emergency Descent
         
