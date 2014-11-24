@@ -3,6 +3,8 @@
 static const int RXPin = 4, TXPin = 3;
 static const uint32_t GPSBaud = 4800;
 static const double LONDON_LAT = 51.508131, LONDON_LON = -0.128002;
+static char sz[64];
+    
 
 // The TinyGPS++ object
 TinyGPSPlus gps;
@@ -13,7 +15,41 @@ void get_gps_data()
   {
      gps.encode(Serial1.read());
   }
+  
+  if (gps.charsProcessed() < 10)
+  {
+    Serial.println(F("No GPS data received: check wiring"));
+  }
+}
 
+void print_gps_data()
+{
+  Serial.print("GPS Characters Processed: ");
+  Serial.println(gps.charsProcessed());
+  Serial.print("GPS Sentences With Fix: ");
+  Serial.println(gps.sentencesWithFix());
+  Serial.print("GPS Failed CheckSum: ");
+  Serial.println(gps.failedChecksum()); 
+  Serial.print("GPS Latitude: ");
+  Serial.println(gps.location.lat());
+  Serial.print("GPS Longtitude: ");
+  Serial.println(gps.location.lng());
+  Serial.print("GPS Location Age: ");
+  Serial.println(gps.location.age());
+  Serial.print("GPS Timestamp: ");
+  sprintf(sz, "%02d/%02d/%02dT%02d:%02d:%02d ", gps.date.month(), gps.date.day(), gps.date.year(),
+                                                gps.time.hour(), gps.time.minute(), gps.time.second());
+  Serial.println(sz);
+  Serial.print("GPS Altitude: ");
+  Serial.println(gps.altitude.meters());
+  Serial.print("GPS Course Deg: ");
+  Serial.println(gps.course.deg());
+  Serial.print("GPS Speed: ");
+  Serial.println(gps.speed.kmph());
+  Serial.print("GPS Course Cardinal: ");
+  Serial.println(TinyGPSPlus::cardinal(gps.course.value()));
+
+/*
   Serial.println(F("Sats HDOP Latitude   Longitude   Fix  Date       Time     Date Alt    Course Speed Card  Distance Course Card  Chars Sentences Checksum"));
   Serial.println(F("          (deg)      (deg)       Age                      Age  (m)    --- from GPS ----  ---- to London  ----  RX    RX        Fail"));
   Serial.println(F("---------------------------------------------------------------------------------------------------------------------------------------"));
@@ -28,6 +64,10 @@ void get_gps_data()
   printdouble(gps.course.deg(), gps.course.isValid(), 7, 2);
   printdouble(gps.speed.kmph(), gps.speed.isValid(), 6, 2);
   printStr(gps.course.isValid() ? TinyGPSPlus::cardinal(gps.course.value()) : "*** ", 6);
+  
+  printInt(gps.charsProcessed(), true, 6);
+  printInt(gps.sentencesWithFix(), true, 10);
+  printInt(gps.failedChecksum(), true, 9);
 
   unsigned long distanceKmToLondon = (unsigned long)TinyGPSPlus::distanceBetween(gps.location.lat(),
                                                                                  gps.location.lng(),
@@ -43,16 +83,9 @@ void get_gps_data()
   printdouble(courseToLondon, gps.location.isValid(), 7, 2);
 
   const char *cardinalToLondon = TinyGPSPlus::cardinal(courseToLondon);
-
   printStr(gps.location.isValid() ? cardinalToLondon : "*** ", 6);
-  printInt(gps.charsProcessed(), true, 6);
-  printInt(gps.sentencesWithFix(), true, 10);
-  printInt(gps.failedChecksum(), true, 9);
-  Serial.println();
   smartDelay(1000);
-  
-  if (gps.charsProcessed() < 10)
-    Serial.println(F("No GPS data received: check wiring"));
+*/
 }
 
 // This custom version of delay() ensures that the gps object
@@ -89,7 +122,6 @@ static void printdouble(double val, bool valid, int len, int prec)
     for (int i=flen; i<len; ++i)
       Serial.print(' ');
   }
-  smartDelay(0);
 }
 
 static void printInt(unsigned long val, bool valid, int len)
@@ -103,7 +135,6 @@ static void printInt(unsigned long val, bool valid, int len)
   if (len > 0) 
     sz[len-1] = ' ';
   Serial.print(sz);
-  smartDelay(0);
 }
 
 static void printDateTime(TinyGPSDate &d, TinyGPSTime &t)
@@ -131,7 +162,6 @@ static void printDateTime(TinyGPSDate &d, TinyGPSTime &t)
   }
 
   printInt(d.age(), d.isValid(), 5);
-  smartDelay(0);
 }
 
 static void printStr(const char *str, int len)
@@ -139,5 +169,4 @@ static void printStr(const char *str, int len)
   int slen = strlen(str);
   for (int i=0; i<len; ++i)
     Serial.print(i<slen ? str[i] : ' ');
-  smartDelay(0);
 }

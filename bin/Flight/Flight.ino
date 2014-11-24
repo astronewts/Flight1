@@ -27,6 +27,7 @@ void setup()
    set_output_pins();
    set_defaults();
    gyro_setup();
+   set_normal_mode();
 }
 
 void loop() 
@@ -63,7 +64,6 @@ void loop()
    //Check if time to write data to SD Card 
    if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_rate)
    {
-   
       //write_telemetry_data_to_sd();
       parameters.sd_card_write_elapsed_time = 0;
    }
@@ -90,13 +90,26 @@ void set_defaults()
   parameters.battery_temperature_sanity_check_low = DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW;
   parameters.low_voltage_time_limit = DEFAULT_LOW_VOLTAGE_TIME_LIMIT;
   parameters.battery_low_voltage_flag = false;
-  parameters.battery_low_voltage_flag = false;
+  parameters.voltage_sanity_check_high = DEFAULT_VOLTAGE_SANITY_CHECK_HIGH;
+  parameters.voltage_sanity_check_low = DEFAULT_VOLTAGE_SANITY_CHECK_LOW;
   parameters.transmit_rate = thresholds.normal_transmit_rate;
   parameters.sd_card_write_rate = DEFAULT_SD_CARD_WRITE_RATE;
   parameters.pyro_pulse_width = DEFAULT_PYRO_PULSE_WIDTH;
   parameters.camera_flag = true;
   parameters.camera_period = DEFAULT_CAMERA_PERIOD;
   parameters.camera_on_time = DEFAULT_CAMERA_ON_TIME;
+  parameters.altitude_valid_flag = false;
+  parameters.altitude_limit_low = DEFAULT_ALTITUDE_LIMIT_LOW;
+  parameters.altitude_sanity_check_low = DEFAULT_ALTITUDE_SANITY_CHECK_LOW;
+  parameters.recharge_ratio = DEFAULT_RECHARGE_RATIO;
+  parameters.voltage_power_limit_high = DEFAULT_VOLTAGE_POWER_LIMIT_HIGH;
+  parameters.voltage_power_limit_low = DEFAULT_VOLTAGE_POWER_LIMIT_LOW;
+  parameters.voltage_sanity_check_high = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH;
+  parameters.voltage_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
+  parameters.capacity_limit_high = DEFAULT_CAPACITY_LIMIT_HIGH;
+  parameters.capacity_limit_low = DEFAULT_CAPACITY_LIMIT_LOW;
+  parameters.amphrs_charging = 0.0;
+  parameters.amphrs_discharging = 0.0;
   
   //Set Digital Pin States
   digitalWrite(PIN_POWER_SHUTDOWN, LOW);
