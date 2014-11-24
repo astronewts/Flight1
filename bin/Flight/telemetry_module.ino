@@ -4,12 +4,6 @@ char buffer[128];
 
 void colect_telemetry()
 { 
-  //GPS Data
-  //get_gps_data();
-  
-  //Gyro Data
-  get_gyro_data();
-  
   //Air Pressure Data
   raw_val = analogRead(PIN_PRESSURE_SENSOR);
   telemetry_data.air_pressure = raw_val * PRESSURE_CONSTANT;
@@ -57,12 +51,21 @@ void colect_telemetry()
   //Temperature Fault Flag
   raw_val = digitalRead(PIN_TEMP_FAULT_FLAG);
   telemetry_data.temp_fault_flag = raw_val;
+  
+  //Charge Current 1
+  raw_val = analogRead(PIN_CHARGE_CURRENT_1);
+  telemetry_data.charge_current_1 = (raw_val * CHARGE_CONSTANT_1 * CHARGE_CONSTANT_2)/CHARGE_CONSTANT_3;
+  
+  //Charge Current 2
+  raw_val = analogRead(PIN_CHARGE_CURRENT_2);
+  telemetry_data.charge_current_2 = (raw_val * CHARGE_CONSTANT_1 * CHARGE_CONSTANT_2)/CHARGE_CONSTANT_3;  
 }
 
 void process_telemetry()
 {
    int valid_data = true;
    double value = 0.0;
+   double elapsed_time_factor = 0.0;
    
    //Check Pyros
    if(digitalRead(PIN_PYRO_1_FIRE) == HIGH)
@@ -144,77 +147,235 @@ void process_telemetry()
 		  Serial.println(buffer);
 	   }
    }
-  
+   
    // Battery 2
-   value = (telemetry_data.battery_temp_2_1 + telemetry_data.battery_temp_2_2)/2.0;
-   sprintf(buffer, "Battery 2 avg. temp. = %f", value);
-   Serial.println(buffer);
-
-   if(value < parameters.battery_temperature_limit_low)
+   //Sanity Check
+   valid_data = true;
+   if((telemetry_data.battery_temp_2_1 <= parameters.battery_temperature_sanity_check_high) &&
+      (telemetry_data.battery_temp_2_1 >= parameters.battery_temperature_sanity_check_low))
    {
-      //Turn heating element on
-      digitalWrite(PIN_HEATER_CONTROL_2, HIGH);
-      sprintf(buffer, "Heating element #2 turned on due to average battery temperature of %f going below threshhold of %f,",
-                    value, parameters.battery_temperature_limit_low);
-      Serial.println(buffer);
+	   if((telemetry_data.battery_temp_2_2 <= parameters.battery_temperature_sanity_check_high) &&
+		  (telemetry_data.battery_temp_2_2 >= parameters.battery_temperature_sanity_check_low))
+	   { 
+          value = (telemetry_data.battery_temp_2_1 + telemetry_data.battery_temp_2_2)/2.0;
+       }
+       else
+       {
+          value = telemetry_data.battery_temp_2_1;
+       }
    }
-   else if(value > parameters.battery_temperature_limit_high)
+   else
    {
-      //Turn heating element off
-      digitalWrite(PIN_HEATER_CONTROL_2, LOW);
-      sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
-                    value, parameters.battery_temperature_limit_high);
-      Serial.println(buffer);
+       if((telemetry_data.battery_temp_2_2 <= parameters.battery_temperature_sanity_check_high) &&
+		  (telemetry_data.battery_temp_2_2 >= parameters.battery_temperature_sanity_check_low))
+	   { 
+		  value = telemetry_data.battery_temp_2_2;
+	   }
+	   else
+	   {
+	      valid_data = false;
+	   }
+   }
+
+   if(valid_data == true)
+   {
+	   sprintf(buffer, "Battery 2 avg. temp. = %f", value);
+	   Serial.println(buffer);
+
+	   if(value < parameters.battery_temperature_limit_low)
+	   {
+		  //Turn heating element on
+		  digitalWrite(PIN_HEATER_CONTROL_2, HIGH);
+		  sprintf(buffer, "Heating element #2 turned on due to average battery temperature of %f going below threshhold of %f,",
+						value, parameters.battery_temperature_limit_low);
+		  Serial.println(buffer);
+	   }
+	   else if(value > parameters.battery_temperature_limit_high)
+	   {
+		  //Turn heating element off
+		  digitalWrite(PIN_HEATER_CONTROL_2, LOW);
+		  sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
+						value, parameters.battery_temperature_limit_high);
+		  Serial.println(buffer);
+	   }
    }
 
    //Check Battery Voltage
-   
    //Get the highest voltage
-   if(telemetry_data.battery_voltage_1 >= telemetry_data.battery_voltage_1)
+   //Sanity Check
+   valid_data = true;
+   if((telemetry_data.battery_voltage_1 <= parameters.voltage_sanity_check_high) &&
+      (telemetry_data.battery_voltage_1 >= parameters.voltage_sanity_check_low))
    {
-      value = telemetry_data.battery_voltage_1;
+      if((telemetry_data.battery_voltage_2 <= parameters.voltage_sanity_check_high) &&
+         (telemetry_data.battery_voltage_2 >= parameters.voltage_sanity_check_low))
+      {  
+		   if(telemetry_data.battery_voltage_1 >= telemetry_data.battery_voltage_2)
+		   {
+			  value = telemetry_data.battery_voltage_1;
+		   }
+		   else
+		   {
+			  value = telemetry_data.battery_voltage_2;
+		   }
+		}
+		else
+		{
+		   value = telemetry_data.battery_voltage_1;
+		}
    }
    else
    {
-      value = telemetry_data.battery_voltage_2;
-   }
-   
-   //Compare voltage to limit
-   if(value < parameters.low_voltage_limit)
-   {
-      // Check if flag is already set
-      if(parameters.battery_low_voltage_flag == true)
-	  {
-		  //Check if the timer has reached 
-		  //the the low voltage time limit
-		  if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
-		  {
-		     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Emergency Descent Mode.",
-                    value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
-             Serial.println(buffer);
-             
-             //Enter Emergency Descent Mode
-             set_emergency_decent_mode();
-		  }
-	  }
-	  else
-	  {
-         //Battery voltage is low - set flag and mark time
-	     parameters.battery_low_voltage_flag = true;
-         parameters.battery_low_voltage_elapsed_time = 0;
-         sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).  Goind into Load Shed Mode.",
-                         value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
-         Serial.println(buffer);
-         
-         //Enter Load Shed Mode
-         set_load_shed_mode();
+      if((telemetry_data.battery_voltage_2 <= parameters.voltage_sanity_check_high) &&
+         (telemetry_data.battery_voltage_2 >= parameters.voltage_sanity_check_low))
+      {
+         value = telemetry_data.battery_voltage_2;
+      }
+      else
+      {
+         valid_data = false;
       }
    }
+   
+   if(valid_data == true)
+   {
+      //Compare voltage to limit
+      if(value < parameters.low_voltage_limit)
+      {
+	     if(parameters.battery_low_voltage_flag == false)
+	     {
+            //Battery voltage is low - set flag and mark time
+	        parameters.battery_low_voltage_flag = true;
+           parameters.battery_low_voltage_elapsed_time = 0;
+           sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).  Goind into Load Shed Mode.",
+                            value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
+           Serial.println(buffer);
+            
+           //Enter Load Shed Mode
+           set_load_shed_mode();
+         }
+      }
+      else
+      {
+         if(parameters.battery_low_voltage_flag == true)
+         {
+            parameters.battery_low_voltage_flag = false;
+         }
+      }
+      
+      
+      if(value < parameters.voltage_power_limit_low)
+      {
+         //Turn the power on
+         digitalWrite(PIN_POWER_SHUTDOWN, LOW);
+      }
+      
+      if(value > parameters.voltage_power_limit_high)
+      {
+         //Turn the power off
+         digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
+         
+         //Reset the charge counts
+         parameters.amphrs_charging = 0.0;
+         parameters.amphrs_discharging = 0.0;
+      }       
+  }
+   
+  // Check if voltage flag is already set
+  if(parameters.battery_low_voltage_flag == true)
+  {
+	  //Check if the timer has reached 
+	  //the the low voltage time limit
+	  if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
+	  {
+	     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Emergency Descent Mode.",
+                 value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
+          Serial.println(buffer);
+          
+          //Enter Emergency Descent Mode
+          set_emergency_decent_mode();
+	  }
+  }
+  
+  
+  //Check Altitude.
+  if(parameters.altitude_valid_flag == true)
+  {
+     if(gps.altitude.isValid())
+     {
+        if(gps.altitude.meters() >= parameters.altitude_sanity_check_low)
+        {
+           if(gps.altitude.meters() < parameters.altitude_limit_low)
+           {
+              //Enter Emergency Descent Mode
+             set_emergency_decent_mode();
+           }
+        }
+      }
+   }
+   
+   //Charge Current 
+   //Sanity Check
+   valid_data = true;
+   if((telemetry_data.charge_current_1 <= parameters.charge_current_sanity_check_high) &&
+      (telemetry_data.charge_current_1 >= parameters.charge_current_sanity_check_low))
+   {
+	   if((telemetry_data.charge_current_2 <= parameters.charge_current_sanity_check_high) &&
+		   (telemetry_data.charge_current_2 >= parameters.charge_current_sanity_check_low))
+	   { 
+          value = (telemetry_data.charge_current_1 + telemetry_data.charge_current_2)/2.0;
+       }
+       else
+       {
+          value = telemetry_data.charge_current_1;
+       }
+   }
    else
    {
-      if(parameters.battery_low_voltage_flag == true)
+       if((telemetry_data.charge_current_2 <= parameters.charge_current_sanity_check_high) &&
+		    (telemetry_data.charge_current_2 >= parameters.charge_current_sanity_check_low))
+	   { 
+		  value = telemetry_data.charge_current_2;
+	   }
+	   else
+	   {
+	      valid_data = false;
+	   }
+   }
+   
+   if(valid_data == true)
+   {
+      //Get the elapsed time factor
+      elapsed_time_factor = MS_IN_SEC / parameters.charge_current_read_elapsed_time;
+      
+      //reset elapsed charge current time
+      parameters.charge_current_read_elapsed_time = 0;
+      
+      if(value > 0)
       {
-         parameters.battery_low_voltage_flag = false;
+         parameters.amphrs_charging += ((value / (elapsed_time_factor * SECS_IN_HOUR)) / parameters.recharge_ratio);
+      }
+      else if (value < 0)
+      {
+         parameters.amphrs_discharging += (value / (elapsed_time_factor * SECS_IN_HOUR));
+      }
+      
+      value = parameters.amphrs_charging - parameters.amphrs_discharging;
+      
+      if(value > parameters.capacity_limit_high)
+      {
+         //Turn the power off
+         digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
+         
+         //Reset the charge counts
+         parameters.amphrs_charging = 0.0;
+         parameters.amphrs_discharging = 0.0;
+      }
+      
+      if(value < parameters.capacity_limit_low)
+      {
+         //Turn the power off
+         digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
       }
    }
 }
@@ -223,8 +384,6 @@ void print_telemetry()
 {
   Serial.println("-----------Telemetry---------------");
   Serial.print("Air Pressure: ");
-  Serial.print(analogRead(PIN_PRESSURE_SENSOR));
-  Serial.print("  ");
   Serial.println(telemetry_data.air_pressure);
   Serial.print("Battery 1-1 Temp: ");
   Serial.println(telemetry_data.battery_temp_1_1);
@@ -248,8 +407,12 @@ void print_telemetry()
   Serial.println(telemetry_data.temp_fault_flag);
   Serial.print("Charge Flag: ");
   Serial.println(telemetry_data.charge_flag);
-
-
+  Serial.print("Charge Current 1: ");
+  Serial.println(telemetry_data.charge_current_1);
+  Serial.print("Charge Current 2: ");
+  Serial.println(telemetry_data.charge_current_2);
+  print_gps_data();
+  get_gyro_data();
   Serial.println("");
   Serial.println("");
   Serial.println("");
