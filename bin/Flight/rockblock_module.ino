@@ -9,48 +9,61 @@ void process_satellite_data()
   // Allow the Commands through if it matches the intended vehicle and code version
   if (CommandString.substring(0,5) == "030133") {
     // INCREMENT VALID COMMAND RECIEVED
-    
+    // ***************************************************
     // PUT LOGIC IN HERE TO SEE IF THE PARITY IS CORRECT
+    // ***************************************************
     
     if (CommandString.substring(538) == "7") {
+      // ***************************************************
       // Parity Check is correct! *** This is TEMP -> Fix her
+      // ***************************************************
       
       if (CommandString.substring(6,13) == "11330001") {
         // This is a command to change the Spacecraft Mode
          if (CommandString.substring(14,15) == "1") {
-           // Set the Mode to Normal OPS 
+           // Set the Mode to Normal OPS
+           set_normal_mode();
          }
          if (CommandString.substring(14,15) == "2") {
            // Set the Mode to Loadshed 
+           set_load_shed_mode();
          }
          if (CommandString.substring(14,15) == "3") {
            // Set the Mode to Descent Mode
+           set_transit_mode();
+           //initiate pyro cutdown
+         }
+         if (CommandString.substring(14,15) == "4") {
+           // Set the Mode to Descent Mode
+           set_emergency_decent_mode();
          }
          if (CommandString.substring(14,15) == "5") {
            // Set the Mode to Test Mode
+           set_test_mode();
          } 
-      }// This is a command to change the Spacecraft Mode
+      }// This ends the section to command to change the Spacecraft Mode
       
       if (CommandString.substring(6,13) == "22330002") {
         // This is a command to Change the EPS Charge State
         if (CommandString.substring(14,15) == "F") {
            // Disable Battery Charging 
+           //***********************************************
          }
          if (CommandString.substring(14,15) == "0") {
            // Enable Battery Charding 
+           //***********************************************
          }
       }
+      
       if (CommandString.substring(6,13) == "25330004") {
         // This is a command change the Camera Enable Status
          if (CommandString.substring(14,15) == "F") {
          // Enable the Camera
-         
-         
+         parameters.camera_flag == true;
          }
          if (CommandString.substring(14,15) == "0") {
          // Disable the Camera
-         
-         
+         parameters.camera_flag == false;
          }
       } 
       
@@ -58,21 +71,23 @@ void process_satellite_data()
         // This is a command to Fire the Pyro and Initiate Descent
          if (CommandString.substring(14,15) == "F") {
             // Enable Pyro Relay, Fire Pyros, and disable Pyro Relay
-            
+            set_transit_mode(); 
             // This will also initiate transition to Transit Mode
+            pyro_fire();
           }
        }
        if (CommandString.substring(6,13) == "23330010") {
         // This is a command set Pyro Fire Pulse Width
-        // Pulse Width = CommandString.substring(14,15)
+        parameters.pyro_pulse_width = CommandString.substring(14,15);
        }
        if (CommandString.substring(6,13) == "24330020") {
         // This is a command set the SD Card Write Period
-        // SD Card Write Period = CommandString.substring(14,15)
+        sd_card_write_rate = CommandString.substring(14,15);
         }
        if (CommandString.substring(6,13) == "45330040") {
-        // This is a command set the Camera Write Period
-        // Camera Write Period = CommandString.substring(14,16)
+        // This is a command set the Camera Write Period & Camera On Time
+        parameters.camera_period = CommandString.substring(14,17);
+        parameters.camera_on_time = CommandString.substring(18,21);
         }
        if (CommandString.substring(6,13) == "46330080") {
         // This is a command to set the Transmit Rates Permode
@@ -97,6 +112,7 @@ void process_satellite_data()
         // This is a command to set the TCS Thresholds
         
         // Sanity Check High Temp Threshold  = CommandString.substring(14,15)
+        parameters.battery_temperature_sanity_check_high = CommandString.substring(14,15).toInt();
         
         // Normal OPS High Temp Threshold  = CommandString.substring(16,17)
         thresholds.normal_battery_temperature_limit_high = CommandString.substring(16,17).toInt();
@@ -111,14 +127,19 @@ void process_satellite_data()
         thresholds.survival_battery_temperature_limit_low = CommandString.substring(22,23).toInt();
         
         // Sanity Check Low Temp Threshold  = CommandString.substring(24,25)
+        parameters.battery_temperature_sanity_check_low = CommandString.substring(24,25).toInt();
         }
        if (CommandString.substring(6,13) == "42330200") {
         // This is a command to set the Voltage Setpoints
         
         // Sanity Check High Voltage Threshold  = CommandString.substring(14,15)
+        
         // Charge Termination Voltage Threshold  = CommandString.substring(16,17)
+        
         // Charge Inialization Voltage Threshold  = CommandString.substring(18,19)
+        
         // Sanity Check Low Temp Threshold  = CommandString.substring(20,21)
+        
         }
        if (CommandString.substring(6,13) == "42330400") {
         // This is a command to set the Amp-Hour Setpoints
@@ -141,14 +162,14 @@ void process_satellite_data()
         }
        if (CommandString.substring(6,13) == "48332000") {
         // This is a command to set the Voltage Descent Trigger
-        
         // Voltage Descent Trigger  = CommandString.substring(14,15)
+        low_voltage_limit =  = CommandString.substring(14,15);
         }
      
        if (CommandString.substring(6,13) == "48338000") {
         // This is a command to set the Length of time in Loadshed Mode until we trigger Emergency Descent
-        
         // Time in Loadshed Trigger  = CommandString.substring(14,21)
+         low_voltage_time_limit = CommandString.substring(14,21);
        }
     
     }// Parity Check is correct!
