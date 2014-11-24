@@ -132,8 +132,8 @@ struct parameter_struct
   double voltage_sanity_check_low;
   double voltage_power_limit_high;
   double voltage_power_limit_low;
-  double charge_current_sanity_check_low;
   double charge_current_sanity_check_high;
+  double charge_current_sanity_check_low;
   double amphrs_charging;
   double amphrs_discharging;
   double capacity_limit_high;

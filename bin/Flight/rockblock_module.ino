@@ -47,11 +47,11 @@ void process_satellite_data()
         // This is a command to Change the EPS Charge State
         if (CommandString.substring(14,15) == "F") {
            // Disable Battery Charging 
-           //***********************************************
+           digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
          }
          if (CommandString.substring(14,15) == "0") {
            // Enable Battery Charding 
-           //***********************************************
+           digitalWrite(PIN_POWER_SHUTDOWN, LOW);
          }
       }
       
@@ -133,32 +133,43 @@ void process_satellite_data()
         // This is a command to set the Voltage Setpoints
         
         // Sanity Check High Voltage Threshold  = CommandString.substring(14,15)
+        voltage_sanity_check_high = CommandString.substring(14,15);
         
         // Charge Termination Voltage Threshold  = CommandString.substring(16,17)
+        voltage_power_limit_high = CommandString.substring(16,17);
         
         // Charge Inialization Voltage Threshold  = CommandString.substring(18,19)
+        voltage_power_limit_low = CommandString.substring(18,19);
         
         // Sanity Check Low Temp Threshold  = CommandString.substring(20,21)
-        
+        voltage_sanity_check_low = CommandString.substring(20,21);
         }
        if (CommandString.substring(6,13) == "42330400") {
         // This is a command to set the Amp-Hour Setpoints
         
         // Charge Termination Amp-Hour Threshold  = CommandString.substring(14,17)
-        // Charge Inialization Amp-Hour  Threshold  = CommandString.substring(18,21)
+        capacity_limit_high = CommandString.substring(14,17);
+        // Charge Inialization Amp-Hour Threshold  = CommandString.substring(18,21)
+        capacity_limit_low = CommandString.substring(18,21);
         // Sanity Check High Current Threshold  = CommandString.substring(22,25)
+        charge_current_sanity_check_high = CommandString.substring(22,25);
         // Sanity Check Low Current Threshold  = CommandString.substring(26,29)
-        }
+        charge_current_sanity_check_low = CommandString.substring(26,29);
+       }
        if (CommandString.substring(6,13) == "42330800") {
         // This is a command to set the Recharge Ratio
         
         // Recharge Ratio  = CommandString.substring(14,15)
+        recharge_ratio = CommandString.substring(14,15);
         }
        if (CommandString.substring(6,13) == "48331000") {
         // This is a command to set the Altitude Descent Trigger
         
         // Altitude Descent Trigger  = CommandString.substring(14,17)
+        altitude_limit_low = CommandString.substring(14,17);
+        
         // Low Sanity Check Altitude  = CommandString.substring(18,21)
+        altitude_sanity_check_low = CommandString.substring(18,21);
         }
        if (CommandString.substring(6,13) == "48332000") {
         // This is a command to set the Voltage Descent Trigger
