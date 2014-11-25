@@ -182,7 +182,11 @@ void process_satellite_data()
         // Time in Loadshed Trigger  = CommandString.substring(14,21)
          low_voltage_time_limit = CommandString.substring(14,21);
        }
-    
+ 
+       // ****************************************************************
+       // Put something in here if none of the if statement loops trip???
+       // ****************************************************************
+
     }// Parity Check is correct!
     else{
       // Increment an Error in some fashion regard to parity failure.  
