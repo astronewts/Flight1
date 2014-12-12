@@ -20,6 +20,7 @@
 #define SECS_IN_HOUR        3600.0
 
 //Defaults
+#define DEFAULT_MODE                               1
 #define DEFAULT_LOOP_SLEEP                         3000
 #define DEFAULT_VOLTAGE_LOW_LIMIT                  8.5
 #define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             1800
@@ -109,6 +110,7 @@ struct telemetry_data_struct
   struct gyro_struct gyro_values;
   int charge_flag;
   int temp_fault_flag;  
+  
 };
 
 struct satellite_data_struct
@@ -121,10 +123,14 @@ struct parameter_struct
   unsigned long loop_sleep;
   unsigned long transmit_rate;  
   unsigned long sd_card_write_rate;
+  int vehicle_mode;
+  int command_count;
   int battery_temperature_limit_high;
   int battery_temperature_limit_low;
   int battery_temperature_sanity_check_high;
   int battery_temperature_sanity_check_low;
+  bool heater_state_1;
+  bool heater_state_2;
   double low_voltage_limit;
   unsigned long low_voltage_time_limit;
   bool battery_low_voltage_flag;
@@ -139,11 +145,14 @@ struct parameter_struct
   double capacity_limit_high;
   double capacity_limit_low;
   
-  
   unsigned long pyro_pulse_width;
+  bool pyro_enable;
+  bool pyro_1_status;
+  bool pyro_2_status;
   bool camera_flag;
   unsigned long camera_period;
   unsigned long camera_on_time;
+  bool batttery_charge_shutdown;
   bool altitude_valid_flag;
   int altitude_limit_low;
   int altitude_sanity_check_low;
@@ -155,6 +164,10 @@ struct parameter_struct
   elapsedMillis transmit_elapsed_time;
   elapsedMillis sd_card_write_elapsed_time;
   elapsedMillis charge_current_read_elapsed_time;
+  
+  String output_dataword;
+  String valid_str;
+  
 };
 
 struct threshold_struct

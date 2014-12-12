@@ -82,20 +82,30 @@ void set_defaults()
   thresholds.load_shed_transmit_rate = DEFAULT_LOAD_SHED_TRANSMIT_RATE;
   thresholds.emergency_transit_transmit_rate = DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE;
 
+  parameters.vehicle_mode = DEFAULT_MODE;
+  parameters.command_count = 0.0;
   parameters.loop_sleep = DEFAULT_LOOP_SLEEP;
   parameters.low_voltage_limit = DEFAULT_VOLTAGE_LOW_LIMIT;
   parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
   parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
   parameters.battery_temperature_sanity_check_high = DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH;
   parameters.battery_temperature_sanity_check_low = DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW;
+  parameters.heater_state_1 = false;
+  parameters.heater_state_2 = false;
   parameters.low_voltage_time_limit = DEFAULT_LOW_VOLTAGE_TIME_LIMIT;
   parameters.battery_low_voltage_flag = false;
   parameters.voltage_sanity_check_high = DEFAULT_VOLTAGE_SANITY_CHECK_HIGH;
   parameters.voltage_sanity_check_low = DEFAULT_VOLTAGE_SANITY_CHECK_LOW;
+  parameters.charge_current_sanity_check_high = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH;
+  parameters.charge_current_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
   parameters.transmit_rate = thresholds.normal_transmit_rate;
   parameters.sd_card_write_rate = DEFAULT_SD_CARD_WRITE_RATE;
   parameters.pyro_pulse_width = DEFAULT_PYRO_PULSE_WIDTH;
+  parameters.pyro_enable = false;
+  parameters.pyro_1_status = false;
+  parameters.pyro_2_status = false;
   parameters.camera_flag = true;
+  parameters.batttery_charge_shutdown = false;
   parameters.camera_period = DEFAULT_CAMERA_PERIOD;
   parameters.camera_on_time = DEFAULT_CAMERA_ON_TIME;
   parameters.altitude_valid_flag = false;
@@ -110,6 +120,10 @@ void set_defaults()
   parameters.capacity_limit_low = DEFAULT_CAPACITY_LIMIT_LOW;
   parameters.amphrs_charging = 0.0;
   parameters.amphrs_discharging = 0.0;
+  
+  //parameters.output_dataword[340];
+  parameters.output_dataword = "0";
+  //parameters.valid_str = "0";
   
   //Set Digital Pin States
   digitalWrite(PIN_POWER_SHUTDOWN, LOW);
@@ -147,9 +161,11 @@ void set_load_shed_mode()
    
    //Turn Power On
    digitalWrite(PIN_POWER_SHUTDOWN, LOW);
+   parameters.batttery_charge_shutdown = false;;
    
    //Set Transmit Rate
    parameters.transmit_rate = thresholds.load_shed_transmit_rate;
+   parameters.vehicle_mode = 2;
 }
 
 void set_normal_mode()
@@ -163,6 +179,7 @@ void set_normal_mode()
    
    //Set Transmit Rate
    parameters.transmit_rate = thresholds.normal_transmit_rate;
+    parameters.vehicle_mode = 1;
 }
 
 void set_transit_mode()
@@ -176,6 +193,7 @@ void set_transit_mode()
    
    //Set Transmit Rate
    parameters.transmit_rate = thresholds.transit_transmit_rate;
+   parameters.vehicle_mode = 3;
 }
 
 void set_test_mode()
@@ -189,6 +207,7 @@ void set_test_mode()
    
    //Set Transmit Rate
    parameters.transmit_rate = thresholds.test_transmit_rate;
+   parameters.vehicle_mode = 5;
 }
 
 void set_emergency_decent_mode()
@@ -205,7 +224,7 @@ void set_emergency_decent_mode()
    
    //Set Transmit Rate
    parameters.transmit_rate = thresholds.emergency_transit_transmit_rate;
-   
+   parameters.vehicle_mode = 4;
    //Fire Pyro
    pyro_fire();
 }
@@ -214,9 +233,11 @@ void pyro_fire()
 {
    //Enable Pyro pin
    digitalWrite(PIN_PYRO_ENABLE, HIGH);
+   parameters.pyro_enable = true;
    
    //Set primary pin to high
    digitalWrite(PIN_PYRO_1_FIRE, HIGH);
+   parameters.pyro_1_status = true;
    
    //Mark time that pyro was initiated 
    parameters.pyro_initiation_elapsed_time = 0;

@@ -134,6 +134,7 @@ void process_telemetry()
 	   {
 		  //Turn heating element on
 		  digitalWrite(PIN_HEATER_CONTROL_1, HIGH);
+                  parameters.heater_state_1 = true;
 		  sprintf(buffer, "Heating element #1 turned on due to average battery temperature of %f going below threshhold of %f,",
 						value, parameters.battery_temperature_limit_low);
 		  Serial.println(buffer);
@@ -142,6 +143,7 @@ void process_telemetry()
 	   {
 		  //Turn heating element off
 		  digitalWrite(PIN_HEATER_CONTROL_1, LOW);
+                  parameters.heater_state_1 = false;
 		  sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
 						value, parameters.battery_temperature_limit_high);
 		  Serial.println(buffer);
@@ -186,6 +188,7 @@ void process_telemetry()
 	   {
 		  //Turn heating element on
 		  digitalWrite(PIN_HEATER_CONTROL_2, HIGH);
+                  parameters.heater_state_2 = true;
 		  sprintf(buffer, "Heating element #2 turned on due to average battery temperature of %f going below threshhold of %f,",
 						value, parameters.battery_temperature_limit_low);
 		  Serial.println(buffer);
@@ -194,6 +197,7 @@ void process_telemetry()
 	   {
 		  //Turn heating element off
 		  digitalWrite(PIN_HEATER_CONTROL_2, LOW);
+                  parameters.heater_state_2 = false;
 		  sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
 						value, parameters.battery_temperature_limit_high);
 		  Serial.println(buffer);
@@ -268,12 +272,14 @@ void process_telemetry()
       {
          //Turn the power on
          digitalWrite(PIN_POWER_SHUTDOWN, LOW);
+         parameters.batttery_charge_shutdown = false;
       }
       
       if(value > parameters.voltage_power_limit_high)
       {
          //Turn the power off
          digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
+         parameters.batttery_charge_shutdown = true;
          
          //Reset the charge counts
          parameters.amphrs_charging = 0.0;
@@ -365,17 +371,22 @@ void process_telemetry()
       if(value > parameters.capacity_limit_high)
       {
          //Turn the power off
-         digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
-         
-         //Reset the charge counts
-         parameters.amphrs_charging = 0.0;
-         parameters.amphrs_discharging = 0.0;
+         digitalWrite(PIN_POWER_SHUTDOWN, LOW);
+         parameters.batttery_charge_shutdown = false;
+         // NOTE: Capacity limit is negative
       }
       
       if(value < parameters.capacity_limit_low)
       {
-         //Turn the power off
+         //Turn the power Off
          digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
+         parameters.batttery_charge_shutdown = true;
+         // NOTE: Capacity limit is negative
+         
+         
+         //Reset the charge counts
+         parameters.amphrs_charging = 0.0;
+         parameters.amphrs_discharging = 0.0;
       }
    }
 }
