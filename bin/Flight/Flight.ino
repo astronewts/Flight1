@@ -10,6 +10,8 @@
 #include <inv_mpu.h>
 #include <inv_mpu_dmp_motion_driver.h>
 #include <elapsedMillis.h>
+#include <SdFat.h>
+#include <SdFatUtil.h>
 
 struct telemetry_data_struct telemetry_data;
 struct satellite_data_struct satellite_data;
@@ -17,6 +19,7 @@ struct parameter_struct parameters;
 struct threshold_struct thresholds;
 
 int ret_val = 0;
+
 
 
 void setup() 
@@ -28,6 +31,7 @@ void setup()
    set_defaults();
    gyro_setup();
    set_normal_mode();
+   sd_setup();
 }
 
 void loop() 
@@ -64,7 +68,7 @@ void loop()
    //Check if time to write data to SD Card 
    if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_rate)
    {
-      //write_telemetry_data_to_sd();
+      write_telemetry_data_to_sd();
       parameters.sd_card_write_elapsed_time = 0;
    }
 }

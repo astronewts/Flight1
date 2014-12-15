@@ -80,6 +80,14 @@
 
 #define RESOLUTION_PRESSURE_SENSOR   12
 
+// SD CARD CONSTANTS
+#define SD_CHIP_SELECT  10  // SD chip select pin
+#define USE_DS1307       0  // set nonzero to use DS1307 RTC
+#define LOG_INTERVAL  1000  // mills between entries
+// #define SENSOR_COUNT     3  // number of analog pins to log
+#define ECHO_TO_SERIAL   1  // echo data to serial port if nonzero
+#define WAIT_TO_START    1  // Wait for serial input in setup(), 1=true
+#define ADC_DELAY       10  // ADC delay for high impedence sensors
 
 
 struct gps_struct
