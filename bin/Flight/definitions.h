@@ -38,7 +38,8 @@
 #define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45000
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
 #define DEFAULT_PYRO_PULSE_WIDTH                   2000
-#define DEFAULT_SD_CARD_WRITE_RATE                 60000
+#define DEFAULT_SD_CARD_WRITE_RATE                 6000 // TEST ONLY!!!
+//#define DEFAULT_SD_CARD_WRITE_RATE                 60000  // FOR FLIGHT !!!
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
 #define DEFAULT_ALTITUDE_LIMIT_LOW                 21336

@@ -10,11 +10,11 @@ SdFat sd;
 ofstream logfile;
 ArduinoOutStream cout(Serial);
 // buffer to format data - makes it eaiser to echo to Serial
-char buf[80];
+char buf[810];
 //------------------------------------------------------------------------------
-#if SENSOR_COUNT > 6
-#error SENSOR_COUNT too large
-#endif  // SENSOR_COUNT
+//#if SENSOR_COUNT > 6
+//#error SENSOR_COUNT too large
+//#endif  // SENSOR_COUNT
 //------------------------------------------------------------------------------
 // store error strings in flash to save RAM
 #define error(s) sd.errorHalt_P(PSTR(s))
@@ -60,8 +60,13 @@ ostream& operator << (ostream& os, DateTime& dt) {
 // }
 
 void sd_setup() {
-  cout << endl << pstr("FreeRam: ") << FreeRam() << endl;
   
+//  while (!Serial){}
+  
+  cout << endl << pstr("FreeRam: ") << FreeRam() << endl;
+
+  delay(400);  // catch Due reset problem
+
   #if USE_DS1307
   // connect to RTC
   Wire.begin();
@@ -77,7 +82,7 @@ void sd_setup() {
   if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorHalt();
 
   // create a new file in root, the current working directory
-  char name[] = "LOGGER00.CSV";
+  char name[] = "LOGGER10.CSV";
 
   for (uint8_t i = 0; i < 100; i++) {
     name[6] = i/10 + '0';
@@ -97,8 +102,90 @@ void sd_setup() {
   bout << pstr(",date,time");
 #endif  // USE_DS1307
 
-  bout << pstr(",Pressure Sensor");
-  
+  bout << pstr(",Vehicle Mode");
+  bout << pstr(",Command Count");
+  bout << pstr(",Normal Transmit Rate");
+  bout << pstr(",Loadshed Transmit Rate");
+  bout << pstr(",Transit Transmit Rate");
+  bout << pstr(",Emergency Transit Transmit Rate");
+  bout << pstr(",SD Card Write Rate");
+  bout << pstr(",Battery 1 Temp 1");
+  bout << pstr(",Battery 1 Temp 2");
+  bout << pstr(",Battery 2 Temp 1");
+  bout << pstr(",Battery 2 Temp 2");
+  bout << pstr(",Inner External Temp");
+  bout << pstr(",Outer External Temp");
+  bout << pstr(",Internal Temp");
+  bout << pstr(",Air Pressure");
+  bout << pstr(",Battery Voltage 1");
+  bout << pstr(",Battery Voltage 2");
+  bout << pstr(",Charge Current 1");
+  bout << pstr(",Charge Current 2");
+  bout << pstr(",GPS Latitude");
+  bout << pstr(",GPS Longitude");
+  bout << pstr(",GPS Altitude");
+  bout << pstr(",GPS Location Age");
+  bout << pstr(",GPS Altitude Age");
+  bout << pstr(",GPS Course");
+  bout << pstr(",GPS Speed");
+  bout << pstr(",GPS # of Satellites");
+  //bout << pstr(",GPS Date");
+  //bout << pstr(",GPS Time");
+  bout << pstr(",HDOP Value");
+  bout << pstr(",GPS Chars Processed");
+  bout << pstr(",GPS Sentances with Fix");
+  bout << pstr(",GPS Failed Checksum");
+  bout << pstr(",Acceleration Min X");
+  bout << pstr(",Acceleration Max X");
+  bout << pstr(",Acceleration Min Y");
+  bout << pstr(",Acceleration Max Y");
+  bout << pstr(",Acceleration Min Z");
+  bout << pstr(",Acceleration Max Z");
+  bout << pstr(",Magetometer Min X");
+  bout << pstr(",Magetometer Max X");
+  bout << pstr(",Magetometer Min Y");
+  bout << pstr(",Magetometer Max Y");
+  bout << pstr(",Magetometer Min Z");
+  bout << pstr(",Magetometer Min Z");
+  bout << pstr(",GYRO Raw Quaternian");
+  bout << pstr(",GYRO Euler Angle");
+  bout << pstr(",GYRO Fused Euler Angle");
+  bout << pstr(",EPS Temp Fault Flag");
+  bout << pstr(",EPS Charge Flag");
+  bout << pstr(",EPS Shutdown Status");
+  bout << pstr(",Recharge Ratio");
+  bout << pstr(",Charge Current Sanity High");
+  bout << pstr(",Charge Current Sanity Low");
+  bout << pstr(",Amp Hours Charging");
+  bout << pstr(",Amp Hours Discharging");
+  bout << pstr(",GYRO Fused Euler Angle");
+  bout << pstr(",Capacity Limit High");
+  bout << pstr(",Capacity Limit Low");
+  bout << pstr(",Voltage Sanity Check High");
+  bout << pstr(",Voltage Terminate Charge Limit");
+  bout << pstr(",Voltage Initiate Charge Limit");
+  bout << pstr(",Loadshed Voltage Limit");
+  bout << pstr(",Voltage Sanity Check Low");
+  bout << pstr(",Battery Low Voltage Flag");
+  bout << pstr(",Heater State 1");
+  bout << pstr(",Battery Active Temp Limit High");
+  bout << pstr(",Battery Active Temp Limit Low");
+  bout << pstr(",Battery Normal Temp Limit High");  
+  bout << pstr(",Battery Normal Temp Limit Low");
+  bout << pstr(",Battery Survival Temp Limit High");
+  bout << pstr(",Battery Survival Temp Limit Low");
+  bout << pstr(",Battery Temp Sanity Check Low");
+  bout << pstr(",Pyro Enable");
+  bout << pstr(",Pyro 1 Status");  
+  bout << pstr(",Pyro 2 Status");
+  bout << pstr(",Pyro Pulse Width");
+  bout << pstr(",Camera Flag");
+  bout << pstr(",Camera Period");
+  bout << pstr(",Camera On Time");
+  bout << pstr(",Altitude Valid Flag");
+  bout << pstr(",Altitude Limit Low");
+  bout << pstr(",Altiude Sanity Check Low"); 
+
   logfile << buf << endl;
 
 #if ECHO_TO_SERIAL
@@ -128,7 +215,6 @@ void write_telemetry_data_to_sd()
   DateTime now = RTC.now();
   bout << ',' << now;
 #endif  // USE_DS1307
-
 
 //#################################################
 //############### ASTRONEWTS SD TLM ###############

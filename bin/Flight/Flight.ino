@@ -20,8 +20,6 @@ struct threshold_struct thresholds;
 
 int ret_val = 0;
 
-
-
 void setup() 
 {
    Serial.begin(9600); 
@@ -149,6 +147,8 @@ void set_output_pins()
    pinMode(PIN_PYRO_1_FIRE, OUTPUT);
    pinMode(PIN_PYRO_2_FIRE, OUTPUT);
    pinMode(PIN_CAMERA_SWITCH, OUTPUT);
+   //pinMode(SD_CHIP_SELECT, OUTPUT);
+   
 }
 
 void set_load_shed_mode()
@@ -165,7 +165,7 @@ void set_load_shed_mode()
    
    //Turn Power On
    digitalWrite(PIN_POWER_SHUTDOWN, LOW);
-   parameters.batttery_charge_shutdown = false;;
+   parameters.batttery_charge_shutdown = false;
    
    //Set Transmit Rate
    parameters.transmit_rate = thresholds.load_shed_transmit_rate;
@@ -183,7 +183,7 @@ void set_normal_mode()
    
    //Set Transmit Rate
    parameters.transmit_rate = thresholds.normal_transmit_rate;
-    parameters.vehicle_mode = 1;
+   parameters.vehicle_mode = 1;
 }
 
 void set_transit_mode()

@@ -261,7 +261,7 @@ void write_satellite_data()
     String valid_str;
     valid_str = "0";
     
-    parameters.output_dataword = combine(3, parameters.vehicle_mode, "030133");
+    parameters.output_dataword = combine(3, parameters.vehicle_mode, "A30133");
     parameters.output_dataword = combine(8, parameters.command_count, parameters.output_dataword);
     parameters.output_dataword = combine(8, thresholds.normal_transmit_rate, parameters.output_dataword);
     parameters.output_dataword = combine(8, thresholds.load_shed_transmit_rate, parameters.output_dataword);

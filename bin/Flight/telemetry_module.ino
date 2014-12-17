@@ -65,6 +65,8 @@ void process_telemetry()
 {
    int valid_data = true;
    double value = 0.0;
+   
+   // NOTE: WHAT ARE YOU FOR???
    double elapsed_time_factor = 0.0;
    
    //Check Pyros
@@ -267,7 +269,7 @@ void process_telemetry()
          }
       }
       
-      
+      // Battery Voltage Charge Control
       if(value < parameters.voltage_power_limit_low)
       {
          //Turn the power on
@@ -286,39 +288,6 @@ void process_telemetry()
          parameters.amphrs_discharging = 0.0;
       }       
   }
-   
-  // Check if voltage flag is already set
-  if(parameters.battery_low_voltage_flag == true)
-  {
-	  //Check if the timer has reached 
-	  //the the low voltage time limit
-	  if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
-	  {
-	     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Emergency Descent Mode.",
-                 value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
-          Serial.println(buffer);
-          
-          //Enter Emergency Descent Mode
-          set_emergency_decent_mode();
-	  }
-  }
-  
-  
-  //Check Altitude.
-  if(parameters.altitude_valid_flag == true)
-  {
-     if(gps.altitude.isValid())
-     {
-        if(gps.altitude.meters() >= parameters.altitude_sanity_check_low)
-        {
-           if(gps.altitude.meters() < parameters.altitude_limit_low)
-           {
-              //Enter Emergency Descent Mode
-             set_emergency_decent_mode();
-           }
-        }
-      }
-   }
    
    //Charge Current 
    //Sanity Check
@@ -368,25 +337,58 @@ void process_telemetry()
       
       value = parameters.amphrs_charging - parameters.amphrs_discharging;
       
-      if(value > parameters.capacity_limit_high)
+      if(value < parameters.capacity_limit_low)
       {
-         //Turn the power off
+         //Turn the power ON
          digitalWrite(PIN_POWER_SHUTDOWN, LOW);
          parameters.batttery_charge_shutdown = false;
          // NOTE: Capacity limit is negative
       }
       
-      if(value < parameters.capacity_limit_low)
+      if(value > parameters.capacity_limit_high)
       {
          //Turn the power Off
          digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
          parameters.batttery_charge_shutdown = true;
          // NOTE: Capacity limit is negative
          
-         
          //Reset the charge counts
          parameters.amphrs_charging = 0.0;
          parameters.amphrs_discharging = 0.0;
+      }
+   }
+   
+  // Battery Failure Checking 
+  // Check if voltage flag is already set
+  if(parameters.battery_low_voltage_flag == true)
+  {
+	  //Check if the timer has reached 
+	  //the the low voltage time limit
+	  if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
+	  {
+	     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Emergency Descent Mode.",
+                 value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
+          Serial.println(buffer);
+          
+          //Enter Emergency Descent Mode
+          set_emergency_decent_mode();
+	  }
+  }
+  
+  
+  //Check Altitude.
+  if(parameters.altitude_valid_flag == true)
+  {
+     if(gps.altitude.isValid())
+     {
+        if(gps.altitude.meters() >= parameters.altitude_sanity_check_low)
+        {
+           if(gps.altitude.meters() < parameters.altitude_limit_low)
+           {
+              //Enter Emergency Descent Mode
+             set_emergency_decent_mode();
+           }
+        }
       }
    }
 }
