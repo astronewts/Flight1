@@ -133,6 +133,9 @@ void set_defaults()
   digitalWrite(PIN_PYRO_1_FIRE, LOW);
   digitalWrite(PIN_PYRO_2_FIRE, LOW);
   
+  digitalWrite(PIN_HEATER_CONTROL_1, LOW);
+  digitalWrite(PIN_HEATER_CONTROL_2, LOW);
+  
   // Change the analog read resolution to 12 bits
   analogReadResolution(RESOLUTION_PRESSURE_SENSOR);
 }
@@ -140,6 +143,7 @@ void set_defaults()
 void set_output_pins()
 {
    //Setup outout pins
+   pinMode(SD_CHIP_SELECT, OUTPUT);
    pinMode(PIN_POWER_SHUTDOWN, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_2, OUTPUT);
@@ -147,7 +151,7 @@ void set_output_pins()
    pinMode(PIN_PYRO_1_FIRE, OUTPUT);
    pinMode(PIN_PYRO_2_FIRE, OUTPUT);
    pinMode(PIN_CAMERA_SWITCH, OUTPUT);
-   //pinMode(SD_CHIP_SELECT, OUTPUT);
+   
    
 }
 

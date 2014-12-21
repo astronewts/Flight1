@@ -1,6 +1,5 @@
 #include "Arduino.h"
 
-
 // *****************************************************************************
 
 // file system object
@@ -61,11 +60,13 @@ ostream& operator << (ostream& os, DateTime& dt) {
 
 void sd_setup() {
   
-//  while (!Serial){}
+  while (!Serial){
+    delay(400);
+  }
   
   cout << endl << pstr("FreeRam: ") << FreeRam() << endl;
 
-  delay(400);  // catch Due reset problem
+  
 
   #if USE_DS1307
   // connect to RTC
@@ -82,7 +83,7 @@ void sd_setup() {
   if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorHalt();
 
   // create a new file in root, the current working directory
-  char name[] = "LOGGER10.CSV";
+  char name[] = "LOGGER11.CSV";
 
   for (uint8_t i = 0; i < 100; i++) {
     name[6] = i/10 + '0';

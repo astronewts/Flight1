@@ -74,7 +74,7 @@ void gyro_setup()
 
 void get_gyro_data()
 {  
-/*
+
   if (Serial.available()) {
     switch (Serial.read()) {
       case 'm':
@@ -88,7 +88,6 @@ void get_gyro_data()
         return;
     }
   }  
-*/
 
   switch (loopState) {
     case LOOPSTATE_NORMAL:
