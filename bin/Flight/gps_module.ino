@@ -24,30 +24,51 @@ void get_gps_data()
 
 void print_gps_data()
 {
-  Serial.print("GPS Characters Processed: ");
-  Serial.println(gps.charsProcessed());
-  Serial.print("GPS Sentences With Fix: ");
-  Serial.println(gps.sentencesWithFix());
-  Serial.print("GPS Failed CheckSum: ");
-  Serial.println(gps.failedChecksum()); 
-  Serial.print("GPS Latitude: ");
-  Serial.println(gps.location.lat());
-  Serial.print("GPS Longtitude: ");
-  Serial.println(gps.location.lng());
-  Serial.print("GPS Location Age: ");
-  Serial.println(gps.location.age());
-  Serial.print("GPS Timestamp: ");
-  sprintf(sz, "%02d/%02d/%02dT%02d:%02d:%02d ", gps.date.month(), gps.date.day(), gps.date.year(),
-                                                gps.time.hour(), gps.time.minute(), gps.time.second());
-  Serial.println(sz);
-  Serial.print("GPS Altitude: ");
-  Serial.println(gps.altitude.meters());
-  Serial.print("GPS Course Deg: ");
-  Serial.println(gps.course.deg());
-  Serial.print("GPS Speed: ");
-  Serial.println(gps.speed.kmph());
-  Serial.print("GPS Course Cardinal: ");
-  Serial.println(TinyGPSPlus::cardinal(gps.course.value()));
+  get_gps_data();
+  
+  Serial.println(F("Sats HDOP Latitude   Longitude   Fix  Date       Time     Date Alt    Course Speed Card   Chars Sentences Checksum"));
+  Serial.println(F("          (deg)      (deg)       Age                      Age  (m)    --- from GPS ----    RX    RX        Fail"));
+  Serial.println(F("--------------------------------------------------------------------------------------------------------------------"));
+
+  printInt(gps.satellites.value(), gps.satellites.isValid(), 5);
+  printInt(gps.hdop.value(), gps.hdop.isValid(), 5);
+  printFloat(gps.location.lat(), gps.location.isValid(), 11, 6);
+  printFloat(gps.location.lng(), gps.location.isValid(), 12, 6);
+  printInt(gps.location.age(), gps.location.isValid(), 5);
+  printDateTime(gps.date, gps.time);
+  printFloat(gps.altitude.meters(), gps.altitude.isValid(), 7, 2);
+  printFloat(gps.course.deg(), gps.course.isValid(), 7, 2);
+  printFloat(gps.speed.kmph(), gps.speed.isValid(), 6, 2);
+  printStr(gps.course.isValid() ? TinyGPSPlus::cardinal(gps.course.value()) : "*** ", 6);
+  printInt(gps.charsProcessed(), true, 6);
+  printInt(gps.sentencesWithFix(), true, 10);
+  printInt(gps.failedChecksum(), true, 9);
+  Serial.println(" ");
+  
+//  Serial.print("GPS Characters Processed: ");
+//  Serial.println(gps.charsProcessed());
+//  Serial.print("GPS Sentences With Fix: ");
+//  Serial.println(gps.sentencesWithFix());
+//  Serial.print("GPS Failed CheckSum: ");
+//  Serial.println(gps.failedChecksum()); 
+//  Serial.print("GPS Latitude: ");
+//  Serial.println(gps.location.lat());
+//  Serial.print("GPS Longtitude: ");
+//  Serial.println(gps.location.lng());
+//  Serial.print("GPS Location Age: ");
+//  Serial.println(gps.location.age());
+//  Serial.print("GPS Timestamp: ");
+//  sprintf(sz, "%02d/%02d/%02dT%02d:%02d:%02d ", gps.date.month(), gps.date.day(), gps.date.year(),
+//                                                gps.time.hour(), gps.time.minute(), gps.time.second());
+//  Serial.println(sz);
+//  Serial.print("GPS Altitude: ");
+//  Serial.println(gps.altitude.meters());
+//  Serial.print("GPS Course Deg: ");
+//  Serial.println(gps.course.deg());
+//  Serial.print("GPS Speed: ");
+//  Serial.println(gps.speed.kmph());
+//  Serial.print("GPS Course Cardinal: ");
+//  Serial.println(TinyGPSPlus::cardinal(gps.course.value()));
 
 /*
   Serial.println(F("Sats HDOP Latitude   Longitude   Fix  Date       Time     Date Alt    Course Speed Card  Distance Course Card  Chars Sentences Checksum"));
@@ -103,6 +124,26 @@ static void smartDelay(unsigned long ms)
       
       
   } while (millis() - start < ms);
+}
+
+static void printFloat(float val, bool valid, int len, int prec)
+{
+  if (!valid)
+  {
+    while (len-- > 1)
+      Serial.print('*');
+    Serial.print(' ');
+  }
+  else
+  {
+    Serial.print(val, prec);
+    int vi = abs((int)val);
+    int flen = prec + (val < 0.0 ? 2 : 1); // . and -
+    flen += vi >= 1000 ? 4 : vi >= 100 ? 3 : vi >= 10 ? 2 : 1;
+    for (int i=flen; i<len; ++i)
+      Serial.print(' ');
+  }
+  smartDelay(0);
 }
 
 static void printdouble(double val, bool valid, int len, int prec)
