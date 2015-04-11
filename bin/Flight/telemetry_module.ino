@@ -2,7 +2,7 @@ double raw_val;
 double actual_val;
 char buffer[128];
 
-void collect_telemetry()
+void colect_telemetry()
 { 
   //Air Pressure Data
   raw_val = analogRead(PIN_PRESSURE_SENSOR);
@@ -273,20 +273,21 @@ void process_telemetry()
       if(value < parameters.voltage_power_limit_low)
       {
          //Turn the power on
-         digitalWrite(PIN_POWER_SHUTDOWN, LOW);
+         digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
          parameters.batttery_charge_shutdown = false;
       }
       
       if(value > parameters.voltage_power_limit_high)
       {
          //Turn the power off
-         digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
+         digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
          parameters.batttery_charge_shutdown = true;
          
          //Reset the charge counts
          parameters.amphrs_charging = 0.0;
          parameters.amphrs_discharging = 0.0;
       }       
+      //TODO: DUPLICATE TO ADD BATTERY 2 CODE!!!
   }
    
    //Charge Current 
@@ -340,7 +341,7 @@ void process_telemetry()
       if(value < parameters.capacity_limit_low)
       {
          //Turn the power ON
-         digitalWrite(PIN_POWER_SHUTDOWN, LOW);
+         digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
          parameters.batttery_charge_shutdown = false;
          // NOTE: Capacity limit is negative
       }
@@ -348,7 +349,7 @@ void process_telemetry()
       if(value > parameters.capacity_limit_high)
       {
          //Turn the power Off
-         digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
+         digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
          parameters.batttery_charge_shutdown = true;
          // NOTE: Capacity limit is negative
          
@@ -357,6 +358,8 @@ void process_telemetry()
          parameters.amphrs_discharging = 0.0;
       }
    }
+   //TODO: DUPLICATE TO ADD BATTERY 2 CODE !!!!
+   
    
   // Battery Failure Checking 
   // Check if voltage flag is already set
@@ -416,10 +419,6 @@ void print_telemetry()
   Serial.println(telemetry_data.battery_voltage_1);   
   Serial.print("Battery Voltage 2: ");
   Serial.println(telemetry_data.battery_voltage_2);   
-  Serial.print("Temperature Fault Flag: ");
-  Serial.println(telemetry_data.temp_fault_flag);
-  Serial.print("Charge Flag: ");
-  Serial.println(telemetry_data.charge_flag);
   Serial.print("Charge Current 1: ");
   Serial.println(telemetry_data.charge_current_1);
   Serial.print("Charge Current 2: ");

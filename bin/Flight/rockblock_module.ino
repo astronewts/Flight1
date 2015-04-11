@@ -22,7 +22,7 @@ String combine(int bin_size, long input_data, String dataword)
     
     return dataword;     
 }
-za
+
 //Receive any data from satellite
 int read_satellite_data()
 {
@@ -82,13 +82,15 @@ int read_satellite_data()
         // This is a command to Change the EPS Charge State
         if (CommandString.substring(14,15) == "F") {
            // Disable Battery Charging 
-           digitalWrite(PIN_POWER_SHUTDOWN, HIGH);
+           digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
          }
          if (CommandString.substring(14,15) == "0") {
            // Enable Battery Charding 
-           digitalWrite(PIN_POWER_SHUTDOWN, LOW);
+           digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
          }
       }
+      
+      //TODO: MAKE SURE WE ADD BATTERY 2 COMMANDS TO SHUT OFF Charging
       
       if (CommandString.substring(6,13) == "25330004") {
         // This is a command change the Camera Enable Status
@@ -331,8 +333,6 @@ void write_satellite_data()
     
     // TODO: ADD GYRO TEMP TELEMETRY
     
-    parameters.output_dataword = combine(1, telemetry_data.temp_fault_flag, parameters.output_dataword);
-    parameters.output_dataword = combine(1, telemetry_data.charge_flag, parameters.output_dataword);
     parameters.output_dataword = combine(1, parameters.batttery_charge_shutdown, parameters.output_dataword);
     parameters.output_dataword = combine(32, parameters.recharge_ratio, parameters.output_dataword);
     parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_high, parameters.output_dataword);

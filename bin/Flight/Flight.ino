@@ -43,7 +43,7 @@ void loop()
    }
    
    //Collect telemetry
-   collect_telemetry();
+   //collect_telemetry();
    
    //Process telemetry
    process_telemetry();
@@ -128,7 +128,8 @@ void set_defaults()
   //parameters.valid_str = "0";
   
   //Set Digital Pin States
-  digitalWrite(PIN_POWER_SHUTDOWN, LOW);
+  digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
+  digitalWrite(PIN_BATTERY_2_CHARGE_CUTOFF, LOW);
   digitalWrite(PIN_PYRO_ENABLE, LOW);
   digitalWrite(PIN_PYRO_1_FIRE, LOW);
   digitalWrite(PIN_PYRO_2_FIRE, LOW);
@@ -144,7 +145,8 @@ void set_output_pins()
 {
    //Setup outout pins
    pinMode(SD_CHIP_SELECT, OUTPUT);
-   pinMode(PIN_POWER_SHUTDOWN, OUTPUT);
+   pinMode(PIN_BATTERY_1_CHARGE_CUTOFF, OUTPUT);
+   pinMode(PIN_BATTERY_2_CHARGE_CUTOFF, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_2, OUTPUT);
    pinMode(PIN_PYRO_ENABLE, OUTPUT);
@@ -168,7 +170,8 @@ void set_load_shed_mode()
    parameters.battery_temperature_limit_low = thresholds.survival_battery_temperature_limit_low;
    
    //Turn Power On
-   digitalWrite(PIN_POWER_SHUTDOWN, LOW);
+   digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
+   digitalWrite(PIN_BATTERY_2_CHARGE_CUTOFF, LOW);
    parameters.batttery_charge_shutdown = false;
    
    //Set Transmit Rate

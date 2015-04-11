@@ -272,8 +272,6 @@ void write_telemetry_data_to_sd()
   bout << ',' << dueMPU.m_dmpEulerPose; 
   bout << ',' << dueMPU.m_fusedEulerPose;   
 // TODO: ADD GYRO TEMP TELEMETRY
-  bout << ',' << telemetry_data.temp_fault_flag; 
-  bout << ',' << telemetry_data.charge_flag; 
   bout << ',' << parameters.batttery_charge_shutdown; 
   bout << ',' << parameters.recharge_ratio; 
   bout << ',' << parameters.charge_current_sanity_check_high; 
