@@ -2,7 +2,7 @@ double raw_val;
 double actual_val;
 char buffer[128];
 
-void colect_telemetry()
+void collect_telemetry()
 { 
   //Air Pressure Data
   raw_val = analogRead(PIN_PRESSURE_SENSOR);
@@ -45,12 +45,12 @@ void colect_telemetry()
   telemetry_data.battery_voltage_2 = ((raw_val * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
 
   //Charge Flag
-  raw_val = digitalRead(PIN_CHARGE_FLAG);
-  telemetry_data.charge_flag = raw_val;
+  //raw_val = digitalRead(PIN_CHARGE_FLAG);
+  //telemetry_data.charge_flag = raw_val;
 
   //Temperature Fault Flag
-  raw_val = digitalRead(PIN_TEMP_FAULT_FLAG);
-  telemetry_data.temp_fault_flag = raw_val;
+  //raw_val = digitalRead(PIN_TEMP_FAULT_FLAG);
+  //telemetry_data.temp_fault_flag = raw_val;
   
   //Charge Current 1
   raw_val = analogRead(PIN_CHARGE_CURRENT_1);

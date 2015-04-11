@@ -22,7 +22,7 @@ String combine(int bin_size, long input_data, String dataword)
     
     return dataword;     
 }
-
+za
 //Receive any data from satellite
 int read_satellite_data()
 {
@@ -42,10 +42,13 @@ int read_satellite_data()
     } 
     
     // ***************************************************
-    // PUT LOGIC IN HERE TO SEE IF THE PARITY IS CORRECT
+    // PUT LOGIC IN HERE TO SEE IF EXTRACT THE PARITY
     // ***************************************************
     
+    //TODO: Fix parity to be 7 or 3
+    
     if (CommandString.substring(538) == "7") {
+      
       // ***************************************************
       // Parity Check is correct! *** This is TEMP -> Fix her
       // ***************************************************

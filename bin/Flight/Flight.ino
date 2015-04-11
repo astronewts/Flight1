@@ -43,7 +43,7 @@ void loop()
    }
    
    //Collect telemetry
-   colect_telemetry();
+   collect_telemetry();
    
    //Process telemetry
    process_telemetry();

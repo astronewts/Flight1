@@ -1,9 +1,10 @@
 #include <IridiumSBD.h>
-#include <SoftwareSerial.h>
 
-SoftwareSerial nss(14, 15);
+//#include <SoftwareSerial.h>
+//SoftwareSerial nss(18, 19);
 
-IridiumSBD isbd(nss, 50);
+IridiumSBD isbd(Serial3, 50);
+
 static const int ledPin = 13;
 
 void setup()
@@ -13,19 +14,18 @@ void setup()
   pinMode(ledPin, OUTPUT);
 
   Serial.begin(115200);
-  nss.begin(19200);
+  Serial3.begin(19200);
 
   isbd.attachConsole(Serial);
-  isbd.attachDiags(Serial);
-
-  isbd.setPowerProfile(1);
   
+  isbd.attachDiags(Serial);
+  
+  isbd.setPowerProfile(1);
   isbd.begin();
   
   isbd.useMSSTMWorkaround(false);
 
   int err = isbd.getSignalQuality(signalQuality);
-  
   if (err != 0)
   {
     Serial.print("SignalQuality failed: error ");

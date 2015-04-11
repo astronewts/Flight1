@@ -19,6 +19,8 @@
 #define MS_IN_SEC           1000.0
 #define SECS_IN_HOUR        3600.0
 
+//TODO: ADD UNITS !!!!!
+
 //Defaults
 #define DEFAULT_MODE                               1
 #define DEFAULT_LOOP_SLEEP                         3000
@@ -72,9 +74,8 @@
 #define PIN_PYRO_1_FIRE              3
 #define PIN_PYRO_2_FIRE              4 
 #define PIN_PYRO_2_FIRE              8 
-#define PIN_TEMP_FAULT_FLAG          5
-#define PIN_CHARGE_FLAG              6
-#define PIN_POWER_SHUTDOWN           7
+#define PIN_BATTERY_1_CHARGE_CUTOFF  6
+#define PIN_BATTERY_2_CHARGE_CUTOFF  7
 #define PIN_CAMERA_SWITCH            9
 #define PIN_HEATER_CONTROL_1         22
 #define PIN_HEATER_CONTROL_2         23
@@ -122,8 +123,6 @@ struct telemetry_data_struct
   double charge_current_2;
   struct gps_struct gps_values;
   struct gyro_struct gyro_values;
-  int charge_flag;
-  int temp_fault_flag;  
   
 };
 
