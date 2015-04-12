@@ -62,13 +62,28 @@ void setup()
 //      byte bytes = bitRead(myChar,i);
 //      Serial.print(bytes, BIN);
 //    }
-////////////////// code to transform a string into a binary: ////////////////////////////
+////////////////// END code to transform a string into a binary ////////////////////////////
 
 
 //////////////// send and recieve binary message ///////////////////////////////////////
 // ==================== define binary message ============================= // 
-  uint8_t buffer[200] = 
-  { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+//  uint8_t tx_buffer[200] = 
+//  { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+
+// let try that: 
+int i;
+char tmp[3];
+char buf[] = "truite";
+tmp[2] = '\0';
+uint8_t tx_buffer[20];
+uint8_t len_buffer=0;
+
+for(i=0;i<strlen(buf);i+=2) {
+  tmp[0] = buf[i];
+  tmp[1] = buf[i+1];
+  tx_buffer[len_buffer] = strtol(tmp,NULL,16);
+  len_buffer++;}
+  
 //// you can also do that:   
 //// this version is actually not working yet, rrrrrrr!!!! 
 //    // Define 
@@ -76,13 +91,13 @@ void setup()
 //// Length (with one extra character for the null terminator)
 //int str_len = str.length() + 1; 
 //// Prepare the character array (the buffer) 
-////char buffer[str_len];
-//uint8_t buffer[str_len];
+////char tx_buffer[str_len];
+//uint8_t tx_buffer[str_len];
 //// Copy it over 
-//str.toCharArray(buffer, str_len);
-//////str.StringToCharArray(buffer, str_len);
+//str.toCharArray(tx_buffer, str_len);
+//////str.StringToCharArray(tx_buffer, str_len);
 //    Serial.print("printing message");
-//    Serial.println(buffer);
+//    Serial.println(tx_buffer);
 //    Serial.print("END printing message");
 // ==================== end define binary message ========================= // 
 // int sendReceiveSBDBinary(const uint8_t *txData, size_t txDataSize, uint8_t *rxBuffer, size_t &rxBufferSize);
@@ -96,10 +111,12 @@ void setup()
 // NOTE: The maximum size of a transmitted packet (including header and checksum) is 340 bytes.
 // NOTE: The maximum size of a received packet is 270 bytes.
 //=========== real command =========================================== //
-  size_t bufferSize = sizeof(buffer);
-
-//  err = isbd.sendReceiveSBDBinary(buffer, 20, buffer, bufferSize);
- // err = isbd.sendReceiveSBDBinary(buffer, bufferSize, buffer, bufferSize);
+  size_t tx_bufferSize = sizeof(tx_buffer);
+  uint8_t rx_buffer[200];
+  size_t rx_bufferSize = sizeof(rx_buffer);
+  
+//  err = isbd.sendReceiveSBDBinary(tx_buffer, 20, rx_buffer, bufferSize);
+  err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
 //=========== end real command ======================================= //
 
 
@@ -134,12 +151,12 @@ void setup()
   }
 
   Serial.print("Inbound buffer size is ");
-  Serial.println(bufferSize);
-  for (int i=0; i<bufferSize; ++i)
+  Serial.println(rx_bufferSize);
+  for (int i=0; i<rx_bufferSize; ++i)
   {
-    Serial.write(buffer[i]);
+    Serial.write(rx_buffer[i]);
     Serial.print("(");
-    Serial.print(buffer[i], HEX);
+    Serial.print(rx_buffer[i], HEX);
     Serial.print(") ");
   }
   Serial.print("Number messages left: ");
