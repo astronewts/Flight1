@@ -47,7 +47,7 @@ void setup()
     return;
   }
 
-  Serial.print("Signal quality (0=nonexistent, 5=high) is");
+  Serial.print("Signal quality (0=nonexistent, 5=high) is ");
   Serial.println(signalQuality);
 
 
@@ -136,11 +136,11 @@ for(int i=0; i<myText.length(); i++)
 //Parameter:      rxBuffer – The buffer to receive the inbound message.
 //Parameter:      rxBufferSize - The size of the buffer in bytes.
 //=========== real command =========================================== //
-    uint8_t rx_buffer[200];
-    size_t rx_bufferSize = sizeof(rx_buffer);
-    err = isbd.sendReceiveSBDText(tx_buffer, rx_buffer, rx_bufferSize);
+//    uint8_t rx_buffer[200];
+//    size_t rx_bufferSize = sizeof(rx_buffer);
+//    err = isbd.sendReceiveSBDText(tx_buffer, rx_buffer, rx_bufferSize);
   // you can also do that:
-//   err = isbd.sendSBDText("Hello, world!");
+   err = isbd.sendSBDText("truite");
 //=========== end real command ======================================= //
 
 
