@@ -51,57 +51,59 @@ void setup()
   Serial.println(signalQuality);
 
 
-//////////////// code to transform a String into a binary: ////////////////////////////
-String myText = "Hello World";
-
-for(int i=0; i<myText.length(); i++){
-
-   char myChar = myText.charAt(i);
-  
-    for(int i=7; i>=0; i--){
-      byte bytes = bitRead(myChar,i);
-      Serial.print(bytes, BIN);
-    }
-//////////////// END code to transform a String into a binary ////////////////////////////
-
 
 //////////////// send and recieve binary message ///////////////////////////////////////
 // ==================== define binary message ============================= // 
 //  uint8_t tx_buffer[200] = 
 //  { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 
-// What we need is to convert a type "String" into a type "uint8_t"
+// process to communicate a string of 0 and 1:
+//  for that we need to convert the object "String" into an array uint8_t
+// 1) devide the string into chuncks of 8 characters (they will become the bits of the uint8_t)
+// 2) convert each of the 8 character into an integer (0 or 1): i1 i2 i3 ... i8
+// 3) build a unique uint8_t using: i7*2^7 + i6*2^6 + ... + i0*2^0
+// 4) send data. 
 
+//"01000110 10110001 010110";
+String myText = "0100011010110001010110";
 
-// let try that: 
-int i;
-char tmp[3];
-char buf[] = "truite";
-tmp[2] = '\0';
-uint8_t tx_buffer[20];
-uint8_t len_buffer=0;
+size_t size_mssg = myText.length(); 
 
-for(i=0;i<strlen(buf);i+=2) {
-  tmp[0] = buf[i];
-  tmp[1] = buf[i+1];
-  tx_buffer[len_buffer] = strtol(tmp,NULL,16);
-  len_buffer++;}
-  
-//// you can also do that:   
-//// this version is actually not working yet, rrrrrrr!!!! 
-//    // Define 
-//String str = "This is my string"; 
-//// Length (with one extra character for the null terminator)
-//int str_len = str.length() + 1; 
-//// Prepare the character array (the buffer) 
-////char tx_buffer[str_len];
-//uint8_t tx_buffer[str_len];
-//// Copy it over 
-//str.toCharArray(tx_buffer, str_len);
-//////str.StringToCharArray(tx_buffer, str_len);
-//    Serial.print("printing message");
-//    Serial.println(tx_buffer);
-//    Serial.print("END printing message");
+    size_t tx_bufferSize  = size_mssg / 8;
+    float tx_bufferSize_rest =  size_mssg % 8;
+    if ( tx_bufferSize_rest != 0) { tx_bufferSize = tx_bufferSize + 1;
+    } 
+    Serial.println("numb of bytes in mssg:");
+    Serial.println(tx_bufferSize);
+
+uint8_t tx_buffer[tx_bufferSize];
+
+/////////////// do chunks /////////////////////////////
+for(int i=0; i<tx_bufferSize; i++){
+    tx_buffer[i] = 0;
+    for(int j=0; j<8; j++){
+        int k = i*8 + j;
+       char myChar = myText.charAt(k);
+//       Serial.println("character:");
+//       Serial.println(myChar);  
+       //byte bit_extr = bitRead(myChar,0); // should be 0 or 1 
+       int  bit_extr = max(myChar - '0', 0);
+       // not working : nt  bit_extr = myChar.toInt();
+       
+//       Serial.println("bit:");
+//       Serial.println(bit_extr);
+       
+// does not work       tx_buffer[i] = tx_buffer[i] + bit_extr * 2^(7-j);
+       tx_buffer[i] = tx_buffer[i] + bit_extr * pow(2,7-j);
+          
+    }
+    Serial.println(" ====================================== ");
+    Serial.println("Dec number:");
+    Serial.println(tx_buffer[i]);
+    Serial.println(" ====================================== ");
+  }
+  /////////////// END do chunks /////////////////////////////
+
 // ==================== end define binary message ========================= // 
 // int sendReceiveSBDBinary(const uint8_t *txData, size_t txDataSize, uint8_t *rxBuffer, size_t &rxBufferSize);
 //Description:   Transmits a binary message to the global satellite system and receives a message if one is available.
@@ -114,7 +116,6 @@ for(i=0;i<strlen(buf);i+=2) {
 // NOTE: The maximum size of a transmitted packet (including header and checksum) is 340 bytes.
 // NOTE: The maximum size of a received packet is 270 bytes.
 //=========== real command =========================================== //
-  size_t tx_bufferSize = sizeof(tx_buffer);
   uint8_t rx_buffer[200];
   size_t rx_bufferSize = sizeof(rx_buffer);
   
@@ -125,7 +126,6 @@ for(i=0;i<strlen(buf);i+=2) {
 
 //////////////// send and recieve text message ///////////////////////////////////////
 ////==================== define text message ============================= // 
-//// this define text mssg has not been tested!
 //String myText = "saumon";
 //    Serial.println("printing message to send:");
 //    Serial.println(myText);
@@ -195,23 +195,23 @@ for(i=0;i<strlen(buf);i+=2) {
   Serial.println(isbd.getWaitingMessageCount());
 }
 
-     // from rockblock module :
-    String combine(int bin_size, long input_data, String dataword)
-  {
-      int zeros;
-      String temp_str;
-      temp_str = String(input_data,BIN);
-      zeros = bin_size - temp_str.length();
-   
-      for (int i=0; i<zeros; i++) {
-        temp_str = "0"+temp_str;
-      }
-      
-      dataword = dataword + temp_str;
-      
-      return dataword;     
-  }
-  // end from rockblock module :
+//     // from rockblock module :
+//    String combine(int bin_size, long input_data, String dataword)
+//  {
+//      int zeros;
+//      String temp_str;
+//      temp_str = String(input_data,BIN);
+//      zeros = bin_size - temp_str.length();
+//   
+//      for (int i=0; i<zeros; i++) {
+//        temp_str = "0"+temp_str;
+//      }
+//      
+//      dataword = dataword + temp_str;
+//      
+//      return dataword;     
+//  }
+//  // end from rockblock module :
   
 
 void loop()
