@@ -7,6 +7,11 @@ void process_satellite_data()
  
 }
 
+// procedure :
+//1) combine all telemetry: output="dataword" which is a string of binaries: 010101011100110 
+//2) convert the string into a binary and send it through RockBlock (done in the example SendRecieve_Test1)
+
+
 String combine(int bin_size, long input_data, String dataword)
 {
     int zeros;

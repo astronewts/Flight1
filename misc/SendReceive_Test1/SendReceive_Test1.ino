@@ -116,7 +116,7 @@ for(int i=0; i<tx_bufferSize; i++){
 // NOTE: The maximum size of a transmitted packet (including header and checksum) is 340 bytes.
 // NOTE: The maximum size of a received packet is 270 bytes.
 //=========== real command =========================================== //
-  uint8_t rx_buffer[200];
+  uint8_t rx_buffer[400]; // max size of a message is 370 bytes so we are safe with 400. 
   size_t rx_bufferSize = sizeof(rx_buffer);
   
 //  err = isbd.sendReceiveSBDBinary(tx_buffer, 20, rx_buffer, bufferSize);
@@ -175,17 +175,18 @@ for(int i=0; i<tx_bufferSize; i++){
     Serial.println(err);
     return;
   }
-//// ================ Print inbound message ================================= //
-//  Serial.print("Inbound buffer size is ");
-//  Serial.println(rx_bufferSize);
-//  for (int i=0; i<rx_bufferSize; ++i)
-//  {
-//    Serial.write(rx_buffer[i]);
-//    Serial.print("(");
-//    Serial.print(rx_buffer[i], HEX);
-//    Serial.print(") ");
-//  }
-//// ================ END Print inbound message ============================== //
+// ================ Print inbound message ================================= //
+  Serial.print("Inbound buffer size is ");
+  Serial.println(rx_bufferSize);
+  for (int i=0; i<rx_bufferSize; ++i)
+  {
+ //   Serial.write(rx_buffer[i]);
+    Serial.print("(");
+    //Serial.print(rx_buffer[i], HEX);
+    Serial.print(rx_buffer[i]);
+    Serial.print(") ");
+  }
+// ================ END Print inbound message ============================== //
 
   
   Serial.print("Number messages left: ");
