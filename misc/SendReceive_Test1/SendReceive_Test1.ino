@@ -104,6 +104,24 @@ for(int i=0; i<tx_bufferSize; i++){
   }
   /////////////// END do chunks /////////////////////////////
 
+
+// gs tmp
+bool output[370 * 8] = {0};
+for (int i=0; i<sizeof(myText); i++){
+  if (myText.charAt(i) == '0'){
+    output[i] = 0;
+  }else{
+     output[i] = 1;
+  }
+}
+
+uint8_t* output_as_int = (uint8_t*) output;
+
+
+//All the integers indiv
+for (int i=0; i<370; i++)
+  int foo = output_as_int[i];
+
 // ==================== end define binary message ========================= // 
 // int sendReceiveSBDBinary(const uint8_t *txData, size_t txDataSize, uint8_t *rxBuffer, size_t &rxBufferSize);
 //Description:   Transmits a binary message to the global satellite system and receives a message if one is available.

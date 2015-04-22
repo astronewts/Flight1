@@ -96,7 +96,6 @@
 // GYRO CONSTANTS:
 
 
-
 struct gps_struct
 {
   
@@ -109,7 +108,8 @@ struct gyro_struct
 
 struct telemetry_data_struct
 {
-  double air_pressure;
+ // char "\xA30133";
+  //uint16_t air_pressure;
   double battery_temp_1_1;
   double battery_temp_1_2;
   double battery_temp_2_1;
@@ -117,14 +117,18 @@ struct telemetry_data_struct
   double inner_external_temp;
   double outter_external_temp;
   double internal_temp;
+  double air_pressure;
   double battery_voltage_1;
   double battery_voltage_2;
   double charge_current_1;
   double charge_current_2;
-  struct gps_struct gps_values;
-  struct gyro_struct gyro_values;
-  
+  //struct gps_struct gps_values;
+  //struct gyro_struct gyro_values;
 };
+
+// CODE EXAMPLE:
+// bit representation
+// uint_8* new_telemetry_data_struct = (uint_8*) telemetry_data_struct;
 
 struct satellite_data_struct
 {
