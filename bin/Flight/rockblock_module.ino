@@ -10,11 +10,6 @@ void process_satellite_data()
  
 }
 
-// procedure :
-//1) combine all telemetry: output="dataword" which is a string of binaries: 010101011100110 
-//2) convert the string into a binary and send it through RockBlock (done in the example SendRecieve_Test1)
-
-
 String combine(int bin_size, long input_data, String dataword)
 {
     int zeros;
@@ -104,11 +99,11 @@ int read_satellite_data()
         // This is a command change the Camera Enable Status
          if (CommandString.substring(14,15) == "F") {
          // Enable the Camera
-         parameters.camera_flag == true;
+         parameters.camera_status == true;
          }
          if (CommandString.substring(14,15) == "0") {
          // Disable the Camera
-         parameters.camera_flag == false;
+         parameters.camera_status == false;
          }
       } 
       
@@ -118,13 +113,13 @@ int read_satellite_data()
             // Enable Pyro Relay, Fire Pyros, and disable Pyro Relay
             set_transit_mode(); 
             // This will also initiate transition to Transit Mode
-            pyro_fire();
+            cutdown_fire();
           }
        }
        if (CommandString.substring(6,13) == "23330010") {
         // This is a command set Pyro Fire Pulse Width
         // Defined in msec
-        parameters.pyro_pulse_width = CommandString.substring(14,17).toInt();
+        parameters.cutdown_pulse_width = CommandString.substring(14,17).toInt();
   
        }
        if (CommandString.substring(6,13) == "24330020") {
@@ -189,11 +184,11 @@ int read_satellite_data()
         // Sanity Check High Voltage Threshold  = CommandString.substring(14,15)
         parameters.voltage_sanity_check_high = CommandString.substring(14,15).toInt() / 10;
         
-        // Charge Termination Voltage Threshold  = CommandString.substring(16,17)
-        parameters.voltage_power_limit_high = CommandString.substring(16,17).toInt() / 10;
+        // Battery 1 Charge Termination Voltage Threshold  = CommandString.substring(16,17)
+        parameters.battery_1_voltage_term_threshold = CommandString.substring(16,17).toInt() / 10;
         
-        // Charge Inialization Voltage Threshold  = CommandString.substring(18,19)
-        parameters.voltage_power_limit_low = CommandString.substring(18,19).toInt() / 10;
+        // Battery 1 Charge Inialization Voltage Threshold  = CommandString.substring(18,19)
+        parameters.battery_1_voltage_init_threshold = CommandString.substring(18,19).toInt() / 10;
         
         // Sanity Check Low Temp Threshold  = CommandString.substring(20,21)
         parameters.voltage_sanity_check_low = CommandString.substring(20,21).toInt() / 10;
@@ -202,10 +197,10 @@ int read_satellite_data()
         // This is a command to set the Amp-Hour Setpoints
         // Conversion from mAmp-Hrs to Amp-Hrs
         
-        // Charge Termination Amp-Hour Threshold  = CommandString.substring(14,17)
-        parameters.capacity_limit_high = CommandString.substring(14,17).toInt() / 1000;
-        // Charge Inialization Amp-Hour Threshold  = CommandString.substring(18,21)
-        parameters.capacity_limit_low = CommandString.substring(18,21).toInt() / 1000;
+        // Battery 1 Charge Termination Amp-Hour Threshold  = CommandString.substring(14,17)
+        parameters.battery_1_amphrs_term_threshold = CommandString.substring(14,17).toInt() / 1000;
+        // Battery 1 Charge Inialization Amp-Hour Threshold  = CommandString.substring(18,21)
+        parameters.battery_1_amphrs_init_threshold = CommandString.substring(18,21).toInt() / 1000;
         
         // Conversion from cAmp to Amp
         // Sanity Check High Current Threshold  = CommandString.substring(22,25)
@@ -217,8 +212,11 @@ int read_satellite_data()
         // This is a command to set the Recharge Ratio
         // Convert percentage to scale multiplication factor
         // Recharge Ratio  = CommandString.substring(14,15)
-        parameters.recharge_ratio = CommandString.substring(14,15).toInt() / 100;
+        parameters.battery_1_recharge_ratio = CommandString.substring(14,15).toInt() / 100;
         }
+        
+        //TODO: ADD COMMAND PARAMETERS TO CHANGE BATTERY 2 RECHARGE RATIO!!!
+        
        if (CommandString.substring(6,13) == "48331000") {
         // This is a command to set the Altitude Descent Trigger
         // Defined in meters
@@ -229,14 +227,17 @@ int read_satellite_data()
         // Low Sanity Check Altitude  = CommandString.substring(18,21)
         parameters.altitude_sanity_check_low = CommandString.substring(18,21).toInt();
         }
+        
        if (CommandString.substring(6,13) == "48332000") {
         // This is a command to set the Voltage Descent Trigger
         // Voltage Descent Trigger  = CommandString.substring(14,15)
         // Converted from dVolts to Volts
         
-        parameters.low_voltage_limit = CommandString.substring(14,15).toInt() / 10;
+        parameters.low_voltage_limit_for_auto_cutdown = CommandString.substring(14,15).toInt() / 10;
         }
-     
+
+//TODO: ADD COMMAND FOR low_voltage_limit_for_loadshed_entry
+
        if (CommandString.substring(6,13) == "48338000") {
         // This is a command to set the Length of time in Loadshed Mode until we trigger Emergency Descent
         // Time in Loadshed Trigger  = CommandString.substring(14,21)
@@ -341,21 +342,23 @@ void write_satellite_data()
     
     // TODO: ADD GYRO TEMP TELEMETRY
     
-    parameters.output_dataword = combine(1, parameters.batttery_charge_shutdown, parameters.output_dataword);
-    parameters.output_dataword = combine(32, parameters.recharge_ratio, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.battery_1_charging_status, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.battery_2_charging_status, parameters.output_dataword);
+    
+    parameters.output_dataword = combine(32, parameters.battery_1_recharge_ratio, parameters.output_dataword);
     parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_high, parameters.output_dataword);
     parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_low, parameters.output_dataword);
-    parameters.output_dataword = combine(32, parameters.amphrs_charging, parameters.output_dataword);
-    parameters.output_dataword = combine(32, parameters.amphrs_discharging, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.capacity_limit_high, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.capacity_limit_low, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.voltage_sanity_check_high, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.voltage_power_limit_high, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.voltage_power_limit_low, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.low_voltage_limit, parameters.output_dataword);
+    parameters.output_dataword = combine(32, parameters.battery_1_amphrs_charging, parameters.output_dataword);
+    parameters.output_dataword = combine(32, parameters.battery_1_amphrs_discharging, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.battery_1_amphrs_term_threshold, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.battery_1_amphrs_init_threshold, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.battery_1_voltage_term_threshold, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.battery_1_voltage_init_threshold, parameters.output_dataword);
+    
+    parameters.output_dataword = combine(8, parameters.low_voltage_limit_for_auto_cutdown, parameters.output_dataword);
     parameters.output_dataword = combine(8, parameters.voltage_sanity_check_low, parameters.output_dataword);
     parameters.output_dataword = combine(1, parameters.low_voltage_time_limit, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.battery_low_voltage_flag, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.battery_bus_low_voltage_flag, parameters.output_dataword);
     parameters.output_dataword = combine(1, parameters.heater_state_1, parameters.output_dataword);
     parameters.output_dataword = combine(1, parameters.heater_state_2, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.battery_temperature_limit_high, parameters.output_dataword);
@@ -366,11 +369,11 @@ void write_satellite_data()
     parameters.output_dataword = combine(16, thresholds.survival_battery_temperature_limit_high, parameters.output_dataword);
     parameters.output_dataword = combine(16, thresholds.survival_battery_temperature_limit_low, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.battery_temperature_sanity_check_low, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.pyro_enable, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.pyro_1_status, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.pyro_2_status, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.pyro_pulse_width, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.camera_flag, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.cutdown_enable_state, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.cutdown_1_status, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.cutdown_2_status, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.cutdown_pulse_width, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.camera_status, parameters.output_dataword);
     parameters.output_dataword = combine(12, parameters.camera_period, parameters.output_dataword);
     parameters.output_dataword = combine(12, parameters.camera_on_time, parameters.output_dataword);
     parameters.output_dataword = combine(1, parameters.altitude_valid_flag, parameters.output_dataword);

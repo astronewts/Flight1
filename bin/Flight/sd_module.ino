@@ -158,68 +158,61 @@ void sd_setup() {
   bout << pstr(",GYRO Euler Angle");                    //53
   bout << pstr(",GYRO Fused Euler Angle");              //54
   bout << pstr(",Accelerometer Temp");                  //55
-  bout << pstr(",Charge Current Sanity High");          //56
-  bout << pstr(",Charge Current Sanity Low");           //57
-  bout << pstr(",Voltage Sanity Check High");           //58
-  bout << pstr(",Battery 1 Recharge Ratio");            //59
-  bout << pstr(",Battery 1 Amp Hours Charging");        //60
-  bout << pstr(",Battery 1 Amp Hours Discharging");     //61
-  bout << pstr(",Battery 1 Capacity Limit High");       //62
-  bout << pstr(",Battery 1 Capacity Limit Low");        //63
-  bout << pstr(",Battery 1 Voltage Term. Charge Limit");//64
-  bout << pstr(",Battery 1 Voltage Init. Charge Limit");//65
-  bout << pstr(",Battery 2 Recharge Ratio");            //66
-  bout << pstr(",Battery 2 Amp Hours Charging");        //67
-  bout << pstr(",Battery 2 Amp Hours Discharging");     //68
-  bout << pstr(",Battery 2 Capacity Limit High");       //69
-  bout << pstr(",Battery 2 Capacity Limit Low");        //70
-  bout << pstr(",Battery 2 Voltage Term. Charge Limit");//71
-  bout << pstr(",Battery 2 Voltage Init. Charge Limit");//72
-  bout << pstr(",Battery 1 Charging Status");           //73-1
-  bout << pstr(",Battery 2 Charging Status");            //73-2
-  bout << pstr(",Heater State 1");                      //73-3
-  bout << pstr(",Heater State 2");                      //73-4
-  bout << pstr(",Cut-down Enable");                     //73-5
-  bout << pstr(",Cut-down 1 Fire Status");              //73-6
-  bout << pstr(",Cut-down 2 Fire Status");              //73-7
-  bout << pstr(",Camera Status");                       //73-8
-  bout << pstr(",Spare Flag 1");                        //73-9
-  bout << pstr(",Altitude Valid Flag");                 //73-10
-  bout << pstr(",Spare Flag 2");                        //73-11  
-  bout << pstr(",Spare Flag 3");                        //73-12
-  bout << pstr(",Spare Flag 4");                        //73-13   
-  bout << pstr(",Spare Flag 5");                        //73-14
-  bout << pstr(",Spare Flag 6");                        //73-15
-  bout << pstr(",Spare Flag 7");                        //73-16   
-  bout << pstr(",Loadshed Voltage Limit");              //74
-  bout << pstr(",Cutdown Voltage Limit");               //75
-  bout << pstr(",Voltage Sanity Check Low");            //76f
-
+  bout << pstr(",Voltage Sanity Check High");           //56
+  bout << pstr(",Voltage Sanity Check Low");            //57  
+  bout << pstr(",Charge Current Sanity High");          //58
+  bout << pstr(",Charge Current Sanity Low");           //59
+  bout << pstr(",Battery 1 Recharge Ratio");            //60
+  bout << pstr(",Battery 1 Amp Hours Charging");        //61
+  bout << pstr(",Battery 1 Amp Hours Discharging");     //62
+  bout << pstr(",Battery 1 Capacity Limit High");       //63
+  bout << pstr(",Battery 1 Capacity Limit Low");        //64
+  bout << pstr(",Battery 1 Voltage Term. Charge Limit");//65
+  bout << pstr(",Battery 1 Voltage Init. Charge Limit");//66
+  bout << pstr(",Battery 2 Recharge Ratio");            //67
+  bout << pstr(",Battery 2 Amp Hours Charging");        //68
+  bout << pstr(",Battery 2 Amp Hours Discharging");     //69
+  bout << pstr(",Battery 2 Capacity Limit High");       //70
+  bout << pstr(",Battery 2 Capacity Limit Low");        //71
+  bout << pstr(",Battery 2 Voltage Term. Charge Limit");//72
+  bout << pstr(",Battery 2 Voltage Init. Charge Limit");//73
+  bout << pstr(",Battery Active Temp Limit High");      //74
+  bout << pstr(",Battery Active Temp Limit Low");       //75
+  bout << pstr(",Battery Temp Sanity Check High");      //76
+  bout << pstr(",Battery Normal Temp Limit High");      //77
+  bout << pstr(",Battery Normal Temp Limit Low");       //78
+  bout << pstr(",Battery Survival Temp Limit High");    //79
+  bout << pstr(",Battery Survival Temp Limit Low");     //80
+  bout << pstr(",Battery Temp Sanity Check Low");       //81  
+  bout << pstr(",Loadshed Entry Voltage Limit");        //82
+  bout << pstr(",Auto Cutdown Voltage Limit");          //83
+  bout << pstr(",Low Voltage Time until Cut-down");     //84
+  bout << pstr(",Altitude Limit Low");                  //85  
+  bout << pstr(",Altiude Sanity Check Low");            //86
+  bout << pstr(",Pyro Pulse Width");                    //87
+  bout << pstr(",Camera Period");                       //88
+  bout << pstr(",Camera On Time");                      //89
+  bout << pstr(",Battery 1 Charging Status");           //90-1
+  bout << pstr(",Battery 2 Charging Status");           //90-2
+  bout << pstr(",Heater State 1");                      //90-3
+  bout << pstr(",Heater State 2");                      //90-4
+  bout << pstr(",Cut-down Enable");                     //90-5
+  bout << pstr(",Cut-down 1 Fire Status");              //90-6
+  bout << pstr(",Cut-down 2 Fire Status");              //90-7
+  bout << pstr(",Camera Status");                       //90-8
+  bout << pstr(",Spare Flag 1");                        //90-9
+  bout << pstr(",Altitude Valid Flag");                 //90-10
+  bout << pstr(",Spare Flag 2");                        //90-11  
+  bout << pstr(",Spare Flag 3");                        //90-12
+  bout << pstr(",Spare Flag 4");                        //90-13   
+  bout << pstr(",Spare Flag 5");                        //90-14
+  bout << pstr(",Spare Flag 6");                        //90-15
+  bout << pstr(",Spare Flag 7");                        //90-16   
+  bout << pstr(",Spare 5");                             //91
+  bout << pstr(",Spare 6");                             //92
+  bout << pstr(",Spare 7");                             //93 
+  bout << pstr(",Spare 8");                             //94 
   
-  
- 
-
-  bout << pstr(",GYRO Fused Euler Angle");
-
-  
-
-  bout << pstr(",Battery Low Voltage Flag");
-  bout << pstr(",Heater State 1");
-  bout << pstr(",Battery Active Temp Limit High");
-  bout << pstr(",Battery Active Temp Limit Low");
-  bout << pstr(",Battery Normal Temp Limit High");  
-  bout << pstr(",Battery Normal Temp Limit Low");
-  bout << pstr(",Battery Survival Temp Limit High");
-  bout << pstr(",Battery Survival Temp Limit Low");
-  bout << pstr(",Battery Temp Sanity Check Low");
-
-  bout << pstr(",Pyro Pulse Width");
-  bout << pstr(",Camera Flag");
-  bout << pstr(",Camera Period");
-  bout << pstr(",Camera On Time");
-  bout << pstr(",Altitude Valid Flag");
-  bout << pstr(",Altitude Limit Low");
-  bout << pstr(",Altiude Sanity Check Low"); 
 
   logfile << buf << endl;
 
@@ -255,92 +248,113 @@ void write_telemetry_data_to_sd()
 //############### ASTRONEWTS SD TLM ###############
 //#################################################
 
-  bout << ',' << parameters.vehicle_mode;
-  bout << ',' << parameters.command_count;
-  bout << ',' << thresholds.normal_transmit_rate;
-  bout << ',' << thresholds.load_shed_transmit_rate;
-  bout << ',' << thresholds.transit_transmit_rate; 
-  bout << ',' << thresholds.emergency_transit_transmit_rate;
-  bout << ',' << thresholds.test_transmit_rate;
-  bout << ',' << parameters.sd_card_write_rate;
-  bout << ',' << telemetry_data.battery_temp_1_1;
-  bout << ',' << telemetry_data.battery_temp_1_2;
-  bout << ',' << telemetry_data.battery_temp_2_1;
-  bout << ',' << telemetry_data.battery_temp_2_2;
-  bout << ',' << telemetry_data.inner_external_temp;
-  bout << ',' << telemetry_data.outter_external_temp;
-  bout << ',' << telemetry_data.internal_temp;
-  bout << ',' << telemetry_data.air_pressure;
-  bout << ',' << telemetry_data.battery_voltage_1;
-  bout << ',' << telemetry_data.battery_voltage_2;
-  bout << ',' << telemetry_data.charge_current_1;
-  bout << ',' << telemetry_data.charge_current_2;
-  bout << ',' << gps.location.lat();  
-  bout << ',' << gps.location.lng(); 
-  bout << ',' << gps.altitude.meters(); 
-  bout << ',' << gps.location.age(); 
-  bout << ',' << gps.altitude.age(); 
-  bout << ',' << gps.course.deg(); 
-  bout << ',' << gps.speed.kmph();  
-  bout << ',' << gps.satellites.value();
-//  bout << ',' << gps.date;
-//  bout << ',' << gps.time;
-  bout << ',' << gps.hdop.value();
-  bout << ',' << gps.charsProcessed();
-  bout << ',' << gps.sentencesWithFix();
-  bout << ',' << gps.failedChecksum(); 
-// ADD VALID STRINGS FOR GPS!!!
-  bout << ',' << calData.accelMinX;
-  bout << ',' << calData.accelMaxX;
-  bout << ',' << calData.accelMinY;
-  bout << ',' << calData.accelMaxY;
-  bout << ',' << calData.accelMinZ;
-  bout << ',' << calData.accelMaxZ;
-  bout << ',' << calData.magMinX;
-  bout << ',' << calData.magMaxX;  
-  bout << ',' << calData.magMinY;
-  bout << ',' << calData.magMaxY;  
-  bout << ',' << calData.magMinZ;
-  bout << ',' << calData.magMaxZ;    
-  bout << ',' << dueMPU.m_rawQuaternion; 
-  bout << ',' << dueMPU.m_dmpEulerPose; 
-  bout << ',' << dueMPU.m_fusedEulerPose;   
-// TODO: ADD GYRO TEMP TELEMETRY
-  bout << ',' << parameters.batttery_charge_shutdown; 
-  bout << ',' << parameters.recharge_ratio; 
-  bout << ',' << parameters.charge_current_sanity_check_high; 
-  bout << ',' << parameters.charge_current_sanity_check_low;   
-  bout << ',' << parameters.amphrs_charging; 
-  bout << ',' << parameters.amphrs_discharging; 
-  bout << ',' << parameters.capacity_limit_high; 
-  bout << ',' << parameters.capacity_limit_low; 
-  bout << ',' << parameters.voltage_sanity_check_high; 
-  bout << ',' << parameters.voltage_power_limit_high; 
-  bout << ',' << parameters.voltage_power_limit_low;   
-  bout << ',' << parameters.low_voltage_limit;    
-  bout << ',' << parameters.voltage_sanity_check_low;  
-  bout << ',' << parameters.low_voltage_time_limit;  
-  bout << ',' << parameters.battery_low_voltage_flag;  
-  bout << ',' << parameters.heater_state_1;  
-  bout << ',' << parameters.heater_state_2;  
-  bout << ',' << parameters.battery_temperature_limit_high;  
-  bout << ',' << parameters.battery_temperature_limit_low;  
-  bout << ',' << thresholds.normal_battery_temperature_limit_high;  
-  bout << ',' << thresholds.normal_battery_temperature_limit_low;  
-  bout << ',' << thresholds.survival_battery_temperature_limit_high;  
-  bout << ',' << thresholds.survival_battery_temperature_limit_low;  
-  bout << ',' << parameters.battery_temperature_sanity_check_low; 
-  bout << ',' << parameters.pyro_enable; 
-  bout << ',' << parameters.pyro_1_status; 
-  bout << ',' << parameters.pyro_2_status; 
-  bout << ',' << parameters.pyro_pulse_width; 
-  bout << ',' << parameters.camera_flag; 
-  bout << ',' << parameters.camera_period; 
-  bout << ',' << parameters.camera_on_time;   
-  bout << ',' << parameters.altitude_valid_flag; 
-  bout << ',' << parameters.altitude_limit_low; 
-  bout << ',' << parameters.altitude_sanity_check_low;   
- 
+  bout << ',' << parameters.vehicle_mode;                              //1
+  bout << ',' << parameters.command_count;                             //2
+  bout << ',' << thresholds.normal_transmit_rate;                      //3
+  bout << ',' << thresholds.load_shed_transmit_rate;                   //4
+  bout << ',' << thresholds.transit_transmit_rate;                     //5
+  bout << ',' << thresholds.emergency_transit_transmit_rate;           //6
+  bout << ',' << thresholds.test_transmit_rate;                        //7
+  bout << ',' << parameters.sd_card_write_rate;                        //8
+  bout << ',' << telemetry_data.battery_temp_1_1;                      //9
+  bout << ',' << telemetry_data.battery_temp_1_2;                      //10
+  bout << ',' << telemetry_data.battery_temp_2_1;                      //11
+  bout << ',' << telemetry_data.battery_temp_2_2;                      //12
+  bout << ',' << telemetry_data.inner_external_temp;                   //13
+  bout << ',' << telemetry_data.outter_external_temp;                  //14 
+  bout << ',' << telemetry_data.internal_temp;                         //15
+  bout << ',' << telemetry_data.air_pressure;                          //16
+  bout << ',' << telemetry_data.battery_voltage_1;                     //17
+  bout << ',' << telemetry_data.battery_voltage_2;                     //18
+  bout << ',' << telemetry_data.charge_current_1;                      //19
+  bout << ',' << telemetry_data.charge_current_2;                      //20
+  bout << ',' << "00000000000000000000000000000000";                   //21
+  bout << ',' << "00000000000000000000000000000000";                   //22
+  bout << ',' << "00000000000000000000000000000000";                   //23
+  bout << ',' << "00000000000000000000000000000000";                   //24
+  bout << ',' << gps.location.lat();                                   //25
+  bout << ',' << gps.location.lng();                                   //26
+  bout << ',' << gps.altitude.meters();                                //27
+  bout << ',' << gps.location.age();                                   //28
+  bout << ',' << gps.altitude.age();                                   //29
+  bout << ',' << gps.course.deg();                                     //30
+  bout << ',' << gps.speed.kmph();                                     //31
+  bout << ',' << gps.satellites.value();                               //32
+//  bout << ',' << gps.date;                                           //33
+//  bout << ',' << gps.time;                                           //34
+  bout << ',' << gps.hdop.value();                                     //35
+  bout << ',' << gps.charsProcessed();                                 //36
+  bout << ',' << gps.sentencesWithFix();                               //37
+  bout << ',' << gps.failedChecksum();                                 //38
+// ADD VALID STRINGS FOR GPS!!!                                        //39
+  bout << ',' << calData.accelMinX;                                    //40
+  bout << ',' << calData.accelMaxX;                                    //41
+  bout << ',' << calData.accelMinY;                                    //42
+  bout << ',' << calData.accelMaxY;                                    //43
+  bout << ',' << calData.accelMinZ;                                    //44
+  bout << ',' << calData.accelMaxZ;                                    //45
+  bout << ',' << calData.magMinX;                                      //46
+  bout << ',' << calData.magMaxX;                                      //47
+  bout << ',' << calData.magMinY;                                      //48
+  bout << ',' << calData.magMaxY;                                      //49
+  bout << ',' << calData.magMinZ;                                      //50
+  bout << ',' << calData.magMaxZ;                                      //51
+  bout << ',' << dueMPU.m_rawQuaternion;                               //52
+  bout << ',' << dueMPU.m_dmpEulerPose;                                //53
+  bout << ',' << dueMPU.m_fusedEulerPose;                              //54
+// TODO: ADD GYRO TEMP TELEMETRY                                       //55
+  bout << ',' << parameters.voltage_sanity_check_high;                 //56
+  bout << ',' << parameters.voltage_sanity_check_low;                  //57
+  bout << ',' << parameters.charge_current_sanity_check_high;          //58
+  bout << ',' << parameters.charge_current_sanity_check_low;           //59
+  bout << ',' << parameters.battery_1_recharge_ratio;                  //60
+  bout << ',' << parameters.battery_1_amphrs_charging;                 //61
+  bout << ',' << parameters.battery_1_amphrs_discharging;              //62
+  bout << ',' << parameters.battery_1_amphrs_term_threshold;           //63
+  bout << ',' << parameters.battery_1_amphrs_init_threshold;           //64
+  bout << ',' << parameters.battery_1_voltage_term_threshold;          //65
+  bout << ',' << parameters.battery_1_voltage_init_threshold;          //66
+  bout << ',' << parameters.battery_2_recharge_ratio;                  //67
+  bout << ',' << parameters.battery_2_amphrs_charging;                 //68
+  bout << ',' << parameters.battery_2_amphrs_discharging;              //69
+  bout << ',' << parameters.battery_2_amphrs_term_threshold;           //70
+  bout << ',' << parameters.battery_2_amphrs_init_threshold;           //71
+  bout << ',' << parameters.battery_2_voltage_term_threshold;          //72
+  bout << ',' << parameters.battery_2_voltage_init_threshold;          //73
+  bout << ',' << parameters.battery_temperature_limit_high;            //74
+  bout << ',' << parameters.battery_temperature_limit_low;             //75
+  bout << ',' << parameters.battery_temperature_sanity_check_high;     //76
+  bout << ',' << thresholds.normal_battery_temperature_limit_high;     //77
+  bout << ',' << thresholds.normal_battery_temperature_limit_low;      //78
+  bout << ',' << thresholds.survival_battery_temperature_limit_high;   //79 
+  bout << ',' << thresholds.survival_battery_temperature_limit_low;    //80
+  bout << ',' << parameters.battery_temperature_sanity_check_low;      //81
+  bout << ',' << parameters.low_voltage_limit_for_loadshed_entry;      //82
+  bout << ',' << parameters.low_voltage_limit_for_auto_cutdown;        //83
+  bout << ',' << parameters.low_voltage_time_limit;                    //84
+  bout << ',' << parameters.altitude_limit_low;                        //85
+  bout << ',' << parameters.altitude_sanity_check_low;                 //86
+  bout << ',' << parameters.cutdown_pulse_width;                       //87
+  bout << ',' << parameters.camera_period;                             //88
+  bout << ',' << parameters.camera_on_time;                            //89
+// BEGINNING OF THE PARENT BILEVEL WORD                                //90
+  bout << ',' << parameters.battery_1_charging_status;                 //90-1 
+  bout << ',' << parameters.battery_2_charging_status;                 //90-2
+  bout << ',' << parameters.battery_bus_low_voltage_flag;              //90-3   
+  bout << ',' << parameters.heater_state_1;                            //90-4
+  bout << ',' << parameters.heater_state_2;                            //90-5
+  bout << ',' << parameters.cutdown_enable_state;                      //90-6
+  bout << ',' << parameters.cutdown_1_status;                          //90-7
+  bout << ',' << parameters.cutdown_2_status;                          //90-8
+  bout << ',' << parameters.camera_status;                             //90-9
+  bout << ',' << "0";                                                  //90-10  
+  bout << ',' << parameters.altitude_valid_flag;                       //90-11
+  bout << ',' << "00000";                                              //90-[12-16]
+  bout << ',' << "00000000000000000000000000000000";                   //91
+  bout << ',' << "00000000000000000000000000000000";                   //92
+  bout << ',' << "00000000000000000000000000000000";                   //93
+  bout << ',' << "00000000000000000000000000000000";                   //94
+
   bout << endl;
   
   // log data and flush to SD

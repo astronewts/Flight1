@@ -1,7 +1,7 @@
 void process_camera_function()
 {
    //Is it time to turn camera on/off?
-   if(parameters.camera_flag == true)
+   if(parameters.camera_status == true)
    {
       //Is the camera on?
       if(digitalRead(PIN_CAMERA_SWITCH) == HIGH)
