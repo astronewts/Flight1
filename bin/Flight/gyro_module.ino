@@ -1,4 +1,5 @@
 #include "Arduino.h"
+#include <Wire.h>
 
 //  DEVICE_TO_USE selects whether the IMU at address 0x68 (default) or 0x69 is used
 //    0 = use the device at 0x68
@@ -23,6 +24,12 @@ MPU9150Lib dueMPU;   // the MPU object
 #define  MPU_MAG_MIX_GYRO_AND_MAG       10                  // a good mix value 
 #define  MPU_MAG_MIX_GYRO_AND_SOME_MAG  50                  // mainly gyros with a bit of mag correction 
 
+
+// Address definition of Temp Sensors ...? Maybe do this for the other too ... 
+#define MPU9150_TEMP_OUT_H         0x41   // R  
+#define MPU9150_TEMP_OUT_L         0x42   // R  
+int MPU9150_I2C_ADDRESS = 0x68;
+
 //  MPU_LPF_RATE is the low pas filter rate and can be between 5 and 188Hz
 
 #define MPU_LPF_RATE   100
@@ -31,6 +38,7 @@ MPU9150Lib dueMPU;   // the MPU object
 #define  SERIAL_PORT_SPEED  9600
 
 int loopState;                                              // what code to run in the loop
+double gyro_temp;
 
 #define  LOOPSTATE_NORMAL  0                                // normal execution
 #define  LOOPSTATE_MAGCAL  1                                // mag calibration
@@ -72,6 +80,25 @@ void gyro_setup()
   lastPollTime = millis();
 }
 
+int MPU9150_readSensor(int addrL, int addrH){
+  Wire.beginTransmission(MPU9150_I2C_ADDRESS);
+  Wire.write(addrL);
+  Wire.endTransmission(false);
+
+  Wire.requestFrom(MPU9150_I2C_ADDRESS, 1, true);
+  byte L = Wire.read();
+
+  Wire.beginTransmission(MPU9150_I2C_ADDRESS);
+  Wire.write(addrH);
+  Wire.endTransmission(false);
+
+  Wire.requestFrom(MPU9150_I2C_ADDRESS, 1, true);
+  byte H = Wire.read();
+
+  return (int16_t)((H<<8)+L);
+}
+
+
 void get_gyro_data()
 {  
 
@@ -91,8 +118,16 @@ void get_gyro_data()
 
   switch (loopState) {
     case LOOPSTATE_NORMAL:
+   
+    
         dueMPU.read();  // get the latest data if ready yet
 		Serial.print("Gyro - Quaternion: ");
+
+        gyro_temp = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
+        Serial.print("Gyro - Temp Data: ");  
+        Serial.print(gyro_temp);
+        Serial.println();
+
         dueMPU.printQuaternion(dueMPU.m_rawQuaternion);       // print the raw quaternion from the dmp
         Serial.println();
 		Serial.print("Gyro - Raw Mag Data: ");      

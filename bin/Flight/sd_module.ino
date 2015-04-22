@@ -10,6 +10,10 @@ ofstream logfile;
 ArduinoOutStream cout(Serial);
 // buffer to format data - makes it eaiser to echo to Serial
 char buf[810];
+
+//define parent monitor string for GPS Isvalid data
+String gps_isvalid_str;
+
 //------------------------------------------------------------------------------
 //#if SENSOR_COUNT > 6
 //#error SENSOR_COUNT too large
@@ -135,8 +139,8 @@ void sd_setup() {
   bout << pstr(",GPS Course");                          //30
   bout << pstr(",GPS Speed");                           //31
   bout << pstr(",GPS # of Satellites");                 //32
-  //bout << pstr(",GPS Date");                          //33
-  //bout << pstr(",GPS Time");                          //34
+  bout << pstr(",GPS Date");                            //33
+  bout << pstr(",GPS Time");                            //34
   bout << pstr(",HDOP Value");                          //35
   bout << pstr(",GPS Chars Processed");                 //36
   bout << pstr(",GPS Sentances with Fix");              //37
@@ -199,9 +203,9 @@ void sd_setup() {
   bout << pstr(",Cut-down Enable");                     //90-5
   bout << pstr(",Cut-down 1 Fire Status");              //90-6
   bout << pstr(",Cut-down 2 Fire Status");              //90-7
-  bout << pstr(",Camera Status");                       //90-8
-  bout << pstr(",Spare Flag 1");                        //90-9
-  bout << pstr(",Altitude Valid Flag");                 //90-10
+  bout << pstr(",Altitude Valid Flag");                 //90-8
+  bout << pstr(",Camera Status");                       //90-9
+  bout << pstr(",Spare Flag 1");                        //90-10
   bout << pstr(",Spare Flag 2");                        //90-11  
   bout << pstr(",Spare Flag 3");                        //90-12
   bout << pstr(",Spare Flag 4");                        //90-13   
@@ -280,16 +284,29 @@ void write_telemetry_data_to_sd()
   bout << ',' << gps.course.deg();                                     //30
   bout << ',' << gps.speed.kmph();                                     //31
   bout << ',' << gps.satellites.value();                               //32
-//  bout << ',' << gps.date;                                           //33
-
-printDateTime(gps.date, gps.time);
-
-//  bout << ',' << gps.time;                                           //34
+  
+  //NOTE: THE NEXT TWO MIGHT NEEDS SOME MASSAGING POST PROCESS
+  bout << ',' << gps.date.value();                                     //33
+  bout << ',' << gps.time.value();                                     //34
+  
   bout << ',' << gps.hdop.value();                                     //35
   bout << ',' << gps.charsProcessed();                                 //36
   bout << ',' << gps.sentencesWithFix();                               //37
   bout << ',' << gps.failedChecksum();                                 //38
-// ADD VALID STRINGS FOR GPS!!!                                        //39
+  
+   // ISVALID STRINGS FOR GPS!!!
+  gps_isvalid_str = String(gps.hdop.isValid());                        //39-1
+  gps_isvalid_str = gps_isvalid_str + String(gps.location.isValid());  //39-2 
+  gps_isvalid_str = gps_isvalid_str + String(gps.altitude.isValid());  //39-3 
+  gps_isvalid_str = gps_isvalid_str + String(gps.course.isValid());    //39-4 
+  gps_isvalid_str = gps_isvalid_str + String(gps.speed.isValid());     //39-5       
+  gps_isvalid_str = gps_isvalid_str + String(gps.satellites.isValid());//39-6                    
+  gps_isvalid_str = gps_isvalid_str + String(gps.date.isValid());      //39-7               
+  gps_isvalid_str = gps_isvalid_str + String(gps.time.isValid());      //39-8
+  gps_isvalid_str = gps_isvalid_str + String(gps.hdop.isValid());      //39-9
+  
+  bout << ',' << gps_isvalid_str;                                       //39
+                                                                       
   bout << ',' << calData.accelMinX;                                    //40
   bout << ',' << calData.accelMaxX;                                    //41
   bout << ',' << calData.accelMinY;                                    //42
@@ -305,7 +322,7 @@ printDateTime(gps.date, gps.time);
   bout << ',' << dueMPU.m_rawQuaternion;                               //52
   bout << ',' << dueMPU.m_dmpEulerPose;                                //53
   bout << ',' << dueMPU.m_fusedEulerPose;                              //54
-// TODO: ADD GYRO TEMP TELEMETRY                                       //55
+  bout << ',' << gyro_temp;                                            //55
   bout << ',' << parameters.voltage_sanity_check_high;                 //56
   bout << ',' << parameters.voltage_sanity_check_low;                  //57
   bout << ',' << parameters.charge_current_sanity_check_high;          //58
@@ -340,6 +357,7 @@ printDateTime(gps.date, gps.time);
   bout << ',' << parameters.cutdown_pulse_width;                       //87
   bout << ',' << parameters.camera_period;                             //88
   bout << ',' << parameters.camera_on_time;                            //89
+  
 // BEGINNING OF THE PARENT BILEVEL WORD                                //90
   bout << ',' << parameters.battery_1_charging_status;                 //90-1 
   bout << ',' << parameters.battery_2_charging_status;                 //90-2
@@ -349,10 +367,9 @@ printDateTime(gps.date, gps.time);
   bout << ',' << parameters.cutdown_enable_state;                      //90-6
   bout << ',' << parameters.cutdown_1_status;                          //90-7
   bout << ',' << parameters.cutdown_2_status;                          //90-8
-  bout << ',' << parameters.camera_status;                             //90-9
-  bout << ',' << "0";                                                  //90-10  
-  bout << ',' << parameters.altitude_valid_flag;                       //90-11
-  bout << ',' << "00000";                                              //90-[12-16]
+  bout << ',' << parameters.altitude_valid_flag;                       //90-9
+  bout << ',' << parameters.camera_status;                             //90-10
+  bout << ',' << "000000";                                             //90-[11-16]
   bout << ',' << "00000000000000000000000000000000";                   //91
   bout << ',' << "00000000000000000000000000000000";                   //92
   bout << ',' << "00000000000000000000000000000000";                   //93

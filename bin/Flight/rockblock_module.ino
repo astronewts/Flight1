@@ -133,6 +133,38 @@ String combine(int bin_size, long input_data, String dataword)
     return dataword;     
 }
 
+String combine_float(int bin_size, float input_fdata, String dataword)
+{
+    int zeros;
+    String temp_str;
+    temp_str = String(input_fdata,BIN);
+    zeros = bin_size - temp_str.length();
+ 
+    for (int i=0; i<zeros; i++) {
+      temp_str = "0"+temp_str;
+    }
+    
+    dataword = dataword + temp_str;
+    
+    return dataword;     
+}
+
+String combine_int(int bin_size, int input_idata, String dataword)
+{
+    int zeros;
+    String temp_str;
+    temp_str = String(input_idata,BIN);
+    zeros = bin_size - temp_str.length();
+ 
+    for (int i=0; i<zeros; i++) {
+      temp_str = "0"+temp_str;
+    }
+    
+    dataword = dataword + temp_str;
+    
+    return dataword;     
+}
+
 //Receive any data from satellite
 int process_satellite_command()
 {
@@ -376,112 +408,132 @@ void write_output_telemetry_dataword()
     String valid_str;
     valid_str = "0";
     
-    parameters.output_dataword = combine(3, parameters.vehicle_mode, "A30133");
-    parameters.output_dataword = combine(8, parameters.command_count, parameters.output_dataword);
-    parameters.output_dataword = combine(8, thresholds.normal_transmit_rate, parameters.output_dataword);
-    parameters.output_dataword = combine(8, thresholds.load_shed_transmit_rate, parameters.output_dataword);
-    parameters.output_dataword = combine(8, thresholds.transit_transmit_rate, parameters.output_dataword);
-    parameters.output_dataword = combine(8, thresholds.emergency_transit_transmit_rate, parameters.output_dataword);
-    parameters.output_dataword = combine(8, thresholds.test_transmit_rate, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.sd_card_write_rate, parameters.output_dataword);
-    parameters.output_dataword = combine(12, telemetry_data.battery_temp_1_1, parameters.output_dataword);
-    parameters.output_dataword = combine(12, telemetry_data.battery_temp_1_2, parameters.output_dataword);
-    parameters.output_dataword = combine(12, telemetry_data.battery_temp_2_1, parameters.output_dataword);
-    parameters.output_dataword = combine(12, telemetry_data.battery_temp_2_2, parameters.output_dataword);
-    parameters.output_dataword = combine(12, telemetry_data.inner_external_temp, parameters.output_dataword);
-    parameters.output_dataword = combine(12, telemetry_data.outter_external_temp, parameters.output_dataword);
-    parameters.output_dataword = combine(12, telemetry_data.internal_temp, parameters.output_dataword);
-    parameters.output_dataword = combine(12, telemetry_data.air_pressure, parameters.output_dataword);
-    parameters.output_dataword = combine(12, telemetry_data.battery_voltage_1, parameters.output_dataword);
-    parameters.output_dataword = combine(12, telemetry_data.battery_voltage_2, parameters.output_dataword);
-    parameters.output_dataword = combine(13, telemetry_data.charge_current_1, parameters.output_dataword);
-    parameters.output_dataword = combine(13, telemetry_data.charge_current_2, parameters.output_dataword);
-    //parameters.output_dataword = combine(64, gps.location.lat(), parameters.output_dataword);
-    //parameters.output_dataword = combine(64, gps.location.lng(), parameters.output_dataword);
-    //parameters.output_dataword = combine(64, gps.altitude.meters(), parameters.output_dataword);
-    //parameters.output_dataword = combine(32, gps.location.age(), parameters.output_dataword);
-    //parameters.output_dataword = combine(32, gps.altitude.age(), parameters.output_dataword);
-    //parameters.output_dataword = combine(64, gps.course.deg(), parameters.output_dataword);
-    //parameters.output_dataword = combine(64, gps.speed.kmph(), parameters.output_dataword);
-    parameters.output_dataword = combine(4, gps.satellites.value(), parameters.output_dataword);
-    //parameters.output_dataword = combine(32, gps.date, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, gps.time, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, gps.hdop.value(), parameters.output_dataword);
-    parameters.output_dataword = combine(32, gps.charsProcessed(), parameters.output_dataword);
-    parameters.output_dataword = combine(32, gps.sentencesWithFix(), parameters.output_dataword);
-    parameters.output_dataword = combine(32, gps.failedChecksum(), parameters.output_dataword);
+    // TODO: FIX THIS HEADER FROM HEX TO DECIMAL!!!
+    //parameters.output_dataword = combine(3, parameters.vehicle_mode, "A30133");                                              //0
+    
+    
+    parameters.output_dataword = combine(8, parameters.vehicle_mode, parameters.output_dataword);                            //1                                                                                
+    parameters.output_dataword = combine(8, parameters.command_count, parameters.output_dataword);                           //2
+    parameters.output_dataword = combine(8, thresholds.normal_transmit_rate, parameters.output_dataword);                    //3
+    parameters.output_dataword = combine(8, thresholds.load_shed_transmit_rate, parameters.output_dataword);                 //4
+    parameters.output_dataword = combine(8, thresholds.transit_transmit_rate, parameters.output_dataword);                   //5
+    parameters.output_dataword = combine(8, thresholds.emergency_transit_transmit_rate, parameters.output_dataword);         //6
+    parameters.output_dataword = combine(8, thresholds.test_transmit_rate, parameters.output_dataword);                      //7
+    parameters.output_dataword = combine(8, parameters.sd_card_write_rate, parameters.output_dataword);                      //8
+    parameters.output_dataword = combine(12, telemetry_data.battery_temp_1_1, parameters.output_dataword);                   //9
+    parameters.output_dataword = combine(12, telemetry_data.battery_temp_1_2, parameters.output_dataword);                   //10
+    parameters.output_dataword = combine(12, telemetry_data.battery_temp_2_1, parameters.output_dataword);                   //11
+    parameters.output_dataword = combine(12, telemetry_data.battery_temp_2_2, parameters.output_dataword);                   //12
+    parameters.output_dataword = combine(12, telemetry_data.inner_external_temp, parameters.output_dataword);                //13
+    parameters.output_dataword = combine(12, telemetry_data.outter_external_temp, parameters.output_dataword);               //14
+    parameters.output_dataword = combine(12, telemetry_data.internal_temp, parameters.output_dataword);                      //15
+    parameters.output_dataword = combine(12, telemetry_data.air_pressure, parameters.output_dataword);                       //16
+    parameters.output_dataword = combine(12, telemetry_data.battery_voltage_1, parameters.output_dataword);                  //17
+    parameters.output_dataword = combine(12, telemetry_data.battery_voltage_2, parameters.output_dataword);                  //18
+    parameters.output_dataword = combine(13, telemetry_data.charge_current_1, parameters.output_dataword);                   //19
+    parameters.output_dataword = combine(13, telemetry_data.charge_current_2, parameters.output_dataword);                   //20
    
+    parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //21
+    parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //22
+    parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //23
+    parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //24
+   
+    parameters.output_dataword = combine_float(32, gps.location.lat(), parameters.output_dataword);                          //25
+    parameters.output_dataword = combine_float(32, gps.location.lng(), parameters.output_dataword);                          //26
+    parameters.output_dataword = combine_float(32, gps.altitude.meters(), parameters.output_dataword);                       //27
+    parameters.output_dataword = combine_float(32, gps.location.age(), parameters.output_dataword);                          //28
+    parameters.output_dataword = combine_float(32, gps.altitude.age(), parameters.output_dataword);                          //29
+    parameters.output_dataword = combine_float(32, gps.course.deg(), parameters.output_dataword);                            //30
+    parameters.output_dataword = combine_float(32, gps.speed.kmph(), parameters.output_dataword);                            //31
+    parameters.output_dataword = combine(4, gps.satellites.value(), parameters.output_dataword);                             //32
+    parameters.output_dataword = combine(32, (long) gps.date.value(), parameters.output_dataword);                           //33
+    parameters.output_dataword = combine(32, (long) gps.time.value(), parameters.output_dataword);                           //34
+    parameters.output_dataword = combine(32, gps.hdop.value(), parameters.output_dataword);                                  //35
+    parameters.output_dataword = combine(32, gps.charsProcessed(), parameters.output_dataword);                              //36
+    parameters.output_dataword = combine(32, gps.sentencesWithFix(), parameters.output_dataword);                            //37
+    parameters.output_dataword = combine(32, gps.failedChecksum(), parameters.output_dataword);                              //38
+    
     valid_str = String(gps.hdop.isValid());   
-    valid_str = valid_str + String(gps.location.isValid());
-    valid_str = valid_str + String(gps.altitude.isValid());
-    valid_str = valid_str + String(gps.course.isValid());
-    valid_str = valid_str + String(gps.speed.isValid());
-    valid_str = valid_str + String(gps.satellites.isValid());
-    valid_str = valid_str + String(gps.date.isValid());
-    valid_str = valid_str + String(gps.time.isValid());
-    valid_str = valid_str + String(gps.hdop.isValid());
-    //valid_str = valid_str + String(gps.charsProcessed.isValid());
-    //valid_str = valid_str + String(gps.sentencesWithFix.isValid());
-    //valid_str = valid_str + String(gps.failedChecksum.isValid());
+    valid_str = valid_str + String(gps.location.isValid());                                                                  //39-1
+    valid_str = valid_str + String(gps.altitude.isValid());                                                                  //39-2
+    valid_str = valid_str + String(gps.course.isValid());                                                                    //39-3
+    valid_str = valid_str + String(gps.speed.isValid());                                                                     //39-4
+    valid_str = valid_str + String(gps.satellites.isValid());                                                                //39-5
+    valid_str = valid_str + String(gps.date.isValid());                                                                      //39-6
+    valid_str = valid_str + String(gps.time.isValid());                                                                      //39-7
+    valid_str = valid_str + String(gps.hdop.isValid());                                                                      //39-8
+  
+    parameters.output_dataword = parameters.output_dataword + valid_str;                                                     //39
+    
+    parameters.output_dataword = combine_float(32, calData.accelMinX, parameters.output_dataword);                           //40
+    parameters.output_dataword = combine_float(32, calData.accelMaxX, parameters.output_dataword);                           //41
+    parameters.output_dataword = combine_float(32, calData.accelMinY, parameters.output_dataword);                           //42
+    parameters.output_dataword = combine_float(32, calData.accelMaxY, parameters.output_dataword);                           //43
+    parameters.output_dataword = combine_float(32, calData.accelMinZ, parameters.output_dataword);                           //44
+    parameters.output_dataword = combine_float(32, calData.accelMaxZ, parameters.output_dataword);                           //45
+    parameters.output_dataword = combine_float(32, calData.magMinX, parameters.output_dataword);                             //46
+    parameters.output_dataword = combine_float(32, calData.magMaxX, parameters.output_dataword);                             //47
+    parameters.output_dataword = combine_float(32, calData.magMinY, parameters.output_dataword);                             //48
+    parameters.output_dataword = combine_float(32, calData.magMaxY, parameters.output_dataword);                             //49
+    parameters.output_dataword = combine_float(32, calData.magMinZ, parameters.output_dataword);                             //50
+    parameters.output_dataword = combine_float(32, calData.magMaxZ, parameters.output_dataword);                             //51
+    parameters.output_dataword = combine(32, (long) dueMPU.m_rawQuaternion, parameters.output_dataword);                     //52
+    parameters.output_dataword = combine_float(32, (long) dueMPU.m_dmpEulerPose, parameters.output_dataword);                //53
+    parameters.output_dataword = combine_float(32, (long) dueMPU.m_fusedEulerPose, parameters.output_dataword);              //54
+    parameters.output_dataword = combine(32, gyro_temp, parameters.output_dataword);                                         //55 
+    parameters.output_dataword = combine(8, parameters.voltage_sanity_check_high, parameters.output_dataword);               //56
+    parameters.output_dataword = combine(8, parameters.voltage_sanity_check_low, parameters.output_dataword);                //57
+    parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_high, parameters.output_dataword);        //58
+    parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_low, parameters.output_dataword);         //59
+    parameters.output_dataword = combine(32, parameters.battery_1_recharge_ratio, parameters.output_dataword);               //60
+    parameters.output_dataword = combine(32, parameters.battery_1_amphrs_charging, parameters.output_dataword);              //61
+    parameters.output_dataword = combine(32, parameters.battery_1_amphrs_discharging, parameters.output_dataword);           //62
+    parameters.output_dataword = combine(8, parameters.battery_1_amphrs_term_threshold, parameters.output_dataword);         //63
+    parameters.output_dataword = combine(8, parameters.battery_1_amphrs_init_threshold, parameters.output_dataword);         //64
+    parameters.output_dataword = combine(8, parameters.battery_1_voltage_term_threshold, parameters.output_dataword);        //65
+    parameters.output_dataword = combine(8, parameters.battery_1_voltage_init_threshold, parameters.output_dataword);        //66
+    parameters.output_dataword = combine(32, parameters.battery_2_recharge_ratio, parameters.output_dataword);               //67
+    parameters.output_dataword = combine(32, parameters.battery_2_amphrs_charging, parameters.output_dataword);              //68
+    parameters.output_dataword = combine(32, parameters.battery_2_amphrs_discharging, parameters.output_dataword);           //69
+    parameters.output_dataword = combine(8, parameters.battery_2_amphrs_term_threshold, parameters.output_dataword);         //70
+    parameters.output_dataword = combine(8, parameters.battery_2_amphrs_init_threshold, parameters.output_dataword);         //71
+    parameters.output_dataword = combine(8, parameters.battery_2_voltage_term_threshold, parameters.output_dataword);        //72
+    parameters.output_dataword = combine(8, parameters.battery_2_voltage_init_threshold, parameters.output_dataword);        //73
+    
+    parameters.output_dataword = combine(16, parameters.battery_temperature_limit_high, parameters.output_dataword);         //74
+    parameters.output_dataword = combine(16, parameters.battery_temperature_limit_low, parameters.output_dataword);          //75
+    parameters.output_dataword = combine(16, parameters.battery_temperature_sanity_check_high, parameters.output_dataword);  //76
+    parameters.output_dataword = combine(16, thresholds.normal_battery_temperature_limit_high, parameters.output_dataword);  //77
+    parameters.output_dataword = combine(16, thresholds.normal_battery_temperature_limit_low, parameters.output_dataword);   //78
+    parameters.output_dataword = combine(16, thresholds.survival_battery_temperature_limit_high, parameters.output_dataword);//79
+    parameters.output_dataword = combine(16, thresholds.survival_battery_temperature_limit_low, parameters.output_dataword); //80
+    parameters.output_dataword = combine(16, parameters.battery_temperature_sanity_check_low, parameters.output_dataword);   //81
+    parameters.output_dataword = combine(8, parameters.low_voltage_limit_for_loadshed_entry, parameters.output_dataword);    //82
+    parameters.output_dataword = combine(8, parameters.low_voltage_limit_for_auto_cutdown, parameters.output_dataword);      //83
+    parameters.output_dataword = combine(1, parameters.low_voltage_time_limit, parameters.output_dataword);                  //84
+    parameters.output_dataword = combine(16, parameters.altitude_limit_low, parameters.output_dataword);                     //85
+    parameters.output_dataword = combine(16, parameters.altitude_sanity_check_low, parameters.output_dataword);              //86
+    parameters.output_dataword = combine(8, parameters.cutdown_pulse_width, parameters.output_dataword);                     //87
+    parameters.output_dataword = combine(12, parameters.camera_period, parameters.output_dataword);                          //88
+    parameters.output_dataword = combine(12, parameters.camera_on_time, parameters.output_dataword);                         //89
    
-    //parameters.output_dataword = combine(16, parameters.valid_str, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.accelMinX, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.accelMaxX, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.accelMinY, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.accelMaxY;, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.accelMinZ, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.accelMaxZ, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.magMinX, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.magMaxX, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.magMinY, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.magMaxY, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.magMinZ, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, calData.magMaxZ, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, dueMPU.m_rawQuaternion, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, dueMPU.m_dmpEulerPose, parameters.output_dataword);
-    //parameters.output_dataword = combine(32, dueMPU.m_fusedEulerPose, parameters.output_dataword);
-    
-    // TODO: ADD GYRO TEMP TELEMETRY
-    
-    parameters.output_dataword = combine(1, parameters.battery_1_charging_status, parameters.output_dataword);
-    parameters.output_dataword = combine(32, parameters.battery_1_recharge_ratio, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_high, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_low, parameters.output_dataword);
-    parameters.output_dataword = combine(32, parameters.battery_1_amphrs_charging, parameters.output_dataword);
-    parameters.output_dataword = combine(32, parameters.battery_1_amphrs_discharging, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.battery_1_amphrs_term_threshold, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.battery_1_amphrs_init_threshold, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.voltage_sanity_check_high, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.battery_1_voltage_term_threshold, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.battery_1_voltage_init_threshold, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.low_voltage_limit_for_loadshed_entry, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.low_voltage_limit_for_auto_cutdown, parameters.output_dataword);
-    
-    parameters.output_dataword = combine(8, parameters.voltage_sanity_check_low, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.low_voltage_time_limit, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.battery_bus_low_voltage_flag, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.heater_state_1, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.heater_state_2, parameters.output_dataword);
-    parameters.output_dataword = combine(16, parameters.battery_temperature_limit_high, parameters.output_dataword);
-    parameters.output_dataword = combine(16, parameters.battery_temperature_limit_low, parameters.output_dataword);
-    parameters.output_dataword = combine(16, parameters.battery_temperature_sanity_check_high, parameters.output_dataword);
-    parameters.output_dataword = combine(16, thresholds.normal_battery_temperature_limit_high, parameters.output_dataword);
-    parameters.output_dataword = combine(16, thresholds.normal_battery_temperature_limit_low, parameters.output_dataword);
-    parameters.output_dataword = combine(16, thresholds.survival_battery_temperature_limit_high, parameters.output_dataword);
-    parameters.output_dataword = combine(16, thresholds.survival_battery_temperature_limit_low, parameters.output_dataword);
-    parameters.output_dataword = combine(16, parameters.battery_temperature_sanity_check_low, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.cutdown_enable_state, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.cutdown_1_status, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.cutdown_2_status, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.cutdown_pulse_width, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.camera_status, parameters.output_dataword);
-    parameters.output_dataword = combine(12, parameters.camera_period, parameters.output_dataword);
-    parameters.output_dataword = combine(12, parameters.camera_on_time, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.altitude_valid_flag, parameters.output_dataword);
-    parameters.output_dataword = combine(16, parameters.altitude_limit_low, parameters.output_dataword);
-    parameters.output_dataword = combine(16, parameters.altitude_sanity_check_low, parameters.output_dataword);
-           
-   
+    // Start Bilevel Parent TLM 
+    parameters.output_dataword = combine(1, parameters.battery_1_charging_status, parameters.output_dataword);               //90-1
+    parameters.output_dataword = combine(1, parameters.battery_2_charging_status, parameters.output_dataword);               //90-2    
+    parameters.output_dataword = combine(8, parameters.battery_bus_low_voltage_flag, parameters.output_dataword);            //90-3
+    parameters.output_dataword = combine(1, parameters.heater_state_1, parameters.output_dataword);                          //90-4
+    parameters.output_dataword = combine(1, parameters.heater_state_2, parameters.output_dataword);                          //90-5
+    parameters.output_dataword = combine(1, parameters.cutdown_enable_state, parameters.output_dataword);                    //90-6
+    parameters.output_dataword = combine(1, parameters.cutdown_1_status, parameters.output_dataword);                        //90-7
+    parameters.output_dataword = combine(1, parameters.cutdown_2_status, parameters.output_dataword);                        //90-8
+    parameters.output_dataword = combine(1, parameters.altitude_valid_flag, parameters.output_dataword);                     //90-9
+    parameters.output_dataword = combine(1, parameters.camera_status, parameters.output_dataword);                           //90-10
+    parameters.output_dataword = parameters.output_dataword + "000000";                                                      //90-[11-16]
+    parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //91
+    parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //92 
+    parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //93 
+    parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //94
+
   }
 }
 
@@ -502,6 +554,5 @@ void write_output_telemetry_dataword()
 //  }
 //}
 
-//public String combine(int bin_size, int input_data, String dataword)
 
 
