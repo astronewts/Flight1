@@ -373,8 +373,6 @@ void write_satellite_data()
     parameters.output_dataword = combine(1, parameters.altitude_valid_flag, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.altitude_limit_low, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.altitude_sanity_check_low, parameters.output_dataword);
-<<<<<<< HEAD
-=======
     
     String myText = "0100011010110001010110";
     // determine length of concatenated dataword
@@ -448,8 +446,6 @@ void write_satellite_data()
   size_t rx_bufferSize = sizeof(rx_buffer);
   
   err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
->>>>>>> c372b610473ba4dd57481be13624af0255ff7f44
- 
  
  
   }
