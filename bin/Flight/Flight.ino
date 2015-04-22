@@ -12,6 +12,7 @@
 #include <elapsedMillis.h>
 #include <SdFat.h>
 #include <SdFatUtil.h>
+#include <IridiumSBD.h>
 
 struct telemetry_data_struct telemetry_data;
 struct satellite_data_struct satellite_data;
@@ -87,7 +88,8 @@ void set_defaults()
   parameters.vehicle_mode = DEFAULT_MODE;
   parameters.command_count = 0.0;
   parameters.loop_sleep = DEFAULT_LOOP_SLEEP;
-  parameters.low_voltage_limit = DEFAULT_VOLTAGE_LOW_LIMIT;
+  parameters.low_voltage_limit_for_loadshed_entry = DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY;
+  parameters.low_voltage_limit_for_auto_cutdown = DEFAULT_VOLTAGE_LOW_LIMIT_CUTDOWN_ENTRY;
   parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
   parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
   parameters.battery_temperature_sanity_check_high = DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH;
@@ -95,34 +97,45 @@ void set_defaults()
   parameters.heater_state_1 = false;
   parameters.heater_state_2 = false;
   parameters.low_voltage_time_limit = DEFAULT_LOW_VOLTAGE_TIME_LIMIT;
-  parameters.battery_low_voltage_flag = false;
+  parameters.battery_bus_low_voltage_flag = false;
   parameters.voltage_sanity_check_high = DEFAULT_VOLTAGE_SANITY_CHECK_HIGH;
   parameters.voltage_sanity_check_low = DEFAULT_VOLTAGE_SANITY_CHECK_LOW;
   parameters.charge_current_sanity_check_high = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH;
   parameters.charge_current_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
   parameters.transmit_rate = thresholds.normal_transmit_rate;
   parameters.sd_card_write_rate = DEFAULT_SD_CARD_WRITE_RATE;
-  parameters.pyro_pulse_width = DEFAULT_PYRO_PULSE_WIDTH;
-  parameters.pyro_enable = false;
-  parameters.pyro_1_status = false;
-  parameters.pyro_2_status = false;
-  parameters.camera_flag = true;
-  parameters.batttery_charge_shutdown = false;
+  parameters.cutdown_pulse_width = DEFAULT_PYRO_PULSE_WIDTH;
+  parameters.cutdown_enable_state = false;
+  parameters.cutdown_1_status = false;
+  parameters.cutdown_2_status = false;
+  parameters.camera_status = true;
+  parameters.battery_1_charging_status = true;
+  parameters.battery_2_charging_status = true;
   parameters.camera_period = DEFAULT_CAMERA_PERIOD;
   parameters.camera_on_time = DEFAULT_CAMERA_ON_TIME;
   parameters.altitude_valid_flag = false;
   parameters.altitude_limit_low = DEFAULT_ALTITUDE_LIMIT_LOW;
   parameters.altitude_sanity_check_low = DEFAULT_ALTITUDE_SANITY_CHECK_LOW;
-  parameters.recharge_ratio = DEFAULT_RECHARGE_RATIO;
-  parameters.voltage_power_limit_high = DEFAULT_VOLTAGE_POWER_LIMIT_HIGH;
-  parameters.voltage_power_limit_low = DEFAULT_VOLTAGE_POWER_LIMIT_LOW;
+  
   parameters.voltage_sanity_check_high = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH;
   parameters.voltage_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
-  parameters.capacity_limit_high = DEFAULT_CAPACITY_LIMIT_HIGH;
-  parameters.capacity_limit_low = DEFAULT_CAPACITY_LIMIT_LOW;
-  parameters.amphrs_charging = 0.0;
-  parameters.amphrs_discharging = 0.0;
   
+  parameters.battery_1_recharge_ratio = DEFAULT_B1_RECHARGE_RATIO;
+  parameters.battery_1_amphrs_charging = 0.0;
+  parameters.battery_1_amphrs_discharging = 0.0;
+  parameters.battery_1_amphrs_term_threshold = DEFAULT_B1_AMPHRS_TERM_THRESHOLD;
+  parameters.battery_1_amphrs_init_threshold = DEFAULT_B1_AMPHRS_INIT_THRESHOLD;
+  parameters.battery_1_voltage_term_threshold = DEFAULT_B1_VOLTAGE_TERM_THRESHOLD;
+  parameters.battery_1_voltage_init_threshold = DEFAULT_B1_VOLTAGE_INIT_THRESHOLD;
+  
+  parameters.battery_2_recharge_ratio = DEFAULT_B2_RECHARGE_RATIO;
+  parameters.battery_2_amphrs_charging = 0.0;
+  parameters.battery_2_amphrs_discharging = 0.0;
+  parameters.battery_2_amphrs_term_threshold = DEFAULT_B2_AMPHRS_TERM_THRESHOLD;
+  parameters.battery_2_amphrs_init_threshold = DEFAULT_B2_AMPHRS_INIT_THRESHOLD;
+  parameters.battery_2_voltage_term_threshold = DEFAULT_B2_VOLTAGE_TERM_THRESHOLD;
+  parameters.battery_2_voltage_init_threshold = DEFAULT_B2_VOLTAGE_INIT_THRESHOLD;
+ 
   //parameters.output_dataword[340];
   parameters.output_dataword = "0";
   //parameters.valid_str = "0";
@@ -130,9 +143,9 @@ void set_defaults()
   //Set Digital Pin States
   digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
   digitalWrite(PIN_BATTERY_2_CHARGE_CUTOFF, LOW);
-  digitalWrite(PIN_PYRO_ENABLE, LOW);
-  digitalWrite(PIN_PYRO_1_FIRE, LOW);
-  digitalWrite(PIN_PYRO_2_FIRE, LOW);
+  digitalWrite(PIN_CUTDOWN_ENABLE, LOW);
+  digitalWrite(PIN_CUTDOWN_1_FIRE, LOW);
+  digitalWrite(PIN_CUTDOWN_2_FIRE, LOW);
   
   digitalWrite(PIN_HEATER_CONTROL_1, LOW);
   digitalWrite(PIN_HEATER_CONTROL_2, LOW);
@@ -149,9 +162,9 @@ void set_output_pins()
    pinMode(PIN_BATTERY_2_CHARGE_CUTOFF, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_1, OUTPUT);
    pinMode(PIN_HEATER_CONTROL_2, OUTPUT);
-   pinMode(PIN_PYRO_ENABLE, OUTPUT);
-   pinMode(PIN_PYRO_1_FIRE, OUTPUT);
-   pinMode(PIN_PYRO_2_FIRE, OUTPUT);
+   pinMode(PIN_CUTDOWN_ENABLE, OUTPUT);
+   pinMode(PIN_CUTDOWN_1_FIRE, OUTPUT);
+   pinMode(PIN_CUTDOWN_2_FIRE, OUTPUT);
    pinMode(PIN_CAMERA_SWITCH, OUTPUT);
    
    
@@ -163,7 +176,7 @@ void set_load_shed_mode()
    digitalWrite(PIN_CAMERA_SWITCH, LOW);
    
    //Set Camera flag to false
-   parameters.camera_flag = false;
+   parameters.camera_status = false;
   
    //Set Heater Threshols to Survival settings
    parameters.battery_temperature_limit_high = thresholds.survival_battery_temperature_limit_high;
@@ -172,7 +185,7 @@ void set_load_shed_mode()
    //Turn Power On
    digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
    digitalWrite(PIN_BATTERY_2_CHARGE_CUTOFF, LOW);
-   parameters.batttery_charge_shutdown = false;
+   parameters.battery_1_charging_status = true;
    
    //Set Transmit Rate
    parameters.transmit_rate = thresholds.load_shed_transmit_rate;
@@ -182,7 +195,7 @@ void set_load_shed_mode()
 void set_normal_mode()
 { 
    //Set Camera flag to true
-   parameters.camera_flag = true;
+   parameters.camera_status = true;
    
    //Set Heater Threshols to Survival settings
    parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
@@ -196,7 +209,7 @@ void set_normal_mode()
 void set_transit_mode()
 { 
    //Set Camera flag to true
-   parameters.camera_flag = true;
+   parameters.camera_status = true;
    
    //Set Heater Threshols to Survival settings
    parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
@@ -210,7 +223,7 @@ void set_transit_mode()
 void set_test_mode()
 {   
    //Set Camera flag to true
-   parameters.camera_flag = true;
+   parameters.camera_status = true;
    
    //Set Heater Thresholds to normal settings
    parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
@@ -227,7 +240,7 @@ void set_emergency_decent_mode()
    digitalWrite(PIN_CAMERA_SWITCH, LOW);
 
    //Turn Camera Flag to false
-   parameters.camera_flag = false;
+   parameters.camera_status = false;
    
    //Set Heater Thresholds to survival settings
    parameters.battery_temperature_limit_high = thresholds.survival_battery_temperature_limit_high;
@@ -237,19 +250,19 @@ void set_emergency_decent_mode()
    parameters.transmit_rate = thresholds.emergency_transit_transmit_rate;
    parameters.vehicle_mode = 4;
    //Fire Pyro
-   pyro_fire();
+   cutdown_fire();
 }
 
-void pyro_fire()
+void cutdown_fire()
 {
    //Enable Pyro pin
-   digitalWrite(PIN_PYRO_ENABLE, HIGH);
-   parameters.pyro_enable = true;
+   digitalWrite(PIN_CUTDOWN_ENABLE, HIGH);
+   parameters.cutdown_enable_state = true;
    
    //Set primary pin to high
-   digitalWrite(PIN_PYRO_1_FIRE, HIGH);
-   parameters.pyro_1_status = true;
+   digitalWrite(PIN_CUTDOWN_1_FIRE, HIGH);
+   parameters.cutdown_1_status = true;
    
    //Mark time that pyro was initiated 
-   parameters.pyro_initiation_elapsed_time = 0;
+   parameters.cutdown_initiation_elapsed_time = 0;
 }

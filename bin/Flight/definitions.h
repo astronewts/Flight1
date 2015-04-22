@@ -24,7 +24,8 @@
 //Defaults
 #define DEFAULT_MODE                               1
 #define DEFAULT_LOOP_SLEEP                         3000
-#define DEFAULT_VOLTAGE_LOW_LIMIT                  8.5
+#define DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY   8.5
+#define DEFAULT_VOLTAGE_LOW_LIMIT_CUTDOWN_ENTRY    8.0
 #define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             1800
 #define DEFAULT_VOLTAGE_SANITY_CHECK_HIGH          2.4
 #define DEFAULT_VOLTAGE_SANITY_CHECK_LOW           4.0
@@ -46,14 +47,21 @@
 #define DEFAULT_CAMERA_ON_TIME                     10000
 #define DEFAULT_ALTITUDE_LIMIT_LOW                 21336
 #define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          1000
-#define DEFAULT_RECHARGE_RATIO                     1.1
-#define DEFAULT_VOLTAGE_POWER_LIMIT_HIGH           12.4
-#define DEFAULT_VOLTAGE_POWER_LIMIT_LOW            10.0
+#define DEFAULT_B1_RECHARGE_RATIO                  1.1
+#define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           -0.1
+#define DEFAULT_B1_AMPHRS_INIT_THRESHOLD           -0.5  
+#define DEFAULT_B1_VOLTAGE_TERM_THRESHOLD           12.5
+#define DEFAULT_B1_VOLTAGE_INIT_THRESHOLD            10.0
+
+#define DEFAULT_B2_RECHARGE_RATIO                     1.1
+#define DEFAULT_B2_AMPHRS_TERM_THRESHOLD           -0.1
+#define DEFAULT_B2_AMPHRS_INIT_THRESHOLD           -0.5  
+#define DEFAULT_B2_VOLTAGE_TERM_THRESHOLD           12.5
+#define DEFAULT_B2_VOLTAGE_INIT_THRESHOLD            10.0
+
 #define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW    3.0
 #define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH   -2.0
-#define DEFAULT_CAPACITY_LIMIT_HIGH                -0.1
-#define DEFAULT_CAPACITY_LIMIT_LOW                 -0.5          
-           
+
 
 //Analog Pins
 #define PIN_PRESSURE_SENSOR          A0
@@ -70,10 +78,9 @@
 #define PIN_BATTERY2_2_TEMP          A11
 
 //Digital Pins
-#define PIN_PYRO_ENABLE              2
-#define PIN_PYRO_1_FIRE              3
-#define PIN_PYRO_2_FIRE              4 
-#define PIN_PYRO_2_FIRE              8 
+#define PIN_CUTDOWN_ENABLE              2
+#define PIN_CUTDOWN_1_FIRE              3
+#define PIN_CUTDOWN_2_FIRE              4 
 #define PIN_BATTERY_1_CHARGE_CUTOFF  6
 #define PIN_BATTERY_2_CHARGE_CUTOFF  7
 #define PIN_CAMERA_SWITCH            9
@@ -148,40 +155,53 @@ struct parameter_struct
   int battery_temperature_sanity_check_low;
   bool heater_state_1;
   bool heater_state_2;
-  double low_voltage_limit;
+  double low_voltage_limit_for_loadshed_entry;
+  double low_voltage_limit_for_auto_cutdown;
   unsigned long low_voltage_time_limit;
-  bool battery_low_voltage_flag;
+  bool battery_bus_low_voltage_flag;
   double voltage_sanity_check_high;
   double voltage_sanity_check_low;
-  double voltage_power_limit_high;
-  double voltage_power_limit_low;
   double charge_current_sanity_check_high;
   double charge_current_sanity_check_low;
-  double amphrs_charging;
-  double amphrs_discharging;
-  double capacity_limit_high;
-  double capacity_limit_low;
-  
-  unsigned long pyro_pulse_width;
-  bool pyro_enable;
-  bool pyro_1_status;
-  bool pyro_2_status;
-  bool camera_flag;
+  unsigned long cutdown_pulse_width;
+  bool cutdown_enable_state;
+  bool cutdown_1_status;
+  bool cutdown_2_status;
+  bool camera_status;
   unsigned long camera_period;
   unsigned long camera_on_time;
-  bool batttery_charge_shutdown;
+  bool battery_1_charging_status;
+  bool battery_2_charging_status;
+  
   bool altitude_valid_flag;
   int altitude_limit_low;
   int altitude_sanity_check_low;
-  double recharge_ratio;
+  
+  double battery_1_recharge_ratio;
+  double battery_1_amphrs_charging;
+  double battery_1_amphrs_discharging;
+  double battery_1_amphrs_term_threshold;
+  double battery_1_amphrs_init_threshold;
+  double battery_1_voltage_term_threshold;
+  double battery_1_voltage_init_threshold;
+  
+  double battery_2_recharge_ratio;
+  double battery_2_amphrs_charging;
+  double battery_2_amphrs_discharging;
+  double battery_2_amphrs_term_threshold;
+  double battery_2_amphrs_init_threshold;
+  double battery_2_voltage_term_threshold;
+  double battery_2_voltage_init_threshold;
+
   elapsedMillis camera_period_elapsed_time;
   elapsedMillis camera_on_elapsed_time;
   elapsedMillis battery_low_voltage_elapsed_time;
-  elapsedMillis pyro_initiation_elapsed_time;
+  elapsedMillis cutdown_initiation_elapsed_time;
   elapsedMillis transmit_elapsed_time;
   elapsedMillis sd_card_write_elapsed_time;
   elapsedMillis charge_current_read_elapsed_time;
   
+
   String output_dataword;
   String valid_str;
   

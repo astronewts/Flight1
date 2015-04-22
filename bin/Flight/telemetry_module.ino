@@ -1,3 +1,4 @@
+
 double raw_val;
 double actual_val;
 char buffer[128];
@@ -69,31 +70,31 @@ void process_telemetry()
    // NOTE: WHAT ARE YOU FOR???
    double elapsed_time_factor = 0.0;
    
-   //Check Pyros
-   if(digitalRead(PIN_PYRO_1_FIRE) == HIGH)
+   //Check Cutdown Process
+   if(digitalRead(PIN_CUTDOWN_1_FIRE) == HIGH)
    {
-     if(parameters.pyro_initiation_elapsed_time >= parameters.pyro_pulse_width)
+     if(parameters.cutdown_initiation_elapsed_time >= parameters.cutdown_pulse_width)
      {
-        //Set Primary Pyro to Low
-        digitalWrite(PIN_PYRO_1_FIRE, LOW);
+        //Set Primary Cutdown to Low
+        digitalWrite(PIN_CUTDOWN_1_FIRE, LOW);
         
-        //Set Backup Pyro to High
-        digitalWrite(PIN_PYRO_2_FIRE, HIGH);
+        //Set Backup Cutdown to High
+        digitalWrite(PIN_CUTDOWN_2_FIRE, HIGH);
         
         //Reset the initiation elapsed time
-        parameters.pyro_initiation_elapsed_time = 0;
+        parameters.cutdown_initiation_elapsed_time = 0;
      }
    }
    
-   if(digitalRead(PIN_PYRO_2_FIRE) == HIGH)
+   if(digitalRead(PIN_CUTDOWN_2_FIRE) == HIGH)
    {
-     if(parameters.pyro_initiation_elapsed_time >= parameters.pyro_pulse_width)
+     if(parameters.cutdown_initiation_elapsed_time >= parameters.cutdown_pulse_width)
      {
-        //Set Backup Pyro to Low
-        digitalWrite(PIN_PYRO_2_FIRE, LOW);
+        //Set Backup Cutdown to Low
+        digitalWrite(PIN_CUTDOWN_2_FIRE, LOW);
         
-        //Disable the Pyro Pin
-        digitalWrite(PIN_PYRO_ENABLE, LOW);
+        //Disable the Cutdown Pin
+        digitalWrite(PIN_CUTDOWN_ENABLE, LOW);
      }
    }
    
@@ -245,16 +246,16 @@ void process_telemetry()
    
    if(valid_data == true)
    {
-      //Compare voltage to limit
-      if(value < parameters.low_voltage_limit)
+      //Compare voltage to loadshed entry threshold
+      if(value < parameters.low_voltage_limit_for_loadshed_entry)
       {
-	     if(parameters.battery_low_voltage_flag == false)
+	     if(parameters.battery_bus_low_voltage_flag == false)
 	     {
             //Battery voltage is low - set flag and mark time
-	        parameters.battery_low_voltage_flag = true;
+	        parameters.battery_bus_low_voltage_flag = true;
            parameters.battery_low_voltage_elapsed_time = 0;
            sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).  Goind into Load Shed Mode.",
-                            value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
+                            value, parameters.low_voltage_limit_for_loadshed_entry, parameters.low_voltage_time_limit);
            Serial.println(buffer);
             
            //Enter Load Shed Mode
@@ -263,29 +264,29 @@ void process_telemetry()
       }
       else
       {
-         if(parameters.battery_low_voltage_flag == true)
+         if(parameters.battery_bus_low_voltage_flag == true)
          {
-            parameters.battery_low_voltage_flag = false;
+            parameters.battery_bus_low_voltage_flag = false;
          }
       }
       
       // Battery Voltage Charge Control
-      if(value < parameters.voltage_power_limit_low)
+      if(value < parameters.battery_1_voltage_init_threshold)
       {
          //Turn the power on
          digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
-         parameters.batttery_charge_shutdown = false;
+         parameters.battery_1_charging_status = true;
       }
       
-      if(value > parameters.voltage_power_limit_high)
+      if(value > parameters.battery_1_voltage_term_threshold)
       {
          //Turn the power off
          digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
-         parameters.batttery_charge_shutdown = true;
+         parameters.battery_1_charging_status = false;
          
          //Reset the charge counts
-         parameters.amphrs_charging = 0.0;
-         parameters.amphrs_discharging = 0.0;
+         parameters.battery_1_amphrs_charging = 0.0;
+         parameters.battery_1_amphrs_discharging = 0.0;
       }       
       //TODO: DUPLICATE TO ADD BATTERY 2 CODE!!!
   }
@@ -329,48 +330,47 @@ void process_telemetry()
       
       if(value > 0)
       {
-         parameters.amphrs_charging += ((value / (elapsed_time_factor * SECS_IN_HOUR)) / parameters.recharge_ratio);
+         parameters.battery_1_amphrs_charging += ((value / (elapsed_time_factor * SECS_IN_HOUR)) / parameters.battery_1_recharge_ratio);
       }
       else if (value < 0)
       {
-         parameters.amphrs_discharging += (value / (elapsed_time_factor * SECS_IN_HOUR));
+         parameters.battery_1_amphrs_discharging += (value / (elapsed_time_factor * SECS_IN_HOUR));
       }
       
-      value = parameters.amphrs_charging - parameters.amphrs_discharging;
+      value = parameters.battery_1_amphrs_charging - parameters.battery_1_amphrs_discharging;
       
-      if(value < parameters.capacity_limit_low)
+      if(value < parameters.battery_1_amphrs_init_threshold)
       {
          //Turn the power ON
          digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
-         parameters.batttery_charge_shutdown = false;
-         // NOTE: Capacity limit is negative
+         parameters.battery_1_charging_status = true;
       }
       
-      if(value > parameters.capacity_limit_high)
+      if(value > parameters.battery_1_amphrs_term_threshold)
       {
          //Turn the power Off
          digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
-         parameters.batttery_charge_shutdown = true;
-         // NOTE: Capacity limit is negative
+         parameters.battery_1_charging_status = false;
          
          //Reset the charge counts
-         parameters.amphrs_charging = 0.0;
-         parameters.amphrs_discharging = 0.0;
+         parameters.battery_1_amphrs_charging = 0.0;
+         parameters.battery_1_amphrs_discharging = 0.0;
       }
    }
    //TODO: DUPLICATE TO ADD BATTERY 2 CODE !!!!
    
-   
+//TODO: NEEDS TO BE CODE THAT SEPARATES LOADSHED ENTRY FROM AUTO-CUTDOWN
+
   // Battery Failure Checking 
   // Check if voltage flag is already set
-  if(parameters.battery_low_voltage_flag == true)
+  if(parameters.battery_bus_low_voltage_flag == true)
   {
 	  //Check if the timer has reached 
 	  //the the low voltage time limit
 	  if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
 	  {
 	     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Emergency Descent Mode.",
-                 value, parameters.low_voltage_limit, parameters.low_voltage_time_limit);
+                 value, parameters.low_voltage_limit_for_loadshed_entry, parameters.low_voltage_time_limit);
           Serial.println(buffer);
           
           //Enter Emergency Descent Mode
