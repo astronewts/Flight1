@@ -2,7 +2,7 @@
 
 static const int RXPin = 4, TXPin = 3;
 static const uint32_t GPSBaud = 4800;
-static const double LONDON_LAT = 51.508131, LONDON_LON = -0.128002;
+//static const double LONDON_LAT = 51.508131, LONDON_LON = -0.128002;
 static char sz[64];
     
 

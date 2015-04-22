@@ -281,6 +281,9 @@ void write_telemetry_data_to_sd()
   bout << ',' << gps.speed.kmph();                                     //31
   bout << ',' << gps.satellites.value();                               //32
 //  bout << ',' << gps.date;                                           //33
+
+printDateTime(gps.date, gps.time);
+
 //  bout << ',' << gps.time;                                           //34
   bout << ',' << gps.hdop.value();                                     //35
   bout << ',' << gps.charsProcessed();                                 //36
