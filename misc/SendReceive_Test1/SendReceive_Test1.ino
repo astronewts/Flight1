@@ -106,7 +106,8 @@ for(int i=0; i<tx_bufferSize; i++){
 
 
 // gs tmp
-bool output[370 * 8] = {0};
+//bool output[370 * 8] = {0};
+bool output[3 * 8] = {0};
 for (int i=0; i<sizeof(myText); i++){
   if (myText.charAt(i) == '0'){
     output[i] = 0;
@@ -118,9 +119,17 @@ for (int i=0; i<sizeof(myText); i++){
 uint8_t* output_as_int = (uint8_t*) output;
 
 
-//All the integers indiv
-for (int i=0; i<370; i++)
-  int foo = output_as_int[i];
+////All the integers indiv
+//for (int i=0; i<3; i++){
+//  uint8_t foo = output_as_int[i];
+//  Serial.println("output_as_int= ");
+//  Serial.println(output_as_int[i],DEC);
+//  Serial.println(output_as_int[i],BIN);
+//  //Serial.printf(F("value is:%3d\n"),output_as_int[i]);
+//  Serial.println("foo= ");
+//  Serial.println(foo);
+//}
+  
 
 // ==================== end define binary message ========================= // 
 // int sendReceiveSBDBinary(const uint8_t *txData, size_t txDataSize, uint8_t *rxBuffer, size_t &rxBufferSize);
@@ -139,6 +148,7 @@ for (int i=0; i<370; i++)
   
 //  err = isbd.sendReceiveSBDBinary(tx_buffer, 20, rx_buffer, bufferSize);
   err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
+//  err = isbd.sendReceiveSBDBinary(output_as_int, tx_bufferSize, rx_buffer, rx_bufferSize);
 //=========== end real command ======================================= //
 
 

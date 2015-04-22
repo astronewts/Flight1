@@ -1,6 +1,9 @@
 #include "Arduino.h"
+#include <IridiumSBD.h>
 #include <string>
 //#include <Streaming>
+
+IridiumSBD isbd(Serial3, 50);
 
 void process_satellite_data()
 {
@@ -373,7 +376,109 @@ void write_satellite_data()
     parameters.output_dataword = combine(1, parameters.altitude_valid_flag, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.altitude_limit_low, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.altitude_sanity_check_low, parameters.output_dataword);
+    
+    String myText = "0100011010110001010110";
+    // determine length of concatenated dataword
+    size_t size_mssg = myText.length(); 
+
+    // determine number of bytes in dataword
+    size_t tx_bufferSize  = size_mssg / 8;
+    float tx_bufferSize_rest =  size_mssg % 8;
+    if ( tx_bufferSize_rest != 0) { tx_bufferSize = tx_bufferSize + 1;
+    } 
+    Serial.println("numb of bytes in mssg:");
+    Serial.println(tx_bufferSize);
+
+    // create unsigned integer array for input to Iridium send/receive function
+    uint8_t tx_buffer[tx_bufferSize];
+
+    //convert concatenated dataword characters into 8-bit chunks and add each to unsigned integer array
+    
+    for(int i=0; i<tx_bufferSize; i++){
+        tx_buffer[i] = 0;
+        for(int j=0; j<8; j++){
+            int k = i*8 + j;
+           char myChar = myText.charAt(k); 
+           int  bit_extr = std::max(myChar - '0', 0);  
+           
+           tx_buffer[i] = tx_buffer[i] + bit_extr * pow(2,7-j);
+        }
+    }
+    
+    //////////Start of Iridium Transmit Code/////////////////
+    
+    // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
+    isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    
+    isbd.setPowerProfile(1); // This is a low power application
+    
+    // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
+    isbd.begin();
+    
+    //int getSignalQuality(int &quality);
+    //Description:   Queries the signal strength and visibility of satellites
+    //Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
+    //Parameter:      quality – Return value: the strength of the signal (0=nonexistent, 5=high)
+    int signalQuality = -1;
+    int err = isbd.getSignalQuality(signalQuality);
+    if (err != 0)
+    {
+      Serial.print("SignalQuality failed: error ");
+      Serial.println(err);
+      return;
+    }
+  
+    Serial.print("Signal quality (0=nonexistent, 5=high) is ");
+    Serial.println(signalQuality);
+    //Comment out above code after diagnostics are complete
+    
+    // int sendReceiveSBDBinary(const uint8_t *txData, size_t txDataSize, uint8_t *rxBuffer, size_t &rxBufferSize);
+//Description:   Transmits a binary message to the global satellite system and receives a message if one is available.
+//Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
+//Parameter:      txData – The buffer containing the binary data to be transmitted.
+//Parameter:      txDataSize - The size of the outbound buffer in bytes.
+//Parameter:      rxBuffer – The buffer to receive the inbound message.
+//Parameter:      rxBufferSize - The size of the buffer in bytes.
+// NOTE: uint8_t is shorthand for: a type of unsigned integer of length 8 bits
+// NOTE: The maximum size of a transmitted packet (including header and checksum) is 340 bytes.
+// NOTE: The maximum size of a received packet is 270 bytes.
+//=========== real command =========================================== //
+  uint8_t rx_buffer[400]; // max size of a message is 370 bytes so we are safe with 400. 
+  size_t rx_bufferSize = sizeof(rx_buffer);
+  
+  err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
  
+//=========== end real command ======================================= //
+
+  Serial.print("message sent");
+  if (err != 0)
+  {
+    Serial.print("sendReceiveSBDText failed: error ");
+    Serial.println(err);
+    return;
+  }
+// ================ Print inbound message ================================= //
+  Serial.print("Inbound buffer size is ");
+  Serial.println(rx_bufferSize);
+  for (int i=0; i<rx_bufferSize; ++i)
+  {
+ //   Serial.write(rx_buffer[i]);
+    Serial.print("(");
+    //Serial.print(rx_buffer[i], HEX);
+    Serial.print(rx_buffer[i]);
+    Serial.print(") ");
+  }
+// ================ END Print inbound message ============================== //
+
+  
+  Serial.print("Number messages left: ");
+//  int getWaitingMessageCount();
+//  Description:   Returns the number of waiting messages on the Iridium servers.
+//  Returns:            The number of messages waiting.
+  Serial.println(isbd.getWaitingMessageCount());
+   
+   //////////End of Iridium Transmit Code/////////////////
   }
 }
 
