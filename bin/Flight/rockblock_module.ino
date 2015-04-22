@@ -377,9 +377,9 @@ void write_satellite_data()
     parameters.output_dataword = combine(16, parameters.altitude_limit_low, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.altitude_sanity_check_low, parameters.output_dataword);
     
-    String myText = "0100011010110001010110";
+    //String myText = "0100011010110001010110";
     // determine length of concatenated dataword
-    size_t size_mssg = myText.length(); 
+    size_t size_mssg = parameters.output_dataword.length(); 
 
     // determine number of bytes in dataword
     size_t tx_bufferSize  = size_mssg / 8;
@@ -398,7 +398,7 @@ void write_satellite_data()
         tx_buffer[i] = 0;
         for(int j=0; j<8; j++){
             int k = i*8 + j;
-           char myChar = myText.charAt(k); 
+           char myChar = parameters.output_dataword.charAt(k); 
            int  bit_extr = std::max(myChar - '0', 0);  
            
            tx_buffer[i] = tx_buffer[i] + bit_extr * pow(2,7-j);
