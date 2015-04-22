@@ -2,6 +2,8 @@
 #include <string>
 //#include <Streaming>
 
+IridiumSBD isbd(Serial3, 50);
+
 void process_satellite_data()
 {
  
@@ -447,7 +449,36 @@ void write_satellite_data()
   
   err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
  
- 
+//=========== end real command ======================================= //
+
+  Serial.print("message sent");
+  if (err != 0)
+  {
+    Serial.print("sendReceiveSBDText failed: error ");
+    Serial.println(err);
+    return;
+  }
+// ================ Print inbound message ================================= //
+  Serial.print("Inbound buffer size is ");
+  Serial.println(rx_bufferSize);
+  for (int i=0; i<rx_bufferSize; ++i)
+  {
+ //   Serial.write(rx_buffer[i]);
+    Serial.print("(");
+    //Serial.print(rx_buffer[i], HEX);
+    Serial.print(rx_buffer[i]);
+    Serial.print(") ");
+  }
+// ================ END Print inbound message ============================== //
+
+  
+  Serial.print("Number messages left: ");
+//  int getWaitingMessageCount();
+//  Description:   Returns the number of waiting messages on the Iridium servers.
+//  Returns:            The number of messages waiting.
+  Serial.println(isbd.getWaitingMessageCount());
+   
+   //////////End of Iridium Transmit Code/////////////////
   }
 }
 
