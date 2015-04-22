@@ -2,11 +2,114 @@
 #include <string>
 //#include <Streaming>
 
-IridiumSBD isbd(Serial3, 50);
-
-void process_satellite_data()
+void sendrecieve_satellite_data()
 {
+    //String myText = "0100011010110001010110";
+    // determine length of concatenated dataword
+    size_t size_mssg = parameters.output_dataword.length(); 
+
+    // determine number of bytes in dataword
+    size_t tx_bufferSize  = size_mssg / 8;
+    float tx_bufferSize_rest =  size_mssg % 8;
+    if ( tx_bufferSize_rest != 0) { tx_bufferSize = tx_bufferSize + 1;
+    } 
+    Serial.println("numb of bytes in mssg:");
+    Serial.println(tx_bufferSize);
+
+    // create unsigned integer array for input to Iridium send/receive function
+    uint8_t tx_buffer[tx_bufferSize];
+
+    //convert concatenated dataword characters into 8-bit chunks and add each to unsigned integer array
+    
+    for(int i=0; i<tx_bufferSize; i++){
+        tx_buffer[i] = 0;
+        for(int j=0; j<8; j++){
+            int k = i*8 + j;
+           char myChar = parameters.output_dataword.charAt(k); 
+           int  bit_extr = std::max(myChar - '0', 0);  
+           
+           tx_buffer[i] = tx_buffer[i] + bit_extr * pow(2,7-j);
+             
+           
+         
+       }
+  
+    }        
+    
+     //////////Start of Iridium Transmit Code/////////////////
+    
+    // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
+    isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    
+    isbd.setPowerProfile(1); // This is a low power application
+    
+    // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
+    isbd.begin();
+    
+    //int getSignalQuality(int &quality);
+    //Description:   Queries the signal strength and visibility of satellites
+    //Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
+    //Parameter:      quality – Return value: the strength of the signal (0=nonexistent, 5=high)
+    int signalQuality = -1;
+    int err = isbd.getSignalQuality(signalQuality);
+    if (err != 0)
+    {
+      Serial.print("SignalQuality failed: error ");
+      Serial.println(err);
+      return;
+    }
+   
+    Serial.print("Signal quality (0=nonexistent, 5=high) is ");
+    Serial.println(signalQuality);
+    //Comment out above code after diagnostics are complete
+    
+    // int sendReceiveSBDBinary(const uint8_t *txData, size_t txDataSize, uint8_t *rxBuffer, size_t &rxBufferSize);
+//Description:   Transmits a binary message to the global satellite system and receives a message if one is available.
+//Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
+//Parameter:      txData – The buffer containing the binary data to be transmitted.
+//Parameter:      txDataSize - The size of the outbound buffer in bytes.
+//Parameter:      rxBuffer – The buffer to receive the inbound message.
+//Parameter:      rxBufferSize - The size of the buffer in bytes.
+// NOTE: uint8_t is shorthand for: a type of unsigned integer of length 8 bits
+// NOTE: The maximum size of a transmitted packet (including header and checksum) is 340 bytes.
+// NOTE: The maximum size of a received packet is 270 bytes.
+//=========== real command =========================================== //
+  uint8_t rx_buffer[400]; // max size of a message is 370 bytes so we are safe with 400. 
+  size_t rx_bufferSize = sizeof(rx_buffer);
+  
+  err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
  
+//=========== end real command ======================================= //
+
+  Serial.print("message sent");
+  if (err != 0)
+  {
+    Serial.print("sendReceiveSBDText failed: error ");
+    Serial.println(err);
+    return;
+  }
+// ================ Print inbound message ================================= //
+  Serial.print("Inbound buffer size is ");
+  Serial.println(rx_bufferSize);
+  for (int i=0; i<rx_bufferSize; ++i)
+  {
+ //   Serial.write(rx_buffer[i]);
+    Serial.print("(");
+    //Serial.print(rx_buffer[i], HEX);
+    Serial.print(rx_buffer[i]);
+    Serial.print(") ");
+  }
+// ================ END Print inbound message ============================== //
+
+  
+  Serial.print("Number messages left: ");
+//  int getWaitingMessageCount();
+//  Description:   Returns the number of waiting messages on the Iridium servers.
+//  Returns:            The number of messages waiting.
+  Serial.println(isbd.getWaitingMessageCount());
+   
+   //////////End of Iridium Transmit Code/////////////////
 }
 
 // procedure :
@@ -31,10 +134,10 @@ String combine(int bin_size, long input_data, String dataword)
 }
 
 //Receive any data from satellite
-int read_satellite_data()
+int process_satellite_command()
 {
    // THIS NEEDS TO BE TIED INTO THE ROCKBLOCK MODULE
-  String CommandString = "PlaceholderStringCommand";
+  String CommandString = "PlaceholderStringCommand"; // SHOULD BE rx_buffer
   
   
   // Allow the Commands through if it matches the intended vehicle and code version
@@ -103,11 +206,11 @@ int read_satellite_data()
         // This is a command change the Camera Enable Status
          if (CommandString.substring(14,15) == "F") {
          // Enable the Camera
-         parameters.camera_flag == true;
+         parameters.camera_status == true;
          }
          if (CommandString.substring(14,15) == "0") {
          // Disable the Camera
-         parameters.camera_flag == false;
+         parameters.camera_status == false;
          }
       } 
       
@@ -117,13 +220,13 @@ int read_satellite_data()
             // Enable Pyro Relay, Fire Pyros, and disable Pyro Relay
             set_transit_mode(); 
             // This will also initiate transition to Transit Mode
-            pyro_fire();
+            cutdown_fire();
           }
        }
        if (CommandString.substring(6,13) == "23330010") {
         // This is a command set Pyro Fire Pulse Width
         // Defined in msec
-        parameters.pyro_pulse_width = CommandString.substring(14,17).toInt();
+        parameters.cutdown_pulse_width = CommandString.substring(14,17).toInt();
   
        }
        if (CommandString.substring(6,13) == "24330020") {
@@ -189,10 +292,10 @@ int read_satellite_data()
         parameters.voltage_sanity_check_high = CommandString.substring(14,15).toInt() / 10;
         
         // Charge Termination Voltage Threshold  = CommandString.substring(16,17)
-        parameters.voltage_power_limit_high = CommandString.substring(16,17).toInt() / 10;
+        parameters.battery_1_voltage_term_threshold = CommandString.substring(16,17).toInt() / 10;
         
         // Charge Inialization Voltage Threshold  = CommandString.substring(18,19)
-        parameters.voltage_power_limit_low = CommandString.substring(18,19).toInt() / 10;
+        parameters.battery_1_voltage_init_threshold = CommandString.substring(18,19).toInt() / 10;
         
         // Sanity Check Low Temp Threshold  = CommandString.substring(20,21)
         parameters.voltage_sanity_check_low = CommandString.substring(20,21).toInt() / 10;
@@ -202,9 +305,9 @@ int read_satellite_data()
         // Conversion from mAmp-Hrs to Amp-Hrs
         
         // Charge Termination Amp-Hour Threshold  = CommandString.substring(14,17)
-        parameters.capacity_limit_high = CommandString.substring(14,17).toInt() / 1000;
+        parameters.battery_1_amphrs_term_threshold = CommandString.substring(14,17).toInt() / 1000;
         // Charge Inialization Amp-Hour Threshold  = CommandString.substring(18,21)
-        parameters.capacity_limit_low = CommandString.substring(18,21).toInt() / 1000;
+        parameters.battery_1_amphrs_init_threshold = CommandString.substring(18,21).toInt() / 1000;
         
         // Conversion from cAmp to Amp
         // Sanity Check High Current Threshold  = CommandString.substring(22,25)
@@ -216,7 +319,7 @@ int read_satellite_data()
         // This is a command to set the Recharge Ratio
         // Convert percentage to scale multiplication factor
         // Recharge Ratio  = CommandString.substring(14,15)
-        parameters.recharge_ratio = CommandString.substring(14,15).toInt() / 100;
+        parameters.battery_1_recharge_ratio = CommandString.substring(14,15).toInt() / 100;
         }
        if (CommandString.substring(6,13) == "48331000") {
         // This is a command to set the Altitude Descent Trigger
@@ -233,7 +336,7 @@ int read_satellite_data()
         // Voltage Descent Trigger  = CommandString.substring(14,15)
         // Converted from dVolts to Volts
         
-        parameters.low_voltage_limit = CommandString.substring(14,15).toInt() / 10;
+        parameters.low_voltage_limit_for_auto_cutdown = CommandString.substring(14,15).toInt() / 10;
         }
      
        if (CommandString.substring(6,13) == "48338000") {
@@ -264,7 +367,7 @@ int read_satellite_data()
   
 }
 
-void write_satellite_data()
+void write_output_telemetry_dataword()
 {
   // Process the Normal OPS Transmit Format
   if (parameters.vehicle_mode < 6) {
@@ -340,21 +443,23 @@ void write_satellite_data()
     
     // TODO: ADD GYRO TEMP TELEMETRY
     
-    parameters.output_dataword = combine(1, parameters.batttery_charge_shutdown, parameters.output_dataword);
-    parameters.output_dataword = combine(32, parameters.recharge_ratio, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.battery_1_charging_status, parameters.output_dataword);
+    parameters.output_dataword = combine(32, parameters.battery_1_recharge_ratio, parameters.output_dataword);
     parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_high, parameters.output_dataword);
     parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_low, parameters.output_dataword);
-    parameters.output_dataword = combine(32, parameters.amphrs_charging, parameters.output_dataword);
-    parameters.output_dataword = combine(32, parameters.amphrs_discharging, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.capacity_limit_high, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.capacity_limit_low, parameters.output_dataword);
+    parameters.output_dataword = combine(32, parameters.battery_1_amphrs_charging, parameters.output_dataword);
+    parameters.output_dataword = combine(32, parameters.battery_1_amphrs_discharging, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.battery_1_amphrs_term_threshold, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.battery_1_amphrs_init_threshold, parameters.output_dataword);
     parameters.output_dataword = combine(8, parameters.voltage_sanity_check_high, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.voltage_power_limit_high, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.voltage_power_limit_low, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.low_voltage_limit, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.battery_1_voltage_term_threshold, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.battery_1_voltage_init_threshold, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.low_voltage_limit_for_loadshed_entry, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.low_voltage_limit_for_auto_cutdown, parameters.output_dataword);
+    
     parameters.output_dataword = combine(8, parameters.voltage_sanity_check_low, parameters.output_dataword);
     parameters.output_dataword = combine(1, parameters.low_voltage_time_limit, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.battery_low_voltage_flag, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.battery_bus_low_voltage_flag, parameters.output_dataword);
     parameters.output_dataword = combine(1, parameters.heater_state_1, parameters.output_dataword);
     parameters.output_dataword = combine(1, parameters.heater_state_2, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.battery_temperature_limit_high, parameters.output_dataword);
@@ -365,120 +470,18 @@ void write_satellite_data()
     parameters.output_dataword = combine(16, thresholds.survival_battery_temperature_limit_high, parameters.output_dataword);
     parameters.output_dataword = combine(16, thresholds.survival_battery_temperature_limit_low, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.battery_temperature_sanity_check_low, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.pyro_enable, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.pyro_1_status, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.pyro_2_status, parameters.output_dataword);
-    parameters.output_dataword = combine(8, parameters.pyro_pulse_width, parameters.output_dataword);
-    parameters.output_dataword = combine(1, parameters.camera_flag, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.cutdown_enable_state, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.cutdown_1_status, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.cutdown_2_status, parameters.output_dataword);
+    parameters.output_dataword = combine(8, parameters.cutdown_pulse_width, parameters.output_dataword);
+    parameters.output_dataword = combine(1, parameters.camera_status, parameters.output_dataword);
     parameters.output_dataword = combine(12, parameters.camera_period, parameters.output_dataword);
     parameters.output_dataword = combine(12, parameters.camera_on_time, parameters.output_dataword);
     parameters.output_dataword = combine(1, parameters.altitude_valid_flag, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.altitude_limit_low, parameters.output_dataword);
     parameters.output_dataword = combine(16, parameters.altitude_sanity_check_low, parameters.output_dataword);
-    
-    //String myText = "0100011010110001010110";
-    // determine length of concatenated dataword
-    size_t size_mssg = parameters.output_dataword.length(); 
-
-    // determine number of bytes in dataword
-    size_t tx_bufferSize  = size_mssg / 8;
-    float tx_bufferSize_rest =  size_mssg % 8;
-    if ( tx_bufferSize_rest != 0) { tx_bufferSize = tx_bufferSize + 1;
-    } 
-    Serial.println("numb of bytes in mssg:");
-    Serial.println(tx_bufferSize);
-
-    // create unsigned integer array for input to Iridium send/receive function
-    uint8_t tx_buffer[tx_bufferSize];
-
-    //convert concatenated dataword characters into 8-bit chunks and add each to unsigned integer array
-    
-    for(int i=0; i<tx_bufferSize; i++){
-        tx_buffer[i] = 0;
-        for(int j=0; j<8; j++){
-            int k = i*8 + j;
-           char myChar = parameters.output_dataword.charAt(k); 
-           int  bit_extr = std::max(myChar - '0', 0);  
            
-           tx_buffer[i] = tx_buffer[i] + bit_extr * pow(2,7-j);
-        }
-    }
-    
-    //////////Start of Iridium Transmit Code/////////////////
-    
-    // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
-    isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-    isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-    
-    isbd.setPowerProfile(1); // This is a low power application
-    
-    // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
-    isbd.begin();
-    
-    //int getSignalQuality(int &quality);
-    //Description:   Queries the signal strength and visibility of satellites
-    //Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
-    //Parameter:      quality – Return value: the strength of the signal (0=nonexistent, 5=high)
-    int signalQuality = -1;
-    int err = isbd.getSignalQuality(signalQuality);
-    if (err != 0)
-    {
-      Serial.print("SignalQuality failed: error ");
-      Serial.println(err);
-      return;
-    }
    
-   
-    Serial.print("Signal quality (0=nonexistent, 5=high) is ");
-    Serial.println(signalQuality);
-    //Comment out above code after diagnostics are complete
-    
-    // int sendReceiveSBDBinary(const uint8_t *txData, size_t txDataSize, uint8_t *rxBuffer, size_t &rxBufferSize);
-//Description:   Transmits a binary message to the global satellite system and receives a message if one is available.
-//Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
-//Parameter:      txData – The buffer containing the binary data to be transmitted.
-//Parameter:      txDataSize - The size of the outbound buffer in bytes.
-//Parameter:      rxBuffer – The buffer to receive the inbound message.
-//Parameter:      rxBufferSize - The size of the buffer in bytes.
-// NOTE: uint8_t is shorthand for: a type of unsigned integer of length 8 bits
-// NOTE: The maximum size of a transmitted packet (including header and checksum) is 340 bytes.
-// NOTE: The maximum size of a received packet is 270 bytes.
-//=========== real command =========================================== //
-  uint8_t rx_buffer[400]; // max size of a message is 370 bytes so we are safe with 400. 
-  size_t rx_bufferSize = sizeof(rx_buffer);
-  
-  err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
- 
-//=========== end real command ======================================= //
-
-  Serial.print("message sent");
-  if (err != 0)
-  {
-    Serial.print("sendReceiveSBDText failed: error ");
-    Serial.println(err);
-    return;
-  }
-// ================ Print inbound message ================================= //
-  Serial.print("Inbound buffer size is ");
-  Serial.println(rx_bufferSize);
-  for (int i=0; i<rx_bufferSize; ++i)
-  {
- //   Serial.write(rx_buffer[i]);
-    Serial.print("(");
-    //Serial.print(rx_buffer[i], HEX);
-    Serial.print(rx_buffer[i]);
-    Serial.print(") ");
-  }
-// ================ END Print inbound message ============================== //
-
-  
-  Serial.print("Number messages left: ");
-//  int getWaitingMessageCount();
-//  Description:   Returns the number of waiting messages on the Iridium servers.
-//  Returns:            The number of messages waiting.
-  Serial.println(isbd.getWaitingMessageCount());
-   
-   //////////End of Iridium Transmit Code/////////////////
   }
 }
 

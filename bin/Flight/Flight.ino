@@ -19,7 +19,11 @@ struct satellite_data_struct satellite_data;
 struct parameter_struct parameters;
 struct threshold_struct thresholds;
 
+String output_dataword;
+
 int ret_val = 0;
+
+IridiumSBD isbd(Serial3, 50);
 
 void setup() 
 {
@@ -31,21 +35,12 @@ void setup()
    gyro_setup();
    set_normal_mode();
    sd_setup();
+  
 }
 
 void loop() 
 { 
-   // Check if there is any data waiting for us from ROCKBLOCK
-   ret_val = read_satellite_data();
-   
-   if(ret_val == COMMANDS_TO_PROCESS)
-   {
-     process_satellite_data();
-   }
-   
-   //Collect telemetry
-   //collect_telemetry();
-   
+ 
    //Process telemetry
    process_telemetry();
 
@@ -57,19 +52,51 @@ void loop()
    //Process Camera
    process_camera_function();
 
-   //Check if time to write data to ROCKBLOCK
-   if(parameters.transmit_elapsed_time > parameters.transmit_rate)
-   {
-      write_satellite_data();
-      parameters.transmit_elapsed_time = 0;
-   }
-   
    //Check if time to write data to SD Card 
    if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_rate)
    {
       write_telemetry_data_to_sd();
       parameters.sd_card_write_elapsed_time = 0;
    }
+
+//***********************************
+     //Check if time to write data to ROCKBLOCK
+//   if(parameters.transmit_elapsed_time > parameters.transmit_rate)
+//   {
+//      write_satellite_data();      
+//      parameters.transmit_elapsed_time = 0;
+//   }
+ 
+
+   // Check if there is any data waiting for us from ROCKBLOCK
+//   ret_val = read_satellite_data();
+   
+//   if(ret_val == COMMANDS_TO_PROCESS)
+//   {
+//     read_satellite_data();
+//   }
+   
+//***********************************  
+   
+   ret_val = isbd.getWaitingMessageCount();
+   
+   if(ret_val>0)
+   {
+      write_output_telemetry_dataword();
+      sendrecieve_satellite_data();
+      process_satellite_command();
+      parameters.transmit_elapsed_time = 0;
+   }
+   else
+   {   
+     if(parameters.transmit_elapsed_time > parameters.transmit_rate)
+     {
+      write_output_telemetry_dataword();
+      sendrecieve_satellite_data();
+      parameters.transmit_elapsed_time = 0;
+     }
+   }
+   
 }
 
 void set_defaults()
