@@ -410,7 +410,7 @@ void write_output_telemetry_dataword()
     
     // TODO: FIX THIS HEADER FROM HEX TO DECIMAL!!!
     //parameters.output_dataword = combine(3, parameters.vehicle_mode, "A30133");                                              //0
-    
+    parameters.output_dataword = combine(8, parameters.vehicle_mode, "10101010");  //TEMP 
     
     parameters.output_dataword = combine(8, parameters.vehicle_mode, parameters.output_dataword);                            //1                                                                                
     parameters.output_dataword = combine(8, parameters.command_count, parameters.output_dataword);                           //2
@@ -510,17 +510,17 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine(16, parameters.battery_temperature_sanity_check_low, parameters.output_dataword);   //81
     parameters.output_dataword = combine(8, parameters.low_voltage_limit_for_loadshed_entry, parameters.output_dataword);    //82
     parameters.output_dataword = combine(8, parameters.low_voltage_limit_for_auto_cutdown, parameters.output_dataword);      //83
-    parameters.output_dataword = combine(1, parameters.low_voltage_time_limit, parameters.output_dataword);                  //84
+    parameters.output_dataword = combine(8, parameters.low_voltage_time_limit, parameters.output_dataword);                  //84
     parameters.output_dataword = combine(16, parameters.altitude_limit_low, parameters.output_dataword);                     //85
     parameters.output_dataword = combine(16, parameters.altitude_sanity_check_low, parameters.output_dataword);              //86
     parameters.output_dataword = combine(8, parameters.cutdown_pulse_width, parameters.output_dataword);                     //87
     parameters.output_dataword = combine(12, parameters.camera_period, parameters.output_dataword);                          //88
     parameters.output_dataword = combine(12, parameters.camera_on_time, parameters.output_dataword);                         //89
-   
+
     // Start Bilevel Parent TLM 
     parameters.output_dataword = combine(1, parameters.battery_1_charging_status, parameters.output_dataword);               //90-1
     parameters.output_dataword = combine(1, parameters.battery_2_charging_status, parameters.output_dataword);               //90-2    
-    parameters.output_dataword = combine(8, parameters.battery_bus_low_voltage_flag, parameters.output_dataword);            //90-3
+    parameters.output_dataword = combine(1, parameters.battery_bus_low_voltage_flag, parameters.output_dataword);            //90-3
     parameters.output_dataword = combine(1, parameters.heater_state_1, parameters.output_dataword);                          //90-4
     parameters.output_dataword = combine(1, parameters.heater_state_2, parameters.output_dataword);                          //90-5
     parameters.output_dataword = combine(1, parameters.cutdown_enable_state, parameters.output_dataword);                    //90-6
@@ -533,7 +533,6 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //92 
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //93 
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //94
-
   }
 }
 
