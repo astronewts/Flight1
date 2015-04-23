@@ -4,8 +4,8 @@
 
 void sendrecieve_satellite_data()
 {
-    //String myText = "0100011010110001010110";
-    // determine length of concatenated dataword
+    
+    // determine length of concatenated dataword string
     size_t size_mssg = parameters.output_dataword.length(); 
 
     // determine number of bytes in dataword
@@ -75,7 +75,7 @@ void sendrecieve_satellite_data()
 // NOTE: The maximum size of a transmitted packet (including header and checksum) is 340 bytes.
 // NOTE: The maximum size of a received packet is 270 bytes.
 //=========== real command =========================================== //
-  uint8_t rx_buffer[400]; // max size of a message is 370 bytes so we are safe with 400. 
+   
   size_t rx_bufferSize = sizeof(rx_buffer);
   
   err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
@@ -165,12 +165,31 @@ String combine_int(int bin_size, int input_idata, String dataword)
     return dataword;     
 }
 
+String combine_uint8_t(int bin_size, uint8_t input_uintdata, String dataword)
+{
+    int zeros;
+    String temp_str;
+    temp_str = String(input_uintdata,BIN);
+    zeros = bin_size - temp_str.length();
+ 
+    for (int i=0; i<zeros; i++) {
+      temp_str = "0"+temp_str;
+    }
+    
+    dataword = dataword + temp_str;
+    
+    return dataword;     
+}
+
 //Receive any data from satellite
 int process_satellite_command()
 {
-   // THIS NEEDS TO BE TIED INTO THE ROCKBLOCK MODULE
-  String CommandString = "PlaceholderStringCommand"; // SHOULD BE rx_buffer
-  
+   // Converts uint8_t array "rx_buffer" to string "CommandString"
+  String CommandString = "";  
+  // Convert rx_buffer from uint8_t array to string
+      for (int i=0; i<sizeof(rx_buffer); i++) {
+      CommandString = combine_uint8_t(8, rx_buffer[i], CommandString);
+    }
   
   // Allow the Commands through if it matches the intended vehicle and code version
   if (CommandString.substring(0,5) == "030133") {

@@ -23,6 +23,8 @@ String output_dataword;
 
 int ret_val = 0;
 
+uint8_t rx_buffer[270]; // max size of a received packet is 270 bytes
+
 IridiumSBD isbd(Serial3, 50);
 
 void setup() 
