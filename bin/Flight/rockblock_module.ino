@@ -29,11 +29,8 @@ void sendrecieve_satellite_data()
            int  bit_extr = std::max(myChar - '0', 0);  
            
            tx_buffer[i] = tx_buffer[i] + bit_extr * pow(2,7-j);
-             
-           
-         
+                  
        }
-  
     }        
     
      //////////Start of Iridium Transmit Code/////////////////
@@ -202,13 +199,12 @@ int process_satellite_command()
       parameters.command_count = 1;
     } 
     
+    // TODO
     // ***************************************************
     // PUT LOGIC IN HERE TO SEE IF EXTRACT THE PARITY
     // ***************************************************
-    
     //TODO: Fix parity to be 7 or 3
-    
-    if (CommandString.substring(538) == "7") {
+    //if (CommandString.substring(538) == "7") {
       
       // ***************************************************
       // Parity Check is correct! *** This is TEMP -> Fix her
@@ -401,7 +397,9 @@ int process_satellite_command()
        // Put something in here if none of the if statement loops trip???
        // ****************************************************************
 
-    } // End Parity Check conditional
+    // TODO: ADD BACK IN WHEN THE PARITY CHECK CODE IS WRITTEN
+    // } // End Parity Check conditional
+    
     else{
       // Increment an Error in some fashion regard to parity failure.  
     }
@@ -439,18 +437,18 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine(8, thresholds.emergency_transit_transmit_rate, parameters.output_dataword);         //6
     parameters.output_dataword = combine(8, thresholds.test_transmit_rate, parameters.output_dataword);                      //7
     parameters.output_dataword = combine(8, parameters.sd_card_write_rate, parameters.output_dataword);                      //8
-    parameters.output_dataword = combine(12, telemetry_data.battery_temp_1_1, parameters.output_dataword);                   //9
-    parameters.output_dataword = combine(12, telemetry_data.battery_temp_1_2, parameters.output_dataword);                   //10
-    parameters.output_dataword = combine(12, telemetry_data.battery_temp_2_1, parameters.output_dataword);                   //11
-    parameters.output_dataword = combine(12, telemetry_data.battery_temp_2_2, parameters.output_dataword);                   //12
+    parameters.output_dataword = combine(12, telemetry_data.battery_1_temp_1, parameters.output_dataword);                   //9
+    parameters.output_dataword = combine(12, telemetry_data.battery_1_temp_2, parameters.output_dataword);                   //10
+    parameters.output_dataword = combine(12, telemetry_data.battery_2_temp_1, parameters.output_dataword);                   //11
+    parameters.output_dataword = combine(12, telemetry_data.battery_2_temp_2, parameters.output_dataword);                   //12
     parameters.output_dataword = combine(12, telemetry_data.inner_external_temp, parameters.output_dataword);                //13
     parameters.output_dataword = combine(12, telemetry_data.outter_external_temp, parameters.output_dataword);               //14
     parameters.output_dataword = combine(12, telemetry_data.internal_temp, parameters.output_dataword);                      //15
     parameters.output_dataword = combine(12, telemetry_data.air_pressure, parameters.output_dataword);                       //16
-    parameters.output_dataword = combine(12, telemetry_data.battery_voltage_1, parameters.output_dataword);                  //17
-    parameters.output_dataword = combine(12, telemetry_data.battery_voltage_2, parameters.output_dataword);                  //18
-    parameters.output_dataword = combine(13, telemetry_data.charge_current_1, parameters.output_dataword);                   //19
-    parameters.output_dataword = combine(13, telemetry_data.charge_current_2, parameters.output_dataword);                   //20
+    parameters.output_dataword = combine(12, telemetry_data.battery_1_voltage_1, parameters.output_dataword);                //17
+    parameters.output_dataword = combine(12, telemetry_data.battery_1_voltage_2, parameters.output_dataword);                //18
+    parameters.output_dataword = combine(13, telemetry_data.battery_1_charge_current_1, parameters.output_dataword);         //19
+    parameters.output_dataword = combine(13, telemetry_data.battery_1_charge_current_2, parameters.output_dataword);         //20
    
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //21
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //22

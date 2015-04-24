@@ -64,18 +64,18 @@
 
 
 //Analog Pins
-#define PIN_PRESSURE_SENSOR          A0
-#define PIN_CHARGE_CURRENT_1         A1
-#define PIN_CHARGE_CURRENT_2         A2
-#define PIN_BATTERY_VOLTAGE_1        A3
-#define PIN_BATTERY_VOLTAGE_2        A4
-#define PIN_EXTERNAL_OUTTER_TEMP     A5
-#define PIN_INTERNAL_TEMP            A6
-#define PIN_EXTERNAL_INNER_TEMP      A7
-#define PIN_BATTERY1_1_TEMP          A8
-#define PIN_BATTERY1_2_TEMP          A9
-#define PIN_BATTERY2_1_TEMP          A10
-#define PIN_BATTERY2_2_TEMP          A11
+#define PIN_PRESSURE_SENSOR                    A0
+#define PIN_BATTERY_1_CHARGE_CURRENT_1         A1
+#define PIN_BATTERY_1_CHARGE_CURRENT_2         A2
+#define PIN_BATTERY_1_VOLTAGE_1                A3
+#define PIN_BATTERY_1_VOLTAGE_2                A4
+#define PIN_EXTERNAL_OUTTER_TEMP               A5
+#define PIN_INTERNAL_TEMP                      A6
+#define PIN_EXTERNAL_INNER_TEMP                A7
+#define PIN_BATTERY1_1_TEMP                    A8
+#define PIN_BATTERY1_2_TEMP                    A9
+#define PIN_BATTERY2_1_TEMP                    A10
+#define PIN_BATTERY2_2_TEMP                    A11
 
 //Digital Pins
 #define PIN_CUTDOWN_ENABLE              2
@@ -117,18 +117,18 @@ struct telemetry_data_struct
 {
  // char "\xA30133";
   //uint16_t air_pressure;
-  double battery_temp_1_1;
-  double battery_temp_1_2;
-  double battery_temp_2_1;
-  double battery_temp_2_2;
+  double battery_1_temp_1;
+  double battery_1_temp_2;
+  double battery_2_temp_1;
+  double battery_2_temp_2;
   double inner_external_temp;
   double outter_external_temp;
   double internal_temp;
   double air_pressure;
-  double battery_voltage_1;
-  double battery_voltage_2;
-  double charge_current_1;
-  double charge_current_2;
+  double battery_1_voltage_1;
+  double battery_1_voltage_2;
+  double battery_1_charge_current_1;
+  double battery_1_charge_current_2;
   //struct gps_struct gps_values;
   //struct gyro_struct gyro_values;
 };
@@ -199,8 +199,8 @@ struct parameter_struct
   elapsedMillis cutdown_initiation_elapsed_time;
   elapsedMillis transmit_elapsed_time;
   elapsedMillis sd_card_write_elapsed_time;
-  elapsedMillis charge_current_read_elapsed_time;
-  
+  elapsedMillis battery_1_charge_current_read_elapsed_time;
+  elapsedMillis battery_2_charge_current_read_elapsed_time;
 
   String output_dataword;
   String valid_str;
