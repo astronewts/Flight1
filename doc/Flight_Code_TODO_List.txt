@@ -1,25 +1,38 @@
 
-Individual Task Items
+CHORES LEFT TO DO:
+*********************************************
+- Create Command/Error Log 
+- Camera period functions as the OFF time.  Correct to be Time ON and Period.
+- ERROR Flag for "Too much data" per the allocated word size.
+
+
+Bugs to Look into/General Questions:
 *********************************************
 - Pressure is not being read 12 bits in Software
-- Check the calibration curves 0 to max counts, & cross reference with the sanity check values
-- Do all the timers just immediately start counting on their own?
 - digitalRead(PIN_PYRO_1_FIRE) == HIGH) -> its an output, not sure if you can read an output without changing it to an input
-- Should use different variables for TCS and EPS (value)?
-- Change names for "low voltage" and "voltage power limit low"
-- Discuss & determine whether we want AmpHr Charge discharge voltage to have precedence: 
-- Camera period functions as the OFF time.  We should decide whether if this the case or not.
-- implement "parity error counter" -> definition in there. 
 - Double-check: Altitude Sanity Low Limit applicability (situational)
 - Charging (OR for low volt/cap, AND high volt/cap) under 
-- Make sure everything is 12 bit (and update wording to reflect such)
-- Finalize GPS & GYRO struct in Definitions.  Also, think about adding EPS struct
-- Move Valid_str calc upstream of Rockblock word
-- Create Command/Error Log 
-- Fix ordering error in the Battery Voltage section of TLM processing
-- Heavy(?) cleaning of gyro/gps modules output
-- ERROR Flag for "Too much data" per the allocated word size.
-- FUTURE NOTE: figure out if we need to pad the zeros on the end of the Rockblock output word
+- FIX inconsistent current charging in command receipt logic (???)
+- Check the calibration curves 0 to max counts, & cross reference with the sanity check values
+
+
+
+Nice to have updates:
+- Should use different variables for TCS and EPS (value)?
+- Discuss & determine whether we want AmpHr Charge discharge voltage to have precedence: 
 - Add Parity Check Error Flag TLM
-- FIX inconsistent current charging in command receipt logic
-- Need delay between enable & fire
+- Heavy(?) cleaning of gyro/gps modules output
+- FUTURE NOTE: figure out if we need to pad the zeros on the end of the Rockblock output word
+- implement "parity error counter" -> definition in there. 
+- Finalize GPS & GYRO struct in Definitions.  Also, think about adding EPS struct
+- Fix ordering error in the Battery Voltage section of TLM processing
+- Move Valid_str calc upstream of Rockblock word (and other items that can be more global.
+- Need delay between enable & fire {Not sure this is really needed}
+
+
+Questions for Marvin:
+- BUFFER LOG!!!
+- Do all the timers just immediately start counting on their own?
+
+
+

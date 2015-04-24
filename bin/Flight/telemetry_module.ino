@@ -66,8 +66,7 @@ void process_telemetry()
 {
    int valid_data = true;
    double value = 0.0;
-   
-   // NOTE: WHAT ARE YOU FOR???!!!!
+
    double battery_1_elapsed_time_factor = 0.0;
    
    //Check Cutdown Process
