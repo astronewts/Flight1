@@ -184,12 +184,18 @@ String combine_uint8_t(int bin_size, uint8_t input_uintdata, String dataword)
 //Receive any data from satellite
 int process_satellite_command()
 {
-   // Converts uint8_t array "rx_buffer" to string "CommandString"
-  String CommandString = "";  
-  // Convert rx_buffer from uint8_t array to string
+   // Convert uint8_t array "rx_buffer" to hexadecimal string "CommandString"
+  String CommandString;
+  String temp_str; 
       for (int i=0; i<sizeof(rx_buffer); i++) {
-      CommandString = combine_uint8_t(8, rx_buffer[i], CommandString);
+      //CommandString = combine_uint8_t(8, rx_buffer[i], CommandString);
+      temp_str = String(rx_buffer[i],HEX);
+      CommandString = CommandString + temp_str;
     }
+    
+    Serial.println("Satellite message received! Processing satellite command...");
+    Serial.println("CommandString in hexadecimal format:");
+    Serial.println(CommandString);
   
   // Allow the Commands through if it matches the intended vehicle and code version
   if (CommandString.substring(0,5) == "030133") {
@@ -235,7 +241,9 @@ int process_satellite_command()
          if (CommandString.substring(14,15) == "5") {
            // Set the Mode to Test Mode
            set_test_mode();
-         } 
+         }
+        Serial.println("Mode has been changed to:");
+        Serial.println(CommandString.substring(14,15)); 
       }// This ends the section to command to change the Spacecraft Mode
       
       if (CommandString.substring(6,13) == "22330002") {
