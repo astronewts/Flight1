@@ -56,12 +56,13 @@ void setup()
 {
    Serial.begin(9600); 
    Serial1.begin(4800);
+   Serial3.begin(19200); // wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
    Serial.println("Flight1 starting up");
    set_output_pins();
    set_defaults();
    gyro_setup();
    set_normal_mode();
-   sd_setup();
+// ***This line is commented temporarily for rockblock module debugging   sd_setup();
   
 }
 
@@ -82,7 +83,7 @@ void loop()
    //Check if time to write data to SD Card 
    if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_rate)
    {
-      write_telemetry_data_to_sd();
+// ***This line is commented temporarily for rockblock module debugging     write_telemetry_data_to_sd();
       parameters.sd_card_write_elapsed_time = 0;
    }
 

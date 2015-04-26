@@ -2,6 +2,8 @@
 #include <string>
 //#include <Streaming>
 
+#define MSEC_IN_MIN (1000*60)
+
 void sendrecieve_satellite_data()
 {
     
@@ -75,7 +77,7 @@ void sendrecieve_satellite_data()
    
   size_t rx_bufferSize = sizeof(rx_buffer);
   
-  err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
+//  err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
  
 //=========== end real command ======================================= //
 
@@ -431,12 +433,12 @@ void write_output_telemetry_dataword()
     
     parameters.output_dataword = combine(8, parameters.vehicle_mode, parameters.output_dataword);                            //1                                                                                
     parameters.output_dataword = combine(8, parameters.command_count, parameters.output_dataword);                           //2
-    parameters.output_dataword = combine(8, thresholds.normal_transmit_rate, parameters.output_dataword);                    //3
-    parameters.output_dataword = combine(8, thresholds.load_shed_transmit_rate, parameters.output_dataword);                 //4
-    parameters.output_dataword = combine(8, thresholds.transit_transmit_rate, parameters.output_dataword);                   //5
-    parameters.output_dataword = combine(8, thresholds.emergency_transit_transmit_rate, parameters.output_dataword);         //6
-    parameters.output_dataword = combine(8, thresholds.test_transmit_rate, parameters.output_dataword);                      //7
-    parameters.output_dataword = combine(8, parameters.sd_card_write_rate, parameters.output_dataword);                      //8
+    parameters.output_dataword = combine(8, thresholds.normal_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                    //3
+    parameters.output_dataword = combine(8, thresholds.load_shed_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                 //4
+    parameters.output_dataword = combine(8, thresholds.transit_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                   //5
+    parameters.output_dataword = combine(8, thresholds.emergency_transit_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);         //6
+    parameters.output_dataword = combine(8, thresholds.test_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                      //7
+    parameters.output_dataword = combine(8, parameters.sd_card_write_rate/MSEC_IN_MIN, parameters.output_dataword);                      //8
     parameters.output_dataword = combine(12, telemetry_data.battery_1_temp_1, parameters.output_dataword);                   //9
     parameters.output_dataword = combine(12, telemetry_data.battery_1_temp_2, parameters.output_dataword);                   //10
     parameters.output_dataword = combine(12, telemetry_data.battery_2_temp_1, parameters.output_dataword);                   //11
@@ -454,7 +456,6 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //22
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //23
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //24
-   
     parameters.output_dataword = combine_float(32, gps.location.lat(), parameters.output_dataword);                          //25
     parameters.output_dataword = combine_float(32, gps.location.lng(), parameters.output_dataword);                          //26
     parameters.output_dataword = combine_float(32, gps.altitude.meters(), parameters.output_dataword);                       //27
