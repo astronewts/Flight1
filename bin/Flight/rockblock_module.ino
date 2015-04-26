@@ -134,13 +134,14 @@ String combine(int bin_size, long input_data, String dataword)
 
 String combine_float(int bin_size, float input_fdata, String dataword)
 {
-    int zeros;
     String temp_str;
-    temp_str = String(input_fdata,BIN);
-    zeros = bin_size - temp_str.length();
- 
-    for (int i=0; i<zeros; i++) {
-      temp_str = "0"+temp_str;
+
+    for (int i=0; i<32; i++) {
+      if ((1 << i) & input_fdata) {
+        temp_str = "1" + temp_str;
+      } else {
+        temp_str = "0" + temp_str;
+      }
     }
     
     dataword = dataword + temp_str;
