@@ -63,7 +63,7 @@ void setup()
    gyro_setup();
    set_normal_mode();
 // ***This line is commented temporarily for rockblock module debugging   sd_setup();
-  
+
 }
 
 void loop() 

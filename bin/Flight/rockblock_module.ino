@@ -137,7 +137,7 @@ String combine_float(int bin_size, float input_fdata, String dataword)
     String temp_str;
 
     for (int i=0; i<32; i++) {
-      if ((1 << i) & input_fdata) {
+      if ((1 << i) & *((int *)&input_fdata)) {
         temp_str = "1" + temp_str;
       } else {
         temp_str = "0" + temp_str;
