@@ -4,7 +4,7 @@
 
 #define MSEC_IN_MIN (1000*60)
 
-void sendrecieve_satellite_data()
+void sendreceive_satellite_data()
 {
     
     // determine length of concatenated dataword string
@@ -41,10 +41,13 @@ void sendrecieve_satellite_data()
     isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
     isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
     
-    isbd.setPowerProfile(1); // This is a low power application
+    isbd.setPowerProfile(1); // Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
+ //   isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
     
     // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
     isbd.begin();
+    
+ //   isbd.useMSSTMWorkaround(false);  // see http://arduiniana.org/libraries/iridiumsbd/ for details 
     
     //int getSignalQuality(int &quality);
     //Description:   Queries the signal strength and visibility of satellites
@@ -77,43 +80,56 @@ void sendrecieve_satellite_data()
    
   size_t rx_bufferSize = sizeof(rx_buffer);
   
-//  err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
- 
-//=========== end real command ======================================= //
-
-  Serial.print("message sent");
-  if (err != 0)
+  //do-while loop to Send/Receive until Iridium queue is cleared
+  do
   {
-    Serial.print("sendReceiveSBDText failed: error ");
-    Serial.println(err);
-    return;
-  }
-// ================ Print inbound message ================================= //
-  Serial.print("Inbound buffer size is ");
-  Serial.println(rx_bufferSize);
-  for (int i=0; i<rx_bufferSize; ++i)
-  {
- //   Serial.write(rx_buffer[i]);
-    Serial.print("(");
-    //Serial.print(rx_buffer[i], HEX);
-    Serial.print(rx_buffer[i]);
-    Serial.print(") ");
-  }
-// ================ END Print inbound message ============================== //
+      err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
+     
+    //=========== end real command ======================================= //
+    
+      if (err != 0)
+      {
+        Serial.print("sendReceiveSBDText failed: error ");
+        Serial.println(err);
+        return;
+      }
+      Serial.println("");
+      Serial.println("**Satellite transmit/receive complete!**");
+    // ================ Print inbound message ================================= //
+      
+      Serial.print("Inbound buffer size is ");
+      Serial.println(rx_bufferSize);
+      for (int i=0; i<rx_bufferSize; ++i)
+      {
+     //   Serial.write(rx_buffer[i]);
+        Serial.print("(");
+        Serial.print(rx_buffer[i], HEX);
+        //Serial.print(rx_buffer[i]);
+        Serial.print(") ");
+      }
+    // ================ END Print inbound message ============================== //
+      Serial.println("");
+      Serial.print("Number of remaining messages in Iridium queue: ");
+    //  int getWaitingMessageCount();
+    //  Description:   Returns the number of waiting messages on the Iridium servers.
+    //  Returns:            The number of messages waiting.
+      Serial.println(isbd.getWaitingMessageCount());
+      
+      if (rx_bufferSize == 0)
+        break; // all done with do-while loop to Send/Receive until Iridium queue is cleared
+      
+      // if a message has been received from Iridium, process the command 
+      process_satellite_command();
 
-  
-  Serial.print("Number messages left: ");
-//  int getWaitingMessageCount();
-//  Description:   Returns the number of waiting messages on the Iridium servers.
-//  Returns:            The number of messages waiting.
-  Serial.println(isbd.getWaitingMessageCount());
+      
+  } while (isbd.getWaitingMessageCount() > 0);
    
    //////////End of Iridium Transmit Code/////////////////
 }
 
 // procedure :
 //1) combine all telemetry: output="dataword" which is a string of binaries: 010101011100110 
-//2) convert the string into a binary and send it through RockBlock (done in the example SendRecieve_Test1)
+//2) convert the string into a binary and send it through RockBlock (done in the example SendReceive_Test1)
 
 
 String combine(int bin_size, long input_data, String dataword)
@@ -165,31 +181,19 @@ String combine_int(int bin_size, int input_idata, String dataword)
     return dataword;     
 }
 
-String combine_uint8_t(int bin_size, uint8_t input_uintdata, String dataword)
-{
-    int zeros;
-    String temp_str;
-    temp_str = String(input_uintdata,BIN);
-    zeros = bin_size - temp_str.length();
- 
-    for (int i=0; i<zeros; i++) {
-      temp_str = "0"+temp_str;
-    }
-    
-    dataword = dataword + temp_str;
-    
-    return dataword;     
-}
 
 //Receive any data from satellite
 int process_satellite_command()
 {
    // Convert uint8_t array "rx_buffer" to hexadecimal string "CommandString"
-  String CommandString;
+  String CommandString = "";
   String temp_str; 
       for (int i=0; i<sizeof(rx_buffer); i++) {
-      //CommandString = combine_uint8_t(8, rx_buffer[i], CommandString);
-      temp_str = String(rx_buffer[i],HEX);
+        temp_str = String(rx_buffer[i],HEX);
+        if (temp_str.length() < 2)
+        {
+          temp_str = "0"+temp_str;
+        }
       CommandString = CommandString + temp_str;
     }
     
@@ -424,7 +428,8 @@ int process_satellite_command()
   // if something 
   //return NO_COMMANDS_TO_PROCESS;
   //
-  
+  Serial.println("Satellite command processing complete!");
+  Serial.println("");
 }
 
 void write_output_telemetry_dataword()

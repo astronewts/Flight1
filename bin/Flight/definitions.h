@@ -22,7 +22,7 @@
 //TODO: ADD UNITS !!!!!
 
 //Defaults
-#define DEFAULT_MODE                               5 // TEST ONLY!!! CHANGE BACK TO 1 FOR FLIGHT
+#define DEFAULT_MODE                               1
 #define DEFAULT_LOOP_SLEEP                         3000
 #define DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY   8.5
 #define DEFAULT_VOLTAGE_LOW_LIMIT_CUTDOWN_ENTRY    8.0

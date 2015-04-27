@@ -46,9 +46,8 @@ struct threshold_struct thresholds;
 
 String output_dataword;
 
-int ret_val = 0;
-
-uint8_t rx_buffer[270]; // max size of a received packet is 270 bytes
+#define MAX_RX_BUFFER_SIZE  270 
+uint8_t rx_buffer[MAX_RX_BUFFER_SIZE]; // max size of a received packet is 270 bytes
 
 IridiumSBD isbd(Serial3, 50);
 
@@ -105,25 +104,13 @@ void loop()
 //   }
    
 //***********************************  
-   
-   ret_val = isbd.getWaitingMessageCount();
-   
-   if(ret_val>0)
-   {
-      write_output_telemetry_dataword();
-      sendrecieve_satellite_data();
-      process_satellite_command();
-      parameters.transmit_elapsed_time = 0;
-   }
-   else
-   {   
+     // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
      if(parameters.transmit_elapsed_time > parameters.transmit_rate)
      {
       write_output_telemetry_dataword();
-      sendrecieve_satellite_data();
+      sendreceive_satellite_data();
       parameters.transmit_elapsed_time = 0;
      }
-   }
    
 }
 
