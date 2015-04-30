@@ -542,7 +542,7 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine(32, gps.sentencesWithFix(), parameters.output_dataword);                            //37
     parameters.output_dataword = combine(32, gps.failedChecksum(), parameters.output_dataword);                              //38
     
-    valid_str = String(gps.hdop.isValid());   
+    valid_str = "";
     valid_str = valid_str + String(gps.location.isValid());                                                                  //39-1
     valid_str = valid_str + String(gps.altitude.isValid());                                                                  //39-2
     valid_str = valid_str + String(gps.course.isValid());                                                                    //39-3
