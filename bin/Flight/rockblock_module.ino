@@ -270,7 +270,7 @@ int process_satellite_command()
       
       if (CommandString.substring(6,14) == "22330002") {
         // This is a command to Change the EPS Charge State
-        if (CommandString.substring(14,15) == "F") {
+        if (CommandString.substring(14,15) == "f") {
            // Disable Battery Charging 
            digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
          }
@@ -284,7 +284,7 @@ int process_satellite_command()
       
       if (CommandString.substring(6,14) == "25330004") {
         // This is a command change the Camera Enable Status
-         if (CommandString.substring(14,15) == "F") {
+         if (CommandString.substring(14,15) == "f") {
          // Enable the Camera
          parameters.camera_status == true;
          }
@@ -296,11 +296,12 @@ int process_satellite_command()
       
        if (CommandString.substring(6,14) == "23330008") {
         // This is a command to Fire the Pyro and Initiate Descent
-         if (CommandString.substring(14,15) == "F") {
+         if (CommandString.substring(14,15) == "f") {
             // Enable Pyro Relay, Fire Pyros, and disable Pyro Relay
             set_transit_mode(); 
             // This will also initiate transition to Transit Mode
             cutdown_fire();
+            Serial.println("Pyro fire command initiated!");
           }
        }
        
