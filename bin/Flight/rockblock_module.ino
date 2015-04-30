@@ -129,6 +129,10 @@ void sendreceive_satellite_data()
    //////////End of Iridium Transmit Code/////////////////
 }
 
+uint_16t tempToCount(double temperature) {
+  return (uint_16t) (temp / TEMP_CONSTANT_1) + TEMP_CONSTANT_2;
+}
+
 // procedure :
 //1) combine all telemetry: output="dataword" which is a string of binaries: 010101011100110 
 //2) convert the string into a binary and send it through RockBlock (done in the example SendReceive_Test1)
@@ -509,13 +513,13 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine(8, thresholds.emergency_transit_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);         //6
     parameters.output_dataword = combine(8, thresholds.test_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                      //7
     parameters.output_dataword = combine(8, parameters.sd_card_write_rate/MSEC_IN_MIN, parameters.output_dataword);                      //8
-    parameters.output_dataword = combine(12, telemetry_data.battery_1_temp_1, parameters.output_dataword);                   //9
-    parameters.output_dataword = combine(12, telemetry_data.battery_1_temp_2, parameters.output_dataword);                   //10
-    parameters.output_dataword = combine(12, telemetry_data.battery_2_temp_1, parameters.output_dataword);                   //11
-    parameters.output_dataword = combine(12, telemetry_data.battery_2_temp_2, parameters.output_dataword);                   //12
-    parameters.output_dataword = combine(12, telemetry_data.inner_external_temp, parameters.output_dataword);                //13
-    parameters.output_dataword = combine(12, telemetry_data.outter_external_temp, parameters.output_dataword);               //14
-    parameters.output_dataword = combine(12, telemetry_data.internal_temp, parameters.output_dataword);                      //15
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_1_temp_1), parameters.output_dataword);                   //9
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_1_temp_2), parameters.output_dataword);                   //10
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_2_temp_1), parameters.output_dataword);                   //11
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_2_temp_2), parameters.output_dataword);                   //12
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.inner_external_temp), parameters.output_dataword);                //13
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.outter_external_temp), parameters.output_dataword);               //14
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.internal_temp), parameters.output_dataword);                      //15
     parameters.output_dataword = combine(12, telemetry_data.air_pressure, parameters.output_dataword);                       //16
     parameters.output_dataword = combine(12, telemetry_data.battery_1_voltage_1, parameters.output_dataword);                //17
     parameters.output_dataword = combine(12, telemetry_data.battery_1_voltage_2, parameters.output_dataword);                //18
