@@ -140,17 +140,14 @@ uint_16t tempToCount(double temperature) {
 
 String combine(int bin_size, long input_data, String dataword)
 {
-    int zeros;
     String temp_str;
-    temp_str = String(input_data,BIN);
-    zeros = bin_size - temp_str.length();
- 
-    for (int i=0; i<zeros; i++) {
-      temp_str = "0"+temp_str;
+    temp_str = "";
+
+    for (int i=0; i<bin_size; i++) {
+      temp_str = (((input_data << i) & 1) ? "1" :"0") + temp_str;
     }
-    
+
     dataword = dataword + temp_str;
-    
     return dataword;     
 }
 
