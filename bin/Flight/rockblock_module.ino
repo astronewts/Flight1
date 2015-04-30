@@ -129,8 +129,8 @@ void sendreceive_satellite_data()
    //////////End of Iridium Transmit Code/////////////////
 }
 
-uint_16t tempToCount(double temperature) {
-  return (uint_16t) (temp / TEMP_CONSTANT_1) + TEMP_CONSTANT_2;
+uint16_t tempToCount(double temperature) {
+  return (uint16_t) (temperature / TEMP_CONSTANT_1) + TEMP_CONSTANT_2;
 }
 
 // procedure :
