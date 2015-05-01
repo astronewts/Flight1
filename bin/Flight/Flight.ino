@@ -107,7 +107,6 @@ void loop()
      // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
      if(parameters.transmit_elapsed_time > parameters.transmit_rate)
      {
-      write_output_telemetry_dataword();
       sendreceive_satellite_data();
       parameters.transmit_elapsed_time = 0;
      }
