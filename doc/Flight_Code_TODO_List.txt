@@ -1,7 +1,6 @@
 
 CHORES LEFT TO DO:
 *********************************************
-- Create Command/Error Log 
 - Camera period functions as the OFF time.  Correct to be Time ON and Period.
 - ERROR Flag for "Too much data" per the allocated word size.
 
