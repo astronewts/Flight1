@@ -138,13 +138,14 @@ uint16_t tempToCount(double temperature) {
 //2) convert the string into a binary and send it through RockBlock (done in the example SendReceive_Test1)
 
 
+// Appends the lowest bin_size bits from input_data in binary string representation to dataword
 String combine(int bin_size, long input_data, String dataword)
 {
     String temp_str;
     temp_str = "";
 
     for (int i=0; i<bin_size; i++) {
-      temp_str = (((input_data << i) & 1) ? "1" :"0") + temp_str;
+      temp_str = temp_str + (((input_data >> i) & 1) ? "1" :"0");
     }
 
     dataword = dataword + temp_str;
