@@ -145,7 +145,7 @@ String combine(int bin_size, long input_data, String dataword)
     temp_str = "";
 
     for (int i=0; i<bin_size; i++) {
-      temp_str = temp_str + (((input_data >> i) & 1) ? "1" :"0");
+      temp_str = (((input_data >> i) & 1) ? "1" :"0") + temp_str;
     }
 
     dataword = dataword + temp_str;
