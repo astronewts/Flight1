@@ -169,21 +169,6 @@ String combine_float(int bin_size, float input_fdata, String dataword)
     return dataword;     
 }
 
-String combine_int(int bin_size, int input_idata, String dataword)
-{
-    int zeros;
-    String temp_str;
-    temp_str = String(input_idata,BIN);
-    zeros = bin_size - temp_str.length();
- 
-    for (int i=0; i<zeros; i++) {
-      temp_str = "0"+temp_str;
-    }
-    
-    dataword = dataword + temp_str;
-    
-    return dataword;     
-}
 
 int hexstring_to_int(String input_hexstring, int index_begin, int index_end)
 {           
