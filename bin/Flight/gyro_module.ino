@@ -191,9 +191,9 @@ void magCalLoop()
   
   if (duePoll()) {                                         // get the latest data
     changed = false;
-    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_X], *calData.magMinX, *calData.magMaxX);
-    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_Y], *calData.magMinY, *calData.magMaxY);
-    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_Z], *calData.magMinZ, *calData.magMaxZ);
+    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_X], &calData.magMinX, &calData.magMaxX);
+    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_Y], &calData.magMinY, &calData.magMaxY);
+    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_Z], &calData.magMinZ, &calData.magMaxZ);
  
     if (changed) {
       Serial.println("-------");
@@ -247,30 +247,9 @@ void accelCalLoop()
   
   if (duePoll()) {                                          // get the latest data
     changed = false;
-    if (dueMPU.m_rawAccel[VEC3_X] < calData.accelMinX) {
-      calData.accelMinX = dueMPU.m_rawAccel[VEC3_X];
-      changed = true;
-    }
-    if (dueMPU.m_rawAccel[VEC3_X] > calData.accelMaxX) {
-      calData.accelMaxX = dueMPU.m_rawAccel[VEC3_X];
-      changed = true;
-    }
-    if (dueMPU.m_rawAccel[VEC3_Y] < calData.accelMinY) {
-      calData.accelMinY = dueMPU.m_rawAccel[VEC3_Y];
-      changed = true;
-    }
-    if (dueMPU.m_rawAccel[VEC3_Y] > calData.accelMaxY) {
-      calData.accelMaxY = dueMPU.m_rawAccel[VEC3_Y];
-      changed = true;
-    }
-    if (dueMPU.m_rawAccel[VEC3_Z] < calData.accelMinZ) {
-      calData.accelMinZ = dueMPU.m_rawAccel[VEC3_Z];
-      changed = true;
-    }
-    if (dueMPU.m_rawAccel[VEC3_Z] > calData.accelMaxZ) {
-      calData.accelMaxZ = dueMPU.m_rawAccel[VEC3_Z];
-      changed = true;
-    }
+    changed |= updateMinMax(dueMPU.m_rawAccel[VEC3_X], &calData.accelMinX, &calData.accelMaxX);
+    changed |= updateMinMax(dueMPU.m_rawAccel[VEC3_Y], &calData.accelMinY, &calData.accelMaxY);
+    changed |= updateMinMax(dueMPU.m_rawAccel[VEC3_Z], &calData.accelMinZ, &calData.accelMaxZ);
  
     if (changed) {
       Serial.println("-------");
