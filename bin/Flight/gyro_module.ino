@@ -178,36 +178,22 @@ void magCalStart(void)
   loopState = LOOPSTATE_MAGCAL;
 }
 
+bool updateMinMax(const short val, short *minimum, short *maximum) {
+  bool updated = (val < *minimum) || (val > *maximum);
+  *minimum = min(*minimum, val);
+  *maximum = max(*maximum, val);
+  return updated;
+}
+
 void magCalLoop()
 {
   boolean changed;
   
   if (duePoll()) {                                         // get the latest data
     changed = false;
-    if (dueMPU.m_rawMag[VEC3_X] < calData.magMinX) {
-      calData.magMinX = dueMPU.m_rawMag[VEC3_X];
-      changed = true;
-    }
-     if (dueMPU.m_rawMag[VEC3_X] > calData.magMaxX) {
-      calData.magMaxX = dueMPU.m_rawMag[VEC3_X];
-      changed = true;
-    }
-    if (dueMPU.m_rawMag[VEC3_Y] < calData.magMinY) {
-      calData.magMinY = dueMPU.m_rawMag[VEC3_Y];
-      changed = true;
-    }
-     if (dueMPU.m_rawMag[VEC3_Y] > calData.magMaxY) {
-      calData.magMaxY = dueMPU.m_rawMag[VEC3_Y];
-      changed = true;
-    }
-    if (dueMPU.m_rawMag[VEC3_Z] < calData.magMinZ) {
-      calData.magMinZ = dueMPU.m_rawMag[VEC3_Z];
-      changed = true;
-    }
-    if (dueMPU.m_rawMag[VEC3_Z] > calData.magMaxZ) {
-      calData.magMaxZ = dueMPU.m_rawMag[VEC3_Z];
-      changed = true;
-    }
+    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_X], *calData.magMinX, *calData.magMaxX);
+    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_Y], *calData.magMinY, *calData.magMaxY);
+    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_Z], *calData.magMinZ, *calData.magMaxZ);
  
     if (changed) {
       Serial.println("-------");
