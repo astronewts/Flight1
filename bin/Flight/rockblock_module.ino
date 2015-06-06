@@ -17,9 +17,7 @@ void sendreceive_satellite_data()
 
     // determine number of bytes in dataword
     size_t tx_bufferSize  = size_mssg / 8;
-    float tx_bufferSize_rest =  size_mssg % 8;
-    if ( tx_bufferSize_rest != 0) { tx_bufferSize = tx_bufferSize + 1;
-    } 
+    tx_bufferSize += size_mssg % 8 ? 1 : 0;
     Serial.println("numb of bytes in mssg:");
     Serial.println(tx_bufferSize);
 
