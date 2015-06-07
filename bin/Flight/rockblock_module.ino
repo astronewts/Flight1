@@ -482,8 +482,6 @@ void write_output_telemetry_dataword()
     String valid_str;
     valid_str = "0";
     
-    // TODO: FIX THIS HEADER FROM HEX TO DECIMAL!!!
-    //parameters.output_dataword = combine(3, parameters.vehicle_mode, "A30133");                                              //0
     parameters.output_dataword = "10101010";                                                                                            // Balloon ID
     parameters.output_dataword = combine(8, parameters.vehicle_mode, parameters.output_dataword);                                        //1
     parameters.output_dataword = combine(8, parameters.command_count, parameters.output_dataword);                                       //2
