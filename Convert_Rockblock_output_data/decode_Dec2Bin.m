@@ -164,7 +164,7 @@ for n = 1:nb_var
         for i=index:index+var_length(n)-1
             variable = strcat(variable,tot_word_bin(i));
         end
-        var(n) = str2dec(variable);
+        var(n) = str2num(variable);
     elseif strcmp(var_type{n},'unsigned')
         variable='';
         for i=index:index+var_length(n)-1
