@@ -499,9 +499,9 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine(12, tempToCount(telemetry_data.inner_external_temp), parameters.output_dataword);                //13
     parameters.output_dataword = combine(12, tempToCount(telemetry_data.outter_external_temp), parameters.output_dataword);               //14
     parameters.output_dataword = combine(12, tempToCount(telemetry_data.internal_temp), parameters.output_dataword);                      //15
-    parameters.output_dataword = combine(12, telemetry_data.air_pressure, parameters.output_dataword);                       //16
-    parameters.output_dataword = combine(12, telemetry_data.battery_1_voltage_1, parameters.output_dataword);                //17
-    parameters.output_dataword = combine(12, telemetry_data.battery_1_voltage_2, parameters.output_dataword);                //18
+    parameters.output_dataword = combine(12, telemetry_data.air_pressure, parameters.output_dataword);                       //16 // Change to counts
+    parameters.output_dataword = combine(12, telemetry_data.battery_1_voltage_1, parameters.output_dataword);                //17 // Change to counts
+    parameters.output_dataword = combine(12, telemetry_data.battery_1_voltage_2, parameters.output_dataword);                //18 // Change to counts
     parameters.output_dataword = combine_float(32, telemetry_data.battery_1_charge_current_1, parameters.output_dataword);         //19
     parameters.output_dataword = combine_float(32, telemetry_data.battery_1_charge_current_2, parameters.output_dataword);         //20
    

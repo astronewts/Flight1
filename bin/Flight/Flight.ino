@@ -144,7 +144,7 @@ void set_defaults()
   parameters.charge_current_sanity_check_high = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH;
   parameters.charge_current_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
   parameters.transmit_period = thresholds.normal_transmit_period;
-  parameters.sd_card_write_period = DEFAULT_SD_CARD_WRITE_RATE;
+  parameters.sd_card_write_period = DEFAULT_SD_CARD_WRITE_PERIOD;
   parameters.cutdown_pulse_width = DEFAULT_PYRO_PULSE_WIDTH;
   parameters.cutdown_enable_state = false;
   parameters.cutdown_1_status = false;
