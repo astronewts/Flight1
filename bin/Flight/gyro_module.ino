@@ -169,22 +169,6 @@ void get_gyro_data()
  }
 }
 
-void magCalStart(void)
-{
-  calLibRead(DEVICE_TO_USE, &calData);                     // pick up existing accel data if there   
-
-  calData.magValid = false;
-  calData.magMinX = 0x7fff;                                // init mag cal data
-  calData.magMaxX = 0x8000;
-  calData.magMinY = 0x7fff;                              
-  calData.magMaxY = 0x8000;
-  calData.magMinZ = 0x7fff;                             
-  calData.magMaxZ = 0x8000; 
- 
-  Serial.print("\n\nEntering mag calibration mode for device: "); Serial.println(DEVICE_TO_USE); 
-  loopState = LOOPSTATE_MAGCAL;
-}
-
 bool updateMinMax(const short val, short *minimum, short *maximum) {
   bool updated = (val < *minimum) || (val > *maximum);
   *minimum = min(*minimum, val);
@@ -229,6 +213,22 @@ void callLoop(const char *type, short vec[3], short cal[6]) {
        break;
     }
   }
+}
+
+void magCalStart(void)
+{
+  calLibRead(DEVICE_TO_USE, &calData);                     // pick up existing accel data if there   
+
+  calData.magValid = false;
+  calData.magMinX = 0x7fff;                                // init mag cal data
+  calData.magMaxX = 0x8000;
+  calData.magMinY = 0x7fff;                              
+  calData.magMaxY = 0x8000;
+  calData.magMinZ = 0x7fff;                             
+  calData.magMaxZ = 0x8000; 
+ 
+  Serial.print("\n\nEntering mag calibration mode for device: "); Serial.println(DEVICE_TO_USE); 
+  loopState = LOOPSTATE_MAGCAL;
 }
 
 void magCalLoop()
