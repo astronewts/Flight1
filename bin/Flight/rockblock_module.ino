@@ -484,9 +484,7 @@ void write_output_telemetry_dataword()
     
     // TODO: FIX THIS HEADER FROM HEX TO DECIMAL!!!
     //parameters.output_dataword = combine(3, parameters.vehicle_mode, "A30133");                                              //0
-    parameters.output_dataword = combine(8, parameters.vehicle_mode, "10101010");  //TEMP 
-    
-    parameters.output_dataword = combine(8, parameters.vehicle_mode, parameters.output_dataword);                            //1                                                                                
+    parameters.output_dataword = combine(8, parameters.vehicle_mode, "10101010");                                            //1 
     parameters.output_dataword = combine(8, parameters.command_count, parameters.output_dataword);                           //2
     parameters.output_dataword = combine(8, thresholds.normal_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                    //3
     parameters.output_dataword = combine(8, thresholds.load_shed_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                 //4
