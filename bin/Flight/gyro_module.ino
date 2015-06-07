@@ -37,6 +37,13 @@ int MPU9150_I2C_ADDRESS = 0x68;
 //  SERIAL_PORT_SPEED defines the speed to use for the debug serial port
 #define  SERIAL_PORT_SPEED  9600
 
+#define MIN_X 0      // Indexing values for calibration offset
+#define MAX_X 1
+#define MIN_Y 2
+#define MAX_Y 3
+#define MIN_Z 4
+#define MAX_Z 5
+
 int loopState;                                              // what code to run in the loop
 double gyro_temp;
 
@@ -185,24 +192,23 @@ bool updateMinMax(const short val, short *minimum, short *maximum) {
   return updated;
 }
 
-void magCalLoop()
-{
+void callLoop(const char *type, short vec[3], short cal[6]) {
   boolean changed;
   
-  if (duePoll()) {                                         // get the latest data
+  if (duePoll()) {                                          // get the latest data
     changed = false;
-    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_X], &calData.magMinX, &calData.magMaxX);
-    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_Y], &calData.magMinY, &calData.magMaxY);
-    changed |= updateMinMax(dueMPU.m_rawMag[VEC3_Z], &calData.magMinZ, &calData.magMaxZ);
+    changed |= updateMinMax(vec[VEC3_X], &cal[MIN_X], &cal[MAX_X]);
+    changed |= updateMinMax(vec[VEC3_Y], &cal[MIN_Y], &cal[MAX_Y]);
+    changed |= updateMinMax(vec[VEC3_Z], &cal[MIN_Z], &cal[MAX_Z]);
  
     if (changed) {
       Serial.println("-------");
-      Serial.print("minX: "); Serial.print(calData.magMinX);
-      Serial.print(" maxX: "); Serial.print(calData.magMaxX); Serial.println();
-      Serial.print("minY: "); Serial.print(calData.magMinY);
-      Serial.print(" maxY: "); Serial.print(calData.magMaxY); Serial.println();
-      Serial.print("minZ: "); Serial.print(calData.magMinZ);
-      Serial.print(" maxZ: "); Serial.print(calData.magMaxZ); Serial.println();
+      Serial.print("minX: "); Serial.print(cal[MIN_X]);
+      Serial.print(" maxX: "); Serial.print(cal[MAX_X]); Serial.println();
+      Serial.print("minY: "); Serial.print(cal[MIN_Y]);
+      Serial.print(" maxY: "); Serial.print(cal[MAX_Y]); Serial.println();
+      Serial.print("minZ: "); Serial.print(cal[MIN_Z]);
+      Serial.print(" maxZ: "); Serial.print(cal[MAX_Z]); Serial.println();
     }
   }
   
@@ -210,18 +216,31 @@ void magCalLoop()
     switch (Serial.read()) {
       case 's':
       case 'S':
-        calData.magValid = true;
+        calData.accelValid = true;
         calLibWrite(DEVICE_TO_USE, &calData);
-        Serial.print("Mag cal data saved for device "); Serial.println(DEVICE_TO_USE);
+        Serial.print(type);
+        Serial.print(" cal data saved for device "); Serial.println(DEVICE_TO_USE);
         break;
         
       case 'x':
       case 'X':
         loopState = LOOPSTATE_NORMAL;
         Serial.println("\n\n *** restart to use calibrated data ***");
-        break;
+       break;
     }
-  }  
+  }
+}
+
+void magCalLoop()
+{
+  short cal[6];
+  cal[MIN_X] = calData.magMinX;
+  cal[MAX_X] = calData.magMaxX;
+  cal[MIN_Y] = calData.magMinY;
+  cal[MAX_Y] = calData.magMaxY;
+  cal[MIN_Z] = calData.magMinZ;
+  cal[MAX_Z] = calData.magMaxZ;
+  callLoop("Magnetometer", dueMPU.m_rawMag, cal);
 }
 
 void accelCalStart(void)
@@ -243,40 +262,13 @@ void accelCalStart(void)
 
 void accelCalLoop()
 {
-  boolean changed;
-  
-  if (duePoll()) {                                          // get the latest data
-    changed = false;
-    changed |= updateMinMax(dueMPU.m_rawAccel[VEC3_X], &calData.accelMinX, &calData.accelMaxX);
-    changed |= updateMinMax(dueMPU.m_rawAccel[VEC3_Y], &calData.accelMinY, &calData.accelMaxY);
-    changed |= updateMinMax(dueMPU.m_rawAccel[VEC3_Z], &calData.accelMinZ, &calData.accelMaxZ);
- 
-    if (changed) {
-      Serial.println("-------");
-      Serial.print("minX: "); Serial.print(calData.accelMinX);
-      Serial.print(" maxX: "); Serial.print(calData.accelMaxX); Serial.println();
-      Serial.print("minY: "); Serial.print(calData.accelMinY);
-      Serial.print(" maxY: "); Serial.print(calData.accelMaxY); Serial.println();
-      Serial.print("minZ: "); Serial.print(calData.accelMinZ);
-      Serial.print(" maxZ: "); Serial.print(calData.accelMaxZ); Serial.println();
-    }
-  }
-  
-  if (Serial.available()) {
-    switch (Serial.read()) {
-      case 's':
-      case 'S':
-        calData.accelValid = true;
-        calLibWrite(DEVICE_TO_USE, &calData);
-        Serial.print("Accel cal data saved for device "); Serial.println(DEVICE_TO_USE);
-        break;
-        
-      case 'x':
-      case 'X':
-        loopState = LOOPSTATE_NORMAL;
-        Serial.println("\n\n *** restart to use calibrated data ***");
-       break;
-    }
-  }  
+  short cal[6];
+  cal[MIN_X] = calData.accelMinX;
+  cal[MAX_X] = calData.accelMaxX;
+  cal[MIN_Y] = calData.accelMinY;
+  cal[MAX_Y] = calData.accelMaxY;
+  cal[MIN_Z] = calData.accelMinZ;
+  cal[MAX_Z] = calData.accelMaxZ;
+  callLoop("Acceleration", dueMPU.m_rawAccel, cal);
 }
 
