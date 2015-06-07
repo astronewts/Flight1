@@ -259,7 +259,7 @@ void write_telemetry_data_to_sd()
   bout << ',' << thresholds.transit_transmit_period;                     //5
   bout << ',' << thresholds.emergency_transit_transmit_period;           //6
   bout << ',' << thresholds.test_transmit_period;                        //7
-  bout << ',' << parameters.sd_card_write_rate;                        //8
+  bout << ',' << parameters.sd_card_write_period;                        //8
   bout << ',' << telemetry_data.battery_1_temp_1;                      //9
   bout << ',' << telemetry_data.battery_1_temp_2;                      //10
   bout << ',' << telemetry_data.battery_2_temp_1;                      //11

@@ -146,7 +146,7 @@ struct parameter_struct
 {
   unsigned long loop_sleep;
   unsigned long transmit_period;  
-  unsigned long sd_card_write_rate;
+  unsigned long sd_card_write_period;
   int vehicle_mode;
   int command_count;
   int battery_temperature_limit_high;
