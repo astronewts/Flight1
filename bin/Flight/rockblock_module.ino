@@ -317,24 +317,24 @@ int process_satellite_command()
         // Converted from min to msec
         
         // Normal Ops Transmit Rate = CommandString.substring(14,17)
-        //thresholds.normal_transmit_rate = CommandString.substring(14,18).toInt() * 3600 * 1000;
-        thresholds.normal_transmit_rate = hexstring_to_int(CommandString,14,18) * 3600 * 1000;
+        //thresholds.normal_transmit_period = CommandString.substring(14,18).toInt() * 3600 * 1000;
+        thresholds.normal_transmit_period = hexstring_to_int(CommandString,14,18) * 3600 * 1000;
         
         // Loadshed Transmit Rate = CommandString.substring(18,21)
-        //thresholds.load_shed_transmit_rate = CommandString.substring(18,22).toInt() * 3600 * 1000;
-        thresholds.load_shed_transmit_rate = hexstring_to_int(CommandString,18,22) * 3600 * 1000;
+        //thresholds.load_shed_transmit_period = CommandString.substring(18,22).toInt() * 3600 * 1000;
+        thresholds.load_shed_transmit_period = hexstring_to_int(CommandString,18,22) * 3600 * 1000;
         
         // Transit Transmit Rate = CommandString.substring(22,25)
-        //thresholds.transit_transmit_rate = CommandString.substring(22,26).toInt() * 3600 * 1000;
-        thresholds.transit_transmit_rate = hexstring_to_int(CommandString,22,26) * 3600 * 1000;
+        //thresholds.transit_transmit_period = CommandString.substring(22,26).toInt() * 3600 * 1000;
+        thresholds.transit_transmit_period = hexstring_to_int(CommandString,22,26) * 3600 * 1000;
         
         // Emergency Transit Transmit Rate = CommandString.substring(26,29)
-        //thresholds.emergency_transit_transmit_rate =  CommandString.substring(26,30).toInt() * 3600 * 1000;
-        thresholds.emergency_transit_transmit_rate =  hexstring_to_int(CommandString,26,30) * 3600 * 1000;
+        //thresholds.emergency_transit_transmit_period =  CommandString.substring(26,30).toInt() * 3600 * 1000;
+        thresholds.emergency_transit_transmit_period =  hexstring_to_int(CommandString,26,30) * 3600 * 1000;
         
         // Test Transmit Rate = CommandString.substring(30,33)
-        //thresholds.test_transmit_rate = CommandString.substring(30,34).toInt() * 3600 * 1000;
-        thresholds.test_transmit_rate = hexstring_to_int(CommandString,30,34) * 3600 * 1000;
+        //thresholds.test_transmit_period = CommandString.substring(30,34).toInt() * 3600 * 1000;
+        thresholds.test_transmit_period = hexstring_to_int(CommandString,30,34) * 3600 * 1000;
         
         }
         
@@ -485,11 +485,11 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = "10101010";                                                                                            // Balloon ID
     parameters.output_dataword = combine(8, parameters.vehicle_mode, parameters.output_dataword);                                        //1
     parameters.output_dataword = combine(8, parameters.command_count, parameters.output_dataword);                                       //2
-    parameters.output_dataword = combine(8, thresholds.normal_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                    //3
-    parameters.output_dataword = combine(8, thresholds.load_shed_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                 //4
-    parameters.output_dataword = combine(8, thresholds.transit_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                   //5
-    parameters.output_dataword = combine(8, thresholds.emergency_transit_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);         //6
-    parameters.output_dataword = combine(8, thresholds.test_transmit_rate/MSEC_IN_MIN, parameters.output_dataword);                      //7
+    parameters.output_dataword = combine(8, thresholds.normal_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                    //3
+    parameters.output_dataword = combine(8, thresholds.load_shed_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                 //4
+    parameters.output_dataword = combine(8, thresholds.transit_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                   //5
+    parameters.output_dataword = combine(8, thresholds.emergency_transit_transmit_period/MSEC_IN_MIN, parameters.output_dataword);         //6
+    parameters.output_dataword = combine(8, thresholds.test_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                      //7
     parameters.output_dataword = combine(8, parameters.sd_card_write_rate/MSEC_IN_MIN, parameters.output_dataword);                      //8
     parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_1_temp_1), parameters.output_dataword);                   //9
     parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_1_temp_2), parameters.output_dataword);                   //10

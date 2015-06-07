@@ -254,11 +254,11 @@ void write_telemetry_data_to_sd()
 
   bout << ',' << parameters.vehicle_mode;                              //1
   bout << ',' << parameters.command_count;                             //2
-  bout << ',' << thresholds.normal_transmit_rate;                      //3
-  bout << ',' << thresholds.load_shed_transmit_rate;                   //4
-  bout << ',' << thresholds.transit_transmit_rate;                     //5
-  bout << ',' << thresholds.emergency_transit_transmit_rate;           //6
-  bout << ',' << thresholds.test_transmit_rate;                        //7
+  bout << ',' << thresholds.normal_transmit_period;                      //3
+  bout << ',' << thresholds.load_shed_transmit_period;                   //4
+  bout << ',' << thresholds.transit_transmit_period;                     //5
+  bout << ',' << thresholds.emergency_transit_transmit_period;           //6
+  bout << ',' << thresholds.test_transmit_period;                        //7
   bout << ',' << parameters.sd_card_write_rate;                        //8
   bout << ',' << telemetry_data.battery_1_temp_1;                      //9
   bout << ',' << telemetry_data.battery_1_temp_2;                      //10

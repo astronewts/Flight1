@@ -145,7 +145,7 @@ struct satellite_data_struct
 struct parameter_struct
 {
   unsigned long loop_sleep;
-  unsigned long transmit_rate;  
+  unsigned long transmit_period;  
   unsigned long sd_card_write_rate;
   int vehicle_mode;
   int command_count;
@@ -213,10 +213,10 @@ struct threshold_struct
   int normal_battery_temperature_limit_low;
   int survival_battery_temperature_limit_high;
   int survival_battery_temperature_limit_low;
-  unsigned long normal_transmit_rate;
-  unsigned long test_transmit_rate;
-  unsigned long transit_transmit_rate;
-  unsigned long emergency_transit_transmit_rate;
-  unsigned long load_shed_transmit_rate;
+  unsigned long normal_transmit_period;
+  unsigned long test_transmit_period;
+  unsigned long transit_transmit_period;
+  unsigned long emergency_transit_transmit_period;
+  unsigned long load_shed_transmit_period;
 };
   

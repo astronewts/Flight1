@@ -61,7 +61,7 @@ void setup()
    set_defaults();
    gyro_setup();
    set_normal_mode();
-// ***This line is commented temporarily for rockblock module debugging   sd_setup();
+//   sd_setup();
 
 }
 
@@ -88,7 +88,7 @@ void loop()
 
 //***********************************
      //Check if time to write data to ROCKBLOCK
-//   if(parameters.transmit_elapsed_time > parameters.transmit_rate)
+//   if(parameters.transmit_elapsed_time > parameters.transmit_period)
 //   {
 //      write_satellite_data();      
 //      parameters.transmit_elapsed_time = 0;
@@ -105,7 +105,7 @@ void loop()
    
 //***********************************  
      // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
-     if(parameters.transmit_elapsed_time > parameters.transmit_rate)
+     if(parameters.transmit_elapsed_time > parameters.transmit_period)
      {
       sendreceive_satellite_data();
       parameters.transmit_elapsed_time = 0;
@@ -120,11 +120,11 @@ void set_defaults()
   thresholds.survival_battery_temperature_limit_high = DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_HIGH;
   thresholds.survival_battery_temperature_limit_low  = DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW;
   
-  thresholds.normal_transmit_rate = DEFAULT_NORMAL_TRANSMIT_RATE;
-  thresholds.test_transmit_rate = DEFAULT_TEST_TRANSMIT_RATE;
-  thresholds.transit_transmit_rate = DEFAULT_TRANSIT_TRANSMIT_RATE;
-  thresholds.load_shed_transmit_rate = DEFAULT_LOAD_SHED_TRANSMIT_RATE;
-  thresholds.emergency_transit_transmit_rate = DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE;
+  thresholds.normal_transmit_period = DEFAULT_NORMAL_TRANSMIT_RATE;
+  thresholds.test_transmit_period = DEFAULT_TEST_TRANSMIT_RATE;
+  thresholds.transit_transmit_period = DEFAULT_TRANSIT_TRANSMIT_RATE;
+  thresholds.load_shed_transmit_period = DEFAULT_LOAD_SHED_TRANSMIT_RATE;
+  thresholds.emergency_transit_transmit_period = DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE;
 
   parameters.vehicle_mode = DEFAULT_MODE;
   parameters.command_count = 0.0;
@@ -143,7 +143,7 @@ void set_defaults()
   parameters.voltage_sanity_check_low = DEFAULT_VOLTAGE_SANITY_CHECK_LOW;
   parameters.charge_current_sanity_check_high = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH;
   parameters.charge_current_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
-  parameters.transmit_rate = thresholds.normal_transmit_rate;
+  parameters.transmit_period = thresholds.normal_transmit_period;
   parameters.sd_card_write_rate = DEFAULT_SD_CARD_WRITE_RATE;
   parameters.cutdown_pulse_width = DEFAULT_PYRO_PULSE_WIDTH;
   parameters.cutdown_enable_state = false;
@@ -229,7 +229,7 @@ void set_load_shed_mode()
    parameters.battery_1_charging_status = true;
    
    //Set Transmit Rate
-   parameters.transmit_rate = thresholds.load_shed_transmit_rate;
+   parameters.transmit_period = thresholds.load_shed_transmit_period;
    parameters.vehicle_mode = 2;
 }
 
@@ -243,7 +243,7 @@ void set_normal_mode()
    parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
    
    //Set Transmit Rate
-   parameters.transmit_rate = thresholds.normal_transmit_rate;
+   parameters.transmit_period = thresholds.normal_transmit_period;
    parameters.vehicle_mode = 1;
 }
 
@@ -257,7 +257,7 @@ void set_transit_mode()
    parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
    
    //Set Transmit Rate
-   parameters.transmit_rate = thresholds.transit_transmit_rate;
+   parameters.transmit_period = thresholds.transit_transmit_period;
    parameters.vehicle_mode = 3;
 }
 
@@ -271,7 +271,7 @@ void set_test_mode()
    parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
    
    //Set Transmit Rate
-   parameters.transmit_rate = thresholds.test_transmit_rate;
+   parameters.transmit_period = thresholds.test_transmit_period;
    parameters.vehicle_mode = 5;
 }
 
@@ -288,7 +288,7 @@ void set_emergency_decent_mode()
    parameters.battery_temperature_limit_low = thresholds.survival_battery_temperature_limit_low;
    
    //Set Transmit Rate
-   parameters.transmit_rate = thresholds.emergency_transit_transmit_rate;
+   parameters.transmit_period = thresholds.emergency_transit_transmit_period;
    parameters.vehicle_mode = 4;
    //Fire Pyro
    cutdown_fire();
