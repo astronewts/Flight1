@@ -38,6 +38,7 @@ protected:
         // Each LUT entry is the altitude in cm corresponding to an implicit
         // pressure value, calculated as [PA_INIT - 1024*index] in Pa.
         // The table is calculated for a nominal sea-level pressure  = 101325 Pa.
+        
         static const int32_t PZLUT_ENTRIES = 77;
         static const int32_t PA_INIT       = 104908;
         static const int32_t PA_DELTA      = 1024;
@@ -59,8 +60,6 @@ protected:
        748275, 767202, 786555, 806356, 826627,
        847395, 868688, 890537, 912974, 936037,
        959766, 984206};
-
-        
 
         if(pressurePa > PA_INIT) 
              return lookupTable[0];
@@ -113,10 +112,10 @@ private:
 
     void ResetSensor()
     {
-        Wire.begin();
-        Wire.beginTransmission(i2cAddr_);
-        Wire.write(cmdReset_);   
-        Wire.endTransmission(); 
+        Wire1.begin();
+        Wire1.beginTransmission(i2cAddr_);
+        Wire1.write(cmdReset_);   
+        Wire1.endTransmission(); 
         delay(3);
         Serial.println("Sensor Reset Sent");
     }
@@ -140,17 +139,17 @@ private:
     {
         uint16_t rC=0;
     
-        Wire.beginTransmission(i2cAddr_);
-        Wire.write(cmdPromRd_ + coefNum * 2); // send PROM READ command
-        Wire.endTransmission(); 
+        Wire1.beginTransmission(i2cAddr_);
+        Wire1.write(cmdPromRd_ + coefNum * 2); // send PROM READ command
+        Wire1.endTransmission(); 
     
-        Wire.requestFrom(i2cAddr_, static_cast<uint8_t>(2));
+        Wire1.requestFrom(i2cAddr_, static_cast<uint8_t>(2));
 
-        if(Wire.available() >= 2)
+        if(Wire1.available() >= 2)
         {
-            uint16_t ret = Wire.read();   // read MSB and acknowledge
+            uint16_t ret = Wire1.read();   // read MSB and acknowledge
             uint16_t rC  = 256 * ret;
-            ret = Wire.read();        // read LSB and not acknowledge
+            ret = Wire1.read();        // read LSB and not acknowledge
             rC  = rC + ret;
             return rC;
         }
@@ -182,9 +181,9 @@ private:
     
     int32_t ReadAdc(const uint8_t cmd)
     {             
-        Wire.beginTransmission(i2cAddr_);
-        Wire.write(cmdAdcConv_ | cmd); // send conversion command
-        Wire.endTransmission(); 
+        Wire1.beginTransmission(i2cAddr_);
+        Wire1.write(cmdAdcConv_ | cmd); // send conversion command
+        Wire1.endTransmission(); 
 
         // wait necessary conversion time
         switch(cmd & 0x0f) 
@@ -206,19 +205,19 @@ private:
             break;
         }
 
-        Wire.beginTransmission(i2cAddr_);
-        Wire.write(cmdAdcRead_);
-        Wire.endTransmission();
+        Wire1.beginTransmission(i2cAddr_);
+        Wire1.write(cmdAdcRead_);
+        Wire1.endTransmission();
     
-        Wire.requestFrom(i2cAddr_, static_cast<uint8_t>(3));
+        Wire1.requestFrom(i2cAddr_, static_cast<uint8_t>(3));
 
-        if(Wire.available() >= 3)
+        if(Wire1.available() >= 3)
         {
-            uint16_t ret  = Wire.read(); // read MSB and acknowledge
+            uint16_t ret  = Wire1.read(); // read MSB and acknowledge
             uint32_t temp = 65536 * ret;
-            ret  = Wire.read();      // read byte and acknowledge
+            ret  = Wire1.read();      // read byte and acknowledge
             temp = temp + 256 * ret;
-            ret  = Wire.read();  // read LSB and not acknowledge
+            ret  = Wire1.read();  // read LSB and not acknowledge
             temp = temp + ret;
                 
             return temp;
@@ -226,7 +225,7 @@ private:
 
         else
         {
-           Serial.println(Wire.available());
+           Serial.println(Wire1.available());
         }
 
         return 0;
@@ -251,7 +250,6 @@ private:
 
         return press; 
     }
-
 };
 
 } // namespace Intersema
