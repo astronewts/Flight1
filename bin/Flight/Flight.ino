@@ -67,7 +67,10 @@ void setup()
 
 void loop() 
 { 
- 
+   
+  //Collect Analog Telemetry
+  collect_telemetry();
+  
    //Process telemetry
    process_telemetry();
 

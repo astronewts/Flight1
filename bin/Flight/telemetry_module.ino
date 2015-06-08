@@ -3,7 +3,7 @@ double raw_val;
 double actual_val;
 char buffer[128];
 
-void colect_telemetry()
+void collect_telemetry()
 { 
   //Air Pressure Data
   raw_val = analogRead(PIN_PRESSURE_SENSOR);
