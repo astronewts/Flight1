@@ -483,28 +483,27 @@ void write_output_telemetry_dataword()
     String valid_str;
     valid_str = "0";
     
-    parameters.output_dataword = "10101010";                                                                                            // Balloon ID
-    parameters.output_dataword = combine(8, parameters.vehicle_mode, parameters.output_dataword);                                        //1
-    parameters.output_dataword = combine(8, parameters.command_count, parameters.output_dataword);                                       //2
+    parameters.output_dataword = "10101010";                                                                                               // Balloon ID
+    parameters.output_dataword = combine(8, parameters.vehicle_mode, parameters.output_dataword);                                          //1
+    parameters.output_dataword = combine(8, parameters.command_count, parameters.output_dataword);                                         //2
     parameters.output_dataword = combine(8, thresholds.normal_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                    //3
     parameters.output_dataword = combine(8, thresholds.load_shed_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                 //4
     parameters.output_dataword = combine(8, thresholds.transit_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                   //5
     parameters.output_dataword = combine(8, thresholds.emergency_transit_transmit_period/MSEC_IN_MIN, parameters.output_dataword);         //6
     parameters.output_dataword = combine(8, thresholds.test_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                      //7
-    parameters.output_dataword = combine(8, parameters.sd_card_write_period/1000, parameters.output_dataword);                      //8
-    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_1_temp_1), parameters.output_dataword);                   //9
-    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_1_temp_2), parameters.output_dataword);                   //10
-    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_2_temp_1), parameters.output_dataword);                   //11
-    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_2_temp_2), parameters.output_dataword);                   //12
-    parameters.output_dataword = combine(12, tempToCount(telemetry_data.inner_external_temp), parameters.output_dataword);                //13
-    parameters.output_dataword = combine(12, tempToCount(telemetry_data.outter_external_temp), parameters.output_dataword);               //14
-    parameters.output_dataword = combine(12, tempToCount(telemetry_data.internal_temp), parameters.output_dataword);                      //15
-    parameters.output_dataword = combine(12, telemetry_data.air_pressure, parameters.output_dataword);                       //16 // Change to counts
-    parameters.output_dataword = combine(12, telemetry_data.battery_1_voltage_1, parameters.output_dataword);                //17 // Change to counts
-    parameters.output_dataword = combine(12, telemetry_data.battery_1_voltage_2, parameters.output_dataword);                //18 // Change to counts
-    parameters.output_dataword = combine_float(32, telemetry_data.battery_1_charge_current_1, parameters.output_dataword);         //19
-    parameters.output_dataword = combine_float(32, telemetry_data.battery_1_charge_current_2, parameters.output_dataword);         //20
-   
+    parameters.output_dataword = combine(8, parameters.sd_card_write_period/1000, parameters.output_dataword);                             //8
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_1_temp_1), parameters.output_dataword);                    //9
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_1_temp_2), parameters.output_dataword);                    //10
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_2_temp_1), parameters.output_dataword);                    //11
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_2_temp_2), parameters.output_dataword);                    //12
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.inner_external_temp), parameters.output_dataword);                 //13
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.outter_external_temp), parameters.output_dataword);                //14
+    parameters.output_dataword = combine(12, tempToCount(telemetry_data.internal_temp), parameters.output_dataword);                       //15                             
+    parameters.output_dataword = combine(12, telemetry_data.air_pressure / PRESSURE_CONSTANT, parameters.output_dataword);                 //16
+    parameters.output_dataword = combine(12, (((telemetry_data.battery_1_voltage_1 / VOLTAGE_CONSTANT_3) * VOLTAGE_CONSTANT_2) / VOLTAGE_CONSTANT_1), parameters.output_dataword);      //17
+    parameters.output_dataword = combine(12, (((telemetry_data.battery_1_voltage_2 / VOLTAGE_CONSTANT_3) * VOLTAGE_CONSTANT_2) / VOLTAGE_CONSTANT_1), parameters.output_dataword);      //18
+    parameters.output_dataword = combine(12, ((telemetry_data.battery_1_charge_current_1 * CHARGE_CONSTANT_3) / (CHARGE_CONSTANT_1 * CHARGE_CONSTANT_2)), parameters.output_dataword);  //19
+    parameters.output_dataword = combine(12, ((telemetry_data.battery_1_charge_current_1 * CHARGE_CONSTANT_3) / (CHARGE_CONSTANT_1 * CHARGE_CONSTANT_2)), parameters.output_dataword);  //20
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //21
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //22
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //23
