@@ -186,21 +186,21 @@ for n = 1:nb_var
     index=index+var_length(n);
     
     if strcmp(var_type{n},'nd')
-        var_out_type='%s %d \n';
+        var_out_type='%d %s %d \n';
         var(n) = str2num(variable);
     elseif strcmp(var_type{n},'unsigned')
-        var_out_type='%s %d \n';
+        var_out_type='%d %s %d \n';
         var(n) = bin2dec(variable);
     elseif strcmp(var_type{n},'float')
-        var_out_type='%s %f \n';
+        var_out_type='%d %s %f \n';
         var(n) = typecast(uint32(bin2dec(variable)),'single');
     elseif strcmp(var_type{n},'integer') 
-        var_out_type='%s %d \n';
+        var_out_type='%d %s %d \n';
         % problem with the following:
         %var(n) = typecast(uint8(bi2de(variable, 'left-msb')), 'int8')
         var(n) = bin2dec(variable);
     elseif strcmp(var_type{n},'long') 
-        var_out_type='%s %d \n';
+        var_out_type='%d %s %d \n';
         var(n) = bin2dec(variable);     
     end
     
@@ -209,7 +209,7 @@ for n = 1:nb_var
     % direct output
 
      %display(var(n),var_name{n})
-     fprintf(file_result_ID,var_out_type,var_name{n},var(n));
+     fprintf(file_result_ID,var_out_type,n,var_name{n},var(n));
 
 end
     
