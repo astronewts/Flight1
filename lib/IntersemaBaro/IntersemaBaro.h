@@ -191,7 +191,8 @@ private:
 
         const int32_t tempAve = tempAccum / nSamples;
 
-        return {AltCm, tempAve};
+        const int32_t retVal[2] = {AltCm, tempAve};
+        return retVal;
     }
     
     int32_t ReadAdc(const uint8_t cmd)
@@ -263,7 +264,8 @@ private:
         const int64_t SENS  = (C1 * pow(2, 16)) + ((C3 * dT) / pow(2, 7)); // sensitivity at actual temperature
         const int32_t press = ((pressure * SENS / pow(2, 21) - OFF) / pow(2, 15)); // / 100;      // temperature compensated pressure
 
-        return {press, temp};
+        const int32_t retVal[2] = {press, temp};
+        return retVal;
     }
 };
 
