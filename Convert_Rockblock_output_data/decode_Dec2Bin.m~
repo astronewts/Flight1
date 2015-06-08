@@ -183,8 +183,6 @@ for n = 1:nb_var
     for i=index:index+var_length(n)-1
         variable = strcat(variable,tot_word_bin(i));
     end
-    index=index+var_length(n);
-    
     if strcmp(var_type{n},'nd')
         var_out_type='%s %d \n';
         var(n) = str2num(variable);
