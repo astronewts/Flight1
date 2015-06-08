@@ -370,6 +370,8 @@ void write_telemetry_data_to_sd()
   bout << ',' << parameters.altitude_valid_flag;                       //90-9
   bout << ',' << parameters.camera_status;                             //90-10
   bout << ',' << "000000";                                             //90-[11-16]
+  
+//TODO: Add new digital Pressure Tlm here:
   bout << ',' << "00000000000000000000000000000000";                   //91
   bout << ',' << "00000000000000000000000000000000";                   //92
   bout << ',' << "00000000000000000000000000000000";                   //93

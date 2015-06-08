@@ -38,6 +38,7 @@
 #include <SdFat.h>
 #include <SdFatUtil.h>
 #include <IridiumSBD.h>
+//#include "IntersemaBaro.h"
 
 struct telemetry_data_struct telemetry_data;
 struct satellite_data_struct satellite_data;
@@ -50,26 +51,27 @@ String output_dataword;
 uint8_t rx_buffer[MAX_RX_BUFFER_SIZE]; // max size of a received packet is 270 bytes
 
 IridiumSBD isbd(Serial3, 50);
+// Intersema::BaroPressure_MS5607 baro;
 
 void setup() 
 {
    Serial.begin(9600); 
    Serial1.begin(4800);
-   Serial3.begin(19200); // wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
+   Serial3.begin(19200); // Wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
    Serial.println("Flight1 starting up");
    set_output_pins();
    set_defaults();
    gyro_setup();
+// baro.init();
    set_normal_mode();
-//   sd_setup();
-
+// sd_setup();
 }
 
 void loop() 
 { 
-   
-  //Collect Analog Telemetry
-  collect_telemetry();
+   //Collect Analog Telemetry
+   collect_telemetry();
+   collect_alt_data();
   
    //Process telemetry
    process_telemetry();

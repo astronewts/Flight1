@@ -62,6 +62,13 @@ void collect_telemetry()
   telemetry_data.battery_1_charge_current_2 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;  
 }
 
+void collect_alt_data()
+{
+   //alt.altitude_in_feet = baro.getHeightCentiMeters();
+   //alt.temperature = baro.X();
+   //alt.apressure = baro.X();
+}
+
 void process_telemetry()
 {
    int valid_data = true;

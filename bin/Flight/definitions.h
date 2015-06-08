@@ -103,6 +103,12 @@
 
 // GYRO CONSTANTS:
 
+struct alt_struct
+{
+  double altitude_in_feet;
+  double temperature;
+  double pressure;
+};
 
 struct gps_struct
 {
@@ -205,7 +211,6 @@ struct parameter_struct
 
   String output_dataword;
   String valid_str;
-  
 };
 
 struct threshold_struct
