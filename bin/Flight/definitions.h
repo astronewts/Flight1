@@ -14,8 +14,9 @@
 #define VOLTAGE_CONSTANT_2  4095.0
 #define VOLTAGE_CONSTANT_3  3.83
 #define CHARGE_CONSTANT_1   3.3
-#define CHARGE_CONSTANT_2   26.0
-#define CHARGE_CONSTANT_3   4095.0
+#define CHARGE_CONSTANT_2   4095.0
+#define CHARGE_CONSTANT_3   1.40
+#define CHARGE_CONSTANT_4   20.37
 #define MS_IN_SEC           1000.0
 #define SECS_IN_HOUR        3600.0
 

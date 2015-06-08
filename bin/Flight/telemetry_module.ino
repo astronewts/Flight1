@@ -55,11 +55,11 @@ void colect_telemetry()
   
   //Charge Current 1
   raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_1);
-  telemetry_data.battery_1_charge_current_1 = (raw_val * CHARGE_CONSTANT_1 * CHARGE_CONSTANT_2)/CHARGE_CONSTANT_3;
+  telemetry_data.battery_1_charge_current_1 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;
   
   //Charge Current 2
   raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_2);
-  telemetry_data.battery_1_charge_current_2 = (raw_val * CHARGE_CONSTANT_1 * CHARGE_CONSTANT_2)/CHARGE_CONSTANT_3;  
+  telemetry_data.battery_1_charge_current_2 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;  
 }
 
 void process_telemetry()
