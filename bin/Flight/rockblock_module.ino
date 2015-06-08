@@ -503,7 +503,7 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine(12, (((telemetry_data.battery_1_voltage_1 / VOLTAGE_CONSTANT_3) * VOLTAGE_CONSTANT_2) / VOLTAGE_CONSTANT_1), parameters.output_dataword);      //17
     parameters.output_dataword = combine(12, (((telemetry_data.battery_1_voltage_2 / VOLTAGE_CONSTANT_3) * VOLTAGE_CONSTANT_2) / VOLTAGE_CONSTANT_1), parameters.output_dataword);      //18
     parameters.output_dataword = combine(12, ((telemetry_data.battery_1_charge_current_1 * CHARGE_CONSTANT_3) / (CHARGE_CONSTANT_1 * CHARGE_CONSTANT_2)), parameters.output_dataword);  //19
-    parameters.output_dataword = combine(12, ((telemetry_data.battery_1_charge_current_1 * CHARGE_CONSTANT_3) / (CHARGE_CONSTANT_1 * CHARGE_CONSTANT_2)), parameters.output_dataword);  //20
+    parameters.output_dataword = combine(12, ((telemetry_data.battery_1_charge_current_2 * CHARGE_CONSTANT_3) / (CHARGE_CONSTANT_1 * CHARGE_CONSTANT_2)), parameters.output_dataword);  //20
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //21
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //22
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //23
