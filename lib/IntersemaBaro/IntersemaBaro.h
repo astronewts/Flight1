@@ -40,7 +40,7 @@ public:
 
 protected:
     virtual int32_t *AcquireAveragedSamples(const uint8_t nSamples) = 0;
-    virtual int32_t *ConvertPressureTemperature(uint32_t pressure, uint32_t temperature) = 0;
+    virtual uint32_t *ConvertPressureTemperature(uint32_t pressure, uint32_t temperature) = 0;
 
     int32_t PascalToCentimeter(const int32_t pressurePa)
     {
@@ -181,7 +181,7 @@ private:
         {
             const uint32_t temperature = ReadAdc(cmdAdcD2_ | cmdAdc4096_); // digital temperature value : typical 8077636
             const uint32_t pressure    = ReadAdc(cmdAdcD1_ | cmdAdc4096_); // digital pressure value : typical 6465444  
-            int32_t *pressTempConv;
+            uint32_t *pressTempConv;
             pressTempConv = ConvertPressureTemperature(pressure, temperature);
             pressAccum += pressTempConv[0];
             tempAccum += pressTempConv[1];
@@ -193,7 +193,7 @@ private:
         const int32_t AltCm = PascalToCentimeter(pressAvg);
         retVal[0] = AltCm;
 
-        const int32_t tempAve = tempAccum / nSamples;
+        const int32_t tempAve = tempAccum / nSamples - 27316;
         retVal[1] = tempAve;
 
         return retVal;
@@ -251,7 +251,7 @@ private:
         return 0;
     }
 
-    int32_t *ConvertPressureTemperature(uint32_t pressure, uint32_t temperature)
+    uint32_t *ConvertPressureTemperature(uint32_t pressure, uint32_t temperature)
     {      
         const uint64_t C1 = static_cast<uint64_t>(coefficients_[0]);
         const uint64_t C2 = static_cast<uint64_t>(coefficients_[1]);
@@ -269,7 +269,7 @@ private:
         const int32_t press = ((pressure * SENS / pow(2, 21) - OFF) / pow(2, 15)); // / 100;      // temperature compensated pressure
         int32_t retVal[2] = {0};
         retVal[0] = press;
-        retVal[1] = temp;
+        retVal[1] = temp + 27315; // Temperature in centiKelvin
         return retVal;
     }
 };
