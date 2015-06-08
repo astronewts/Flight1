@@ -84,8 +84,8 @@ var_name{16} = 'inttemp1'       ; var_length(16) =12 ;     var_type{16} = 'unsig
 var_name{17} = 'extpr1'         ; var_length(17) =12 ;     var_type{17} = 'unsigned' ;
 var_name{18} = 'batt1vpri'      ; var_length(18) =12 ;     var_type{18} = 'unsigned' ;
 var_name{19} = 'batt1vred'      ; var_length(19) =12 ;     var_type{19} = 'unsigned' ;
-var_name{20} = 'batt1i1'        ; var_length(20) =32 ;     var_type{20} = 'float'    ;
-var_name{21} = 'batt1i2'        ; var_length(21) =32 ;     var_type{21} = 'float'    ; 
+var_name{20} = 'batt1i1'        ; var_length(20) =12 ;     var_type{20} = 'unsigned' ;  % changed from float to unsinged
+var_name{21} = 'batt1i2'        ; var_length(21) =12 ;     var_type{21} = 'unsigned' ;  % changed from float to unsinged
 var_name{22} = 'spare1'         ; var_length(22) =32 ;     var_type{22} = 'float'    ; 
 var_name{23} = 'spare2'         ; var_length(23) =32 ;     var_type{23} = 'float'    ; 
 var_name{24} = 'spare3'         ; var_length(24) =32 ;     var_type{24} = 'float'    ; 
@@ -218,9 +218,7 @@ end
 %fprintf(file_result_ID,'%s %f \n',var_name{n},var(n));
 disp('result printed')
 
-
-
-
-
 %%%%%%%%%%%%%%%%% END Decode bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end % end of loop on the words of the input file
+
+fclose(file_result_ID);
