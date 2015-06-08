@@ -166,17 +166,18 @@ var_name{95} = 'spare8'         ; var_length(95) =32 ;     var_type{95} = 'long'
 % print results to this file
 
 path_name_output=strcat(path_results,name_file_result);
-
+delete(path_name_output);
 file_result_ID = fopen(path_name_output,'w');
+
 header='';
 for n = 1:nb_var
     header = strcat(header,var_name{n},', ');
 end    
-fprintf(file_result_ID,'%s',header);
+%fprintf(file_result_ID,'%s',header);
 
 
 index=1; % initialization
-vector_out = zeros(nb_var,1); % prepare for output
+vector_out = 0.; % prepare for output
 for n = 1:nb_var
 %for n = 1:3
     variable='';
@@ -184,26 +185,41 @@ for n = 1:nb_var
         variable = strcat(variable,tot_word_bin(i));
     end
     if strcmp(var_type{n},'nd')
+        var_out_type='%s %d \n';
         var(n) = str2num(variable);
     elseif strcmp(var_type{n},'unsigned')
+        var_out_type='%s %d \n';
         var(n) = bin2dec(variable);
     elseif strcmp(var_type{n},'float')
+        var_out_type='%s %f \n';
         var(n) = typecast(uint32(bin2dec(variable)),'single');
-    elseif strcmp(var_type{n},'integer')   
+    elseif strcmp(var_type{n},'integer') 
+        var_out_type='%s %d \n';
         % problem with the following:
         %var(n) = typecast(uint8(bi2de(variable, 'left-msb')), 'int8')
         var(n) = bin2dec(variable);
-    elseif strcmp(var_type{n},'long')   
+    elseif strcmp(var_type{n},'long') 
+        var_out_type='%s %d \n';
         var(n) = bin2dec(variable);     
     end
-  
-    %vector_out = horzcat(vector_out,var(n))
-    vector_out = [vector_out;var(n)]
+    
+    % output
+    %vector_out = [vector_out;var(n)];
+    % direct output
+
+     %display(var(n),var_name{n})
+     fprintf(file_result_ID,var_out_type,var_name{n},var(n));
+
 end
     
-% output
+% output check
+%var(1) 
+%fprintf(file_result_ID,'%s %f \n',var_name{n},var(n));
+disp('result printed')
 
-var(1) 
+
+
+
 
 %%%%%%%%%%%%%%%%% END Decode bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end % end of loop on the words of the input file
