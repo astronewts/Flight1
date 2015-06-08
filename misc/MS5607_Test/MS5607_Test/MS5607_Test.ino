@@ -11,9 +11,12 @@ void setup() {
 
 void loop() {
   int alt = baro.getHeightCentiMeters();
+  int temp = baro.getTemperatureCentiC();
   Serial.print("Centimeters: ");
   Serial.print((float)(alt));
   Serial.print(", Feet: ");
-  Serial.println((float)(alt) / 30.48);
+  Serial.print((float)(alt) / 30.48);
+  Serial.print(", Centigrade: ");
+  Serial.println((float)(temp) / 100);
   delay(400);
 }
