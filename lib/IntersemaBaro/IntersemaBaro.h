@@ -267,7 +267,7 @@ private:
         const int64_t OFF   = (C2 * pow(2, 17)) + ((C4 * dT) / pow(2, 6)); // offset at actual temperature
         const int64_t SENS  = (C1 * pow(2, 16)) + ((C3 * dT) / pow(2, 7)); // sensitivity at actual temperature
         const int32_t press = ((pressure * SENS / pow(2, 21) - OFF) / pow(2, 15)); // / 100;      // temperature compensated pressure
-        int32_t retVal[2] = {0};
+        uint32_t retVal[2] = {0};
         retVal[0] = press;
         retVal[1] = temp + 27315; // Temperature in centiKelvin
         return retVal;
