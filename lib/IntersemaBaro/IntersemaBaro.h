@@ -181,17 +181,21 @@ private:
         {
             const uint32_t temperature = ReadAdc(cmdAdcD2_ | cmdAdc4096_); // digital temperature value : typical 8077636
             const uint32_t pressure    = ReadAdc(cmdAdcD1_ | cmdAdc4096_); // digital pressure value : typical 6465444  
-            const int32_t pressTempConv[2]   = ConvertPressureTemperature(pressure, temperature);
+            int32_t *pressTempConv;
+            pressTempConv = ConvertPressureTemperature(pressure, temperature);
             pressAccum += pressTempConv[0];
             tempAccum += pressTempConv[1];
         }
 
-        const int32_t pressAvg = pressAccum / nSamples;        
+        const int32_t pressAvg = pressAccum / nSamples;
+
+        int32_t retVal[2] = {0};
         const int32_t AltCm = PascalToCentimeter(pressAvg);
+        retVal[0] = AltCm;
 
         const int32_t tempAve = tempAccum / nSamples;
+        retVal[1] = tempAve;
 
-        const int32_t retVal[2] = {AltCm, tempAve};
         return retVal;
     }
     
@@ -263,8 +267,9 @@ private:
         const int64_t OFF   = (C2 * pow(2, 17)) + ((C4 * dT) / pow(2, 6)); // offset at actual temperature
         const int64_t SENS  = (C1 * pow(2, 16)) + ((C3 * dT) / pow(2, 7)); // sensitivity at actual temperature
         const int32_t press = ((pressure * SENS / pow(2, 21) - OFF) / pow(2, 15)); // / 100;      // temperature compensated pressure
-
-        const int32_t retVal[2] = {press, temp};
+        int32_t retVal[2] = {0};
+        retVal[0] = press;
+        retVal[1] = temp;
         return retVal;
     }
 };
