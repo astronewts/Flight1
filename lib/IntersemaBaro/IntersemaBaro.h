@@ -33,7 +33,7 @@ public:
         return AcquireAveragedSamples(NUM_SAMP_FOR_AVG)[1];
     }
 
-    uint32_t *getHeighTemperature(void)
+    uint32_t *getHeightCmTemperatureCentiCm(void)
     {
         return AcquireAveragedSamples(NUM_SAMP_FOR_AVG);
     }
