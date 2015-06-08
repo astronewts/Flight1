@@ -11,6 +11,11 @@ close all
 clc
 format long
 
+% define print path for output file: 
+path_results='/Users/gnlacaz/PERSO/Balloon_project/Arduino/Flight1/Convert_Rockblock_output_data/';
+% name of output file: 
+name_file_result='data_from_balloon.txt';
+
 %%%%%%%%%%%%%%%%% import data: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
  cd ./
@@ -21,6 +26,7 @@ mssg_rockblock = textscan(fileID,'%s');
 fclose(fileID);
 
 nb_words=ndims(mssg_rockblock);
+
 
 %%%%%%%%%%%%%%%%% END import data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -155,42 +161,49 @@ var_name{93} = 'spare6'         ; var_length(93) =32 ;     var_type{93} = 'long'
 var_name{94} = 'spare7'         ; var_length(94) =32 ;     var_type{94} = 'long'     ; 
 var_name{95} = 'spare8'         ; var_length(95) =32 ;     var_type{95} = 'long'     ;  
 
-index=1;
+
+%%%%%%%%%%%%%%%%% prepare for output %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% print results to this file
+
+path_name_output=strcat(path_results,name_file_result);
+
+file_result_ID = fopen(path_name_output,'w');
+header='';
+for n = 1:nb_var
+    header = strcat(header,var_name{n},', ');
+end    
+fprintf(file_result_ID,'%s',header);
+
+
+index=1; % initialization
+vector_out = zeros(nb_var,1); % prepare for output
 for n = 1:nb_var
 %for n = 1:3
-    
+    variable='';
+    for i=index:index+var_length(n)-1
+        variable = strcat(variable,tot_word_bin(i));
+    end
     if strcmp(var_type{n},'nd')
-        variable='';
-        for i=index:index+var_length(n)-1
-            variable = strcat(variable,tot_word_bin(i));
-        end
         var(n) = str2num(variable);
     elseif strcmp(var_type{n},'unsigned')
-        variable='';
-        for i=index:index+var_length(n)-1
-            variable = strcat(variable,tot_word_bin(i));
-        end
         var(n) = bin2dec(variable);
     elseif strcmp(var_type{n},'float')
-        variable='';
-        for i=index:index+var_length(n)-1
-            variable = strcat(variable,tot_word_bin(i));
-        end
         var(n) = typecast(uint32(bin2dec(variable)),'single');
-    elseif strcmp(var_type{n},'integer')
-        variable='';
-        for i=index:index+var_length(n)-1
-            variable = strcat(variable,tot_word_bin(i));
-        end    
+    elseif strcmp(var_type{n},'integer')   
         % problem with the following:
         %var(n) = typecast(uint8(bi2de(variable, 'left-msb')), 'int8')
+        var(n) = bin2dec(variable);
+    elseif strcmp(var_type{n},'long')   
+        var(n) = bin2dec(variable);     
     end
   
+    %vector_out = horzcat(vector_out,var(n))
+    vector_out = [vector_out;var(n)]
 end
     
-% output for checking 
-var
+% output
 
+var(1) 
 
 %%%%%%%%%%%%%%%%% END Decode bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end % end of loop on the words of the input file
