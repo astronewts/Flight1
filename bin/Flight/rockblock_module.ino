@@ -129,7 +129,7 @@ void sendreceive_satellite_data()
 }
 
 uint16_t tempToCount(double temperature) {
-  return (uint16_t) (temperature / TEMP_CONSTANT_1) + TEMP_CONSTANT_2;
+  return (uint16_t) ((temperature / TEMP_CONSTANT_1) + TEMP_CONSTANT_2);
 }
 
 // procedure :
