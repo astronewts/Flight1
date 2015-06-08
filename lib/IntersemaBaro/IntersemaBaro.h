@@ -28,19 +28,19 @@ public:
         return AcquireAveragedSamples(NUM_SAMP_FOR_AVG)[0];
     }
 
-    uint32_t getTemperatureCentiC(void)
+    int32_t getTemperatureCentiC(void)
     {
         return AcquireAveragedSamples(NUM_SAMP_FOR_AVG)[1];
     }
 
-    uint32_t *getHeightCmTemperatureCentiCm(void)
+    int32_t *getHeightCmTemperatureCentiCm(void)
     {
         return AcquireAveragedSamples(NUM_SAMP_FOR_AVG);
     }
 
 protected:
     virtual int32_t *AcquireAveragedSamples(const uint8_t nSamples) = 0;
-    virtual uint32_t *ConvertPressureTemperature(uint32_t pressure, uint32_t temperature) = 0;
+    virtual int32_t *ConvertPressureTemperature(uint32_t pressure, uint32_t temperature) = 0;
 
     int32_t PascalToCentimeter(const int32_t pressurePa)
     {
@@ -181,7 +181,7 @@ private:
         {
             const uint32_t temperature = ReadAdc(cmdAdcD2_ | cmdAdc4096_); // digital temperature value : typical 8077636
             const uint32_t pressure    = ReadAdc(cmdAdcD1_ | cmdAdc4096_); // digital pressure value : typical 6465444  
-            const uint32_t pressTempConv[2]   = ConvertPressureTemperature(pressure, temperature);
+            const int32_t pressTempConv[2]   = ConvertPressureTemperature(pressure, temperature);
             pressAccum += pressTempConv[0];
             tempAccum += pressTempConv[1];
         }
@@ -246,7 +246,7 @@ private:
         return 0;
     }
 
-    uint32_t *ConvertPressureTemperature(uint32_t pressure, uint32_t temperature)
+    int32_t *ConvertPressureTemperature(uint32_t pressure, uint32_t temperature)
     {      
         const uint64_t C1 = static_cast<uint64_t>(coefficients_[0]);
         const uint64_t C2 = static_cast<uint64_t>(coefficients_[1]);
