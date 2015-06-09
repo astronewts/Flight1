@@ -76,9 +76,9 @@ void collect_telemetry()
 
 void collect_alt_data()
 {
-   //alt.altitude_in_feet = baro.getHeightCentiMeters();
-   //alt.temperature = baro.X();
-   //alt.apressure = baro.X();
+   alt.altitude_in_feet = baro.getHeightCentiMeters() / 30.48;
+   alt.temperature = baro.getTemperatureCentigrade() / 100;
+   alt.pressure = baro.getAvgNormPressurePascals();
 }
 
 

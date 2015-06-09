@@ -101,7 +101,6 @@
 #define WAIT_TO_START    1  // Wait for serial input in setup(), 1=true
 #define ADC_DELAY       10  // ADC delay for high impedence sensors
 
-
 // GYRO CONSTANTS:
 
 struct alt_struct

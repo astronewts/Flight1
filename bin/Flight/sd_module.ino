@@ -210,10 +210,10 @@ void sd_setup() {
   bout << pstr(",Spare Flag 5");                        //90-14
   bout << pstr(",Spare Flag 6");                        //90-15
   bout << pstr(",Spare Flag 7");                        //90-16   
-  bout << pstr(",Spare 5");                             //91
-  bout << pstr(",Spare 6");                             //92
-  bout << pstr(",Spare 7");                             //93 
-  bout << pstr(",Spare 8");                             //94 
+  bout << pstr(",Altitude (ft)");                       //91
+  bout << pstr(",Alt Temp");                            //92
+  bout << pstr(",Alt Pressure");                        //93 
+  bout << pstr(",Spare 5");                             //94 
   
 
   logfile << buf << endl;
@@ -368,11 +368,9 @@ void write_telemetry_data_to_sd()
   bout << ',' << parameters.altitude_valid_flag;                       //90-9
   bout << ',' << parameters.camera_status;                             //90-10
   bout << ',' << "000000";                                             //90-[11-16]
-  
-//TODO: Add new digital Pressure Tlm here:
-  bout << ',' << "00000000000000000000000000000000";                   //91
-  bout << ',' << "00000000000000000000000000000000";                   //92
-  bout << ',' << "00000000000000000000000000000000";                   //93
+  bout << ',' << alt.altitude_in_feet;                                 //91
+  bout << ',' << alt.temperature;                                      //92
+  bout << ',' << alt.pressure;                                         //93
   bout << ',' << "00000000000000000000000000000000";                   //94
 
   bout << endl;

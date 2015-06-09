@@ -38,12 +38,15 @@
 #include <SdFat.h>
 #include <SdFatUtil.h>
 #include <IridiumSBD.h>
-//#include "IntersemaBaro.h"
+#include "IntersemaBaro.h"
 
 struct telemetry_data_struct telemetry_data;
 struct satellite_data_struct satellite_data;
 struct parameter_struct parameters;
 struct threshold_struct thresholds;
+struct alt_struct alt;
+struct gyro_struct gyro;
+struct gps_struct gps_chip;
 
 String output_dataword;
 
@@ -51,7 +54,7 @@ String output_dataword;
 uint8_t rx_buffer[MAX_RX_BUFFER_SIZE]; // max size of a received packet is 270 bytes
 
 IridiumSBD isbd(Serial3, 50);
-// Intersema::BaroPressure_MS5607 baro;
+Intersema::BaroPressure_MS5607 baro;
 
 void setup() 
 {
@@ -62,9 +65,9 @@ void setup()
    set_output_pins();
    set_defaults();
    gyro_setup();
-// baro.init();
+   baro.init();
    set_normal_mode();
-// sd_setup();
+   sd_setup();
 }
 
 void loop() 
