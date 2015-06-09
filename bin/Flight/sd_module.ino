@@ -20,7 +20,8 @@ String gps_isvalid_str;
 //#endif  // SENSOR_COUNT
 //------------------------------------------------------------------------------
 // store error strings in flash to save RAM
-#define error(s) sd.errorHalt_P(PSTR(s))
+//#define error(s) sd.errorHalt_P(PSTR(s))
+#define error(s) sd.errorPrint(PSTR(s))
 //------------------------------------------------------------------------------
 #if USE_DS1307
 // use RTClib from Adafruit
@@ -29,9 +30,6 @@ String gps_isvalid_str;
 // The Arduino IDE has a bug that causes Wire and RTClib to be loaded even
 // if USE_DS1307 is false.
 
-#error remove this line and uncomment the next two lines.
-//#include <Wire.h>
-//#include <RTClib.h>
 
 RTC_DS1307 RTC;  // define the Real Time Clock object
 //------------------------------------------------------------------------------
@@ -84,7 +82,7 @@ void sd_setup() {
 #endif  // USE_DS1307
 
   // initialize the SD card at SPI_HALF_SPEED to avoid bus errors with
-  if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorHalt();
+  if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorPrint();
 
   // create a new file in root, the current working directory
   char name[] = "LOGGER11.CSV";
@@ -383,7 +381,7 @@ void write_telemetry_data_to_sd()
   logfile << buf << flush;
 
   // check for error
-  if (!logfile) error("write data failed");
+  if (!logfile) error("SD card write data failed");
 
 #if ECHO_TO_SERIAL
   cout << buf;
