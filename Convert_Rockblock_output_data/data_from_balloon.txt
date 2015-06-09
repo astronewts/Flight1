@@ -1,95 +1,95 @@
- 1          hdr 10101010          None 
- 2         mode 1                 Enum 
- 3       cmdcnt 0                 count 
- 4   periodnorm 0                 min 
- 5   periodshed 1                 min 
- 6   perioddesc 0                 min 
- 7   periodemer 0                 min 
- 8   periodtest 1                 min 
- 9  periodwrite 6                 sec 
-10   batt1temp1 54                cnt (deg C) 
-11   batt1temp2 54                cnt (deg C) 
-12   batt2temp1 54                cnt (deg C) 
-13   batt2temp2 54                cnt (deg C) 
-14     exttemp1 54                cnt (deg C) 
-15     exttemp2 54                cnt (deg C) 
-16     inttemp1 54                cnt (deg C) 
-17       extpr1 0                 cnt (deg C) 
-18    batt1vpri 0                 cnt (V) 
-19    batt1vred 0                 cnt (V) 
-20      batt1i1 1737              A 
-21      batt1i2 1737              A 
-22       spare1 0.000000          None 
-23       spare2 0.000000          None 
-24       spare3 0.000000          None 
-25       spare4 0.000000          None 
-26       gpslat 0.000000          Deg 
-27      gpslong 0.000000          Deg 
-28       gpsalt 0.000000          m 
-29    gpslocage 4294967296.000000 msec 
-30    gpsaltage 4294967296.000000 msec 
-31       gpsdir 0.000000          Deg 
-32       gpsvel 0.000000          kmph 
-33    gpssatcnt 0                 # 
-34      gpsdate 0                 DDMMYY 
-35      gpstime 0                 HHMMSSCC 
-36   gpshdopval 0                 ??? 
-37   gpscharcnt 101011            # 
-38   gpssentcnt 0                 # 
-39    gpserrchk 0                 Enum 
-40    gpserrpar 0                 Enum 
-41         accx -16073.000000     g 
-42      accxmax 0.000000          g 
-43         accy 17885.000000      g 
-44      accymax 0.000000          g 
-45         accz -239.000000       g 
-46      acczmax 0.000000          g 
-47         magx 131.000000        Deg 
-48      magxmax 0.000000          Deg 
-49         magy 35.000000         Deg 
-50      magymax 0.000000          Deg 
-51         magz 168.000000        Deg 
-52      magzmax 0.000000          Deg 
-53      rawquat 0.000000          Deg/s 
-54       eupose 537331840.000000  Deg/s 
-55   fuseeupose 537331904.000000  Deg/s 
-56     gyrotemp 0.000000          Deg C 
-57   sanbattvhi 254               V * 
-58   sanbattvlo 3                 V * 
-59   sanbattihi 254               A * 
-60   sanbattilo 3                 A * 
-61  batt1chgrat 0.000000          None 
-62     batt1chg 0.000000          A-hr 
-63    batt1diss 0.000000          A-hr 
-64    batt1term 0                 A-hr * 
-65    batt1init 0                 A-hr * 
-66   batt1vterm 12                V * 
-67   batt1vinit 10                V * 
-68  batt2chgrat 0.000000          None 
-69     batt2chg 0.000000          A-hr 
-70    batt2diss 0.000000          A-hr 
-71    batt2term 0                 A-hr * 
-72    batt2init 0                 A-hr * 
-73   batt2vterm 12                V * 
-74   batt2vinit 10                V * 
-75 setacttemphi 300               Deg K 
-76 setacttemplo 23                Deg K 
-77   sanbattthi 150               Deg K 
-78     sethtrhi 300               Deg K 
-79     sethtrlo 23                Deg K 
-80 sethtrhished 300               Deg K 
-81 sethtrloshed 23                Deg K 
-82   sanbatttlo 65456             Deg K 
-83        shedv 8                 V * 
-84         cutv 8                 V * 
-85      cuttime 8                 min 
-86       cutalt 21336             m 
-87     sanaltlo 1000              m 
-88        cutpw 208               dsec 
-89      camrate 3968              sec 
-90        camon 1808              sec 
-91      parbwrd 55360             Enum 
-92       spare5 0                 None 
-93       spare6 0                 None 
-94       spare7 0                 None 
-95       spare8 0                 None 
+ 0          hdr 10101010          None 
+ 1         mode 1                 Enum 
+ 2       cmdcnt 0                 count 
+ 3   periodnorm 0                 min 
+ 4   periodshed 1                 min 
+ 5   perioddesc 0                 min 
+ 6   periodemer 0                 min 
+ 7   periodtest 1                 min 
+ 8  periodwrite 6                 sec 
+ 9   batt1temp1 54                cnt (deg C) 
+10   batt1temp2 54                cnt (deg C) 
+11   batt2temp1 54                cnt (deg C) 
+12   batt2temp2 54                cnt (deg C) 
+13     exttemp1 54                cnt (deg C) 
+14     exttemp2 54                cnt (deg C) 
+15     inttemp1 54                cnt (deg C) 
+16       extpr1 0                 cnt (deg C) 
+17    batt1vpri 0                 cnt (V) 
+18    batt1vred 0                 cnt (V) 
+19      batt1i1 1737              A 
+20      batt1i2 1737              A 
+21       spare1 0.000000          None 
+22       spare2 0.000000          None 
+23       spare3 0.000000          None 
+24       spare4 0.000000          None 
+25       gpslat 0.000000          Deg 
+26      gpslong 0.000000          Deg 
+27       gpsalt 0.000000          m 
+28    gpslocage 4294967296.000000 msec 
+29    gpsaltage 4294967296.000000 msec 
+30       gpsdir 0.000000          Deg 
+31       gpsvel 0.000000          kmph 
+32    gpssatcnt 0                 # 
+33      gpsdate 0                 DDMMYY 
+34      gpstime 0                 HHMMSSCC 
+35   gpshdopval 0                 ??? 
+36   gpscharcnt 101011            # 
+37   gpssentcnt 0                 # 
+38    gpserrchk 0                 Enum 
+39    gpserrpar 0                 Enum 
+40         accx -16073.000000     g 
+41      accxmax 0.000000          g 
+42         accy 17885.000000      g 
+43      accymax 0.000000          g 
+44         accz -239.000000       g 
+45      acczmax 0.000000          g 
+46         magx 131.000000        Deg 
+47      magxmax 0.000000          Deg 
+48         magy 35.000000         Deg 
+49      magymax 0.000000          Deg 
+50         magz 168.000000        Deg 
+51      magzmax 0.000000          Deg 
+52      rawquat 0.000000          Deg/s 
+53       eupose 537331840.000000  Deg/s 
+54   fuseeupose 537331904.000000  Deg/s 
+55     gyrotemp 0.000000          Deg C 
+56   sanbattvhi 254               V * 
+57   sanbattvlo 3                 V * 
+58   sanbattihi 254               A * 
+59   sanbattilo 3                 A * 
+60  batt1chgrat 0.000000          None 
+61     batt1chg 0.000000          A-hr 
+62    batt1diss 0.000000          A-hr 
+63    batt1term 0                 A-hr * 
+64    batt1init 0                 A-hr * 
+65   batt1vterm 12                V * 
+66   batt1vinit 10                V * 
+67  batt2chgrat 0.000000          None 
+68     batt2chg 0.000000          A-hr 
+69    batt2diss 0.000000          A-hr 
+70    batt2term 0                 A-hr * 
+71    batt2init 0                 A-hr * 
+72   batt2vterm 12                V * 
+73   batt2vinit 10                V * 
+74 setacttemphi 300               Deg K 
+75 setacttemplo 23                Deg K 
+76   sanbattthi 150               Deg K 
+77     sethtrhi 300               Deg K 
+78     sethtrlo 23                Deg K 
+79 sethtrhished 300               Deg K 
+80 sethtrloshed 23                Deg K 
+81   sanbatttlo 65456             Deg K 
+82        shedv 8                 V * 
+83         cutv 8                 V * 
+84      cuttime 8                 min 
+85       cutalt 21336             m 
+86     sanaltlo 1000              m 
+87        cutpw 208               dsec 
+88      camrate 3968              sec 
+89        camon 1808              sec 
+90      parbwrd 55360             Enum 
+91       spare5 0                 None 
+92       spare6 0                 None 
+93       spare7 0                 None 
+94       spare8 0                 None 

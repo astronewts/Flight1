@@ -12,11 +12,16 @@ clc
 format long
 
 % define print path for output file: 
-path_results='/Users/kevinmacko/Library/Mobile Documents/com~apple~CloudDocs/Documents/Astronewts/code/Flight1/Convert_Rockblock_output_data/';
+%path_results='/Users/kevinmacko/Library/Mobile Documents/com~apple~CloudDocs/Documents/Astronewts/code/Flight1/Convert_Rockblock_output_data/';
+path_results='/Users/gnlacaz/PERSO/Balloon_project/Arduino/Flight1/Convert_Rockblock_output_data/';
 % name of output file: 
 name_file_result='data_from_balloon.txt';
 
 %%%%%%%%%%%%%%%%% import data: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Note: to get the word sent by the balloon do the following:
+% 1) go on webpage for our rock block: https://core.rock7.com/Operations 
+% log ad: astronewts
+% using that: spacesquirrels
 
  cd ./
  filename = 'rockblock_data_example.txt';
