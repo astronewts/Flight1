@@ -416,6 +416,28 @@ void process_telemetry()
 void print_telemetry()
 {
   Serial.println("-----------Telemetry---------------");
+  Serial.print("raw Air Pressure: ");
+  raw_val = analogRead(PIN_PRESSURE_SENSOR);
+  Serial.println(raw_val);
+  Serial.print("raw Battery 1-1 Temp: ");
+  raw_val = analogRead(PIN_BATTERY1_1_TEMP);
+  Serial.println(raw_val);
+  Serial.print("raw Battery 1-2 Temp: ");
+  raw_val = analogRead(PIN_BATTERY1_2_TEMP);
+  Serial.println(raw_val);
+  Serial.print("raw Battery 2-1 Temp: ");
+  raw_val = analogRead(PIN_BATTERY2_1_TEMP);
+  Serial.println(raw_val);
+  Serial.print("raw Battery 2-2 Temp: ");
+  raw_val = analogRead(PIN_BATTERY2_2_TEMP);
+  Serial.println(raw_val);
+  Serial.print("raw Outter External Temp: ");
+  raw_val = analogRead(PIN_EXTERNAL_INNER_TEMP);
+  Serial.println(raw_val); 
+  Serial.print("raw Inner External Temp: ");
+  raw_val = analogRead(PIN_EXTERNAL_OUTTER_TEMP);
+  Serial.println(raw_val); 
+  Serial.println("--------------------------------");
   Serial.print("Air Pressure: ");
   Serial.println(telemetry_data.air_pressure);
   Serial.print("Battery 1-1 Temp: ");
