@@ -126,11 +126,11 @@ void get_gyro_data()
   switch (loopState) {
     case LOOPSTATE_NORMAL:
    
-    
         dueMPU.read();  // get the latest data if ready yet
 		Serial.print("Gyro - Quaternion: ");
 
-        gyro_temp = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
+        gyro_temp = ((double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
+        
         Serial.print("Gyro - Temp Data: ");  
         Serial.print(gyro_temp);
         Serial.println();

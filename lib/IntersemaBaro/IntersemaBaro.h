@@ -17,28 +17,21 @@ Bill Garrett - 2014 - mrbill2uaa@hotmail.com
 
 namespace Intersema
 {
-
+  
 class BaroPressure
 {
 public:
-    virtual void init() = 0;
-
+    virtual void init() = 0;   
+   
     int32_t getHeightCentiMeters(void)
     {
         return AcquireAveragedSampleCm(NUM_SAMP_FOR_AVG);
-    }
-
-    int32_t getTemperatureCentiC(void)
-    {
-        return AcquireAveragedSampleCentiC(NUM_SAMP_FOR_AVG);
-    }
-
+    }   
+    
 protected:
     virtual int32_t AcquireAveragedSampleCm(const uint8_t nSamples) = 0;
-    virtual int32_t AcquireAveragedSampleCentiC(const uint8_t nSamples) = 0;
     virtual uint32_t ConvertPressureTemperature(uint32_t pressure, uint32_t temperature) = 0;
-    virtual int32_t ConvertTemperature(uint32_t temperature) = 0;
-
+    
     int32_t PascalToCentimeter(const int32_t pressurePa)
     {
         // Lookup table converting pressure in Pa to altitude in cm.
@@ -68,14 +61,14 @@ protected:
        847395, 868688, 890537, 912974, 936037,
        959766, 984206};
 
-        if(pressurePa > PA_INIT)
+        if(pressurePa > PA_INIT) 
              return lookupTable[0];
-        else
+        else 
         {
-           const int32_t inx = (PA_INIT - pressurePa) >> 10;
-           if(inx >= PZLUT_ENTRIES - 1)
+           const int32_t inx = (PA_INIT - pressurePa) >> 10;      
+           if(inx >= PZLUT_ENTRIES - 1) 
                return lookupTable[PZLUT_ENTRIES - 1];
-           else
+           else 
            {
                 const int32_t pa1 = PA_INIT - (inx << 10);
                 const int32_t z1 = lookupTable[inx];
@@ -176,30 +169,14 @@ private:
         {
             const uint32_t temperature = ReadAdc(cmdAdcD2_ | cmdAdc4096_); // digital temperature value : typical 8077636
             const uint32_t pressure    = ReadAdc(cmdAdcD1_ | cmdAdc4096_); // digital pressure value : typical 6465444  
-            const uint32_t pressConv   = ConvertPressureTemperature(pressure, temperature);
+            const uint32_t pressConv   = ConvertPressureTemperature(pressure, temperature);                 
             pressAccum += pressConv;
         }
 
         const int32_t pressAvg = pressAccum / nSamples;        
         const int32_t AltCm = PascalToCentimeter(pressAvg);
 
-        return AltCm;
-    }
-
-    virtual int32_t AcquireAveragedSampleCentiC(const uint8_t nSamples)
-    {
-        int64_t tempAccum = 0;
-
-        for(size_t n = nSamples; n; n--)
-        {
-            const uint32_t temperature = ReadAdc(cmdAdcD2_ | cmdAdc4096_); // digital temperature value : typical 8077636
-            const int32_t tempConv   = ConvertTemperature(temperature)
-            tempAccum += tempConv;
-        }
-
-        const int32_t tempAvg = tempAccum / nSamples;
-
-        return tempAvg;
+        return AltCm;   
     }
     
     int32_t ReadAdc(const uint8_t cmd)
@@ -260,27 +237,18 @@ private:
         const uint64_t C2 = static_cast<uint64_t>(coefficients_[1]);
         const uint64_t C3 = static_cast<uint64_t>(coefficients_[2]);
         const uint64_t C4 = static_cast<uint64_t>(coefficients_[3]);
+        const uint64_t C5 = static_cast<uint64_t>(coefficients_[4]);
+        const uint64_t C6 = static_cast<uint64_t>(coefficients_[5]);
         
         // calcualte 1st order pressure and temperature (MS5607 1st order algorithm)
-        const int32_t temp  = ConvertTemperature(temperature);
+        const int32_t dT    = temperature - C5 * 256;                     // difference between actual and reference temperature
+        const int32_t temp  = 2000 + (dT * C6) / pow(2, 23) ; //        // actual temperature
      
         const int64_t OFF   = (C2 * pow(2, 17)) + ((C4 * dT) / pow(2, 6)); // offset at actual temperature
         const int64_t SENS  = (C1 * pow(2, 16)) + ((C3 * dT) / pow(2, 7)); // sensitivity at actual temperature
         const int32_t press = ((pressure * SENS / pow(2, 21) - OFF) / pow(2, 15)); // / 100;      // temperature compensated pressure
 
         return press; 
-    }
-
-    int32_t ConvertTemperature(uint32_t temperature)
-    {
-        const uint64_t C5 = static_cast<uint64_t>(coefficients_[4]);
-        const uint64_t C6 = static_cast<uint64_t>(coefficients_[5]);
-
-        // calcualte 1st order pressure and temperature (MS5607 1st order algorithm)
-        const int32_t dT    = (int32_t)temperature - (int32_t)C5 * 256;                     // difference between actual and reference temperature
-        const int32_t temp  = 2000 + (dT * C6) / pow(2, 23) ; //        // actual temperature
-
-        return temp;
     }
 };
 

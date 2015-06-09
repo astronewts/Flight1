@@ -117,7 +117,7 @@ struct gps_struct
 
 struct gyro_struct
 {
-  
+  //double gyro_temp;
 };
 
 struct telemetry_data_struct

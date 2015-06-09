@@ -8,22 +8,27 @@ void collect_telemetry()
   //Air Pressure Data
   raw_val = analogRead(PIN_PRESSURE_SENSOR);
   telemetry_data.air_pressure = raw_val * PRESSURE_CONSTANT;
+  delay(100);
   
   //Battery 1-1 Temp
   raw_val = analogRead(PIN_BATTERY1_1_TEMP);
   telemetry_data.battery_1_temp_1 = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
-
+  delay(100);
+  
   //Battery 1-2 Temp
   raw_val = analogRead(PIN_BATTERY1_2_TEMP);
   telemetry_data.battery_1_temp_2 = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
+  delay(100);
 
   //Battery 2-1 Temp
   raw_val = analogRead(PIN_BATTERY2_1_TEMP);
   telemetry_data.battery_2_temp_1 = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
+  delay(100);
   
   //Battery 2-2 Temp
   raw_val = analogRead(PIN_BATTERY2_2_TEMP);
   telemetry_data.battery_2_temp_2 = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
+  delay(100);
 
   //External Temp 1
   raw_val = analogRead(PIN_EXTERNAL_INNER_TEMP);
@@ -40,10 +45,12 @@ void collect_telemetry()
   //Battery Voltage 1
   raw_val = analogRead(PIN_BATTERY_1_VOLTAGE_1);
   telemetry_data.battery_1_voltage_1 = ((raw_val * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
+  delay(100);
   
   //Battery Voltage 2
   raw_val = analogRead(PIN_BATTERY_1_VOLTAGE_2);
   telemetry_data.battery_1_voltage_2 = ((raw_val * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
+  delay(100);
 
   //Charge Flag
   //raw_val = digitalRead(PIN_CHARGE_FLAG);
@@ -56,10 +63,12 @@ void collect_telemetry()
   //Charge Current 1
   raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_1);
   telemetry_data.battery_1_charge_current_1 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;
+  delay(100);
   
   //Charge Current 2
   raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_2);
   telemetry_data.battery_1_charge_current_2 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;  
+  delay(100);
 }
 
 void collect_alt_data()
@@ -68,6 +77,7 @@ void collect_alt_data()
    //alt.temperature = baro.X();
    //alt.apressure = baro.X();
 }
+
 
 void process_telemetry()
 {
