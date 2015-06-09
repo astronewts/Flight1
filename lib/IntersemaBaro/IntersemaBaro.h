@@ -2,13 +2,13 @@
 #define INTERSEMA_BARO_H
 
 /*
-
 I have found variations of this code all over.  None of them worked for me with arduino 1.x.  
-
 I don't own this code and I make no promises whatsoever about it's functionality.  It is working for me  :)
-
 Bill Garrett - 2014 - mrbill2uaa@hotmail.com
-
+***********************************************************
+Astronewts: Using this library with the SDA1/SCL1 I2C Bus on the Arduino Due.
+We also modified the code to pass through Average Temp, Avg Normalized Pressure (temp compensated), 
+and Avg Non-Normalized Pressure.  It also seems to work for us ;)
 */
 
 
@@ -28,9 +28,34 @@ public:
         return AcquireAveragedSampleCm(NUM_SAMP_FOR_AVG);
     }   
     
+    int32_t getTemperatureCentigrade(void)
+    {
+        return AcquireAveragedSampleTemp(NUM_SAMP_FOR_AVG);
+    } 
+    
+    int32_t getAvgNormPressurePascals(void)
+    {
+        return AcquireAveragedSampleNormPress(NUM_SAMP_FOR_AVG);
+    }  
+    /*  
+    int32_t getAvgRawPressurePascals(void)
+    {
+        return AcquireAveragedSampleRawPress(NUM_SAMP_FOR_AVG);
+    }  
+    */
+    
 protected:
     virtual int32_t AcquireAveragedSampleCm(const uint8_t nSamples) = 0;
+    
     virtual uint32_t ConvertPressureTemperature(uint32_t pressure, uint32_t temperature) = 0;
+    
+    virtual int32_t AcquireAveragedSampleNormPress(const uint8_t nSamples) = 0;
+    
+    //virtual int32_t AcquireAveragedSampleRawPress(const uint8_t nSamples) = 0;
+    
+    virtual int32_t AcquireAveragedSampleTemp(const uint8_t nSamples) = 0;
+    
+    virtual uint32_t CalibrateTemperature(uint32_t temperature) = 0;
     
     int32_t PascalToCentimeter(const int32_t pressurePa)
     {
@@ -172,12 +197,58 @@ private:
             const uint32_t pressConv   = ConvertPressureTemperature(pressure, temperature);                 
             pressAccum += pressConv;
         }
-
+        
         const int32_t pressAvg = pressAccum / nSamples;        
         const int32_t AltCm = PascalToCentimeter(pressAvg);
 
         return AltCm;   
     }
+    
+    virtual int32_t AcquireAveragedSampleTemp(const uint8_t nSamples)
+    {
+        int64_t tempAccum = 0;
+
+        for(size_t n = nSamples; n; n--) 
+        {
+            const uint32_t temperature = ReadAdc(cmdAdcD2_ | cmdAdc4096_); // digital temperature value : typical 8077636       
+            tempAccum += temperature;
+        }
+        const int32_t tempAvg = tempAccum / nSamples;  
+        const int32_t temp_calibrated = CalibrateTemperature(tempAvg);  
+            
+        return temp_calibrated;   
+    }
+    
+    
+    virtual int32_t AcquireAveragedSampleNormPress(const uint8_t nSamples)
+    {
+        int64_t pressAccum = 0;
+
+        for(size_t n = nSamples; n; n--) 
+        {
+            const uint32_t temperature = ReadAdc(cmdAdcD2_ | cmdAdc4096_); // digital temperature value : typical 8077636
+            const uint32_t pressure    = ReadAdc(cmdAdcD1_ | cmdAdc4096_); // digital pressure value : typical 6465444  
+            const uint32_t pressConv   = ConvertPressureTemperature(pressure, temperature);                 
+            pressAccum += pressConv;
+        }
+        const int32_t pressAvg = pressAccum / nSamples;        
+        return pressAvg;   
+    }
+    
+    /*
+    virtual int32_t AcquireAveragedSampleRawPress(const uint8_t nSamples)
+    {
+        int64_t pressAccum = 0;
+
+        for(size_t n = nSamples; n; n--) 
+        {
+            const uint32_t pressure    = ReadAdc(cmdAdcD1_ | cmdAdc4096_); // digital pressure value : typical 6465444       
+            pressAccum += pressure;
+        }
+        const int32_t pressAvg = pressAccum / nSamples;        
+        return pressAvg;   
+    }
+    */
     
     int32_t ReadAdc(const uint8_t cmd)
     {             
@@ -241,15 +312,30 @@ private:
         const uint64_t C6 = static_cast<uint64_t>(coefficients_[5]);
         
         // calcualte 1st order pressure and temperature (MS5607 1st order algorithm)
-        const int32_t dT    = temperature - C5 * 256;                     // difference between actual and reference temperature
+        const int32_t dT    = temperature - C5 * 256;                   // difference between actual and reference temperature
         const int32_t temp  = 2000 + (dT * C6) / pow(2, 23) ; //        // actual temperature
-     
         const int64_t OFF   = (C2 * pow(2, 17)) + ((C4 * dT) / pow(2, 6)); // offset at actual temperature
         const int64_t SENS  = (C1 * pow(2, 16)) + ((C3 * dT) / pow(2, 7)); // sensitivity at actual temperature
         const int32_t press = ((pressure * SENS / pow(2, 21) - OFF) / pow(2, 15)); // / 100;      // temperature compensated pressure
 
         return press; 
     }
+    
+    uint32_t CalibrateTemperature(uint32_t temperature)
+    {
+        const uint64_t C1 = static_cast<uint64_t>(coefficients_[0]);
+        const uint64_t C2 = static_cast<uint64_t>(coefficients_[1]);
+        const uint64_t C3 = static_cast<uint64_t>(coefficients_[2]);
+        const uint64_t C4 = static_cast<uint64_t>(coefficients_[3]);
+        const uint64_t C5 = static_cast<uint64_t>(coefficients_[4]);
+        const uint64_t C6 = static_cast<uint64_t>(coefficients_[5]);
+        
+        const int32_t dT    = temperature - C5 * 256;                   // difference between actual and reference temperature
+        const int32_t temp  = 2000 + (dT * C6) / pow(2, 23); //         // actual temperature
+        
+        return temp;
+    }
+    
 };
 
 } // namespace Intersema

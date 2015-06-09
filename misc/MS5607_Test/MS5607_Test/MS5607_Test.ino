@@ -11,12 +11,15 @@ void setup() {
 
 void loop() {
   int alt = baro.getHeightCentiMeters();
-  int temp = baro.getTemperatureCentiC();
-  Serial.print("Centimeters: ");
+  int temp = baro.getTemperatureCentigrade();
+  int pressure = baro.getAvgNormPressurePascals();
+  Serial.print("Alt (cm): ");
   Serial.print((float)(alt));
-  Serial.print(", Feet: ");
+  Serial.print(", Alt (ft): ");
   Serial.print((float)(alt) / 30.48);
-  Serial.print(", Centigrade: ");
-  Serial.println((float)(temp) / 100);
+  Serial.print(", Temp (C): ");
+  Serial.print((float)(temp) / 100);
+  Serial.print(", Press (Pa): ");
+  Serial.println((float)(pressure));
   delay(400);
 }
