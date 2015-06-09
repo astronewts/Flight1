@@ -209,7 +209,7 @@ for n = 1:nb_var
     % direct output
 
      %display(var(n),var_name{n})
-     fprintf(file_result_ID,var_out_type,n,var_name{n},var(n),var_unit{n});
+     fprintf(file_result_ID,var_out_type,n-1,var_name{n},var(n),var_unit{n});
 
 end
     
