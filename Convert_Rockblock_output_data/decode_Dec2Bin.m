@@ -21,7 +21,6 @@ name_file_result='data_from_balloon.txt';
 % Note: to get the word sent by the balloon do the following:
 % 1) go on webpage for our rock block: https://core.rock7.com/Operations 
 % log ad: astronewts
-% using that: spacesquirrels
 
  cd ./
  filename = 'rockblock_data_example.txt';
