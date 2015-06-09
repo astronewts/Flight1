@@ -87,7 +87,7 @@ void loop()
    //Check if time to write data to SD Card 
    if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
    {
-// ***This line is commented temporarily for rockblock module debugging     write_telemetry_data_to_sd();
+     write_telemetry_data_to_sd();
       parameters.sd_card_write_elapsed_time = 0;
    }
 
