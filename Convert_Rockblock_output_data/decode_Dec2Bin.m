@@ -161,7 +161,7 @@ var_name{89} = 'camrate'        ; var_length(89) =12 ;     var_type{89} = 'unsig
 var_name{90} = 'camon'          ; var_length(90) =12 ;     var_type{90} = 'unsigned' ;    var_unit{90}='sec';  
 var_name{91} = 'parbwrd'        ; var_length(91) =16 ;     var_type{91} = 'unsigned' ;    var_unit{91}='Enum'; 
 var_name{92} = 'altalt'         ; var_length(92) =32 ;     var_type{92} = 'float'    ;    var_unit{92}='feet'; 
-var_name{93} = 'alttemp'        ; var_length(93) =32 ;     var_type{93} = 'float'    ;    var_unit{93}='Deg     C'; 
+var_name{93} = 'alttemp'        ; var_length(93) =32 ;     var_type{93} = 'float'    ;    var_unit{93}='DegC'; 
 var_name{94} = 'altpress'       ; var_length(94) =32 ;     var_type{94} = 'float'    ;    var_unit{94}='Pa'; 
 var_name{95} = 'spare5'         ; var_length(95) =32 ;     var_type{95} = 'long'     ;    var_unit{95}='None';  
 
@@ -213,7 +213,9 @@ end
     
 % output check
 %var(1) 
-disp('result printed')
+end_message=strcat('result printed in ./',name_file_result);
+%disp('result printed')
+disp(end_message)
 
 %%%%%%%%%%%%%%%%% END Decode bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end % end of loop on the words of the input file
