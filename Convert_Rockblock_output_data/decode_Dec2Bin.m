@@ -160,10 +160,11 @@ var_name{88} = 'cutpw'          ; var_length(88) =8  ;     var_type{88} = 'unsig
 var_name{89} = 'camrate'        ; var_length(89) =12 ;     var_type{89} = 'unsigned' ;    var_unit{89}='sec';  
 var_name{90} = 'camon'          ; var_length(90) =12 ;     var_type{90} = 'unsigned' ;    var_unit{90}='sec';  
 var_name{91} = 'parbwrd'        ; var_length(91) =16 ;     var_type{91} = 'unsigned' ;    var_unit{91}='Enum'; 
-var_name{92} = 'spare5'         ; var_length(92) =32 ;     var_type{92} = 'long'     ;    var_unit{92}='None'; 
-var_name{93} = 'spare6'         ; var_length(93) =32 ;     var_type{93} = 'long'     ;    var_unit{93}='None'; 
-var_name{94} = 'spare7'         ; var_length(94) =32 ;     var_type{94} = 'long'     ;    var_unit{94}='None'; 
-var_name{95} = 'spare8'         ; var_length(95) =32 ;     var_type{95} = 'long'     ;    var_unit{95}='None';  
+var_name{92} = 'altalt'         ; var_length(92) =32 ;     var_type{92} = 'float'    ;    var_unit{92}='feet'; 
+var_name{93} = 'alttemp'        ; var_length(93) =32 ;     var_type{93} = 'float'    ;    var_unit{93}='Deg     C'; 
+var_name{94} = 'altpress'       ; var_length(94) =32 ;     var_type{94} = 'float'    ;    var_unit{94}='Pa'; 
+var_name{95} = 'spare5'         ; var_length(95) =32 ;     var_type{95} = 'long'     ;    var_unit{95}='None';  
+
 
 
 %%%%%%%%%%%%%%%%% prepare for output %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -171,13 +172,6 @@ var_name{95} = 'spare8'         ; var_length(95) =32 ;     var_type{95} = 'long'
 path_name_output=strcat(path_results,name_file_result);
 delete(path_name_output);
 file_result_ID = fopen(path_name_output,'w');
-
-% header='';
-% for n = 1:nb_var
-%     header = strcat(header,var_name{n},', ');
-% end    
-% fprintf(file_result_ID,'%s',header);
-
 
 index=1; % initialization
 vector_out = 0.; % prepare for output
@@ -189,37 +183,36 @@ for n = 1:nb_var
     end
     index=index+var_length(n);
     
+    % formating of the output file: 
+    var_out_type_head='%2d %12s';
+    var_out_type_tail=' %s \n';
+    
     if strcmp(var_type{n},'nd')
-        var_out_type='%2d %12s %-17d %s \n';
+        var_out_type_core=' %-17d';
         var(n) = str2num(variable);
     elseif strcmp(var_type{n},'unsigned')
-        var_out_type='%2d %12s %-17d %s \n';
+        var_out_type_core=' %-17d';
         var(n) = bin2dec(variable);
     elseif strcmp(var_type{n},'float')
-        var_out_type='%2d %12s %-17f %s \n';
+        var_out_type_core=' %-17f';
         var(n) = typecast(uint32(bin2dec(variable)),'single');
     elseif strcmp(var_type{n},'integer') 
-        var_out_type='%2d %12s %-17d %s \n';
-        % problem with the following:
-        %var(n) = typecast(uint8(bi2de(variable, 'left-msb')), 'int8')
+        var_out_type_core=' %-17d';
         var(n) = bin2dec(variable);
     elseif strcmp(var_type{n},'long') 
-        var_out_type='%2d %12s %-17d %s \n';
+        var_out_type_core=' %-17d';
         var(n) = bin2dec(variable);     
     end
+    % finalize the formating of the output data:
+    var_out_type=strcat(var_out_type_head,var_out_type_core,var_out_type_tail);
     
-    % output
-    %vector_out = [vector_out;var(n)];
-    % direct output
-
-     %display(var(n),var_name{n})
+     %Print output data to file: 
      fprintf(file_result_ID,var_out_type,n-1,var_name{n},var(n),var_unit{n});
 
 end
     
 % output check
 %var(1) 
-%fprintf(file_result_ID,'%s %f \n',var_name{n},var(n));
 disp('result printed')
 
 %%%%%%%%%%%%%%%%% END Decode bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%

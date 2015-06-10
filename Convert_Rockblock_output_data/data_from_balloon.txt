@@ -7,18 +7,18 @@
  6   periodemer 0                 min 
  7   periodtest 1                 min 
  8  periodwrite 6                 sec 
- 9   batt1temp1 776               cnt (deg C) 
-10   batt1temp2 661               cnt (deg C) 
-11   batt2temp1 752               cnt (deg C) 
-12   batt2temp2 1075              cnt (deg C) 
-13     exttemp1 730               cnt (deg C) 
-14     exttemp2 751               cnt (deg C) 
-15     inttemp1 1072              cnt (deg C) 
-16       extpr1 755               cnt (deg C) 
-17    batt1vpri 731               cnt (V) 
-18    batt1vred 754               cnt (V) 
-19      batt1i1 759               A 
-20      batt1i2 759               A 
+ 9   batt1temp1 730               cnt (deg C) 
+10   batt1temp2 733               cnt (deg C) 
+11   batt2temp1 731               cnt (deg C) 
+12   batt2temp2 730               cnt (deg C) 
+13     exttemp1 731               cnt (deg C) 
+14     exttemp2 732               cnt (deg C) 
+15     inttemp1 727               cnt (deg C) 
+16       extpr1 724               cnt (deg C) 
+17    batt1vpri 729               cnt (V) 
+18    batt1vred 728               cnt (V) 
+19      batt1i1 732               A 
+20      batt1i2 732               A 
 21       spare1 0.000000          None 
 22       spare2 0.000000          None 
 23       spare3 0.000000          None 
@@ -38,21 +38,21 @@
 37   gpssentcnt 0                 # 
 38    gpserrchk 0                 Enum 
 39    gpserrpar 0                 Enum 
-40         accx -15587.000000     g 
+40         accx -16309.000000     g 
 41      accxmax 0.000000          g 
-42         accy -30799.000000     g 
+42         accy -18158.000000     g 
 43      accymax 0.000000          g 
-44         accz -956.000000       g 
+44         accz -171.000000       g 
 45      acczmax 0.000000          g 
-46         magx 156.000000        Deg 
+46         magx 135.000000        Deg 
 47      magxmax 0.000000          Deg 
-48         magy 57.000000         Deg 
+48         magy 51.000000         Deg 
 49      magymax 0.000000          Deg 
-50         magz 150.000000        Deg 
+50         magz 162.000000        Deg 
 51      magzmax 0.000000          Deg 
 52      rawquat 0.000000          Deg/s 
-53       eupose 537331904.000000  Deg/s 
-54   fuseeupose 537331904.000000  Deg/s 
+53       eupose 537331648.000000  Deg/s 
+54   fuseeupose 537331712.000000  Deg/s 
 55     gyrotemp 0.000000          Deg C 
 56   sanbattvhi 254               V * 
 57   sanbattvlo 3                 V * 
@@ -89,7 +89,7 @@
 88      camrate 3968              sec 
 89        camon 1808              sec 
 90      parbwrd 49216             Enum 
-91       spare5 0                 None 
-92       spare6 0                 None 
-93       spare7 0                 None 
-94       spare8 0                 None 
+91       altalt 32290.222656      feet 
+92      alttemp 20.000000         Deg     C 
+93     altpress 0.000000          Pa 
+94       spare5 0                 None 
