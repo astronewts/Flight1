@@ -422,8 +422,7 @@ void process_telemetry()
              set_emergency_decent_mode();
              parameters.altitude_valid_flag == false;
            }
-        }
-      }
+       }
    }
 }
 
