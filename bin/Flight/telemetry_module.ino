@@ -410,6 +410,17 @@ void process_telemetry()
            {
               //Enter Emergency Descent Mode
              set_emergency_decent_mode();
+             parameters.altitude_valid_flag == false;
+           }
+        }
+      }
+      if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
+       {
+         if(alt.altitude_in_feet < parameters.altitude_limit_low)
+           {
+             //Enter Emergency Descent Mode
+             set_emergency_decent_mode();
+             parameters.altitude_valid_flag == false;
            }
         }
       }
