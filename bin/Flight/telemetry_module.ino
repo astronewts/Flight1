@@ -77,7 +77,7 @@ void collect_telemetry()
 void collect_alt_data()
 {
    alt.altitude_in_feet = baro.getHeightCentiMeters() / 30.48;
-   alt.temperature = baro.getTemperatureCentigrade() / 100;
+   alt.temperature = baro.getTemperatureCentigrade() / 100.0;
    alt.pressure = baro.getAvgNormPressurePascals();
 }
 
@@ -453,6 +453,14 @@ void print_telemetry()
   Serial.println(telemetry_data.battery_1_charge_current_1);
   Serial.print("Charge Current 2: ");
   Serial.println(telemetry_data.battery_1_charge_current_2);
+  Serial.print("Alt: Altitude in Feet: ");
+  Serial.println(alt.altitude_in_feet);
+  Serial.print("Alt: Temp:");
+  Serial.println(alt.temperature);
+  Serial.print("Alt: Pressure:");
+  Serial.println(alt.pressure);
+  Serial.println(" ");
+  
   print_gps_data();
   get_gyro_data();
   Serial.println("");

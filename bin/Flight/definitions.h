@@ -48,7 +48,7 @@
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
 #define DEFAULT_ALTITUDE_LIMIT_LOW                 21336
-#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          1000
+#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          1000 // ft
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           -0.1
 #define DEFAULT_B1_AMPHRS_INIT_THRESHOLD           -0.5  
