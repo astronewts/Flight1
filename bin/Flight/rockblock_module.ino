@@ -548,7 +548,7 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_Z], parameters.output_dataword);                     //50
     parameters.output_dataword = combine_float(32, calData.magMaxZ, parameters.output_dataword);                             //51
 // Quaternion consists of 4 32-bit floats. Only including vector component zero is a known issue. Pivotal bug ID 95940810
-    parameters.output_dataword = combine(32, (long) dueMPU.m_rawQuaternion[0], parameters.output_dataword);                  //52
+    parameters.output_dataword = combine_float(32, dueMPU.m_rawQuaternion[0], parameters.output_dataword);                  //52
 // Euler pose is a 3-dimensional vector. Only including one vector component here is a known issue. Pivotal bug ID 95940810
     parameters.output_dataword = combine_float(32, (long) dueMPU.m_dmpEulerPose, parameters.output_dataword);                //53
     parameters.output_dataword = combine_float(32, (long) dueMPU.m_fusedEulerPose, parameters.output_dataword);              //54
