@@ -121,7 +121,7 @@ var_name{49} = 'magy'           ; var_length(49) =32 ;     var_type{49} = 'float
 var_name{50} = 'magymax'        ; var_length(50) =32 ;     var_type{50} = 'float'    ;    var_unit{50}='Deg'; 
 var_name{51} = 'magz'           ; var_length(51) =32 ;     var_type{51} = 'float'    ;    var_unit{51}='Deg'; 
 var_name{52} = 'magzmax'        ; var_length(52) =32 ;     var_type{52} = 'float'    ;    var_unit{52}='Deg'; 
-var_name{53} = 'rawquat'        ; var_length(53) =32 ;     var_type{53} = 'float'    ;    var_unit{53}='Deg/s';
+var_name{53} = 'rawquat'        ; var_length(53) =32 ;     var_type{53} = 'float'    ;    var_unit{53}='Deg/s'; 
 var_name{54} = 'eupose'         ; var_length(54) =32 ;     var_type{54} = 'float'    ;    var_unit{54}='Deg/s'; 
 var_name{55} = 'fuseeupose'     ; var_length(55) =32 ;     var_type{55} = 'float'    ;    var_unit{55}='Deg/s'; 
 var_name{56} = 'gyrotemp'       ; var_length(56) =32 ;     var_type{56} = 'float'    ;    var_unit{56}='Deg C'; 
