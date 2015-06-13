@@ -504,8 +504,8 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine(12, (((telemetry_data.battery_1_voltage_2 / VOLTAGE_CONSTANT_3) * VOLTAGE_CONSTANT_2) / VOLTAGE_CONSTANT_1), parameters.output_dataword);      //18
     parameters.output_dataword = combine(12, ((((telemetry_data.battery_1_charge_current_2 / CHARGE_CONSTANT_4) + CHARGE_CONSTANT_3) * CHARGE_CONSTANT_2) / CHARGE_CONSTANT_1), parameters.output_dataword);  //19
     parameters.output_dataword = combine(12, ((((telemetry_data.battery_1_charge_current_2 / CHARGE_CONSTANT_4) + CHARGE_CONSTANT_3) * CHARGE_CONSTANT_2) / CHARGE_CONSTANT_1), parameters.output_dataword);  //20
-    parameters.output_dataword = combine_float(TEMP_CONSTANT_1, parameters.output_dataword);                                 //21 Temperature Constant 1
-    parameters.output_dataword = combine_float(TEMP_CONSTANT_2, parameters.output_dataword);                                 //22 Temperature Constant 2
+    parameters.output_dataword = combine_float(32, TEMP_CONSTANT_1, parameters.output_dataword);                             //21 Temperature Constant 1
+    parameters.output_dataword = combine_float(32, TEMP_CONSTANT_2, parameters.output_dataword);                             //22 Temperature Constant 2
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //23
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //24
     parameters.output_dataword = combine_float(32, gps.location.lat(), parameters.output_dataword);                          //25
@@ -536,17 +536,17 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = parameters.output_dataword + valid_str;                                                     //39
     
     parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_X], parameters.output_dataword);                   //40
-    parameters.output_dataword = combine_float(32, max(calData.accelMaxX, -calData.accelMinX) parameters.output_dataword);   //41
+      parameters.output_dataword = combine_float(32, std::max(calData.accelMaxX, (short)(-calData.accelMinX)), parameters.output_dataword);  //41
     parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_Y], parameters.output_dataword);                   //42
-    parameters.output_dataword = combine_float(32, max(calData.accelMaxY, -calData.accelMinY), parameters.output_dataword);  //43
+    parameters.output_dataword = combine_float(32, std::max(calData.accelMaxY, (short)(-calData.accelMinY)), parameters.output_dataword);  //43
     parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_Z], parameters.output_dataword);                   //44
-    parameters.output_dataword = combine_float(32, max(calData.accelMaxZ, -calData.accelMinZ), parameters.output_dataword);  //45
+    parameters.output_dataword = combine_float(32, std::max(calData.accelMaxZ, (short)(-calData.accelMinZ)), parameters.output_dataword);  //45
     parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_X], parameters.output_dataword);                     //46
-    parameters.output_dataword = combine_float(32, max(calData.magMaxX, -calData.magMinX), parameters.output_dataword);      //47
+    parameters.output_dataword = combine_float(32, std::max(calData.magMaxX, (short)(-calData.magMinX)), parameters.output_dataword);      //47
     parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_Y], parameters.output_dataword);                     //48
-    parameters.output_dataword = combine_float(32, max(calData.magMaxY, -caldata.magMinY), parameters.output_dataword);      //49
+    parameters.output_dataword = combine_float(32, std::max(calData.magMaxY, (short)(-calData.magMinY)), parameters.output_dataword);      //49
     parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_Z], parameters.output_dataword);                     //50
-    parameters.output_dataword = combine_float(32, max(calData.magMaxZ, -caldata.magMinZ), parameters.output_dataword);      //51
+    parameters.output_dataword = combine_float(32, std::max(calData.magMaxZ, (short)(-calData.magMinZ)), parameters.output_dataword);      //51
 // Quaternion consists of 4 32-bit floats. Only including vector component zero is a known issue. Pivotal bug ID 95940810
     parameters.output_dataword = combine_float(32, dueMPU.m_rawQuaternion[0], parameters.output_dataword);                  //52
 // Euler pose is a 3-dimensional vector. Only including one vector component here is a known issue. Pivotal bug ID 95940810
