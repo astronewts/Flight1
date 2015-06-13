@@ -536,17 +536,17 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = parameters.output_dataword + valid_str;                                                     //39
     
     parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_X], parameters.output_dataword);                   //40
-    parameters.output_dataword = combine_float(32, calData.accelMaxX, parameters.output_dataword);                           //41
+    parameters.output_dataword = combine_float(32, max(calData.accelMaxX, -calData.accelMinX) parameters.output_dataword);   //41
     parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_Y], parameters.output_dataword);                   //42
-    parameters.output_dataword = combine_float(32, calData.accelMaxY, parameters.output_dataword);                           //43
+    parameters.output_dataword = combine_float(32, max(calData.accelMaxY, -calData.accelMinY), parameters.output_dataword);  //43
     parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_Z], parameters.output_dataword);                   //44
-    parameters.output_dataword = combine_float(32, calData.accelMaxZ, parameters.output_dataword);                           //45
+    parameters.output_dataword = combine_float(32, max(calData.accelMaxZ, -calData.accelMinZ), parameters.output_dataword);  //45
     parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_X], parameters.output_dataword);                     //46
-    parameters.output_dataword = combine_float(32, calData.magMaxX, parameters.output_dataword);                             //47
+    parameters.output_dataword = combine_float(32, max(calData.magMaxX, -calData.magMinX), parameters.output_dataword);      //47
     parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_Y], parameters.output_dataword);                     //48
-    parameters.output_dataword = combine_float(32, calData.magMaxY, parameters.output_dataword);                             //49
+    parameters.output_dataword = combine_float(32, max(calData.magMaxY, -caldata.magMinY), parameters.output_dataword);      //49
     parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_Z], parameters.output_dataword);                     //50
-    parameters.output_dataword = combine_float(32, calData.magMaxZ, parameters.output_dataword);                             //51
+    parameters.output_dataword = combine_float(32, max(calData.magMaxZ, -caldata.magMinZ), parameters.output_dataword);      //51
 // Quaternion consists of 4 32-bit floats. Only including vector component zero is a known issue. Pivotal bug ID 95940810
     parameters.output_dataword = combine_float(32, dueMPU.m_rawQuaternion[0], parameters.output_dataword);                  //52
 // Euler pose is a 3-dimensional vector. Only including one vector component here is a known issue. Pivotal bug ID 95940810
