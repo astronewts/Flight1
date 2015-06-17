@@ -12,8 +12,8 @@ clc
 format long
 
 % define print path for output file: 
-%path_results='/Users/kevinmacko/Library/Mobile Documents/com~apple~CloudDocs/Documents/Astronewts/code/Flight1/Convert_Rockblock_output_data/';
-path_results='/Users/gnlacaz/PERSO/Balloon_project/Arduino/Flight1/Convert_Rockblock_output_data/';
+path_results='/Users/kevinmacko/Library/Mobile Documents/com~apple~CloudDocs/Documents/Astronewts/code/Flight1/Convert_Rockblock_output_data/';
+%path_results='/Users/gnlacaz/PERSO/Balloon_project/Arduino/Flight1/Convert_Rockblock_output_data/';
 % name of output file: 
 name_file_result='data_from_balloon.txt';
 
@@ -78,20 +78,20 @@ var_name{06} = 'perioddesc'     ; var_length(06) =8  ;     var_type{06} = 'unsig
 var_name{07} = 'periodemer'     ; var_length(07) =8  ;     var_type{07} = 'unsigned' ;    var_unit{07}='min';
 var_name{08} = 'periodtest'     ; var_length(08) =8  ;     var_type{08} = 'unsigned' ;    var_unit{08}='min';
 var_name{09} = 'periodwrite'    ; var_length(09) =8  ;     var_type{09} = 'unsigned' ;    var_unit{09}='sec';
-var_name{10} = 'batt1temp1'     ; var_length(10) =12 ;     var_type{10} = 'unsigned' ;    var_unit{10}='cnt (deg C)';
-var_name{11} = 'batt1temp2'     ; var_length(11) =12 ;     var_type{11} = 'unsigned' ;    var_unit{11}='cnt (deg C)';
-var_name{12} = 'batt2temp1'     ; var_length(12) =12 ;     var_type{12} = 'unsigned' ;    var_unit{12}='cnt (deg C)';
-var_name{13} = 'batt2temp2'     ; var_length(13) =12 ;     var_type{13} = 'unsigned' ;    var_unit{13}='cnt (deg C)';
-var_name{14} = 'exttemp1'       ; var_length(14) =12 ;     var_type{14} = 'unsigned' ;    var_unit{14}='cnt (deg C)';
-var_name{15} = 'exttemp2'       ; var_length(15) =12 ;     var_type{15} = 'unsigned' ;    var_unit{15}='cnt (deg C)';
-var_name{16} = 'inttemp1'       ; var_length(16) =12 ;     var_type{16} = 'unsigned' ;    var_unit{16}='cnt (deg C)';
-var_name{17} = 'extpr1'         ; var_length(17) =12 ;     var_type{17} = 'unsigned' ;    var_unit{17}='cnt (deg C)';
+var_name{10} = 'batt1temp1'     ; var_length(10) =12 ;     var_type{10} = 'float temp' ;    var_unit{10}='deg C';
+var_name{11} = 'batt1temp2'     ; var_length(11) =12 ;     var_type{11} = 'float temp' ;    var_unit{11}='deg C';
+var_name{12} = 'batt2temp1'     ; var_length(12) =12 ;     var_type{12} = 'float temp' ;    var_unit{12}='deg C';
+var_name{13} = 'batt2temp2'     ; var_length(13) =12 ;     var_type{13} = 'float temp' ;    var_unit{13}='deg C';
+var_name{14} = 'exttemp1'       ; var_length(14) =12 ;     var_type{14} = 'float temp' ;    var_unit{14}='deg C';
+var_name{15} = 'exttemp2'       ; var_length(15) =12 ;     var_type{15} = 'float temp' ;    var_unit{15}='deg C';
+var_name{16} = 'inttemp1'       ; var_length(16) =12 ;     var_type{16} = 'float temp' ;    var_unit{16}='deg C';
+var_name{17} = 'extpr1'         ; var_length(17) =12 ;     var_type{17} = 'float temp' ;    var_unit{17}='deg C';
 var_name{18} = 'batt1vpri'      ; var_length(18) =12 ;     var_type{18} = 'unsigned' ;    var_unit{18}='cnt (V)';
 var_name{19} = 'batt1vred'      ; var_length(19) =12 ;     var_type{19} = 'unsigned' ;    var_unit{19}='cnt (V)';
 var_name{20} = 'batt1i1'        ; var_length(20) =12 ;     var_type{20} = 'unsigned' ;    var_unit{20}='A';  % changed from float to unsinged
 var_name{21} = 'batt1i2'        ; var_length(21) =12 ;     var_type{21} = 'unsigned' ;    var_unit{21}='A';  % changed from float to unsinged
-var_name{22} = 'spare1'         ; var_length(22) =32 ;     var_type{22} = 'float'    ;    var_unit{22}='None'; 
-var_name{23} = 'spare2'         ; var_length(23) =32 ;     var_type{23} = 'float'    ;    var_unit{23}='None'; 
+var_name{22} = 'tempconst1'     ; var_length(22) =32 ;     var_type{22} = 'float'    ;    var_unit{22}='None'; 
+var_name{23} = 'tempconst2'     ; var_length(23) =32 ;     var_type{23} = 'float'    ;    var_unit{23}='None'; 
 var_name{24} = 'spare3'         ; var_length(24) =32 ;     var_type{24} = 'float'    ;    var_unit{24}='None'; 
 var_name{25} = 'spare4'         ; var_length(25) =32 ;     var_type{25} = 'float'    ;    var_unit{25}='None'; 
 var_name{26} = 'gpslat'         ; var_length(26) =32 ;     var_type{26} = 'float'    ;    var_unit{26}='Deg'; 
@@ -173,6 +173,18 @@ path_name_output=strcat(path_results,name_file_result);
 delete(path_name_output);
 file_result_ID = fopen(path_name_output,'w');
 
+Ctemp1str="";
+for i = 216:216+32
+    Ctemp1str = strcat(Ctemp1str,tot_word_bin(i));
+end
+Ctemp1val = typecast(uint32(bin2dec(Ctemp1str)),'single');
+
+Ctemp2str="";
+for i = 248:248+32
+    Ctemp2str = strcat(Ctemp2str,tot_word_bin(i));
+end
+Ctemp2val = typecast(uint32(bin2dec(Ctemp2str)),'single');
+
 index=1; % initialization
 vector_out = 0.; % prepare for output
 for n = 1:nb_var
@@ -196,6 +208,10 @@ for n = 1:nb_var
     elseif strcmp(var_type{n},'float')
         var_out_type_core=' %-17f';
         var(n) = typecast(uint32(bin2dec(variable)),'single');
+    elseif strcmp(var_type{n},'float temp')
+        var_out_type_core=' %-17f';
+        temp1=bin2dec(variable);
+        var(n) = Ctemp1val*(bin2dec(variable)-Ctemp2val); 
     elseif strcmp(var_type{n},'integer') 
         var_out_type_core=' %-17d';
         var(n) = bin2dec(variable);
@@ -212,7 +228,7 @@ for n = 1:nb_var
 end
     
 % output check
-%var(1) 
+%var(1)   
 end_message=strcat('result printed in ./',name_file_result);
 %disp('result printed')
 disp(end_message)
