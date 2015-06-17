@@ -12,7 +12,8 @@ clc
 format long
 
 % define print path for output file: 
-path_results='/Users/kevinmacko/Library/Mobile Documents/com~apple~CloudDocs/Documents/Astronewts/code/Flight1/Convert_Rockblock_output_data/';
+path_results = strcat(pwd,"/data/");
+%path_results='/Users/kevinmacko/Library/Mobile Documents/com~apple~CloudDocs/Documents/Astronewts/code/Flight1/Convert_Rockblock_output_data/';
 %path_results='/Users/gnlacaz/PERSO/Balloon_project/Arduino/Flight1/Convert_Rockblock_output_data/';
 % name of output file: 
 name_file_result='data_from_balloon.txt';
