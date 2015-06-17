@@ -90,32 +90,30 @@ void process_telemetry()
    double battery_1_elapsed_time_factor = 0.0;
    
    //Check Cutdown Process
-   //if(digitalRead(PIN_CUTDOWN_1_FIRE) == HIGH)
    if(parameters.cutdown_1_status == true)
    {
      if(parameters.cutdown_initiation_elapsed_time >= parameters.cutdown_pulse_width)
      {
         //Set Primary Cutdown to Low
         digitalWrite(PIN_CUTDOWN_1_FIRE, LOW);
-        parameters.cutdown_1_status == false;
+        parameters.cutdown_1_status = false;
         
         //Set Backup Cutdown to High
         digitalWrite(PIN_CUTDOWN_2_FIRE, HIGH);
-        parameters.cutdown_2_status == true;
+        parameters.cutdown_2_status = true;
         
         //Reset the initiation elapsed time
         parameters.cutdown_initiation_elapsed_time = 0;
      }
    }
    
-   //if(digitalRead(PIN_CUTDOWN_2_FIRE) == HIGH)
    if(parameters.cutdown_2_status == true)
    {
      if(parameters.cutdown_initiation_elapsed_time >= parameters.cutdown_pulse_width)
      {
         //Set Backup Cutdown to Low
         digitalWrite(PIN_CUTDOWN_2_FIRE, LOW);
-        parameters.cutdown_2_status == false;
+        parameters.cutdown_2_status = false;
         
         //Disable the Cutdown Pin
         digitalWrite(PIN_CUTDOWN_ENABLE, LOW);

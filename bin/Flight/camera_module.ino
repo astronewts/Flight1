@@ -4,7 +4,9 @@ void process_camera_function()
    if(parameters.camera_status == true)
    {
       //Is the camera on?
+      // TODO: FIX THIS !!!
       if(digitalRead(PIN_CAMERA_SWITCH) == HIGH)
+
       {
          if(parameters.camera_on_elapsed_time > parameters.camera_on_time)
          {
