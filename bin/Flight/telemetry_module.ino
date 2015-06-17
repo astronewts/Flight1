@@ -161,7 +161,7 @@ void process_telemetry()
 		  //Turn heating element on
 		  digitalWrite(PIN_HEATER_CONTROL_1, HIGH);
                   parameters.heater_state_1 = true;
-		  sprintf(buffer, "Heating element #1 turned on due to average battery temperature of %f going below threshhold of %f,",
+		  sprintf(buffer, "Heating element #1 turned on due to average battery temperature of %f going below threshhold of %d,",
 						value, parameters.battery_temperature_limit_low);
 		  Serial.println(buffer);
 	   }
@@ -170,7 +170,7 @@ void process_telemetry()
 		  //Turn heating element off
 		  digitalWrite(PIN_HEATER_CONTROL_1, LOW);
                   parameters.heater_state_1 = false;
-		  sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
+		  sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %d,",
 						value, parameters.battery_temperature_limit_high);
 		  Serial.println(buffer);
 	   }
@@ -215,7 +215,7 @@ void process_telemetry()
 		  //Turn heating element on
 		  digitalWrite(PIN_HEATER_CONTROL_2, HIGH);
                   parameters.heater_state_2 = true;
-		  sprintf(buffer, "Heating element #2 turned on due to average battery temperature of %f going below threshhold of %f,",
+		  sprintf(buffer, "Heating element #2 turned on due to average battery temperature of %f going below threshhold of %d,",
 						value, parameters.battery_temperature_limit_low);
 		  Serial.println(buffer);
 	   }
@@ -224,7 +224,7 @@ void process_telemetry()
 		  //Turn heating element off
 		  digitalWrite(PIN_HEATER_CONTROL_2, LOW);
                   parameters.heater_state_2 = false;
-		  sprintf(buffer, "Heating element #1 turned off due to average battery temperature of %f going above threshhold of %f,",
+		  sprintf(buffer, "Heating element #2 turned off due to average battery temperature of %f going above threshhold of %d,",
 						value, parameters.battery_temperature_limit_high);
 		  Serial.println(buffer);
 	   }
