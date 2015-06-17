@@ -202,14 +202,14 @@ void sd_setup() {
   bout << pstr(",Cut-down 1 Fire Status");              //90-6
   bout << pstr(",Cut-down 2 Fire Status");              //90-7
   bout << pstr(",Altitude Valid Flag");                 //90-8
-  bout << pstr(",Camera Status");                       //90-9
-  bout << pstr(",Spare Flag 1");                        //90-10
-  bout << pstr(",Spare Flag 2");                        //90-11  
-  bout << pstr(",Spare Flag 3");                        //90-12
-  bout << pstr(",Spare Flag 4");                        //90-13   
-  bout << pstr(",Spare Flag 5");                        //90-14
-  bout << pstr(",Spare Flag 6");                        //90-15
-  bout << pstr(",Spare Flag 7");                        //90-16   
+  bout << pstr(",Camera Enabled");                      //90-9
+  bout << pstr(",Camera Status");                       //90-10
+  bout << pstr(",Spare Flag 1");                        //90-11  
+  bout << pstr(",Spare Flag 2");                        //90-12
+  bout << pstr(",Spare Flag 3");                        //90-13   
+  bout << pstr(",Spare Flag 4");                        //90-14
+  bout << pstr(",Spare Flag 5");                        //90-15
+  bout << pstr(",Spare Flag 6");                        //90-16   
   bout << pstr(",Altitude (ft)");                       //91
   bout << pstr(",Alt Temp");                            //92
   bout << pstr(",Alt Pressure");                        //93 
@@ -366,8 +366,9 @@ void write_telemetry_data_to_sd()
   bout << ',' << parameters.cutdown_1_status;                          //90-7
   bout << ',' << parameters.cutdown_2_status;                          //90-8
   bout << ',' << parameters.altitude_valid_flag;                       //90-9
-  bout << ',' << parameters.camera_status;                             //90-10
-  bout << ',' << "000000";                                             //90-[11-16]
+  bout << ',' << parameters.camera_enabled;                            //90-10
+  bout << ',' << parameters.camera_status;                             //90-11
+  bout << ',' << "000000";                                             //90-[12-16]
   bout << ',' << alt.altitude_in_feet;                                 //91
   bout << ',' << alt.temperature;                                      //92
   bout << ',' << alt.pressure;                                         //93

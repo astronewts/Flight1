@@ -157,7 +157,8 @@ void set_defaults()
   parameters.cutdown_enable_state = false;
   parameters.cutdown_1_status = false;
   parameters.cutdown_2_status = false;
-  parameters.camera_status = true;
+  parameters.camera_enabled = true;
+  parameters.camera_status = false;
   parameters.battery_1_charging_status = true;
   parameters.battery_2_charging_status = true;
   parameters.camera_period = DEFAULT_CAMERA_PERIOD;

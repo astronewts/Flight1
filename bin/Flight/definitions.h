@@ -174,6 +174,7 @@ struct parameter_struct
   bool cutdown_enable_state;
   bool cutdown_1_status;
   bool cutdown_2_status;
+  bool camera_enabled;
   bool camera_status;
   unsigned long camera_period;
   unsigned long camera_on_time;
