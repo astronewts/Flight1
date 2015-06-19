@@ -494,6 +494,18 @@ void print_telemetry()
   Serial.println(alt.pressure);
   Serial.println(" ");
   
+  //Serial.print("test_count: ");
+  //Serial.println(test_count);
+  //Serial.print("cutdown_enable_state: ");
+  //Serial.println(parameters.cutdown_enable_state);
+  //Serial.print("cutdown_1_status: ");
+  //Serial.println(parameters.cutdown_1_status);
+  //Serial.print("cutdown_2_status: ");
+  //Serial.println(parameters.cutdown_2_status);
+  //Serial.print("Alt: Pressure:");
+  //Serial.println(alt.pressure);
+  Serial.println(" ");
+  
   print_gps_data();
   get_gyro_data();
   Serial.println("");
