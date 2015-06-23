@@ -68,6 +68,7 @@ void setup()
    baro.init();
    set_normal_mode();
    sd_setup();
+   parameters.cutdown_initiation_elapsed_time = 0;
 }
 
 void loop() 
@@ -77,20 +78,20 @@ void loop()
    collect_alt_data();
   
    //Process telemetry
-   process_telemetry();
+   //process_telemetry();
 
    //Print telemetry
    #ifdef DEBUG
-   print_telemetry();
+   //print_telemetry();
    #endif
    
    //Process Camera
-   process_camera_function();
+   //process_camera_function();
 
    //Check if time to write data to SD Card 
    if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
    {
-     write_telemetry_data_to_sd();
+     //write_telemetry_data_to_sd();
       parameters.sd_card_write_elapsed_time = 0;
    }
 
@@ -115,9 +116,40 @@ void loop()
      // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
      if(parameters.transmit_elapsed_time > parameters.transmit_period)
      {
-      sendreceive_satellite_data();
+      //sendreceive_satellite_data();
       parameters.transmit_elapsed_time = 0;
      }
+         //////////Start of Iridium Transmit Code/////////////////
+    
+    // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
+    isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    
+    isbd.setPowerProfile(1); // Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
+ //   isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
+    
+    // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
+    isbd.begin();
+    
+ //   isbd.useMSSTMWorkaround(false);  // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    
+    //int getSignalQuality(int &quality);
+    //Description:   Queries the signal strength and visibility of satellites
+    //Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
+    //Parameter:      quality – Return value: the strength of the signal (0=nonexistent, 5=high)
+    int signalQuality = -1;
+    int err = isbd.getSignalQuality(signalQuality);
+    if (err != 0)
+    {
+      Serial.print("SignalQuality failed: error ");
+      Serial.println(err);
+      return;
+    }
+    
+    Serial.print("Elapsed time:");
+    Serial.println(parameters.cutdown_initiation_elapsed_time/1000);
+    Serial.print("Signal quality (0=nonexistent, 5=high) is ");
+    Serial.println(signalQuality);
    
 }
 
