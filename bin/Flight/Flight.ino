@@ -69,13 +69,20 @@ void setup()
    set_normal_mode();
    sd_setup();
    parameters.cutdown_initiation_elapsed_time = 0;
+   
+   // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
+    isbd.begin();
+    
+ //       isbd.setPowerProfile(1); // DEFAULT Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
+ //   isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
+  
 }
 
 void loop() 
 { 
    //Collect Analog Telemetry
-   collect_telemetry();
-   collect_alt_data();
+//   collect_telemetry();
+//   collect_alt_data();
   
    //Process telemetry
    //process_telemetry();
@@ -122,14 +129,13 @@ void loop()
          //////////Start of Iridium Transmit Code/////////////////
     
     // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
-    isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-    isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+//    isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+//    isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
     
-    isbd.setPowerProfile(1); // Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
+    isbd.setPowerProfile(1); // DEFAULT Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
  //   isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
     
-    // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
-    isbd.begin();
+
     
  //   isbd.useMSSTMWorkaround(false);  // see http://arduiniana.org/libraries/iridiumsbd/ for details 
     
@@ -146,9 +152,10 @@ void loop()
       return;
     }
     
-    Serial.print("Elapsed time:");
-    Serial.println(parameters.cutdown_initiation_elapsed_time/1000);
-    Serial.print("Signal quality (0=nonexistent, 5=high) is ");
+ //   Serial.print("Elapsed time:");
+    Serial.print(parameters.cutdown_initiation_elapsed_time);
+    Serial.print(" ");
+ //   Serial.print("Signal quality (0=nonexistent, 5=high) is ");
     Serial.println(signalQuality);
    
 }
