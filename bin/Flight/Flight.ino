@@ -18,6 +18,7 @@
 //   - Automatic cut down voltage is not processed.
 //   - Parity bit on the Tx and Rx are not calculated
 //   
+//     To send / recieve commands throught rockblock connect to: https://core.rock7.com/Operations
 // *****************************************************************************
 // *****************************************************************************
 // Open Source / Public Domain
