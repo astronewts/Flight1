@@ -308,18 +308,18 @@ void write_telemetry_data_to_sd()
   
   bout << ',' << gps_isvalid_str;                                       //39
                                                                        
-  bout << ',' << calData.accelMinX;                                    //40
-  bout << ',' << calData.accelMaxX;                                    //41
-  bout << ',' << calData.accelMinY;                                    //42
-  bout << ',' << calData.accelMaxY;                                    //43
-  bout << ',' << calData.accelMinZ;                                    //44
-  bout << ',' << calData.accelMaxZ;                                    //45
-  bout << ',' << calData.magMinX;                                      //46
-  bout << ',' << calData.magMaxX;                                      //47
-  bout << ',' << calData.magMinY;                                      //48
-  bout << ',' << calData.magMaxY;                                      //49
-  bout << ',' << calData.magMinZ;                                      //50
-  bout << ',' << calData.magMaxZ;                                      //51
+  bout << ',' << dueMPU.m_calAccel[VEC3_X];                            //40
+  bout << ',' << std::max(calData.accelMaxX, (short)(-calData.accelMinX)); //41
+  bout << ',' << dueMPU.m_calAccel[VEC3_Y];                            //42
+  bout << ',' << std::max(calData.accelMaxY, (short)(-calData.accelMinY)); //43
+  bout << ',' << dueMPU.m_calAccel[VEC3_Z];                            //44
+  bout << ',' << std::max(calData.accelMaxZ, (short)(-calData.accelMinZ)); //45
+  bout << ',' << dueMPU.m_calMag[VEC3_X];                               //46
+  bout << ',' << std::max(calData.magMaxX, (short)(-calData.magMinX)); //47
+  bout << ',' << dueMPU.m_calMag[VEC3_Y]                               //48
+  bout << ',' << std::max(calData.magMaxY, (short)(-calData.magMinY)); //49
+  bout << ',' << dueMPU.m_calMag[VEC3_Z]                               //50
+  bout << ',' << std::max(calData.magMaxZ, (short)(-calData.magMinZ)); //51
   bout << ',' << dueMPU.m_rawQuaternion;                               //52
   bout << ',' << dueMPU.m_dmpEulerPose;                                //53
   bout << ',' << dueMPU.m_fusedEulerPose;                              //54
