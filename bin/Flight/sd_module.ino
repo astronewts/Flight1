@@ -152,13 +152,13 @@ void sd_setup() {
   bout << pstr(",Acceleration Max Y");                  //43
   bout << pstr(",Acceleration Min Z");                  //44
   bout << pstr(",Acceleration Max Z");                  //45
-  bout << pstr(",Magetometer Min X");                   //46
-  bout << pstr(",Magetometer Max X");                   //47
-  bout << pstr(",Magetometer Min Y");                   //48
-  bout << pstr(",Magetometer Max Y");                   //49
-  bout << pstr(",Magetometer Min Z");                   //50
-  bout << pstr(",Magetometer Min Z");                   //51
-  bout << pstr(",GYRO Raw Quaternian");                 //52
+  bout << pstr(",Magnetometer Min X");                  //46
+  bout << pstr(",Magnetometer Max X");                  //47
+  bout << pstr(",Magnetometer Min Y");                  //48
+  bout << pstr(",Magnetometer Max Y");                  //49
+  bout << pstr(",Magnetometer Min Z");                  //50
+  bout << pstr(",Magnetometer Max Z");                  //51
+  bout << pstr(",GYRO Raw Quaternion");                 //52
   bout << pstr(",GYRO Euler Angle");                    //53
   bout << pstr(",GYRO Fused Euler Angle");              //54
   bout << pstr(",Accelerometer Temp");                  //55
