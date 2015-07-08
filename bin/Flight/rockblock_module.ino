@@ -552,7 +552,7 @@ void write_output_telemetry_dataword()
 // Euler pose is a 3-dimensional vector. Only including one vector component here is a known issue. Pivotal bug ID 95940810
     parameters.output_dataword = combine_float(32, (long) dueMPU.m_dmpEulerPose, parameters.output_dataword);                //53
     parameters.output_dataword = combine_float(32, (long) dueMPU.m_fusedEulerPose, parameters.output_dataword);              //54
-    parameters.output_dataword = combine(32, gyro_temp, parameters.output_dataword);                                         //55 
+    parameters.output_dataword = combine(32, gyro.gyro_temp, parameters.output_dataword);                                         //55 
     parameters.output_dataword = combine(8, parameters.voltage_sanity_check_high, parameters.output_dataword);               //56
     parameters.output_dataword = combine(8, parameters.voltage_sanity_check_low, parameters.output_dataword);                //57
     parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_high, parameters.output_dataword);        //58
