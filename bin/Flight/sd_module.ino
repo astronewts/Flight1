@@ -9,7 +9,7 @@ SdFat sd;
 ofstream logfile;
 ArduinoOutStream cout(Serial);
 // buffer to format data - makes it eaiser to echo to Serial
-char buf[810];
+char buf[2400];
 
 //define parent monitor string for GPS Isvalid data
 String gps_isvalid_str;
@@ -216,7 +216,7 @@ void sd_setup() {
   bout << pstr(",Spare 5");                             //94 
   
 
-  logfile << buf << endl;
+  logfile << buf << endl << flush;
 
 #if ECHO_TO_SERIAL
   cout << buf << endl;
