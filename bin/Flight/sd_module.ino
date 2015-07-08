@@ -316,9 +316,9 @@ void write_telemetry_data_to_sd()
   bout << ',' << std::max(calData.accelMaxZ, (short)(-calData.accelMinZ)); //45
   bout << ',' << dueMPU.m_calMag[VEC3_X];                               //46
   bout << ',' << std::max(calData.magMaxX, (short)(-calData.magMinX)); //47
-  bout << ',' << dueMPU.m_calMag[VEC3_Y]                               //48
+  bout << ',' << dueMPU.m_calMag[VEC3_Y];                              //48
   bout << ',' << std::max(calData.magMaxY, (short)(-calData.magMinY)); //49
-  bout << ',' << dueMPU.m_calMag[VEC3_Z]                               //50
+  bout << ',' << dueMPU.m_calMag[VEC3_Z];                              //50
   bout << ',' << std::max(calData.magMaxZ, (short)(-calData.magMinZ)); //51
   bout << ',' << dueMPU.m_rawQuaternion;                               //52
   bout << ',' << dueMPU.m_dmpEulerPose;                                //53
