@@ -85,13 +85,15 @@ void sd_setup() {
   if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorPrint();
 
   // create a new file in root, the current working directory
-  char name[] = "LOGGER11.CSV";
+  char name[] = "LOGxxx.CSV";
 
-  for (uint8_t i = 0; i < 100; i++) {
-    name[6] = i/10 + '0';
-    name[7] = i%10 + '0';
+  for (uint16_t i = 0; i < 1000; i++) {
+    name[3] = (uint8_t) (i / 100) + '0';
+    name[4] = (uint8_t) ((i % 100) / 10) + '0';
+    name[5] = (uint8_t) (i % 10) + '0';
     if (sd.exists(name)) continue;
     logfile.open(name);
+    cout << name << endl;
     break;
   }
   if (!logfile.is_open()) error("file.open");
@@ -141,7 +143,7 @@ void sd_setup() {
   bout << pstr(",GPS Time");                            //34
   bout << pstr(",HDOP Value");                          //35
   bout << pstr(",GPS Chars Processed");                 //36
-  bout << pstr(",GPS Sentances with Fix");              //37
+  bout << pstr(",GPS Sentences with Fix");              //37
   bout << pstr(",GPS Failed Checksum");                 //38
   bout << pstr(",GPS Isvalid Conglomerate");            //39
   bout << pstr(",Acceleration Min X");                  //40
@@ -237,6 +239,7 @@ void write_telemetry_data_to_sd()
 
   // use buffer stream to format line
   obufstream bout(buf, sizeof(buf));
+  bout << setprecision(8);
 
   // start with time in millis
   bout << m;
