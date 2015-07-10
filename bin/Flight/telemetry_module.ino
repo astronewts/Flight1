@@ -404,31 +404,49 @@ void process_telemetry()
   
   // Check Altitude.
   // TODO: ADD CODE THAT IMPLEMENTS THE AUTOMATIC CUTDOWN IF THE BATTERY IS TOO LOW !
-  if(parameters.altitude_valid_flag == true)
+  
+  // other strategy: 1) we enable the test if the paypload pass a resonnable altitude thershold A1
+  //                 2) cut down if the payload goes below a low alt A2   A1>A2
+  //         A1 = altitude_sanity_check_low and A2 = altitude_limit_low
+  
+  if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
   {
-     if(gps.altitude.isValid())
+  parameters.altitude_valid_flag == true;  
+  }
+  
+  if(parameters.altitude_valid_flag == true)  // we are now flying 
+  {
+     if(alt.altitude_in_feet < parameters.altitude_limit_low) // if we are too low then initiate cut down
      {
-        if(gps.altitude.meters() >= parameters.altitude_sanity_check_low)
-        {
-           if(gps.altitude.meters() < parameters.altitude_limit_low)
-           {
-              //Enter Emergency Descent Mode
-             set_emergency_decent_mode();
-             parameters.altitude_valid_flag == false;
-           }
-        }
-      }
-      if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
-       {
-         if(alt.altitude_in_feet < parameters.altitude_limit_low)
-           {
-             //Enter Emergency Descent Mode
-             set_emergency_decent_mode();
-             parameters.altitude_valid_flag == false;
-           }
-       }
-   }
-}
+     //Enter Emergency Descent Mode
+     set_emergency_decent_mode();
+     parameters.altitude_valid_flag == false; 
+     }  
+// //The next section is commented as we will only rely on the altimeter for the critical altitude test. 
+//     if(gps.altitude.isValid())
+//     {
+//        if(gps.altitude.meters() >= parameters.altitude_sanity_check_low)
+//        {
+//           if(gps.altitude.meters() < parameters.altitude_limit_low)
+//           {
+//              //Enter Emergency Descent Mode
+//             set_emergency_decent_mode();
+//             parameters.altitude_valid_flag == false;
+//           }
+//        }
+//      }
+//      if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
+//       {
+//         if(alt.altitude_in_feet < parameters.altitude_limit_low)
+//           {
+//             //Enter Emergency Descent Mode
+//             set_emergency_decent_mode();
+//             parameters.altitude_valid_flag == false;
+//           }
+//       }
+   } // end of test on altitude 
+   
+} // end of process telemetry
 
 void print_telemetry()
 {
