@@ -86,8 +86,8 @@
 #define PIN_BATTERY_1_CHARGE_CUTOFF  6
 #define PIN_BATTERY_2_CHARGE_CUTOFF  7
 #define PIN_CAMERA_SWITCH            9
-#define PIN_HEATER_CONTROL_1         22
-#define PIN_HEATER_CONTROL_2         23
+#define PIN_HEATER_CONTROL_1         5 // was 22: correct pin num
+#define PIN_HEATER_CONTROL_2         8 // was 23
 
 
 #define RESOLUTION_PRESSURE_SENSOR   12
