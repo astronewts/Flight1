@@ -411,16 +411,18 @@ void process_telemetry()
   
   if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
   {
-  parameters.altitude_valid_flag == true;  
+  parameters.altitude_valid_flag = true;  
   }
   
   if(parameters.altitude_valid_flag == true)  // we are now flying 
   {
+  Serial.println("WE are floating !!!");  
      if(alt.altitude_in_feet < parameters.altitude_limit_low) // if we are too low then initiate cut down
      {
      //Enter Emergency Descent Mode
+     Serial.println("SHIT we are too low: initate cutdown");
      set_emergency_decent_mode();
-     parameters.altitude_valid_flag == false; 
+     parameters.altitude_valid_flag = false; 
      }  
 // //The next section is commented as we will only rely on the altimeter for the critical altitude test. 
 //     if(gps.altitude.isValid())

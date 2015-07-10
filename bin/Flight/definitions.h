@@ -47,8 +47,8 @@
 //#define DEFAULT_SD_CARD_WRITE_PERIOD                 60000  // FOR FLIGHT !!!
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
-#define DEFAULT_ALTITUDE_LIMIT_LOW                  10 // 21336 // A2 ft
-#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW           20 // 2000 //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
+#define DEFAULT_ALTITUDE_LIMIT_LOW                  30000 //97:for test in living room  //  A2 ft
+#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW           40000 //101:for test in living room //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           -0.1
 #define DEFAULT_B1_AMPHRS_INIT_THRESHOLD           -0.5  

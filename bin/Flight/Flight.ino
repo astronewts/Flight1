@@ -115,7 +115,7 @@ void loop()
      // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
      if(parameters.transmit_elapsed_time > parameters.transmit_period)
      {
-      sendreceive_satellite_data();
+     //  sendreceive_satellite_data();
       parameters.transmit_elapsed_time = 0;
      }
    
@@ -301,6 +301,7 @@ void set_emergency_decent_mode()
    parameters.vehicle_mode = 4;
    //Fire Pyro
    cutdown_fire();
+   Serial.println("Pyro fire command initiated!");
 }
 
 void cutdown_fire()
