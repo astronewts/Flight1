@@ -2,6 +2,7 @@
 double raw_val;
 double actual_val;
 char buffer[128];
+int count_low_alt;
 
 void collect_telemetry()
 { 
@@ -412,18 +413,26 @@ void process_telemetry()
   if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
   {
   parameters.altitude_valid_flag = true;  
+  count_low_alt = 0 ; // counter: if counts 3 times below altitude thershold then cutdow
   }
   
   if(parameters.altitude_valid_flag == true)  // we are now flying 
   {
-  Serial.println("WE are floating !!!");  
-     if(alt.altitude_in_feet < parameters.altitude_limit_low) // if we are too low then initiate cut down
+  Serial.println("WE are floating !!! (test for altitude cutdow, line 419 in telemetry_module)");  
+     
+     if(alt.altitude_in_feet < parameters.altitude_limit_low) // if we are too low then start counting ... to 3
      {
+     count_low_alt = count_low_alt + 1;
+     }
+     
+     if(count_low_alt == 3 ) // we have been too low for a few counts => initiate cut down
+     {     
      //Enter Emergency Descent Mode
-     Serial.println("SHIT we are too low: initate cutdown");
+     Serial.println("SHIT we are too low: initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
      set_emergency_decent_mode();
      parameters.altitude_valid_flag = false; 
      }  
+     
 // //The next section is commented as we will only rely on the altimeter for the critical altitude test. 
 //     if(gps.altitude.isValid())
 //     {
@@ -433,7 +442,7 @@ void process_telemetry()
 //           {
 //              //Enter Emergency Descent Mode
 //             set_emergency_decent_mode();
-//             parameters.altitude_valid_flag == false;
+//             parameters.altitude_valid_flag = false;
 //           }
 //        }
 //      }
@@ -443,7 +452,7 @@ void process_telemetry()
 //           {
 //             //Enter Emergency Descent Mode
 //             set_emergency_decent_mode();
-//             parameters.altitude_valid_flag == false;
+//             parameters.altitude_valid_flag = false;
 //           }
 //       }
    } // end of test on altitude 
