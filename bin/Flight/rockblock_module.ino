@@ -38,49 +38,118 @@ void sendreceive_satellite_data()
                   
        }
     }        
-    
-     //////////Start of Iridium Transmit Code/////////////////
+   
+    ////////////////// Start of Iridium Transmit Code //////////////////////////
+
+    // TIC MARK!!!
+    Serial.println(" ");
+    Serial.print("TIC: ");
+    Serial.println(parameters.cutdown_initiation_elapsed_time);
+    Serial.println(" ");
     
     // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
     isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    Serial.println(" ");
+    Serial.println("###########################  isbd.attachConsole(Serial) was just commanded ###########################");   
+    Serial.println(" ");
+    
     isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    Serial.println(" ");
+    Serial.println("###########################  isbd.attachDiags(Serial) was just commanded ###########################");   
+    Serial.println(" ");
+
+    isbd.adjustATTimeout(15); // Default is 20 seconds 
+    Serial.println(" ");
+    Serial.println("###########################  isbd.adjustATTimeout(X) was just commanded ###########################");   
+    Serial.println(" ");   
+
+    isbd.adjustSendReceiveTimeout(300); // Default is 300 seconds 
+    Serial.println(" ");
+    Serial.println("###########################  isbd.adjustSendReceiveTimeout(XXX) was just commanded ###########################");   
+    Serial.println(" ");   
     
     isbd.setPowerProfile(1); // Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
- //   isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
+    Serial.println(" ");
+    Serial.println("###########################  isbd.setPowerProfile(1) was just commanded ###########################");   
+    Serial.println(" ");    
     
+    // isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
+    
+    Serial.println(" ");
+    Serial.print("Sleep Status (#1):");
+    Serial.println(isbd.isAsleep());    
+
     // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
-    isbd.begin();
     
- //   isbd.useMSSTMWorkaround(false);  // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    if (isbd.isAsleep() == 1)
+    {
+      isbd.begin();
+      Serial.println(" ");
+      Serial.println("########################### isdb.begin() was just commanded ################################");
+      Serial.println(" ");
+    }
+    
+    Serial.println(" ");
+    Serial.println("########################### isdb.begin() was just commanded ################################");
+    Serial.println(" ");
+
+    Serial.println(" ");
+    Serial.print("Sleep Status (#2):");
+    Serial.println(isbd.isAsleep());   
+
+    // isbd.useMSSTMWorkaround(false);  // see http://arduiniana.org/libraries/iridiumsbd/ for details 
     
     //int getSignalQuality(int &quality);
     //Description:   Queries the signal strength and visibility of satellites
-    //Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
-    //Parameter:      quality – Return value: the strength of the signal (0=nonexistent, 5=high)
+    //Returns:       ISBD_SUCCESS if successful, a non-zero code otherwise;
+    //Parameter:     quality – Return value: the strength of the signal (0=nonexistent, 5=high)
+
     int signalQuality = -1;
     int err = isbd.getSignalQuality(signalQuality);
+    Serial.println(" ");
+    Serial.println("##################  int err = isbd.getSignalQuality(signalQuality) was just commanded ##########");
+    Serial.println(" ");
+    
     if (err != 0)
     {
       Serial.print("SignalQuality failed: error ");
       Serial.println(err);
+      
+      // ERROR CODES!!!
+      //      #define ISBD_SUCCESS             0
+      //      #define ISBD_ALREADY_AWAKE       1
+      //      #define ISBD_SERIAL_FAILURE      2
+      //      #define ISBD_PROTOCOL_ERROR      3
+      //      #define ISBD_CANCELLED           4
+      //      #define ISBD_NO_MODEM_DETECTED   5
+      //      #define ISBD_SBDIX_FATAL_ERROR   6
+      //      #define ISBD_SENDRECEIVE_TIMEOUT 7
+      //      #define ISBD_RX_OVERFLOW         8
+      //      #define ISBD_REENTRANT           9
+      //      #define ISBD_IS_ASLEEP           10
+      //      #define ISBD_NO_SLEEP_PIN        11
+      
       return;
     }
-   
+
+    Serial.println(" ");
     Serial.print("Signal quality (0=nonexistent, 5=high) is ");
     Serial.println(signalQuality);
+    Serial.println(" ");
+    
     //Comment out above code after diagnostics are complete
     
     // int sendReceiveSBDBinary(const uint8_t *txData, size_t txDataSize, uint8_t *rxBuffer, size_t &rxBufferSize);
-//Description:   Transmits a binary message to the global satellite system and receives a message if one is available.
-//Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
-//Parameter:      txData – The buffer containing the binary data to be transmitted.
-//Parameter:      txDataSize - The size of the outbound buffer in bytes.
-//Parameter:      rxBuffer – The buffer to receive the inbound message.
-//Parameter:      rxBufferSize - The size of the buffer in bytes.
-// NOTE: uint8_t is shorthand for: a type of unsigned integer of length 8 bits
-// NOTE: The maximum size of a transmitted packet (including header and checksum) is 340 bytes.
-// NOTE: The maximum size of a received packet is 270 bytes.
-//=========== real command =========================================== //
+    //Description:   Transmits a binary message to the global satellite system and receives a message if one is available.
+    //Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
+    //Parameter:      txData – The buffer containing the binary data to be transmitted.
+    //Parameter:      txDataSize - The size of the outbound buffer in bytes.
+    //Parameter:      rxBuffer – The buffer to receive the inbound message.
+    //Parameter:      rxBufferSize - The size of the buffer in bytes.
+    // NOTE: uint8_t is shorthand for: a type of unsigned integer of length 8 bits
+    // NOTE: The maximum size of a transmitted packet (including header and checksum) is 340 bytes.
+    // NOTE: The maximum size of a received packet is 270 bytes.
+    //=========== real command =========================================== //
    
       size_t rx_bufferSize = sizeof(rx_buffer);
 
@@ -91,11 +160,43 @@ void sendreceive_satellite_data()
       if (err != 0)
       {
         Serial.print("sendReceiveSBDBinary failed: error ");
+  
+        //err = isbd.sleep();
+      
+        //if (err != 0)
+        //{
+        //  Serial.print("sleepfailed: error ");
+        //  Serial.println(err);
+        //}
+      
+        // TOC MARK!!!
+        Serial.println(" ");
+        Serial.print("TOC: ");
+        Serial.println(parameters.cutdown_initiation_elapsed_time);
+        Serial.println(" ");
+        
         Serial.println(err);
         return;
       }
+      
       Serial.println("");
       Serial.println("**Satellite transmit/receive complete!**");
+
+//      err = isbd.sleep();
+//      
+//      if (err != 0)
+//      {
+//        Serial.print("sleepfailed: error ");
+//        Serial.println(err);
+//      }
+
+      // TOC MARK!!!
+      Serial.println(" ");
+      Serial.print("TOC: ");
+      Serial.println(parameters.cutdown_initiation_elapsed_time);
+      Serial.println(" ");
+      
+      
     // ================ Print inbound message ================================= //
       
       Serial.print("Inbound buffer size is ");
