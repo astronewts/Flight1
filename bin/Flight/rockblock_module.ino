@@ -65,7 +65,9 @@ void sendreceive_satellite_data()
       Serial.println(err);
       return;
     }
-   
+    
+    Serial.print("Elapsed time:");
+    Serial.println(parameters.cutdown_initiation_elapsed_time/1000);
     Serial.print("Signal quality (0=nonexistent, 5=high) is ");
     Serial.println(signalQuality);
     //Comment out above code after diagnostics are complete
@@ -84,7 +86,7 @@ void sendreceive_satellite_data()
    
       size_t rx_bufferSize = sizeof(rx_buffer);
 
-      err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
+      //err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
 
     //=========== end real command ======================================= //
     
