@@ -12,11 +12,12 @@ clc
 format long
 
 % define print path for output file: 
-path_results = strcat(pwd,"/data/");
+%path_results = strcat(pwd,'/data/');
+path_results = pwd;
 %path_results='/Users/kevinmacko/Library/Mobile Documents/com~apple~CloudDocs/Documents/Astronewts/code/Flight1/Convert_Rockblock_output_data/';
 %path_results='/Users/gnlacaz/PERSO/Balloon_project/Arduino/Flight1/Convert_Rockblock_output_data/';
 % name of output file: 
-name_file_result='data_from_balloon.txt';
+name_file_result='/data_from_balloon.txt';
 
 %%%%%%%%%%%%%%%%% import data: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Note: to get the word sent by the balloon do the following:
@@ -174,13 +175,13 @@ path_name_output=strcat(path_results,name_file_result);
 delete(path_name_output);
 file_result_ID = fopen(path_name_output,'w');
 
-Ctemp1str="";
+Ctemp1str='';
 for i = 216:216+32
     Ctemp1str = strcat(Ctemp1str,tot_word_bin(i));
 end
 Ctemp1val = typecast(uint32(bin2dec(Ctemp1str)),'single');
 
-Ctemp2str="";
+Ctemp2str='';
 for i = 248:248+32
     Ctemp2str = strcat(Ctemp2str,tot_word_bin(i));
 end

@@ -36,19 +36,19 @@
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW    23
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH     150
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80    
-#define DEFAULT_NORMAL_TRANSMIT_RATE               15000 // TEST ONLY!!!
+#define DEFAULT_NORMAL_TRANSMIT_RATE               31000 // TEST ONLY!!!
 //#define DEFAULT_NORMAL_TRANSMIT_RATE               1200000 // FOR FLIGHT!!!
 #define DEFAULT_TEST_TRANSMIT_RATE                 60000
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              30000
 #define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45000
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
-#define DEFAULT_PYRO_PULSE_WIDTH                   8000
+#define DEFAULT_PYRO_PULSE_WIDTH                   30000
 #define DEFAULT_SD_CARD_WRITE_PERIOD               6000 // TEST ONLY!!!
 //#define DEFAULT_SD_CARD_WRITE_PERIOD                 60000  // FOR FLIGHT !!!
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
-#define DEFAULT_ALTITUDE_LIMIT_LOW                 65000 //97:for test in living room  //  A2 ft
-#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          75000 //101:for test in living room //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
+#define DEFAULT_ALTITUDE_LIMIT_LOW                 21336
+#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          1000 // ft
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           -0.1
 #define DEFAULT_B1_AMPHRS_INIT_THRESHOLD           -0.5  
@@ -80,14 +80,15 @@
 #define PIN_BATTERY2_2_TEMP                    A11
 
 //Digital Pins
-#define PIN_CUTDOWN_ENABLE              2
+// Note: pin 2 is a low current pin #define PIN_CUTDOWN_ENABLE              2
+#define PIN_CUTDOWN_ENABLE              30
 #define PIN_CUTDOWN_1_FIRE              3
 #define PIN_CUTDOWN_2_FIRE              4 
 #define PIN_BATTERY_1_CHARGE_CUTOFF  6
 #define PIN_BATTERY_2_CHARGE_CUTOFF  7
 #define PIN_CAMERA_SWITCH            9
-#define PIN_HEATER_CONTROL_1         5 // was 22: correct pin num
-#define PIN_HEATER_CONTROL_2         8 // was 23
+#define PIN_HEATER_CONTROL_1         22
+#define PIN_HEATER_CONTROL_2         23
 
 
 #define RESOLUTION_PRESSURE_SENSOR   12
@@ -117,7 +118,7 @@ struct gps_struct
 
 struct gyro_struct
 {
-  double gyro_temp;
+  //double gyro_temp;
 };
 
 struct telemetry_data_struct

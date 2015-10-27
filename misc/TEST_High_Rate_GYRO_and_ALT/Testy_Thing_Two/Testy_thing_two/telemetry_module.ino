@@ -2,7 +2,6 @@
 double raw_val;
 double actual_val;
 char buffer[128];
-int count_low_alt;
 
 void collect_telemetry()
 { 
@@ -405,139 +404,156 @@ void process_telemetry()
   
   // Check Altitude.
   // TODO: ADD CODE THAT IMPLEMENTS THE AUTOMATIC CUTDOWN IF THE BATTERY IS TOO LOW !
-  
-  // other strategy: 1) we enable the test if the paypload pass a resonnable altitude thershold A1
-  //                 2) cut down if the payload goes below a low alt A2   A1>A2
-  //         A1 = altitude_sanity_check_low and A2 = altitude_limit_low
-  
-  if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
+  if(parameters.altitude_valid_flag == true)
   {
-  parameters.altitude_valid_flag = true;  
-  count_low_alt = 0 ; // counter: if counts 3 times below altitude thershold then cutdow
-  }
-  
-  if(parameters.altitude_valid_flag == true)  // we are now flying 
-  {
-  Serial.println("WE are floating !!! (test for altitude cutdow, line 419 in telemetry_module)");  
-     
-     if(alt.altitude_in_feet < parameters.altitude_limit_low) // if we are too low then start counting ... to 3
+     if(gps.altitude.isValid())
      {
-     count_low_alt = count_low_alt + 1;
-     }
-     
-     if(count_low_alt == 3 ) // we have been too low for a few counts => initiate cut down
-     {     
-     //Enter Emergency Descent Mode
-     Serial.println("SHIT we are too low: initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
-     set_emergency_decent_mode();
-     parameters.altitude_valid_flag = false; 
-     }  
-     
-// //The next section is commented as we will only rely on the altimeter for the critical altitude test. 
-//     if(gps.altitude.isValid())
-//     {
-//        if(gps.altitude.meters() >= parameters.altitude_sanity_check_low)
-//        {
-//           if(gps.altitude.meters() < parameters.altitude_limit_low)
-//           {
-//              //Enter Emergency Descent Mode
-//             set_emergency_decent_mode();
-//             parameters.altitude_valid_flag = false;
-//           }
-//        }
-//      }
-//      if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
-//       {
-//         if(alt.altitude_in_feet < parameters.altitude_limit_low)
-//           {
-//             //Enter Emergency Descent Mode
-//             set_emergency_decent_mode();
-//             parameters.altitude_valid_flag = false;
-//           }
-//       }
-   } // end of test on altitude 
-   
-} // end of process telemetry
+        if(gps.altitude.meters() >= parameters.altitude_sanity_check_low)
+        {
+           if(gps.altitude.meters() < parameters.altitude_limit_low)
+           {
+              //Enter Emergency Descent Mode
+             set_emergency_decent_mode();
+             parameters.altitude_valid_flag == false;
+           }
+        }
+      }
+      if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
+       {
+         if(alt.altitude_in_feet < parameters.altitude_limit_low)
+           {
+             //Enter Emergency Descent Mode
+             set_emergency_decent_mode();
+             parameters.altitude_valid_flag == false;
+           }
+       }
+   }
+}
 
 void print_telemetry()
 {
-  Serial.println("-----------Telemetry---------------");
-  Serial.print("raw Air Pressure: ");
-  raw_val = analogRead(PIN_PRESSURE_SENSOR);
-  delay(100);
-  Serial.println(raw_val);
-  Serial.print("raw Battery 1-1 Temp: ");
-  raw_val = analogRead(PIN_BATTERY1_1_TEMP);
-  delay(100);
-  Serial.println(raw_val);
-  Serial.print("raw Battery 1-2 Temp: ");
-  raw_val = analogRead(PIN_BATTERY1_2_TEMP);
-  delay(100);
-  Serial.println(raw_val);
-  Serial.print("raw Battery 2-1 Temp: ");
-  raw_val = analogRead(PIN_BATTERY2_1_TEMP);
-  delay(100);
-  Serial.println(raw_val);
-  Serial.print("raw Battery 2-2 Temp: ");
-  raw_val = analogRead(PIN_BATTERY2_2_TEMP);
-  delay(100);
-  Serial.println(raw_val);
-  Serial.print("raw Outter External Temp: ");
-  raw_val = analogRead(PIN_EXTERNAL_INNER_TEMP);
-  delay(100);
-  Serial.println(raw_val);
-  Serial.print("raw Inner External Temp: ");
-  raw_val = analogRead(PIN_EXTERNAL_OUTTER_TEMP);
-  delay(100);
-  Serial.println(raw_val);
-  Serial.println("--------------------------------");
-  Serial.print("Air Pressure: ");
-  Serial.println(telemetry_data.air_pressure);
-  Serial.print("Battery 1-1 Temp: ");
-  Serial.println(telemetry_data.battery_1_temp_1);
-  Serial.print("Battery 1-2 Temp: ");
-  Serial.println(telemetry_data.battery_1_temp_2);
-  Serial.print("Battery 2-1 Temp: ");
-  Serial.println(telemetry_data.battery_2_temp_1);
-  Serial.print("Battery 2-2 Temp: ");
-  Serial.println(telemetry_data.battery_2_temp_2);
-  Serial.print("Outter External Temp: ");
-  Serial.println(telemetry_data.outter_external_temp); 
-  Serial.print("Inner External Temp: ");
-  Serial.println(telemetry_data.inner_external_temp); 
-  Serial.print("Internal Temp: ");
-  Serial.println(telemetry_data.internal_temp); 
-  Serial.print("Battery Voltage 1: ");
-  Serial.println(telemetry_data.battery_1_voltage_1);   
-  Serial.print("Battery Voltage 2: ");
-  Serial.println(telemetry_data.battery_1_voltage_2);   
-  Serial.print("Charge Current 1: ");
-  Serial.println(telemetry_data.battery_1_charge_current_1);
-  Serial.print("Charge Current 2: ");
-  Serial.println(telemetry_data.battery_1_charge_current_2);
-  Serial.print("Alt: Altitude in Feet: ");
-  Serial.println(alt.altitude_in_feet);
-  Serial.print("Alt: Temp:");
-  Serial.println(alt.temperature);
-  Serial.print("Alt: Pressure:");
-  Serial.println(alt.pressure);
-  Serial.println(" ");
+//  Serial.println("-----------Telemetry---------------");
+//  Serial.print("raw Air Pressure: ");
+//  raw_val = analogRead(PIN_PRESSURE_SENSOR);
+//  delay(100);
+//  Serial.println(raw_val);
+//  Serial.print("raw Battery 1-1 Temp: ");
+//  raw_val = analogRead(PIN_BATTERY1_1_TEMP);
+//  delay(100);
+//  Serial.println(raw_val);
+//  Serial.print("raw Battery 1-2 Temp: ");
+//  raw_val = analogRead(PIN_BATTERY1_2_TEMP);
+//  delay(100);
+//  Serial.println(raw_val);
+//  Serial.print("raw Battery 2-1 Temp: ");
+//  raw_val = analogRead(PIN_BATTERY2_1_TEMP);
+//  delay(100);
+//  Serial.println(raw_val);
+//  Serial.print("raw Battery 2-2 Temp: ");
+//  raw_val = analogRead(PIN_BATTERY2_2_TEMP);
+//  delay(100);
+//  Serial.println(raw_val);
+//  Serial.print("raw Outter External Temp: ");
+//  raw_val = analogRead(PIN_EXTERNAL_INNER_TEMP);
+//  delay(100);
+//  Serial.println(raw_val);
+//  Serial.print("raw Inner External Temp: ");
+//  raw_val = analogRead(PIN_EXTERNAL_OUTTER_TEMP);
+//  delay(100);
+//  Serial.println(raw_val);
+//  Serial.println("--------------------------------");
+//  Serial.print("Air Pressure: ");
+//  Serial.println(telemetry_data.air_pressure);
+//  Serial.print("Battery 1-1 Temp: ");
+//  Serial.println(telemetry_data.battery_1_temp_1);
+//  Serial.print("Battery 1-2 Temp: ");
+//  Serial.println(telemetry_data.battery_1_temp_2);
+//  Serial.print("Battery 2-1 Temp: ");
+//  Serial.println(telemetry_data.battery_2_temp_1);
+//  Serial.print("Battery 2-2 Temp: ");
+//  Serial.println(telemetry_data.battery_2_temp_2);
+//  Serial.print("Outter External Temp: ");
+//  Serial.println(telemetry_data.outter_external_temp); 
+//  Serial.print("Inner External Temp: ");
+//  Serial.println(telemetry_data.inner_external_temp); 
+//  Serial.print("Internal Temp: ");
+//  Serial.println(telemetry_data.internal_temp); 
+//  Serial.print("Battery Voltage 1: ");
+//  Serial.println(telemetry_data.battery_1_voltage_1);   
+//  Serial.print("Battery Voltage 2: ");
+//  Serial.println(telemetry_data.battery_1_voltage_2);   
+//  Serial.print("Charge Current 1: ");
+//  Serial.println(telemetry_data.battery_1_charge_current_1);
+//  Serial.print("Charge Current 2: ");
+//  Serial.println(telemetry_data.battery_1_charge_current_2);
+//  Serial.print("Alt: Altitude in Feet: ");
+//  Serial.println(alt.altitude_in_feet);
+//  Serial.print("Alt: Temp:");
+//  Serial.println(alt.temperature);
+//  Serial.print("Alt: Pressure:");
+//  Serial.println(alt.pressure);
+//  Serial.println(" ");
+//  
+//  Serial.print("test_count: ");
+//  Serial.println(test_count);
+//  Serial.print("cutdown_1_status: ");
+//  Serial.println(parameters.cutdown_initiation_elapsed_time);
+//  Serial.print("sd_card_write_elapsed_time: ");
+//  Serial.println(parameters.sd_card_write_elapsed_time);
+//  Serial.print("cutdown_enable_state: ");
+//  Serial.println(parameters.cutdown_enable_state);
+//  Serial.print("cutdown_1_status: ");
+//  Serial.println(parameters.cutdown_1_status);
+//  Serial.print("cutdown_2_status: ");
+//  Serial.println(parameters.cutdown_2_status);
+//  Serial.print("Alt: Pressure:");
+//  Serial.println(alt.pressure);
+//  Serial.println(" ");
   
-  //Serial.print("test_count: ");
-  //Serial.println(test_count);
-  //Serial.print("cutdown_enable_state: ");
-  //Serial.println(parameters.cutdown_enable_state);
-  //Serial.print("cutdown_1_status: ");
-  //Serial.println(parameters.cutdown_1_status);
-  //Serial.print("cutdown_2_status: ");
-  //Serial.println(parameters.cutdown_2_status);
-  //Serial.print("Alt: Pressure:");
-  //Serial.println(alt.pressure);
-  Serial.println(" ");
+    Serial.print("calData.accelMinX: ");
+    Serial.println(calData.accelMinX);
+    Serial.print("calData.accelMaxX: ");
+    Serial.println(calData.accelMaxX);
+    Serial.print("calData.accelMinY: ");
+    Serial.println(calData.accelMinY);
+    Serial.print("calData.accelMaxY: ");
+    Serial.println(calData.accelMaxY);
+    Serial.print("calData.accelMinZ: ");
+    Serial.println(calData.accelMinZ);
+    Serial.print("calData.accelMaxZ: ");
+    Serial.println(calData.accelMaxZ);
+    
+    Serial.print("calData.magMinX: ");
+    Serial.println(calData.magMinX);
+    Serial.print("calData.magMaxX: ");
+    Serial.println(calData.magMaxX);
+    Serial.print("calData.magMinY: ");
+    Serial.println(calData.magMinY);
+    Serial.print("calData.magMaxY: ");
+    Serial.println(calData.magMaxY);
+    
+    Serial.print("calData.magMinZ: ");
+    Serial.println(calData.magMinZ);
+    Serial.print("calData.magMaxZ:");
+    Serial.println(calData.magMaxZ);
+    Serial.println(" ");
+	
+    Serial.print("dueMPU.m_rawQuaternion: ");
+    Serial.println((long) A);
+    Serial.print("dueMPU.m_rawMag: ");
+    Serial.println((long) B);
+    Serial.print("dueMPU.m_calMag: ");
+    Serial.println((long) C);
+
+    Serial.print("dueMPU.m_calAccel: ");
+    Serial.println((long) E);
+    Serial.print("dueMPU.m_rawAccel: ");
+    Serial.println((long) F);
+
   
-  print_gps_data();
-  get_gyro_data();
-  Serial.println("");
-  Serial.println("");
+  //print_gps_data();
+  //get_gyro_data();
+  //Serial.println("");
+  //Serial.println("");
   Serial.println("");
 }

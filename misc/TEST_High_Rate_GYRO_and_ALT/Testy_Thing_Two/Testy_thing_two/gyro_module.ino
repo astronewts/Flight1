@@ -6,7 +6,7 @@
 //    1 = use the device at ox69
 #define  DEVICE_TO_USE    0
 
-MPU9150Lib dueMPU;   // the MPU object
+//MPU9150Lib dueMPU;   // the MPU object
 
 //  MPU_UPDATE_RATE defines the rate (in Hz) at which the MPU updates the sensor data and DMP output
 #define MPU_UPDATE_RATE  (20)
@@ -129,7 +129,7 @@ void get_gyro_data()
         dueMPU.read();  // get the latest data if ready yet
 		Serial.print("Gyro - Quaternion: ");
 
-        gyro.gyro_temp = ((double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
+        gyro_temp = ((double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
         
         Serial.print("Gyro - Temp Data: ");  
         Serial.print(gyro_temp);
@@ -138,16 +138,15 @@ void get_gyro_data()
         dueMPU.printQuaternion(dueMPU.m_rawQuaternion);       // print the raw quaternion from the dmp
         Serial.println();
 		Serial.print("Gyro - Raw Mag Data: ");      
-	dueMPU.printVector(dueMPU.m_rawMag);                  // print the raw mag data
-                Serial.println();
+		dueMPU.printVector(dueMPU.m_rawMag);                  // print the raw mag data
+        Serial.println();
 		Serial.print("Gyro - Raw Accel Data: ");
         dueMPU.printVector(dueMPU.m_rawAccel);                // print the raw accel data
 		Serial.println();
 		Serial.print("Gyro - Euler angles from DMP: ");
         dueMPU.printAngles(dueMPU.m_dmpEulerPose);            // the Euler angles from the dmp quaternion
-		Serial.println(); 
-		// there is a pb in the the scaling of callibrated acceleration as they are supposed to be in g  XXXXXXXXXXX
-                Serial.print("Gyro - Calibrated Accel Data: ");
+		Serial.println();
+		Serial.print("Gyro - Calibrated Accel Data: ");
         dueMPU.printVector(dueMPU.m_calAccel);                // print the calibrated accel data
 		Serial.println();
 		Serial.print("Gyro - Calibrated Mag Data: ");

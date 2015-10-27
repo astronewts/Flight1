@@ -18,7 +18,6 @@
 //   - Automatic cut down voltage is not processed.
 //   - Parity bit on the Tx and Rx are not calculated
 //   
-//     To send / recieve commands throught rockblock connect to: https://core.rock7.com/Operations
 // *****************************************************************************
 // *****************************************************************************
 // Open Source / Public Domain
@@ -50,6 +49,18 @@ struct gyro_struct gyro;
 struct gps_struct gps_chip;
 
 String output_dataword;
+int test_count;
+
+long int* A;
+short int* B;
+short int* C;
+//float D;
+short int* E;
+short int* F;
+//long int* G;
+//long int* H;
+
+MPU9150Lib dueMPU;
 
 #define MAX_RX_BUFFER_SIZE  270 
 uint8_t rx_buffer[MAX_RX_BUFFER_SIZE]; // max size of a received packet is 270 bytes
@@ -61,7 +72,7 @@ void setup()
 {
    Serial.begin(9600); 
    Serial1.begin(4800);
-   Serial3.begin(19200); // Wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
+   //Serial3.begin(19200); // Wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
    Serial.println("Flight1 starting up");
    set_output_pins();
    set_defaults();
@@ -69,39 +80,48 @@ void setup()
    baro.init();
    set_normal_mode();
    sd_setup();
-   parameters.cutdown_initiation_elapsed_time = 0;
    
-   // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
-    isbd.begin();
-    
- //       isbd.setPowerProfile(1); // DEFAULT Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
- //   isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
-  
+   mpuInit();
+   
+   
+   //test_count = 0;
 }
 
 void loop() 
 { 
-   //Collect Analog Telemetry
-//   collect_telemetry();
-//   collect_alt_data();
+   //test_count = test_count + 1;
+  
+  //Collect Analog Telemetry
+  //collect_telemetry();
+   collect_alt_data();
+  
+  //dueMPU.read();
+  
+  A = dueMPU.m_rawQuaternion;
+  B = dueMPU.m_rawMag;
+  C = dueMPU.m_rawAccel;         
+  //D = dueMPU.m_dmpEulerPose; 
+  E = dueMPU.m_calAccel;       
+  F = dueMPU.m_calMag; 
+  //G = dueMPU.m_fusedEulerPose; 
   
    //Process telemetry
    //process_telemetry();
 
    //Print telemetry
-   #ifdef DEBUG
-   //print_telemetry();
-   #endif
+   //#ifdef DEBUG
+   print_telemetry();
+   //#endif
    
    //Process Camera
    //process_camera_function();
 
    //Check if time to write data to SD Card 
-   if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
-   {
-     //write_telemetry_data_to_sd();
-      parameters.sd_card_write_elapsed_time = 0;
-   }
+   //if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
+   //{
+   write_telemetry_data_to_sd();
+   //   parameters.sd_card_write_elapsed_time = 0;
+   //}
 
 //***********************************
      //Check if time to write data to ROCKBLOCK
@@ -122,48 +142,16 @@ void loop()
    
 //***********************************  
      // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
-     if(parameters.transmit_elapsed_time > parameters.transmit_period)
-     {
-<<<<<<< HEAD
-      //sendreceive_satellite_data();
-=======
-      // XXX comment next line to avoid calling rockblock: for test: 
-      sendreceive_satellite_data();
->>>>>>> 5451089450dc851ae1767bf3f4a5b0948498f876
-      parameters.transmit_elapsed_time = 0;
-     }
-         //////////Start of Iridium Transmit Code/////////////////
-    
-    // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
-//    isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-//    isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-    
-    isbd.setPowerProfile(1); // DEFAULT Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
- //   isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
-    
-
-    
- //   isbd.useMSSTMWorkaround(false);  // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-    
-    //int getSignalQuality(int &quality);
-    //Description:   Queries the signal strength and visibility of satellites
-    //Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
-    //Parameter:      quality – Return value: the strength of the signal (0=nonexistent, 5=high)
-    int signalQuality = -1;
-    int err = isbd.getSignalQuality(signalQuality);
-    if (err != 0)
-    {
-      Serial.print("SignalQuality failed: error ");
-      Serial.println(err);
-      return;
-    }
-    
- //   Serial.print("Elapsed time:");
-    Serial.print(parameters.cutdown_initiation_elapsed_time);
-    Serial.print(" ");
- //   Serial.print("Signal quality (0=nonexistent, 5=high) is ");
-    Serial.println(signalQuality);
-   
+     //if(parameters.transmit_elapsed_time > parameters.transmit_period)
+     //{
+     // sendreceive_satellite_data();
+     // parameters.transmit_elapsed_time = 0;
+     //}
+     
+     //if(test_count == 5)
+     //{
+     //  cutdown_fire();
+     //}
 }
 
 void set_defaults()
@@ -346,7 +334,6 @@ void set_emergency_decent_mode()
    parameters.vehicle_mode = 4;
    //Fire Pyro
    cutdown_fire();
-   Serial.println("Pyro fire command initiated!");
 }
 
 void cutdown_fire()
