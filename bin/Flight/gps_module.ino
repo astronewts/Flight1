@@ -24,11 +24,11 @@ void get_gps_data()
 
 void print_gps_data()
 {
-  get_gps_data();
+  //get_gps_data();
   
-  Serial.println(F("Sats HDOP Latitude   Longitude   Fix  Date       Time     Date Alt    Course Speed Card   Chars Sentences Checksum"));
-  Serial.println(F("          (deg)      (deg)       Age                      Age  (m)    --- from GPS ----    RX    RX        Fail"));
-  Serial.println(F("--------------------------------------------------------------------------------------------------------------------"));
+  Serial.println(F("Sats HDOP Latitude   Longitude   Fix  Date       Time     Date Alt  Alt  Course Speed Card   Chars Sentences Checksum"));
+  Serial.println(F("          (deg)      (deg)       Age                      Age  (m)  Age    --- from GPS ----    RX    RX        Fail"));
+  Serial.println(F("-------------------------------------------------------------------------------------------------------------------------"));
 
   printInt(gps.satellites.value(), gps.satellites.isValid(), 5);
   printInt(gps.hdop.value(), gps.hdop.isValid(), 5);
@@ -37,13 +37,18 @@ void print_gps_data()
   printInt(gps.location.age(), gps.location.isValid(), 5);
   printDateTime(gps.date, gps.time);
   printFloat(gps.altitude.meters(), gps.altitude.isValid(), 7, 2);
+  printInt(gps.altitude.age(), gps.altitude.isValid(), 5);
   printFloat(gps.course.deg(), gps.course.isValid(), 7, 2);
   printFloat(gps.speed.kmph(), gps.speed.isValid(), 6, 2);
+ 
+ // Cardinal is extra
   printStr(gps.course.isValid() ? TinyGPSPlus::cardinal(gps.course.value()) : "*** ", 6);
+ 
   printInt(gps.charsProcessed(), true, 6);
   printInt(gps.sentencesWithFix(), true, 10);
   printInt(gps.failedChecksum(), true, 9);
   Serial.println(" ");
+
   
 //  Serial.print("GPS Characters Processed: ");
 //  Serial.println(gps.charsProcessed());
@@ -107,6 +112,7 @@ void print_gps_data()
   printStr(gps.location.isValid() ? cardinalToLondon : "*** ", 6);
   smartDelay(1000);
 */
+
 }
 
 // This custom version of delay() ensures that the gps object

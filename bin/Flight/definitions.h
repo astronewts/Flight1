@@ -37,33 +37,46 @@
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH     150
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80    
 #define DEFAULT_NORMAL_TRANSMIT_RATE               15000 // TEST ONLY!!!
-//#define DEFAULT_NORMAL_TRANSMIT_RATE               1200000 // FOR FLIGHT!!!
+//#define DEFAULT_NORMAL_TRANSMIT_RATE             1200000 // FOR FLIGHT!!!
 #define DEFAULT_TEST_TRANSMIT_RATE                 60000
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              30000
 #define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45000
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
 #define DEFAULT_PYRO_PULSE_WIDTH                   8000
 #define DEFAULT_SD_CARD_WRITE_PERIOD               6000 // TEST ONLY!!!
-//#define DEFAULT_SD_CARD_WRITE_PERIOD                 60000  // FOR FLIGHT !!!
+//#define DEFAULT_SD_CARD_WRITE_PERIOD             60000  // FOR FLIGHT !!!
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
-#define DEFAULT_ALTITUDE_LIMIT_LOW                 65000 //97:for test in living room  //  A2 ft
-#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          75000 //101:for test in living room //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
+#define DEFAULT_ALTITUDE_LIMIT_LOW                 65000  // 97:for test in living room  //  A2 ft
+#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          75000  // 101:for test in living room //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           -0.1
 #define DEFAULT_B1_AMPHRS_INIT_THRESHOLD           -0.5  
 #define DEFAULT_B1_VOLTAGE_TERM_THRESHOLD           12.5
-#define DEFAULT_B1_VOLTAGE_INIT_THRESHOLD            10.0
+#define DEFAULT_B1_VOLTAGE_INIT_THRESHOLD           10.0
 
-#define DEFAULT_B2_RECHARGE_RATIO                     1.1
+#define DEFAULT_B2_RECHARGE_RATIO                   1.1
 #define DEFAULT_B2_AMPHRS_TERM_THRESHOLD           -0.1
 #define DEFAULT_B2_AMPHRS_INIT_THRESHOLD           -0.5  
 #define DEFAULT_B2_VOLTAGE_TERM_THRESHOLD           12.5
-#define DEFAULT_B2_VOLTAGE_INIT_THRESHOLD            10.0
+#define DEFAULT_B2_VOLTAGE_INIT_THRESHOLD           10.0
 
 #define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW    3.0
 #define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH   -2.0
 
+//Test Variables
+#define INITIAL_TEST_COUNT                          0
+#define CUTDOWN_TEST_TIME                           30000
+#define INITIALIZATION_TIMEOUT                      10000
+
+//Vehicle Modes
+#define FLIGHT_MODE                               1
+#define LOADSHED_MODE                             2
+#define TRANSIT_MODE                              3
+#define EMERGENCY_DESCENT_MODE                    4
+#define TEST_MODE                                 5
+#define TEST_CUTDOWN_MODE                         6
+#define TEST_TLM_RUNTHROUGH_MODE                  7
 
 //Analog Pins
 #define PIN_PRESSURE_SENSOR                    A0
@@ -83,11 +96,11 @@
 #define PIN_CUTDOWN_ENABLE              2
 #define PIN_CUTDOWN_1_FIRE              3
 #define PIN_CUTDOWN_2_FIRE              4 
-#define PIN_BATTERY_1_CHARGE_CUTOFF  6
-#define PIN_BATTERY_2_CHARGE_CUTOFF  7
-#define PIN_CAMERA_SWITCH            9
-#define PIN_HEATER_CONTROL_1         5 // was 22: correct pin num
-#define PIN_HEATER_CONTROL_2         8 // was 23
+#define PIN_BATTERY_1_CHARGE_CUTOFF     6
+#define PIN_BATTERY_2_CHARGE_CUTOFF     7
+#define PIN_CAMERA_SWITCH               9
+#define PIN_HEATER_CONTROL_1            5 // was 22: correct pin num
+#define PIN_HEATER_CONTROL_2            8 // was 23
 
 
 #define RESOLUTION_PRESSURE_SENSOR   12
@@ -122,7 +135,7 @@ struct gyro_struct
 
 struct telemetry_data_struct
 {
- // char "\xA30133";
+  // char "\xA30133";
   //uint16_t air_pressure;
   double battery_1_temp_1;
   double battery_1_temp_2;
@@ -184,6 +197,9 @@ struct parameter_struct
   bool altitude_valid_flag;
   int altitude_limit_low;
   int altitude_sanity_check_low;
+
+  int test_count;
+  String user_intialization_input;
   
   double battery_1_recharge_ratio;
   double battery_1_amphrs_charging;
@@ -209,6 +225,7 @@ struct parameter_struct
   elapsedMillis sd_card_write_elapsed_time;
   elapsedMillis battery_1_charge_current_read_elapsed_time;
   elapsedMillis battery_2_charge_current_read_elapsed_time;
+  elapsedMillis intialization_timeout_time;
 
   String output_dataword;
   String valid_str;

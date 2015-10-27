@@ -72,15 +72,9 @@ void sendreceive_satellite_data()
     Serial.println(" ");
     Serial.println("###########################  isbd.setPowerProfile(1) was just commanded ###########################");   
     Serial.println(" ");    
-<<<<<<< HEAD
     
     // isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
     
-=======
-    
-    // isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
-    
->>>>>>> 5451089450dc851ae1767bf3f4a5b0948498f876
     Serial.println(" ");
     Serial.print("Sleep Status (#1):");
     Serial.println(isbd.isAsleep());    
@@ -89,35 +83,6 @@ void sendreceive_satellite_data()
     
     if (isbd.isAsleep() == 1)
     {
-<<<<<<< HEAD
-      // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
-      isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-      Serial.println(" ");
-      Serial.println("###########################  isbd.attachConsole(Serial) was just commanded ###########################");   
-      Serial.println(" ");
-      
-      isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-      Serial.println(" ");
-      Serial.println("###########################  isbd.attachDiags(Serial) was just commanded ###########################");   
-      Serial.println(" ");
-  
-      isbd.adjustATTimeout(15); // Default is 20 seconds 
-      Serial.println(" ");
-      Serial.println("###########################  isbd.adjustATTimeout(X) was just commanded ###########################");   
-      Serial.println(" ");   
-  
-      isbd.adjustSendReceiveTimeout(300); // Default is 300 seconds 
-      Serial.println(" ");
-      Serial.println("###########################  isbd.adjustSendReceiveTimeout(XXX) was just commanded ###########################");   
-      Serial.println(" ");   
-      
-      isbd.setPowerProfile(1); // Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
-      Serial.println(" ");
-      Serial.println("###########################  isbd.setPowerProfile(1) was just commanded ###########################");   
-      Serial.println(" ");   
-      
-=======
->>>>>>> 5451089450dc851ae1767bf3f4a5b0948498f876
       isbd.begin();
       Serial.println(" ");
       Serial.println("########################### isdb.begin() was just commanded ################################");
@@ -386,6 +351,7 @@ int process_satellite_command()
            // Set the Mode to Test Mode
            set_test_mode();
          }
+
         Serial.print("Mode has been changed to: ");
         Serial.println(CommandString.substring(14,15)); 
       }// This ends the section to command to change the Spacecraft Mode
@@ -672,7 +638,7 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = parameters.output_dataword + valid_str;                                                     //39
     
     parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_X], parameters.output_dataword);                   //40
-      parameters.output_dataword = combine_float(32, std::max(calData.accelMaxX, (short)(-calData.accelMinX)), parameters.output_dataword);  //41
+    parameters.output_dataword = combine_float(32, std::max(calData.accelMaxX, (short)(-calData.accelMinX)), parameters.output_dataword);  //41
     parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_Y], parameters.output_dataword);                   //42
     parameters.output_dataword = combine_float(32, std::max(calData.accelMaxY, (short)(-calData.accelMinY)), parameters.output_dataword);  //43
     parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_Z], parameters.output_dataword);                   //44

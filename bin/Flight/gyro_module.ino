@@ -108,7 +108,6 @@ int MPU9150_readSensor(int addrL, int addrH){
 
 void get_gyro_data()
 {  
-
   if (Serial.available()) {
     switch (Serial.read()) {
       case 'm':
@@ -127,7 +126,7 @@ void get_gyro_data()
     case LOOPSTATE_NORMAL:
    
         dueMPU.read();  // get the latest data if ready yet
-		Serial.print("Gyro - Quaternion: ");
+		    Serial.print("Gyro - Quaternion: ");
 
         gyro.gyro_temp = ((double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
         
@@ -137,27 +136,26 @@ void get_gyro_data()
 
         dueMPU.printQuaternion(dueMPU.m_rawQuaternion);       // print the raw quaternion from the dmp
         Serial.println();
-		Serial.print("Gyro - Raw Mag Data: ");      
-	dueMPU.printVector(dueMPU.m_rawMag);                  // print the raw mag data
-                Serial.println();
-		Serial.print("Gyro - Raw Accel Data: ");
+	     	Serial.print("Gyro - Raw Mag Data: ");      
+	      dueMPU.printVector(dueMPU.m_rawMag);                  // print the raw mag data
+        Serial.println();
+		    Serial.print("Gyro - Raw Accel Data: ");
         dueMPU.printVector(dueMPU.m_rawAccel);                // print the raw accel data
-		Serial.println();
-		Serial.print("Gyro - Euler angles from DMP: ");
+		    Serial.println();
+		    Serial.print("Gyro - Euler angles from DMP: ");
         dueMPU.printAngles(dueMPU.m_dmpEulerPose);            // the Euler angles from the dmp quaternion
-		Serial.println(); 
-		// there is a pb in the the scaling of callibrated acceleration as they are supposed to be in g  XXXXXXXXXXX
-                Serial.print("Gyro - Calibrated Accel Data: ");
+		    Serial.println(); 
+		    // there is a pb in the the scaling of callibrated acceleration as they are supposed to be in g  XXXXXXXXXXX
+        Serial.print("Gyro - Calibrated Accel Data: ");
         dueMPU.printVector(dueMPU.m_calAccel);                // print the calibrated accel data
-		Serial.println();
-		Serial.print("Gyro - Calibrated Mag Data: ");
+		    Serial.println();
+		    Serial.print("Gyro - Calibrated Mag Data: ");
         dueMPU.printVector(dueMPU.m_calMag);                  // print the calibrated mag data
-		Serial.println();
-		Serial.print("Gyro - Data Fusion: ");
+		    Serial.println();
+		    Serial.print("Gyro - Data Fusion: ");
         dueMPU.printAngles(dueMPU.m_fusedEulerPose);          // print the output of the data fusion
-		Serial.println();
-		
-
+		    Serial.println();
+       
       break;
         
     case LOOPSTATE_MAGCAL:

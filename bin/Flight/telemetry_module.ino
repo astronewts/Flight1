@@ -4,7 +4,8 @@ double actual_val;
 char buffer[128];
 int count_low_alt;
 
-void collect_telemetry()
+//Collect All Analog TLM
+void collect_analog_telemetry()
 { 
   //Air Pressure Data
   raw_val = analogRead(PIN_PRESSURE_SENSOR);
@@ -82,15 +83,22 @@ void collect_alt_data()
    alt.pressure = baro.getAvgNormPressurePascals();
 }
 
+void print_alt_data()
+{ 
+  Serial.println("-----------ALTIMITER Telemetry---------------"); 
+  Serial.print("Alt: Altitude in Feet: ");
+  Serial.println(alt.altitude_in_feet);
+  Serial.print("Alt: Temp:");
+  Serial.println(alt.temperature);
+  Serial.print("Alt: Pressure:");
+  Serial.println(alt.pressure);
+  Serial.println(" ");
+}
 
-void process_telemetry()
+
+void cutdown_check()
 {
-   int valid_data = true;
-   double value = 0.0;
-
-   double battery_1_elapsed_time_factor = 0.0;
-   
-   //Check Cutdown Process
+  //Check Cutdown Process
    if(parameters.cutdown_1_status == true)
    {
      if(parameters.cutdown_initiation_elapsed_time >= parameters.cutdown_pulse_width)
@@ -121,6 +129,18 @@ void process_telemetry()
         parameters.cutdown_enable_state = false;
      }
    }
+}
+
+
+void process_telemetry()
+{
+   int valid_data = true;
+   double value = 0.0;
+
+   double battery_1_elapsed_time_factor = 0.0;
+
+   // Check if the Cut-Down Process has been initiated, and continue if so.
+   cutdown_check();
    
    // Check the battery temperatures
    // Battery 1
@@ -459,9 +479,9 @@ void process_telemetry()
    
 } // end of process telemetry
 
-void print_telemetry()
-{
-  Serial.println("-----------Telemetry---------------");
+void print_analog_data()
+{ 
+  Serial.println("-----------ANALOG Telemetry---------------");
   Serial.print("raw Air Pressure: ");
   raw_val = analogRead(PIN_PRESSURE_SENSOR);
   delay(100);
@@ -515,29 +535,44 @@ void print_telemetry()
   Serial.println(telemetry_data.battery_1_charge_current_1);
   Serial.print("Charge Current 2: ");
   Serial.println(telemetry_data.battery_1_charge_current_2);
-  Serial.print("Alt: Altitude in Feet: ");
-  Serial.println(alt.altitude_in_feet);
-  Serial.print("Alt: Temp:");
-  Serial.println(alt.temperature);
-  Serial.print("Alt: Pressure:");
-  Serial.println(alt.pressure);
-  Serial.println(" ");
   
-  //Serial.print("test_count: ");
-  //Serial.println(test_count);
-  //Serial.print("cutdown_enable_state: ");
-  //Serial.println(parameters.cutdown_enable_state);
-  //Serial.print("cutdown_1_status: ");
-  //Serial.println(parameters.cutdown_1_status);
-  //Serial.print("cutdown_2_status: ");
-  //Serial.println(parameters.cutdown_2_status);
-  //Serial.print("Alt: Pressure:");
-  //Serial.println(alt.pressure);
   Serial.println(" ");
-  
+}
+
+void print_telemetry()
+{
+  Serial.println("----------------------------------------------------------");
+  Serial.println("------------- PRINT ALL TERMINAL TELEMETRY ---------------");
+  Serial.println("----------------------------------------------------------");
+  Serial.println(" ");
+
+  print_analog_data();
+  print_alt_data();
   print_gps_data();
   get_gyro_data();
+
+  // TODO: ADD CODE FOR CALCULATED SOFTWARE VARIABLE THAT WE WANT TO OUTPUT !!!!
+  
   Serial.println("");
   Serial.println("");
   Serial.println("");
 }
+
+void print_cutdown_telemetry()
+{
+  Serial.println(" ");
+  Serial.println(" ");
+  Serial.print("test_count: ");
+  Serial.println(parameters.test_count);
+  Serial.print("cutdown_enable_state: ");
+  Serial.println(parameters.cutdown_enable_state);
+  Serial.print("cutdown_1_status: ");
+  Serial.println(parameters.cutdown_1_status);
+  Serial.print("cutdown_2_status: ");
+  Serial.println(parameters.cutdown_2_status);
+  Serial.print("cutdown_initiation_elapsed_time: ");
+  Serial.println(parameters.cutdown_initiation_elapsed_time);
+  Serial.println(" ");
+  Serial.println(" ");
+}
+

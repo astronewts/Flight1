@@ -68,33 +68,125 @@ void setup()
    gyro_setup();
    baro.init();
    set_normal_mode();
-   sd_setup();
-   parameters.cutdown_initiation_elapsed_time = 0;
+   //sd_setup();
    
-   // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
-    isbd.begin();
+   // Start/Wake-Up the RockBLOCK modem to power it and prepare it to communicate.
+   //isbd.begin();
     
- //       isbd.setPowerProfile(1); // DEFAULT Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
- //   isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
-  
+   // isbd.setPowerProfile(1); // DEFAULT Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
+   // isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
+    
+   /////////////////////////////////////////////////////
+   // ADD PROMPT WITH TIMEOUT HERE!!!
+   ////////////////////////////////////////////////////
+
+   Serial.println(" Dear user, tell me what mode you want.");  
+   Serial.println(" type one of the following option: (r=run through, f=flight, c=cutdown)");  
+   Serial.println(" you have 5 sec");
+   parameters.intialization_timeout_time = 0;
+   
+   while (parameters.intialization_timeout_time<INITIALIZATION_TIMEOUT) {
+        // send data only when you receive data:
+        if (Serial.available() > 0) {
+                char c = Serial.read();
+              // userinput=Serial.readBytesUntil(lf, userinput, 10);
+                 parameters.user_intialization_input += c; 
+                // say what you got:
+                Serial.println("I received: ");
+                
+                Serial.println(parameters.user_intialization_input);
+                if ( parameters.user_intialization_input=="f") {
+                  Serial.println("Then we are in flight mode");
+                  parameters.vehicle_mode=FLIGHT_MODE;
+                }
+                // TODO: CHECK IF ELSE WORKS HERE AS WELL
+                if (parameters.user_intialization_input =="r") {
+                  Serial.println("Then we are in test mode");
+                  parameters.vehicle_mode=TEST_TLM_RUNTHROUGH_MODE;
+                }
+                if (parameters.user_intialization_input =="c") {
+                  Serial.println("Then we are in cutdown mode");
+                  parameters.vehicle_mode=TEST_CUTDOWN_MODE;
+                }                
+        }
+   } // end of the while loop on timer 
+        
+   // ============= did not receive anything and timeout ==================== //
+   if (parameters.vehicle_mode==DEFAULT_MODE) {
+       Serial.println("User ... you are too slow I picked the mode for you: flight");
+       parameters.vehicle_mode=FLIGHT_MODE;
+   }
+   delay(5000);
+   Serial.println("Finally the mode we are in:"); 
+   Serial.println(parameters.vehicle_mode);     
 }
 
 void loop() 
 { 
-   //Collect Analog Telemetry
-//   collect_telemetry();
-//   collect_alt_data();
-  
-   //Process telemetry
-   //process_telemetry();
+  // CHECK FOR EXECUTION OF TEST MODES
+  if(parameters.vehicle_mode == TEST_CUTDOWN_MODE)
+  {
+     parameters.test_count = parameters.test_count + 1;
+     delay(1000);
 
-   //Print telemetry
-   #ifdef DEBUG
-   //print_telemetry();
-   #endif
+     if(parameters.test_count == CUTDOWN_TEST_TIME)
+     {
+        cutdown_fire();
+     }
+     cutdown_check();
+  }
+  else if(parameters.vehicle_mode == TEST_TLM_RUNTHROUGH_MODE)
+  {
+     //Collect Analog Telemetry
+     collect_analog_telemetry();
+
+     //TODO: Add Collections for the Digital Data
+     // collect_gps_data(); 
+     
+     // Collect GPS Data
+     get_gps_data(); 
+      
+     // Collect Altimiter Data
+     collect_alt_data();
+    
+     // DO WE NEED THIS ???? 
+     process_telemetry();
+
+     // Print All Collected TLM to the Terminal Window
+     print_telemetry();
+    
+     // TODO: MAKE SURE THAT ANY ERROR MESSAGES OR DISCONNECTED HW IS OUTPUT IN PRINT TLM
+
+     delay(1000);
+  }
+  else
+  {
+     /////////////////////////
+     // EXECUTE FLIGHT CODE //
+     /////////////////////////
+
+    //Collect Analog Telemetry
+     collect_analog_telemetry();
+
+     //TODO: Add Collections for the Digital Data
+     
+     // Collect GPS Data
+     get_gps_data(); 
+     
+     // Collect_Gyro_data();
+      
+     // Collect Altimiter Data
+     collect_alt_data();
+     
+     //Process telemetry
+     process_telemetry();
    
-   //Process Camera
-   //process_camera_function();
+     //Process Camera
+     //process_camera_function();
+
+     //////////////////////////
+     // WRITE TLM TO SD CARD //
+     //////////////////////////
 
    //Check if time to write data to SD Card 
    if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
@@ -103,52 +195,48 @@ void loop()
       parameters.sd_card_write_elapsed_time = 0;
    }
 
-//***********************************
-     //Check if time to write data to ROCKBLOCK
-//   if(parameters.transmit_elapsed_time > parameters.transmit_period)
-//   {
-//      write_satellite_data();      
-//      parameters.transmit_elapsed_time = 0;
-//   }
- 
+     //////////////////////////////
+     // OUTPUT DATA TO ROCKBLOCK //
+     //////////////////////////////
 
-   // Check if there is any data waiting for us from ROCKBLOCK
-//   ret_val = read_satellite_data();
+     /* 
+     //Check if time to write data to ROCKBLOCK
+     if(parameters.transmit_elapsed_time > parameters.transmit_period)
+     {
+        write_satellite_data();      
+        parameters.transmit_elapsed_time = 0;
+     }
+ 
+     // Check if there is any data waiting for us from ROCKBLOCK
+     //   ret_val = read_satellite_data();
    
-//   if(ret_val == COMMANDS_TO_PROCESS)
-//   {
-//     read_satellite_data();
-//   }
+     //   if(ret_val == COMMANDS_TO_PROCESS)
+     //   {
+     //     read_satellite_data();
+     //   }
    
-//***********************************  
      // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
      if(parameters.transmit_elapsed_time > parameters.transmit_period)
      {
-<<<<<<< HEAD
-      //sendreceive_satellite_data();
-=======
-      // XXX comment next line to avoid calling rockblock: for test: 
-      sendreceive_satellite_data();
->>>>>>> 5451089450dc851ae1767bf3f4a5b0948498f876
-      parameters.transmit_elapsed_time = 0;
+        sendreceive_satellite_data();
+        parameters.transmit_elapsed_time = 0;
      }
          //////////Start of Iridium Transmit Code/////////////////
     
-    // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
-//    isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-//    isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    //  The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
+    //    isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    //    isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
     
     isbd.setPowerProfile(1); // DEFAULT Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
- //   isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
+    //   isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
     
-
-    
- //   isbd.useMSSTMWorkaround(false);  // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-    
+    //   isbd.useMSSTMWorkaround(false);  // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+ 
     //int getSignalQuality(int &quality);
     //Description:   Queries the signal strength and visibility of satellites
-    //Returns:            ISBD_SUCCESS if successful, a non-zero code otherwise;
-    //Parameter:      quality – Return value: the strength of the signal (0=nonexistent, 5=high)
+    //Returns:       ISBD_SUCCESS if successful, a non-zero code otherwise;
+    //Parameter:     quality – Return value: the strength of the signal (0=nonexistent, 5=high)
+    
     int signalQuality = -1;
     int err = isbd.getSignalQuality(signalQuality);
     if (err != 0)
@@ -158,12 +246,14 @@ void loop()
       return;
     }
     
- //   Serial.print("Elapsed time:");
-    Serial.print(parameters.cutdown_initiation_elapsed_time);
+    //   Serial.print("Elapsed time:");
+    //   Serial.print(parameters.cutdown_initiation_elapsed_time);
     Serial.print(" ");
- //   Serial.print("Signal quality (0=nonexistent, 5=high) is ");
+    //   Serial.print("Signal quality (0=nonexistent, 5=high) is ");
     Serial.println(signalQuality);
-   
+
+    */
+  }
 }
 
 void set_defaults()
@@ -214,6 +304,8 @@ void set_defaults()
   
   parameters.voltage_sanity_check_high = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH;
   parameters.voltage_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
+
+  parameters.test_count = INITIAL_TEST_COUNT;
   
   parameters.battery_1_recharge_ratio = DEFAULT_B1_RECHARGE_RATIO;
   parameters.battery_1_amphrs_charging = 0.0;
@@ -284,7 +376,7 @@ void set_load_shed_mode()
    
    //Set Transmit Rate
    parameters.transmit_period = thresholds.load_shed_transmit_period;
-   parameters.vehicle_mode = 2;
+   parameters.vehicle_mode = LOADSHED_MODE;
 }
 
 void set_normal_mode()
@@ -298,7 +390,7 @@ void set_normal_mode()
    
    //Set Transmit Rate
    parameters.transmit_period = thresholds.normal_transmit_period;
-   parameters.vehicle_mode = 1;
+   parameters.vehicle_mode = FLIGHT_MODE;
 }
 
 void set_transit_mode()
@@ -312,7 +404,7 @@ void set_transit_mode()
    
    //Set Transmit Rate
    parameters.transmit_period = thresholds.transit_transmit_period;
-   parameters.vehicle_mode = 3;
+   parameters.vehicle_mode = TRANSIT_MODE;
 }
 
 void set_test_mode()
