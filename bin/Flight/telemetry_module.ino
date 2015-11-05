@@ -170,7 +170,7 @@ void process_telemetry()
 
    if(valid_data == true)
    {
-	   sprintf(buffer, "Battery 1 avg. temp. = %f", value);
+	   //sprintf(buffer, "Battery 1 avg. temp. = %f", value);
 	   Serial.println(buffer);
 	   if(value < parameters.battery_temperature_limit_low)
 	   {
@@ -223,8 +223,8 @@ void process_telemetry()
 
    if(valid_data == true)
    {
-	   sprintf(buffer, "Battery 2 avg. temp. = %f", value);
-	   Serial.println(buffer);
+	   //sprintf(buffer, "Battery 2 avg. temp. = %f", value);
+	   //Serial.println(buffer);
 
 	   if(value < parameters.battery_temperature_limit_low)
 	   {
@@ -290,7 +290,7 @@ void process_telemetry()
       {
 	     if(parameters.battery_bus_low_voltage_flag == false)
 	     {
-            //Battery voltage is low - set flag and mark time
+          //Battery voltage is low - set flag and mark time
 	        parameters.battery_bus_low_voltage_flag = true;
            parameters.battery_low_voltage_elapsed_time = 0;
            sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).  Goind into Load Shed Mode.",
