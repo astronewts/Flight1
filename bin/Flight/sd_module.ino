@@ -113,7 +113,7 @@ void sd_setup() {
   bout << pstr(",Loadshed Transmit Rate");              //4
   bout << pstr(",Transit Transmit Rate");               //5
   bout << pstr(",Emergency Transit Transmit Rate");     //6
-  bout << pstr(",Test Transmit Rate");                  //7
+  bout << pstr(",Spare Transmit Rate");                  //7
   bout << pstr(",SD Card Write Rate");                  //8
   bout << pstr(",Battery 1 Temp 1");                    //9
   bout << pstr(",Battery 1 Temp 2");                    //10
@@ -259,7 +259,7 @@ void write_telemetry_data_to_sd()
   bout << ',' << thresholds.load_shed_transmit_period;                   //4
   bout << ',' << thresholds.transit_transmit_period;                     //5
   bout << ',' << thresholds.emergency_transit_transmit_period;           //6
-  bout << ',' << thresholds.test_transmit_period;                        //7
+  bout << ',' << thresholds.spare_transmit_period;                        //7
   bout << ',' << parameters.sd_card_write_period;                        //8
   bout << ',' << telemetry_data.battery_1_temp_1;                      //9
   bout << ',' << telemetry_data.battery_1_temp_2;                      //10

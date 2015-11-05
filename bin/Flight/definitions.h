@@ -1,3 +1,4 @@
+
 #include <elapsedMillis.h>
 
 #define DEBUG
@@ -38,7 +39,7 @@
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80    
 #define DEFAULT_NORMAL_TRANSMIT_RATE               15000 // TEST ONLY!!!
 //#define DEFAULT_NORMAL_TRANSMIT_RATE             1200000 // FOR FLIGHT!!!
-#define DEFAULT_TEST_TRANSMIT_RATE                 60000
+#define DEFAULT_SPARE_TRANSMIT_RATE                 60000
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              30000
 #define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45000
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
@@ -74,7 +75,7 @@
 #define LOADSHED_MODE                             2
 #define TRANSIT_MODE                              3
 #define EMERGENCY_DESCENT_MODE                    4
-#define TEST_MODE                                 5
+#define SPARE_MODE                                 5
 #define CUTDOWN_TEST_MODE                         6
 #define TERMINAL_TEST_MODE                        7
 
@@ -238,7 +239,7 @@ struct threshold_struct
   int survival_battery_temperature_limit_high;
   int survival_battery_temperature_limit_low;
   unsigned long normal_transmit_period;
-  unsigned long test_transmit_period;
+  unsigned long spare_transmit_period;
   unsigned long transit_transmit_period;
   unsigned long emergency_transit_transmit_period;
   unsigned long load_shed_transmit_period;

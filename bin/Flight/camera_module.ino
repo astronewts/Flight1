@@ -1,3 +1,4 @@
+
 void process_camera_function()
 {
    //Is it time to turn camera on/off?

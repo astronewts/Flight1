@@ -274,7 +274,7 @@ void set_defaults()
   thresholds.survival_battery_temperature_limit_low  = DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW;
   
   thresholds.normal_transmit_period = DEFAULT_NORMAL_TRANSMIT_RATE;
-  thresholds.test_transmit_period = DEFAULT_TEST_TRANSMIT_RATE;
+  thresholds.spare_transmit_period = DEFAULT_SPARE_TRANSMIT_RATE;
   thresholds.transit_transmit_period = DEFAULT_TRANSIT_TRANSMIT_RATE;
   thresholds.load_shed_transmit_period = DEFAULT_LOAD_SHED_TRANSMIT_RATE;
   thresholds.emergency_transit_transmit_period = DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE;
@@ -417,7 +417,7 @@ void set_transit_mode()
    parameters.vehicle_mode = TRANSIT_MODE;
 }
 
-void set_test_mode()
+void set_spare_mode()
 {   
    //Set Camera flag to true
    parameters.camera_status = true;
@@ -427,7 +427,7 @@ void set_test_mode()
    parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
    
    //Set Transmit Rate
-   parameters.transmit_period = thresholds.test_transmit_period;
+   parameters.transmit_period = thresholds.spare_transmit_period;
    parameters.vehicle_mode = 5;
 }
 

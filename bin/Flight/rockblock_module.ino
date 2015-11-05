@@ -320,6 +320,7 @@ int process_satellite_command()
     // ***************************************************
     // PUT LOGIC IN HERE TO SEE IF EXTRACT THE PARITY
     // ***************************************************
+    
     //TODO: Fix parity to be 7 or 3
     //if (CommandString.substring(538) == "7") {
       
@@ -348,8 +349,8 @@ int process_satellite_command()
            set_emergency_decent_mode();
          }
          if (CommandString.substring(14,15) == "5") {
-           // Set the Mode to Test Mode
-           set_test_mode();
+           // Set the Mode to Spare Mode
+           set_spare_mode();
          }
 
         Serial.print("Mode has been changed to: ");
@@ -435,9 +436,9 @@ int process_satellite_command()
         //thresholds.emergency_transit_transmit_period =  CommandString.substring(26,30).toInt() * 3600 * 1000;
         thresholds.emergency_transit_transmit_period =  hexstring_to_int(CommandString,26,30) * 60 * 1000;
         
-        // Test Transmit Rate = CommandString.substring(30,33)
-        //thresholds.test_transmit_period = CommandString.substring(30,34).toInt() * 3600 * 1000;
-        thresholds.test_transmit_period = hexstring_to_int(CommandString,30,34) * 60 * 1000;
+        // Spare Transmit Rate = CommandString.substring(30,33)
+        //thresholds.spare_transmit_period = CommandString.substring(30,34).toInt() * 3600 * 1000;
+        thresholds.spare_transmit_period = hexstring_to_int(CommandString,30,34) * 60 * 1000;
         
         }
         
@@ -592,7 +593,7 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine(8, thresholds.load_shed_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                 //4
     parameters.output_dataword = combine(8, thresholds.transit_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                   //5
     parameters.output_dataword = combine(8, thresholds.emergency_transit_transmit_period/MSEC_IN_MIN, parameters.output_dataword);         //6
-    parameters.output_dataword = combine(8, thresholds.test_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                      //7
+    parameters.output_dataword = combine(8, thresholds.spare_transmit_period/MSEC_IN_MIN, parameters.output_dataword);                      //7
     parameters.output_dataword = combine(8, parameters.sd_card_write_period/1000, parameters.output_dataword);                             //8
     parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_1_temp_1), parameters.output_dataword);                    //9
     parameters.output_dataword = combine(12, tempToCount(telemetry_data.battery_1_temp_2), parameters.output_dataword);                    //10
@@ -721,7 +722,7 @@ void write_output_telemetry_dataword()
 //  // Process the Emergency Transit Transmit Format
 //  if (parameters.vehicle_mode == 4){     
 //  }
-//  // Process the Test Transmit Format
+//  // Process the Spare Transmit Format
 //  if (parameters.vehicle_mode == 5){  
 //    
 //  }
