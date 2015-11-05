@@ -47,33 +47,28 @@ void collect_analog_telemetry()
   telemetry_data.internal_temp = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
   delay(100);
   
-  //Battery Voltage 1
+  //Battery 1 Voltage 1
   raw_val = analogRead(PIN_BATTERY_1_VOLTAGE_1);
   telemetry_data.battery_1_voltage_1 = ((raw_val * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
   delay(100);
   
-  //Battery Voltage 2
+  //Battery 1 Voltage 2
   raw_val = analogRead(PIN_BATTERY_1_VOLTAGE_2);
   telemetry_data.battery_1_voltage_2 = ((raw_val * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
   delay(100);
-
-  //Charge Flag
-  //raw_val = digitalRead(PIN_CHARGE_FLAG);
-  //telemetry_data.charge_flag = raw_val;
-
-  //Temperature Fault Flag
-  //raw_val = digitalRead(PIN_TEMP_FAULT_FLAG);
-  //telemetry_data.temp_fault_flag = raw_val;
   
-  //Charge Current 1
+  //Battery 1 Charge Current 1
   raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_1);
   telemetry_data.battery_1_charge_current_1 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;
   delay(100);
   
-  //Charge Current 2
+  //Battery 1 Charge Current 2
   raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_2);
   telemetry_data.battery_1_charge_current_2 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;  
   delay(100);
+
+  //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
+  
 }
 
 void collect_alt_data()
@@ -482,6 +477,7 @@ void process_telemetry()
 void print_analog_data()
 { 
   Serial.println("-----------ANALOG Telemetry---------------");
+ /*
   Serial.print("raw Air Pressure: ");
   raw_val = analogRead(PIN_PRESSURE_SENSOR);
   delay(100);
@@ -510,6 +506,7 @@ void print_analog_data()
   raw_val = analogRead(PIN_EXTERNAL_OUTTER_TEMP);
   delay(100);
   Serial.println(raw_val);
+  */
   Serial.println("--------------------------------");
   Serial.print("Air Pressure: ");
   Serial.println(telemetry_data.air_pressure);

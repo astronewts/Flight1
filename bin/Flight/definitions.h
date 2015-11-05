@@ -75,8 +75,8 @@
 #define TRANSIT_MODE                              3
 #define EMERGENCY_DESCENT_MODE                    4
 #define TEST_MODE                                 5
-#define TEST_CUTDOWN_MODE                         6
-#define TEST_TLM_RUNTHROUGH_MODE                  7
+#define CUTDOWN_TEST_MODE                         6
+#define TERMINAL_TEST_MODE                        7
 
 //Analog Pins
 #define PIN_PRESSURE_SENSOR                    A0

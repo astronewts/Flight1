@@ -76,55 +76,62 @@ void setup()
    // isbd.setPowerProfile(1); // DEFAULT Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
    // isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
     
-   /////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////
    // ADD PROMPT WITH TIMEOUT HERE!!!
    ////////////////////////////////////////////////////
 
-   Serial.println(" Dear user, tell me what mode you want.");  
-   Serial.println(" type one of the following option: (r=run through, f=flight, c=cutdown)");  
-   Serial.println(" you have 5 sec");
+   Serial.println("/nFLIGHT CODE START: /n");  
+   Serial.println(" PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
+   Serial.print(" (you have ");
+   Serial.print(INITIALIZATION_TIMEOUT/1000);
+   Serial.println(" seconds): ");
+   
+   
    parameters.intialization_timeout_time = 0;
    
    while (parameters.intialization_timeout_time<INITIALIZATION_TIMEOUT) {
         // send data only when you receive data:
         if (Serial.available() > 0) {
-                char c = Serial.read();
+                char user_prompt = Serial.read();
               // userinput=Serial.readBytesUntil(lf, userinput, 10);
-                 parameters.user_intialization_input += c; 
+                 parameters.user_intialization_input += user_prompt; 
                 // say what you got:
                 Serial.println("I received: ");
                 
                 Serial.println(parameters.user_intialization_input);
-                if ( parameters.user_intialization_input=="f") {
-                  Serial.println("Then we are in flight mode");
-                  parameters.vehicle_mode=FLIGHT_MODE;
-                }
-                // TODO: CHECK IF ELSE WORKS HERE AS WELL
-                if (parameters.user_intialization_input =="r") {
-                  Serial.println("Then we are in test mode");
-                  parameters.vehicle_mode=TEST_TLM_RUNTHROUGH_MODE;
+                
+                if (parameters.user_intialization_input =="t") {
+                  Serial.println("Then we are in Terminal-Test Mode");
+                  parameters.vehicle_mode=TERMINAL_TEST_MODE;
                 }
                 if (parameters.user_intialization_input =="c") {
-                  Serial.println("Then we are in cutdown mode");
-                  parameters.vehicle_mode=TEST_CUTDOWN_MODE;
-                }                
+                  Serial.println("Then we are in Cutdown-Test Mode");
+                  parameters.vehicle_mode=CUTDOWN_TEST_MODE;
+                }
+                if (parameters.user_intialization_input =="f") {
+                  Serial.println("Then we are in Flight Mode");
+                  parameters.vehicle_mode=FLIGHT_MODE;
+                }
+                           
         }
    } // end of the while loop on timer 
         
-   // ============= did not receive anything and timeout ==================== //
+   // ============= Did not receive anything and timeout ==================== //
    if (parameters.vehicle_mode==DEFAULT_MODE) {
-       Serial.println("User ... you are too slow I picked the mode for you: flight");
+       Serial.println("\nUser ... you are too slow I picked the mode for you: Flight Mode\n");
        parameters.vehicle_mode=FLIGHT_MODE;
    }
    delay(5000);
-   Serial.println("Finally the mode we are in:"); 
+   Serial.print("\nFinally! The mode we are in is: "); 
    Serial.println(parameters.vehicle_mode);     
 }
 
 void loop() 
 { 
-  // CHECK FOR EXECUTION OF TEST MODES
-  if(parameters.vehicle_mode == TEST_CUTDOWN_MODE)
+  // FIRST, CHECK FOR EXECUTION OF TEST MODES
+  
+  // Cut-Down Test Mode Loop
+  if(parameters.vehicle_mode == CUTDOWN_TEST_MODE)
   {
      parameters.test_count = parameters.test_count + 1;
      delay(1000);
@@ -134,22 +141,24 @@ void loop()
         cutdown_fire();
      }
      cutdown_check();
+
+     print_cutdown_telemetry();
   }
-  else if(parameters.vehicle_mode == TEST_TLM_RUNTHROUGH_MODE)
+  // Terminal Test Mode Loop
+  else if(parameters.vehicle_mode == TERMINAL_TEST_MODE)
   {
      //Collect Analog Telemetry
      collect_analog_telemetry();
 
-     //TODO: Add Collections for the Digital Data
-     // collect_gps_data(); 
+     //TODO: Add Collections for the Digital GYRO Data
      
      // Collect GPS Data
      get_gps_data(); 
       
      // Collect Altimiter Data
      collect_alt_data();
-    
-     // DO WE NEED THIS ???? 
+
+     // Process All Software Data    
      process_telemetry();
 
      // Print All Collected TLM to the Terminal Window
@@ -174,26 +183,27 @@ void loop()
      get_gps_data(); 
      
      // Collect_Gyro_data();
+     //TODO: Add Collections for the Digital GYRO Data
       
      // Collect Altimiter Data
      collect_alt_data();
      
-     //Process telemetry
+     // Process telemetry
      process_telemetry();
    
-     //Process Camera
-     //process_camera_function();
+     // Process Camera
+     // TODO: Figure out How to Write process_camera_function();
 
      //////////////////////////
      // WRITE TLM TO SD CARD //
      //////////////////////////
 
-   //Check if time to write data to SD Card 
-   if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
-   {
-     //write_telemetry_data_to_sd();
-      parameters.sd_card_write_elapsed_time = 0;
-   }
+     //Check if time to write data to SD Card 
+     if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
+     {
+       //write_telemetry_data_to_sd();
+        parameters.sd_card_write_elapsed_time = 0;
+     }
 
      //////////////////////////////
      // OUTPUT DATA TO ROCKBLOCK //
