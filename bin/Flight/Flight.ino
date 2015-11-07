@@ -88,6 +88,7 @@ void setup()
    
    
    parameters.intialization_timeout_time = 0;
+   parameters.prompt_from_user_makes_sense=0;
    
    while (parameters.intialization_timeout_time<INITIALIZATION_TIMEOUT) {
         // send data only when you receive data:
@@ -95,32 +96,39 @@ void setup()
                 char user_prompt = Serial.read();
               // userinput=Serial.readBytesUntil(lf, userinput, 10);
                  parameters.user_intialization_input += user_prompt; 
-                // say what you got:
-                Serial.println("I received: ");
-                
-                Serial.println(parameters.user_intialization_input);
-                
-                if (parameters.user_intialization_input =="t") {
-                  Serial.println("Then we are in Terminal-Test Mode");
-                  parameters.vehicle_mode=TERMINAL_TEST_MODE;
-                }
-                if (parameters.user_intialization_input =="c") {
-                  Serial.println("Then we are in Cutdown-Test Mode");
-                  parameters.vehicle_mode=CUTDOWN_TEST_MODE;
-                }
-                if (parameters.user_intialization_input =="f") {
-                  Serial.println("Then we are in Flight Mode");
-                  parameters.vehicle_mode=FLIGHT_MODE;
-                }
-                           
         }
-   } // end of the while loop on timer 
+   } // end while loop
+   
+   parameters.user_intialization_input.trim(); // remove trailling spaces: needed for comparison
+   
+    // say what you got:
+    Serial.println("I received: ");
+    Serial.println(parameters.user_intialization_input);
+    
+    if (parameters.user_intialization_input =="t") {
+      parameters.prompt_from_user_makes_sense=1;
+      Serial.println("Then we are in Terminal-Test Mode");
+      parameters.vehicle_mode=TERMINAL_TEST_MODE;
+    }
+    if (parameters.user_intialization_input =="c") {
+      parameters.prompt_from_user_makes_sense=1;
+      Serial.println("Then we are in Cutdown-Test Mode");
+      parameters.vehicle_mode=CUTDOWN_TEST_MODE;
+    }
+    if (parameters.user_intialization_input =="f") {
+      parameters.prompt_from_user_makes_sense=1;
+      Serial.println("Then we are in Flight Mode");
+      parameters.vehicle_mode=FLIGHT_MODE;
+    }
+    if ((parameters.user_intialization_input !="") &&(parameters.prompt_from_user_makes_sense==0)) {
+      Serial.println("I don't get what you want so I pick: we are in Flight Mode");
+      parameters.vehicle_mode=FLIGHT_MODE;
+    }
+    if (parameters.user_intialization_input =="") {
+      Serial.println("\nUser ... you are too slow I picked the mode for you: Flight Mode\n");
+      parameters.vehicle_mode=FLIGHT_MODE;
+    }
         
-   // ============= Did not receive anything and timeout ==================== //
-   if (parameters.vehicle_mode==DEFAULT_MODE) {
-       Serial.println("\nUser ... you are too slow I picked the mode for you: Flight Mode\n");
-       parameters.vehicle_mode=FLIGHT_MODE;
-   }
    delay(5000);
    Serial.print("\nFinally! The mode we are in is: "); 
    Serial.println(parameters.vehicle_mode);     
