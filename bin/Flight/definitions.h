@@ -206,7 +206,8 @@ struct parameter_struct
 
   int test_count;
   String user_intialization_input;
-  
+  int prompt_from_user_makes_sense;
+    
   double battery_1_recharge_ratio;
   double battery_1_amphrs_charging;
   double battery_1_amphrs_discharging;
