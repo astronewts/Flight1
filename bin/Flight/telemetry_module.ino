@@ -57,6 +57,11 @@ void collect_analog_telemetry()
   telemetry_data.battery_1_voltage_2 = ((raw_val * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
   delay(100);
   
+  //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
+}
+
+void collect_analog_battery_current_telemetry()
+{ 
   //Battery 1 Charge Current 1
   raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_1);
   telemetry_data.battery_1_charge_current_1 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;
@@ -68,28 +73,7 @@ void collect_analog_telemetry()
   delay(100);
 
   //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
-  
 }
-
-void collect_alt_data()
-{
-   alt.altitude_in_feet = baro.getHeightCentiMeters() / 30.48;
-   alt.temperature = baro.getTemperatureCentigrade() / 100.0;
-   alt.pressure = baro.getAvgNormPressurePascals();
-}
-
-void print_alt_data()
-{ 
-  Serial.println("-----------ALTIMITER Telemetry---------------"); 
-  Serial.print("Alt: Altitude in Feet: ");
-  Serial.println(alt.altitude_in_feet);
-  Serial.print("Alt: Temp:");
-  Serial.println(alt.temperature);
-  Serial.print("Alt: Pressure:");
-  Serial.println(alt.pressure);
-  Serial.println(" ");
-}
-
 
 void cutdown_check()
 {
@@ -126,6 +110,10 @@ void cutdown_check()
    }
 }
 
+void process_software_telemetry()
+{
+  // TODO: Fill this out with the Process Software Functionality
+}
 
 void process_telemetry()
 {
@@ -427,25 +415,25 @@ void process_telemetry()
   
   if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
   {
-  parameters.altitude_valid_flag = true;  
-  count_low_alt = 0 ; // counter: if counts 3 times below altitude thershold then cutdow
+     parameters.altitude_valid_flag = true;  
+     count_low_alt = 0 ; // counter: if counts 3 times below altitude thershold then cutdow
   }
   
   if(parameters.altitude_valid_flag == true)  // we are now flying 
   {
-  Serial.println("WE are floating !!! (test for altitude cutdow, line 419 in telemetry_module)");  
+      Serial.println("WE are floating !!! (test for altitude cutdow, line 419 in telemetry_module)");  
      
      if(alt.altitude_in_feet < parameters.altitude_limit_low) // if we are too low then start counting ... to 3
      {
-     count_low_alt = count_low_alt + 1;
+        count_low_alt = count_low_alt + 1;
      }
      
      if(count_low_alt == 3 ) // we have been too low for a few counts => initiate cut down
      {     
-     //Enter Emergency Descent Mode
-     Serial.println("SHIT we are too low: initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
-     set_emergency_decent_mode();
-     parameters.altitude_valid_flag = false; 
+        //Enter Emergency Descent Mode
+        Serial.println("SHIT we are too low: initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
+        set_emergency_decent_mode();
+        parameters.altitude_valid_flag = false; 
      }  
      
 // //The next section is commented as we will only rely on the altimeter for the critical altitude test. 
@@ -473,6 +461,11 @@ void process_telemetry()
    } // end of test on altitude 
    
 } // end of process telemetry
+
+
+/////////////////////////////////////////////////////////////////////////
+////  This section includes code which prints to the Terminal output ////
+/////////////////////////////////////////////////////////////////////////
 
 void print_analog_data()
 { 
@@ -554,6 +547,8 @@ void print_telemetry()
   Serial.println("");
   Serial.println("");
 }
+
+
 
 void print_cutdown_telemetry()
 {

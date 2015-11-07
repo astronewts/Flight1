@@ -149,6 +149,7 @@ void loop()
   {
      //Collect Analog Telemetry
      collect_analog_telemetry();
+     collect_analog_battery_current_telemetry();
 
      //TODO: Add Collections for the Digital GYRO Data
      
@@ -176,6 +177,7 @@ void loop()
 
     //Collect Analog Telemetry
      collect_analog_telemetry();
+     collect_analog_battery_current_telemetry();
 
      //TODO: Add Collections for the Digital Data
      
@@ -306,6 +308,12 @@ void set_defaults()
   parameters.camera_status = false;
   parameters.battery_1_charging_status = true;
   parameters.battery_2_charging_status = true;
+  parameters.battery_1_temp_tlm_valid_flag = false;
+  parameters.battery_2_temp_tlm_valid_flag = false;  
+  parameters.battery_voltage_tlm_valid_flag = false;
+  parameters.battery_1_current_tlm_valid_flag = false;
+  parameters.battery_2_current_tlm_valid_flag = false;
+  
   parameters.camera_period = DEFAULT_CAMERA_PERIOD;
   parameters.camera_on_time = DEFAULT_CAMERA_ON_TIME;
   parameters.altitude_valid_flag = false;

@@ -702,11 +702,16 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine(1, parameters.cutdown_1_status, parameters.output_dataword);                        //90-7
     parameters.output_dataword = combine(1, parameters.cutdown_2_status, parameters.output_dataword);                        //90-8
     parameters.output_dataword = combine(1, parameters.altitude_valid_flag, parameters.output_dataword);                     //90-9
-    parameters.output_dataword = combine(1, parameters.camera_status, parameters.output_dataword);                           //90-10
-    parameters.output_dataword = parameters.output_dataword + "000000";                                                      //90-[11-16]
-    parameters.output_dataword = combine_float(32,alt.altitude_in_feet,parameters.output_dataword);                          //91
-    parameters.output_dataword = combine_float(32,alt.temperature,parameters.output_dataword);                               //92
-    parameters.output_dataword = combine_float(32,alt.pressure,parameters.output_dataword);                                  //93  
+    parameters.output_dataword = combine(1, parameters.camera_enabled, parameters.output_dataword);                        //90-10
+    parameters.output_dataword = combine(1, parameters.camera_status, parameters.output_dataword);                          //90-11
+    parameters.output_dataword = combine(1, parameters.battery_1_temp_tlm_valid_flag, parameters.output_dataword);           //90-12 
+    parameters.output_dataword = combine(1, parameters.battery_2_temp_tlm_valid_flag, parameters.output_dataword);           //90-13
+    parameters.output_dataword = combine(1, parameters.battery_voltage_tlm_valid_flag, parameters.output_dataword);          //90-14
+    parameters.output_dataword = combine(1, parameters.battery_1_current_tlm_valid_flag, parameters.output_dataword);        //90-15 
+    parameters.output_dataword = combine(1, parameters.battery_2_current_tlm_valid_flag, parameters.output_dataword);         //90-16   
+    parameters.output_dataword = combine_float(32,alt.altitude_in_feet, parameters.output_dataword);                          //91
+    parameters.output_dataword = combine_float(32,alt.temperature, parameters.output_dataword);                               //92
+    parameters.output_dataword = combine_float(32,alt.pressure, parameters.output_dataword);                                  //93  
     parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //94
   }
 }

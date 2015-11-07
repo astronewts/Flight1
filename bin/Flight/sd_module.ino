@@ -198,26 +198,24 @@ void sd_setup() {
   bout << pstr(",Camera On Time");                      //89
   bout << pstr(",Battery 1 Charging Status");           //90-1
   bout << pstr(",Battery 2 Charging Status");           //90-2
-  bout << pstr(",Heater State 1");                      //90-3
-  bout << pstr(",Heater State 2");                      //90-4
-  bout << pstr(",Cut-down Enable");                     //90-5
-  bout << pstr(",Cut-down 1 Fire Status");              //90-6
-  bout << pstr(",Cut-down 2 Fire Status");              //90-7
-  bout << pstr(",Altitude Valid Flag");                 //90-8
-  bout << pstr(",Camera Enabled");                      //90-9
-  bout << pstr(",Camera Status");                       //90-10
-  bout << pstr(",Spare Flag 1");                        //90-11  
-  bout << pstr(",Spare Flag 2");                        //90-12
-  bout << pstr(",Spare Flag 3");                        //90-13   
-  bout << pstr(",Spare Flag 4");                        //90-14
-  bout << pstr(",Spare Flag 5");                        //90-15
-  bout << pstr(",Spare Flag 6");                        //90-16   
+  bout << pstr(",Battery Bus Low Voltage Flag");        //90-3  
+  bout << pstr(",Heater State 1");                      //90-4
+  bout << pstr(",Heater State 2");                      //90-5
+  bout << pstr(",Cut-down Enable");                     //90-6
+  bout << pstr(",Cut-down 1 Fire Status");              //90-7
+  bout << pstr(",Cut-down 2 Fire Status");              //90-8
+  bout << pstr(",Altitude Valid Flag");                 //90-9
+  bout << pstr(",Camera Enabled");                      //90-10
+  bout << pstr(",Camera Status");                       //90-11
+  bout << pstr(",Battery 1 Temp TLM Valid Flag");       //90-12  
+  bout << pstr(",Battery 2 Temp TLM Valid Flag");       //90-13  
+  bout << pstr(",Bus Voltage TLM Valid Flag");          //90-14   
+  bout << pstr(",Battery 1 Current TLM Valid Flag");    //90-15
+  bout << pstr(",Battery 2 Current TLM Valid Flag");    //90-16  
   bout << pstr(",Altitude (ft)");                       //91
   bout << pstr(",Alt Temp");                            //92
   bout << pstr(",Alt Pressure");                        //93 
   bout << pstr(",Spare 5");                             //94 
-  
-
   logfile << buf << endl << flush;
 
 #if ECHO_TO_SERIAL
@@ -371,7 +369,11 @@ void write_telemetry_data_to_sd()
   bout << ',' << parameters.altitude_valid_flag;                       //90-9
   bout << ',' << parameters.camera_enabled;                            //90-10
   bout << ',' << parameters.camera_status;                             //90-11
-  bout << ',' << "000000";                                             //90-[12-16]
+  bout << ',' << parameters.battery_1_temp_tlm_valid_flag;             //90-12
+  bout << ',' << parameters.battery_2_temp_tlm_valid_flag;             //90-13  
+  bout << ',' << parameters.battery_voltage_tlm_valid_flag;            //90-14
+  bout << ',' << parameters.battery_1_current_tlm_valid_flag;          //90-15
+  bout << ',' << parameters.battery_2_current_tlm_valid_flag;          //90-16     
   bout << ',' << alt.altitude_in_feet;                                 //91
   bout << ',' << alt.temperature;                                      //92
   bout << ',' << alt.pressure;                                         //93

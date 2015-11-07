@@ -194,6 +194,11 @@ struct parameter_struct
   unsigned long camera_on_time;
   bool battery_1_charging_status;
   bool battery_2_charging_status;
+  bool battery_1_temp_tlm_valid_flag; 
+  bool battery_2_temp_tlm_valid_flag;   
+  bool battery_voltage_tlm_valid_flag;
+  bool battery_1_current_tlm_valid_flag;
+  bool battery_2_current_tlm_valid_flag;
   
   bool altitude_valid_flag;
   int altitude_limit_low;
