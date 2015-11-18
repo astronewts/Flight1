@@ -84,7 +84,7 @@ void setup()
    Serial.println(" PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
    Serial.print(" (you have ");
    Serial.print(INITIALIZATION_TIMEOUT/1000);
-   Serial.println(" seconds): ");
+   //Serial.println(" seconds): ");
    
    
    parameters.intialization_timeout_time = 0;
