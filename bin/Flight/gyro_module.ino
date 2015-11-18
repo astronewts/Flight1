@@ -1,18 +1,66 @@
-#include "Arduino.h"
+////////////////////////////////////////////////////////////////////////////
+//
+//  This file is part of MPU9150Lib
+//
+//  Copyright (c) 2013 Pansenti, LLC
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy of 
+//  this software and associated documentation files (the "Software"), to deal in 
+//  the Software without restriction, including without limitation the rights to use, 
+//  copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the 
+//  Software, and to permit persons to whom the Software is furnished to do so, 
+//  subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all 
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+//  PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+//  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+//  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+//  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+//  The Due version has built in tools for accela nd mag calibration. While in normal mode,
+//  enter:
+//
+//  'a' - enter accel calibration mode.
+//  'm' - enter mag calibration mode.
+//
+//  The calibration routines behave just like the individual sketches for AVR Arduinos.
+//  Enter 's' to save the data, 'x' to exit. So, move the MPU-9150 around as normal for caliibration
+//  and then enter 's' to save the data, followed by 'x'. If something went wrong, just enter 'x'
+//  to discard the data.
+//
+//  *** Inportant Note ***
+//
+//  The calibration data is stored in flash and is overwritten every time a new sketch is uploaded.
+
 #include <Wire.h>
+#include "I2Cdev.h"
+#include "MPU9150Lib.h"
+#include "CalLib.h"
+#include "DueFlash.h"
+#include <dmpKey.h>
+#include <dmpmap.h>
+#include <inv_mpu.h>
+#include <inv_mpu_dmp_motion_driver.h>
 
 //  DEVICE_TO_USE selects whether the IMU at address 0x68 (default) or 0x69 is used
 //    0 = use the device at 0x68
 //    1 = use the device at ox69
+
 #define  DEVICE_TO_USE    0
 
-MPU9150Lib dueMPU;   // the MPU object
+MPU9150Lib dueMPU;                                              // the MPU object
 
 //  MPU_UPDATE_RATE defines the rate (in Hz) at which the MPU updates the sensor data and DMP output
+
 #define MPU_UPDATE_RATE  (20)
 
 //  MAG_UPDATE_RATE defines the rate (in Hz) at which the MPU updates the magnetometer data
 //  MAG_UPDATE_RATE should be less than or equal to the MPU_UPDATE_RATE
+
 #define MAG_UPDATE_RATE  (10)
 
 //  MPU_MAG_MIX defines the influence that the magnetometer has on the yaw output.
@@ -24,28 +72,15 @@ MPU9150Lib dueMPU;   // the MPU object
 #define  MPU_MAG_MIX_GYRO_AND_MAG       10                  // a good mix value 
 #define  MPU_MAG_MIX_GYRO_AND_SOME_MAG  50                  // mainly gyros with a bit of mag correction 
 
-
-// Address definition of Temp Sensors ...? Maybe do this for the other too ... 
-#define MPU9150_TEMP_OUT_H         0x41   // R  
-#define MPU9150_TEMP_OUT_L         0x42   // R  
-int MPU9150_I2C_ADDRESS = 0x68;
-
 //  MPU_LPF_RATE is the low pas filter rate and can be between 5 and 188Hz
 
 #define MPU_LPF_RATE   100
 
 //  SERIAL_PORT_SPEED defines the speed to use for the debug serial port
+
 #define  SERIAL_PORT_SPEED  9600
 
-#define MIN_X 0      // Indexing values for calibration offset
-#define MAX_X 1
-#define MIN_Y 2
-#define MAX_Y 3
-#define MIN_Z 4
-#define MAX_Z 5
-
 int loopState;                                              // what code to run in the loop
-double gyro_temp;
 
 #define  LOOPSTATE_NORMAL  0                                // normal execution
 #define  LOOPSTATE_MAGCAL  1                                // mag calibration
@@ -80,6 +115,8 @@ boolean duePoll()
 
 void gyro_setup()
 {
+  Serial.begin(SERIAL_PORT_SPEED);
+  Serial.print("Arduino9150 starting using device "); Serial.println(DEVICE_TO_USE);
   Wire.begin();
   mpuInit();
   loopState = LOOPSTATE_NORMAL;
@@ -87,26 +124,7 @@ void gyro_setup()
   lastPollTime = millis();
 }
 
-int MPU9150_readSensor(int addrL, int addrH){
-  Wire.beginTransmission(MPU9150_I2C_ADDRESS);
-  Wire.write(addrL);
-  Wire.endTransmission(false);
-
-  Wire.requestFrom(MPU9150_I2C_ADDRESS, 1, true);
-  byte L = Wire.read();
-
-  Wire.beginTransmission(MPU9150_I2C_ADDRESS);
-  Wire.write(addrH);
-  Wire.endTransmission(false);
-
-  Wire.requestFrom(MPU9150_I2C_ADDRESS, 1, true);
-  byte H = Wire.read();
-
-  return (int16_t)((H<<8)+L);
-}
-
-
-void get_gyro_data()
+void loop()
 {  
   if (Serial.available()) {
     switch (Serial.read()) {
@@ -121,41 +139,20 @@ void get_gyro_data()
         return;
     }
   }  
-
+  
+  dueMPU.selectDevice(DEVICE_TO_USE);                         // only needed if device has changed since init but good form anyway
   switch (loopState) {
     case LOOPSTATE_NORMAL:
-   
-        dueMPU.read();  // get the latest data if ready yet
-		    Serial.print("Gyro - Quaternion: ");
-
-        gyro.gyro_temp = ((double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
-        
-        Serial.print("Gyro - Temp Data: ");  
-        Serial.print(gyro_temp);
-        Serial.println();
-
-        dueMPU.printQuaternion(dueMPU.m_rawQuaternion);       // print the raw quaternion from the dmp
-        Serial.println();
-	     	Serial.print("Gyro - Raw Mag Data: ");      
-	      dueMPU.printVector(dueMPU.m_rawMag);                  // print the raw mag data
-        Serial.println();
-		    Serial.print("Gyro - Raw Accel Data: ");
-        dueMPU.printVector(dueMPU.m_rawAccel);                // print the raw accel data
-		    Serial.println();
-		    Serial.print("Gyro - Euler angles from DMP: ");
-        dueMPU.printAngles(dueMPU.m_dmpEulerPose);            // the Euler angles from the dmp quaternion
-		    Serial.println(); 
-		    // there is a pb in the the scaling of callibrated acceleration as they are supposed to be in g  XXXXXXXXXXX
-        Serial.print("Gyro - Calibrated Accel Data: ");
-        dueMPU.printVector(dueMPU.m_calAccel);                // print the calibrated accel data
-		    Serial.println();
-		    Serial.print("Gyro - Calibrated Mag Data: ");
-        dueMPU.printVector(dueMPU.m_calMag);                  // print the calibrated mag data
-		    Serial.println();
-		    Serial.print("Gyro - Data Fusion: ");
+      if (duePoll()) {                                        // get the latest data if ready yet
+//      dueMPU.printQuaternion(dueMPU.m_rawQuaternion);       // print the raw quaternion from the dmp
+//      dueMPU.printVector(dueMPU.m_rawMag);                  // print the raw mag data
+//      dueMPU.printVector(dueMPU.m_rawAccel);                // print the raw accel data
+//      dueMPU.printAngles(dueMPU.m_dmpEulerPose);            // the Euler angles from the dmp quaternion
+//      dueMPU.printVector(dueMPU.m_calAccel);                // print the calibrated accel data
+//      dueMPU.printVector(dueMPU.m_calMag);                  // print the calibrated mag data
         dueMPU.printAngles(dueMPU.m_fusedEulerPose);          // print the output of the data fusion
-		    Serial.println();
-       
+        Serial.println();
+      }
       break;
         
     case LOOPSTATE_MAGCAL:
@@ -166,52 +163,6 @@ void get_gyro_data()
       accelCalLoop();
       break;
  }
-}
-
-bool updateMinMax(const short val, short *minimum, short *maximum) {
-  bool updated = (val < *minimum) || (val > *maximum);
-  *minimum = min(*minimum, val);
-  *maximum = max(*maximum, val);
-  return updated;
-}
-
-void callLoop(const char *type, short vec[3], short cal[6]) {
-  boolean changed;
-  
-  if (duePoll()) {                                          // get the latest data
-    changed = false;
-    changed |= updateMinMax(vec[VEC3_X], &cal[MIN_X], &cal[MAX_X]);
-    changed |= updateMinMax(vec[VEC3_Y], &cal[MIN_Y], &cal[MAX_Y]);
-    changed |= updateMinMax(vec[VEC3_Z], &cal[MIN_Z], &cal[MAX_Z]);
- 
-    if (changed) {
-      Serial.println("-------");
-      Serial.print("minX: "); Serial.print(cal[MIN_X]);
-      Serial.print(" maxX: "); Serial.print(cal[MAX_X]); Serial.println();
-      Serial.print("minY: "); Serial.print(cal[MIN_Y]);
-      Serial.print(" maxY: "); Serial.print(cal[MAX_Y]); Serial.println();
-      Serial.print("minZ: "); Serial.print(cal[MIN_Z]);
-      Serial.print(" maxZ: "); Serial.print(cal[MAX_Z]); Serial.println();
-    }
-  }
-  
-  if (Serial.available()) {
-    switch (Serial.read()) {
-      case 's':
-      case 'S':
-        calData.accelValid = true;
-        calLibWrite(DEVICE_TO_USE, &calData);
-        Serial.print(type);
-        Serial.print(" cal data saved for device "); Serial.println(DEVICE_TO_USE);
-        break;
-        
-      case 'x':
-      case 'X':
-        loopState = LOOPSTATE_NORMAL;
-        Serial.println("\n\n *** restart to use calibrated data ***");
-       break;
-    }
-  }
 }
 
 void magCalStart(void)
@@ -232,14 +183,62 @@ void magCalStart(void)
 
 void magCalLoop()
 {
-  short cal[6];
-  cal[MIN_X] = calData.magMinX;
-  cal[MAX_X] = calData.magMaxX;
-  cal[MIN_Y] = calData.magMinY;
-  cal[MAX_Y] = calData.magMaxY;
-  cal[MIN_Z] = calData.magMinZ;
-  cal[MAX_Z] = calData.magMaxZ;
-  callLoop("Magnetometer", dueMPU.m_rawMag, cal);
+  boolean changed;
+  
+  if (duePoll()) {                                         // get the latest data
+    changed = false;
+    if (dueMPU.m_rawMag[VEC3_X] < calData.magMinX) {
+      calData.magMinX = dueMPU.m_rawMag[VEC3_X];
+      changed = true;
+    }
+     if (dueMPU.m_rawMag[VEC3_X] > calData.magMaxX) {
+      calData.magMaxX = dueMPU.m_rawMag[VEC3_X];
+      changed = true;
+    }
+    if (dueMPU.m_rawMag[VEC3_Y] < calData.magMinY) {
+      calData.magMinY = dueMPU.m_rawMag[VEC3_Y];
+      changed = true;
+    }
+     if (dueMPU.m_rawMag[VEC3_Y] > calData.magMaxY) {
+      calData.magMaxY = dueMPU.m_rawMag[VEC3_Y];
+      changed = true;
+    }
+    if (dueMPU.m_rawMag[VEC3_Z] < calData.magMinZ) {
+      calData.magMinZ = dueMPU.m_rawMag[VEC3_Z];
+      changed = true;
+    }
+    if (dueMPU.m_rawMag[VEC3_Z] > calData.magMaxZ) {
+      calData.magMaxZ = dueMPU.m_rawMag[VEC3_Z];
+      changed = true;
+    }
+ 
+    if (changed) {
+      Serial.println("-------");
+      Serial.print("minX: "); Serial.print(calData.magMinX);
+      Serial.print(" maxX: "); Serial.print(calData.magMaxX); Serial.println();
+      Serial.print("minY: "); Serial.print(calData.magMinY);
+      Serial.print(" maxY: "); Serial.print(calData.magMaxY); Serial.println();
+      Serial.print("minZ: "); Serial.print(calData.magMinZ);
+      Serial.print(" maxZ: "); Serial.print(calData.magMaxZ); Serial.println();
+    }
+  }
+  
+  if (Serial.available()) {
+    switch (Serial.read()) {
+      case 's':
+      case 'S':
+        calData.magValid = true;
+        calLibWrite(DEVICE_TO_USE, &calData);
+        Serial.print("Mag cal data saved for device "); Serial.println(DEVICE_TO_USE);
+        break;
+        
+      case 'x':
+      case 'X':
+        loopState = LOOPSTATE_NORMAL;
+        Serial.println("\n\n *** restart to use calibrated data ***");
+        break;
+    }
+  }  
 }
 
 void accelCalStart(void)
@@ -261,13 +260,61 @@ void accelCalStart(void)
 
 void accelCalLoop()
 {
-  short cal[6];
-  cal[MIN_X] = calData.accelMinX;
-  cal[MAX_X] = calData.accelMaxX;
-  cal[MIN_Y] = calData.accelMinY;
-  cal[MAX_Y] = calData.accelMaxY;
-  cal[MIN_Z] = calData.accelMinZ;
-  cal[MAX_Z] = calData.accelMaxZ;
-  callLoop("Acceleration", dueMPU.m_rawAccel, cal);
+  boolean changed;
+  
+  if (duePoll()) {                                          // get the latest data
+    changed = false;
+    if (dueMPU.m_rawAccel[VEC3_X] < calData.accelMinX) {
+      calData.accelMinX = dueMPU.m_rawAccel[VEC3_X];
+      changed = true;
+    }
+    if (dueMPU.m_rawAccel[VEC3_X] > calData.accelMaxX) {
+      calData.accelMaxX = dueMPU.m_rawAccel[VEC3_X];
+      changed = true;
+    }
+    if (dueMPU.m_rawAccel[VEC3_Y] < calData.accelMinY) {
+      calData.accelMinY = dueMPU.m_rawAccel[VEC3_Y];
+      changed = true;
+    }
+    if (dueMPU.m_rawAccel[VEC3_Y] > calData.accelMaxY) {
+      calData.accelMaxY = dueMPU.m_rawAccel[VEC3_Y];
+      changed = true;
+    }
+    if (dueMPU.m_rawAccel[VEC3_Z] < calData.accelMinZ) {
+      calData.accelMinZ = dueMPU.m_rawAccel[VEC3_Z];
+      changed = true;
+    }
+    if (dueMPU.m_rawAccel[VEC3_Z] > calData.accelMaxZ) {
+      calData.accelMaxZ = dueMPU.m_rawAccel[VEC3_Z];
+      changed = true;
+    }
+ 
+    if (changed) {
+      Serial.println("-------");
+      Serial.print("minX: "); Serial.print(calData.accelMinX);
+      Serial.print(" maxX: "); Serial.print(calData.accelMaxX); Serial.println();
+      Serial.print("minY: "); Serial.print(calData.accelMinY);
+      Serial.print(" maxY: "); Serial.print(calData.accelMaxY); Serial.println();
+      Serial.print("minZ: "); Serial.print(calData.accelMinZ);
+      Serial.print(" maxZ: "); Serial.print(calData.accelMaxZ); Serial.println();
+    }
+  }
+  
+  if (Serial.available()) {
+    switch (Serial.read()) {
+      case 's':
+      case 'S':
+        calData.accelValid = true;
+        calLibWrite(DEVICE_TO_USE, &calData);
+        Serial.print("Accel cal data saved for device "); Serial.println(DEVICE_TO_USE);
+        break;
+        
+      case 'x':
+      case 'X':
+        loopState = LOOPSTATE_NORMAL;
+        Serial.println("\n\n *** restart to use calibrated data ***");
+       break;
+    }
+  }  
 }
 
