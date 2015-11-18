@@ -150,15 +150,17 @@ private:
         for(uint8_t i=0; i<6; ++i)
             coefficients_[i] = ReadCoefficient(i + 1);  
             
-
-   for(uint8_t i=0; i<6; ++i)
+   /*
+        for(uint8_t i=0; i<6; ++i)
         {
             Serial.print("Coefficient ");
             Serial.print(i + 1, DEC);
             Serial.print(" : ");
             Serial.println(coefficients_[i], DEC);
         }
+    */  
     }
+
 
     uint16_t ReadCoefficient(const uint8_t coefNum)
     {
@@ -180,7 +182,7 @@ private:
         }
         else
         {
-       Serial.println("No data available in ReadCoefficient()");
+            Serial.println("No data available in ReadCoefficient()");
         }
     
         return 0;

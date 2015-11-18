@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ////////////////////////////////////////////////////////////////////////////
 //
 //  This file is part of MPU9150Lib
@@ -36,6 +37,10 @@
 //
 //  The calibration data is stored in flash and is overwritten every time a new sketch is uploaded.
 
+=======
+
+#include "Arduino.h"
+>>>>>>> 63fc17cd63cfb3949cf269a8909f5c3ccd0a3834
 #include <Wire.h>
 #include "I2Cdev.h"
 #include "MPU9150Lib.h"

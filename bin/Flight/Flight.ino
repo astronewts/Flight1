@@ -88,6 +88,7 @@ void setup()
    
    
    parameters.intialization_timeout_time = 0;
+   parameters.prompt_from_user_makes_sense=0;
    
    while (parameters.intialization_timeout_time<INITIALIZATION_TIMEOUT) {
         // send data only when you receive data:
@@ -95,32 +96,39 @@ void setup()
                 char user_prompt = Serial.read();
               // userinput=Serial.readBytesUntil(lf, userinput, 10);
                  parameters.user_intialization_input += user_prompt; 
-                // say what you got:
-                Serial.println("I received: ");
-                
-                Serial.println(parameters.user_intialization_input);
-                
-                if (parameters.user_intialization_input =="t") {
-                  Serial.println("Then we are in Terminal-Test Mode");
-                  parameters.vehicle_mode=TERMINAL_TEST_MODE;
-                }
-                if (parameters.user_intialization_input =="c") {
-                  Serial.println("Then we are in Cutdown-Test Mode");
-                  parameters.vehicle_mode=CUTDOWN_TEST_MODE;
-                }
-                if (parameters.user_intialization_input =="f") {
-                  Serial.println("Then we are in Flight Mode");
-                  parameters.vehicle_mode=FLIGHT_MODE;
-                }
-                           
         }
-   } // end of the while loop on timer 
+   } // end while loop
+   
+   parameters.user_intialization_input.trim(); // remove trailling spaces: needed for comparison
+   
+    // say what you got:
+    Serial.println("I received: ");
+    Serial.println(parameters.user_intialization_input);
+    
+    if (parameters.user_intialization_input =="t") {
+      parameters.prompt_from_user_makes_sense=1;
+      Serial.println("Then we are in Terminal-Test Mode");
+      parameters.vehicle_mode=TERMINAL_TEST_MODE;
+    }
+    if (parameters.user_intialization_input =="c") {
+      parameters.prompt_from_user_makes_sense=1;
+      Serial.println("Then we are in Cutdown-Test Mode");
+      parameters.vehicle_mode=CUTDOWN_TEST_MODE;
+    }
+    if (parameters.user_intialization_input =="f") {
+      parameters.prompt_from_user_makes_sense=1;
+      Serial.println("Then we are in Flight Mode");
+      parameters.vehicle_mode=FLIGHT_MODE;
+    }
+    if ((parameters.user_intialization_input !="") &&(parameters.prompt_from_user_makes_sense==0)) {
+      Serial.println("I don't get what you want so I pick: we are in Flight Mode");
+      parameters.vehicle_mode=FLIGHT_MODE;
+    }
+    if (parameters.user_intialization_input =="") {
+      Serial.println("\nUser ... you are too slow I picked the mode for you: Flight Mode\n");
+      parameters.vehicle_mode=FLIGHT_MODE;
+    }
         
-   // ============= Did not receive anything and timeout ==================== //
-   if (parameters.vehicle_mode==DEFAULT_MODE) {
-       Serial.println("\nUser ... you are too slow I picked the mode for you: Flight Mode\n");
-       parameters.vehicle_mode=FLIGHT_MODE;
-   }
    delay(5000);
    Serial.print("\nFinally! The mode we are in is: "); 
    Serial.println(parameters.vehicle_mode);     
@@ -149,6 +157,7 @@ void loop()
   {
      //Collect Analog Telemetry
      collect_analog_telemetry();
+     collect_analog_battery_current_telemetry();
 
      //TODO: Add Collections for the Digital GYRO Data
      
@@ -176,6 +185,7 @@ void loop()
 
     //Collect Analog Telemetry
      collect_analog_telemetry();
+     collect_analog_battery_current_telemetry();
 
      //TODO: Add Collections for the Digital Data
      
@@ -274,7 +284,7 @@ void set_defaults()
   thresholds.survival_battery_temperature_limit_low  = DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW;
   
   thresholds.normal_transmit_period = DEFAULT_NORMAL_TRANSMIT_RATE;
-  thresholds.test_transmit_period = DEFAULT_TEST_TRANSMIT_RATE;
+  thresholds.spare_transmit_period = DEFAULT_SPARE_TRANSMIT_RATE;
   thresholds.transit_transmit_period = DEFAULT_TRANSIT_TRANSMIT_RATE;
   thresholds.load_shed_transmit_period = DEFAULT_LOAD_SHED_TRANSMIT_RATE;
   thresholds.emergency_transit_transmit_period = DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE;
@@ -306,6 +316,12 @@ void set_defaults()
   parameters.camera_status = false;
   parameters.battery_1_charging_status = true;
   parameters.battery_2_charging_status = true;
+  parameters.battery_1_temp_tlm_valid_flag = false;
+  parameters.battery_2_temp_tlm_valid_flag = false;  
+  parameters.battery_voltage_tlm_valid_flag = false;
+  parameters.battery_1_current_tlm_valid_flag = false;
+  parameters.battery_2_current_tlm_valid_flag = false;
+  
   parameters.camera_period = DEFAULT_CAMERA_PERIOD;
   parameters.camera_on_time = DEFAULT_CAMERA_ON_TIME;
   parameters.altitude_valid_flag = false;
@@ -417,7 +433,7 @@ void set_transit_mode()
    parameters.vehicle_mode = TRANSIT_MODE;
 }
 
-void set_test_mode()
+void set_spare_mode()
 {   
    //Set Camera flag to true
    parameters.camera_status = true;
@@ -427,7 +443,7 @@ void set_test_mode()
    parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
    
    //Set Transmit Rate
-   parameters.transmit_period = thresholds.test_transmit_period;
+   parameters.transmit_period = thresholds.spare_transmit_period;
    parameters.vehicle_mode = 5;
 }
 
