@@ -39,13 +39,14 @@
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80    
 #define DEFAULT_NORMAL_TRANSMIT_RATE               15000 // TEST ONLY!!!
 //#define DEFAULT_NORMAL_TRANSMIT_RATE             1200000 // FOR FLIGHT!!!
-#define DEFAULT_SPARE_TRANSMIT_RATE                 60000
+#define DEFAULT_SPARE_TRANSMIT_RATE                60000
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              30000
 #define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45000
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
 #define DEFAULT_PYRO_PULSE_WIDTH                   8000
 #define DEFAULT_SD_CARD_WRITE_PERIOD               6000 // TEST ONLY!!!
 //#define DEFAULT_SD_CARD_WRITE_PERIOD             60000  // FOR FLIGHT !!!
+#define DEFAULT_TLM_PROCESSING_PERIOD              5000
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
 #define DEFAULT_ALTITUDE_LIMIT_LOW                 65000  // 97:for test in living room  //  A2 ft
@@ -168,6 +169,7 @@ struct parameter_struct
   unsigned long loop_sleep;
   unsigned long transmit_period;  
   unsigned long sd_card_write_period;
+  unsigned long tlm_processing_period;
   int vehicle_mode;
   int command_count;
   int battery_temperature_limit_high;
@@ -230,6 +232,7 @@ struct parameter_struct
   elapsedMillis cutdown_initiation_elapsed_time;
   elapsedMillis transmit_elapsed_time;
   elapsedMillis sd_card_write_elapsed_time;
+  elapsedMillis tlm_processing_time;
   elapsedMillis battery_1_charge_current_read_elapsed_time;
   elapsedMillis battery_2_charge_current_read_elapsed_time;
   elapsedMillis intialization_timeout_time;
