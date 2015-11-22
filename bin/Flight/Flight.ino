@@ -168,8 +168,7 @@ void loop()
      collect_alt_data();
 
      // Process All Software Data    
-
-     // TODO: DETERMINE WHAT FUNCTIONS WE WANT TO RUN IN TERMINAL TEST MODE
+     process_telemetry();
 
      // Print All Collected TLM to the Terminal Window
      print_telemetry();
@@ -184,37 +183,27 @@ void loop()
      // EXECUTE FLIGHT CODE //
      /////////////////////////
 
-     // Execute High Rate Code
+    //Collect Analog Telemetry
+     collect_analog_telemetry();
      collect_analog_battery_current_telemetry();
-     process_charge_current_tlm();
-    
-     // Execute Nominal Rate Code
-     // Collect Analog Telemetry
-     if(parameters.tlm_processing_time > parameters.tlm_processing_period)
-     {
-       collect_analog_telemetry();
-  
-       //TODO: Add Collections for the Digital Data
-       
-       // Collect GPS Data
-       get_gps_data(); 
-       
-       // Collect_Gyro_data();
-       //TODO: Add Collections for the Digital GYRO Data
-        
-       // Collect Altimiter Data
-       collect_alt_data();
-       
-       // RUN FLIGHT HOUSEKEEPING CODE
-       execute_thermal_control_check();
-       execute_electrical_control_check();
+
+     //TODO: Add Collections for the Digital Data
+     
+     // Collect GPS Data
+     get_gps_data(); 
+     
+     // Collect_Gyro_data();
+     //TODO: Add Collections for the Digital GYRO Data
       
+     // Collect Altimiter Data
+     collect_alt_data();
      
-       // Process Camera
-       // TODO: Figure out How to Write process_camera_function();
-       parameters.tlm_processing_time = 0.0;
-     }
-     
+     // Process telemetry
+     process_telemetry();
+   
+     // Process Camera
+     // TODO: Figure out How to Write process_camera_function();
+
      //////////////////////////
      // WRITE TLM TO SD CARD //
      //////////////////////////
@@ -319,7 +308,6 @@ void set_defaults()
   parameters.charge_current_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
   parameters.transmit_period = thresholds.normal_transmit_period;
   parameters.sd_card_write_period = DEFAULT_SD_CARD_WRITE_PERIOD;
-  parameters.tlm_processing_period = DEFAULT_TLM_PROCESSING_PERIOD;
   parameters.cutdown_pulse_width = DEFAULT_PYRO_PULSE_WIDTH;
   parameters.cutdown_enable_state = false;
   parameters.cutdown_1_status = false;
