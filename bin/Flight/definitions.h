@@ -39,17 +39,29 @@
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80    
 #define DEFAULT_NORMAL_TRANSMIT_RATE               15000 // TEST ONLY!!!
 //#define DEFAULT_NORMAL_TRANSMIT_RATE             1200000 // FOR FLIGHT!!!
-#define DEFAULT_SPARE_TRANSMIT_RATE                 60000
+#define DEFAULT_SPARE_TRANSMIT_RATE                60000
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              30000
 #define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45000
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
+
+#define DEFAULT_RB_AT_BUS_TIMEOUT                  20 // seconds // Default is 20 seconds
+#define DEFAULT_RB_SEND_RECIEVE_TIMEOUT            90 // seconds // Default is 300 seconds
+
+// Use "1" for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
+// Use "0" for "high current" applications; interval between transmit retries is 20 seconds    
+#define DEFAULT_RB_POWER_MODE                      1 
+
 #define DEFAULT_PYRO_PULSE_WIDTH                   8000
+
 #define DEFAULT_SD_CARD_WRITE_PERIOD               6000 // TEST ONLY!!!
+
 //#define DEFAULT_SD_CARD_WRITE_PERIOD             60000  // FOR FLIGHT !!!
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
+
 #define DEFAULT_ALTITUDE_LIMIT_LOW                 65000  // 97:for test in living room  //  A2 ft
 #define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          75000  // 101:for test in living room //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
+
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           -0.1
 #define DEFAULT_B1_AMPHRS_INIT_THRESHOLD           -0.5  
