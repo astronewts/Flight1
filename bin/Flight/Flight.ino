@@ -69,16 +69,7 @@ void setup()
    baro.init();
    set_normal_mode();
    //sd_setup();
-   
-   // Start/Wake-Up the RockBLOCK modem to power it and prepare it to communicate.
-   //isbd.begin();
-    
-   // isbd.setPowerProfile(1); // DEFAULT Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
-   // isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
-    
-   ////////////////////////////////////////////////////
-   // ADD PROMPT WITH TIMEOUT HERE!!!
-   ////////////////////////////////////////////////////
+   initialize_rb();
 
    Serial.println("/nFLIGHT CODE START: /n");  
    Serial.println(" PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
@@ -239,8 +230,8 @@ void loop()
      // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
      if(parameters.transmit_elapsed_time > parameters.transmit_period)
      {
-        sendreceive_satellite_data();
         parameters.transmit_elapsed_time = 0;
+        sendreceive_satellite_data(); 
      }
 
   }

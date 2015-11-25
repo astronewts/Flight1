@@ -6,7 +6,28 @@
 #define MSEC_IN_SEC 1000
 
 // Set the RB Debug Mode 
-bool rb_debug_mode = 1; // 0 = Normal, 1 = Active Debug, 
+bool rb_debug_mode = 0; // 0 = Normal, 1 = Active Debug, 
+
+void initialize_rb()
+{
+    // Set RB Timeout Variables
+    isbd.adjustATTimeout(DEFAULT_RB_AT_BUS_TIMEOUT); // Default is 20 seconds
+    isbd.adjustSendReceiveTimeout(DEFAULT_RB_SEND_RECIEVE_TIMEOUT); // Default is 300 seconds
+
+    isbd.setPowerProfile(DEFAULT_RB_POWER_MODE ); // Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
+    // isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
+
+    if (isbd.isAsleep() == 1)
+    {
+      isbd.begin();
+      if(rb_debug_mode == 1)
+      {
+        Serial.println(" ");
+        Serial.println("########################### isdb.begin() was just commanded ################################");
+        Serial.println(" ");
+      }
+    }
+}
 
 void sendreceive_satellite_data()
 {
@@ -22,9 +43,11 @@ void sendreceive_satellite_data()
     // determine number of bytes in dataword
     size_t tx_bufferSize  = size_mssg / 8;
     tx_bufferSize += size_mssg % 8 ? 1 : 0;
-    Serial.println("numb of bytes in mssg:");
-    Serial.println(tx_bufferSize);
-
+    if(rb_debug_mode == 1)
+    {
+       Serial.println("numb of bytes in mssg:");
+       Serial.println(tx_bufferSize);
+    }
     // create unsigned integer array for input to Iridium send/receive function
     uint8_t tx_buffer[tx_bufferSize];
 
@@ -85,15 +108,9 @@ void sendreceive_satellite_data()
       Serial.print("Sleep Status (#1):");
       Serial.println(isbd.isAsleep());   
     }
-
-    // Set RB Timeout Variables
-    isbd.adjustATTimeout(DEFAULT_RB_AT_BUS_TIMEOUT); // Default is 20 seconds
-    isbd.adjustSendReceiveTimeout(DEFAULT_RB_SEND_RECIEVE_TIMEOUT); // Default is 300 seconds
-
-    isbd.setPowerProfile(DEFAULT_RB_POWER_MODE ); // Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
-    // isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
-      
+     
     // begin =  Starts (or wakes) the RockBLOCK modem and prepare it to communicate.
+    
     if (isbd.isAsleep() == 1)
     {
       isbd.begin();
@@ -121,25 +138,37 @@ void sendreceive_satellite_data()
     // Parameter:     quality – Return value: the strength of the signal (0=nonexistent, 5=high)
 
     int signalQuality = -1;
-    int err = isbd.getSignalQuality(signalQuality);
+    int sig_qual_err = isbd.getSignalQuality(signalQuality);
 
     if(rb_debug_mode == 1)
     {
       Serial.println(" ");
-      Serial.println("##################  int err = isbd.getSignalQuality(signalQuality) was just commanded ##########");
+      Serial.print("########  signalQuality = ");
+      Serial.print(signalQuality);
+      Serial.println("##########");
+      Serial.print("########  isbd.getSignalQuality(signalQuality) = ");
+      Serial.print(sig_qual_err);
+      Serial.println(" ##########");
       Serial.println(" ");
     }
     
-    if (err != 0)
+    if (sig_qual_err != 0)
     {
       // TODO: WRITE THIS TO THE ERROR BUFFER
       if(rb_debug_mode == 1)
       {
-        Serial.print("SignalQuality failed: error ");
-        Serial.println(err);
+        Serial.println("SignalQuality failed: error ");
+        //Serial.println(sig_qual_err);
       }
-      
-      // ERROR CODES!!!
+      //if(sig_qual_err == 7)
+      //{
+         Serial.println("SQ ERROR FAIL !!!!!!!!!!!!!!!!!!!!!!!!");
+         Serial.print("Error: ");
+         Serial.println(sig_qual_err);
+         Serial.print("Time: ");
+         Serial.println(parameters.transmit_elapsed_time);
+      //}
+      //      ERROR CODES!!!
       //      #define ISBD_SUCCESS             0
       //      #define ISBD_ALREADY_AWAKE       1
       //      #define ISBD_SERIAL_FAILURE      2
@@ -180,18 +209,28 @@ void sendreceive_satellite_data()
    
       size_t rx_bufferSize = sizeof(rx_buffer);
 
-      err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
+      int send_receive_err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
 
     //=========== end real command ======================================= //
     
-      if (err != 0)
+      if (send_receive_err != 0)
       {
         // TODO: WRITE THIS TO THE ERROR BUFFER
+
+         Serial.println("Send Recieve FAIL !!!!!!!!!!!!!!!!!!!!!!!!");
+         Serial.print("Error: ");
+         Serial.println(send_receive_err);
+         Serial.print("Time: ");
+         Serial.println(parameters.transmit_elapsed_time);
         
         if(rb_debug_mode == 1)
         {
+          Serial.print("########  ERROR: isbd.sendReceiveSBDBinary(a,b,c,d) = ");
+          Serial.print(send_receive_err);
+          Serial.println("##########");
           Serial.print("sendReceiveSBDBinary failed: error ");
-    
+          
+          Serial.println(" ");
           //err = isbd.sleep();
         
           //if (err != 0)
@@ -207,10 +246,14 @@ void sendreceive_satellite_data()
           Serial.println(parameters.cutdown_initiation_elapsed_time);
           Serial.println(" ");
           
-          Serial.println(err);
+          //Serial.println(send_receive_err);
         }
         return;
       }
+
+      Serial.print("ELAPSED TIME: ");
+      Serial.println(parameters.transmit_elapsed_time);
+      Serial.println("**Satellite transmit/receive complete!**");
 
       if(rb_debug_mode == 1)
         {

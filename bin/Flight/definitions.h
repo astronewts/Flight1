@@ -45,7 +45,7 @@
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
 
 #define DEFAULT_RB_AT_BUS_TIMEOUT                  20 // seconds // Default is 20 seconds
-#define DEFAULT_RB_SEND_RECIEVE_TIMEOUT            90 // seconds // Default is 300 seconds
+#define DEFAULT_RB_SEND_RECIEVE_TIMEOUT            240 // seconds // Default is 300 seconds
 
 // Use "1" for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
 // Use "0" for "high current" applications; interval between transmit retries is 20 seconds    
