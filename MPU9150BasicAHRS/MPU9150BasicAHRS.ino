@@ -244,21 +244,20 @@ float eInt[3] = {0.0f, 0.0f, 0.0f};       // vector to hold integral error for M
 
 void setup()
 {
-  Wire.begin();
   Serial.begin(38400);
+  Wire.begin();
  
   // Set up the interrupt pin, its set as active high, push-pull
   pinMode(intPin, INPUT);
   digitalWrite(intPin, LOW);
   pinMode(blinkPin, OUTPUT);
   digitalWrite(blinkPin, HIGH);
-  
-  delay(1000);
 
-
+while(1){
   // Read the WHO_AM_I register, this is a good test of communication
+  delay(1000);
   uint8_t c = readByte(MPU9150_ADDRESS, WHO_AM_I_MPU9150);  // Read WHO_AM_I register for MPU-9150
-  delay(1000); 
+  delay(1000);
 
   if (c == 0x68) // WHO_AM_I should always be 0x68
   {  
@@ -296,14 +295,15 @@ void setup()
   }
    
   MagRate = 10; // set magnetometer read rate in Hz; 10 to 100 (max) Hz are reasonable values
-
+  break;
   }
   else
   {
     Serial.print("Could not connect to MPU9150: 0x");
     Serial.println(c, HEX);
-    while(1) ; // Loop forever if communication doesn't happen
+    delay(1000);
   }
+}
 }
 
 void loop()
@@ -890,8 +890,19 @@ void MPU6050SelfTest(float * destination) // Should return percent deviation fro
 	uint8_t data; // `data` will store the register data	 
 	Wire.beginTransmission(address);         // Initialize the Tx buffer
 	Wire.write(subAddress);	                 // Put slave register address in Tx buffer
-	Wire.endTransmission(false);             // Send the Tx buffer, but send a restart to keep connection alive
+	uint8_t err = Wire.endTransmission(false);             // Send the Tx buffer, but send a restart to keep connection alive
+        if (err) {
+          Serial.print("Error encountered in I2C transmission\n");
+          if (err==1) Serial.print("1:data too long to fit in transmit buffer\n");
+          if (err==2) Serial.print("2:received NACK on transmit of address\n");
+          if (err==3) Serial.print("3:received NACK on transmit of data\n");
+          if (err==4) Serial.print("4:other error\n");
+        }
 	Wire.requestFrom(address, (uint8_t) 1);  // Read one byte from slave register address 
+        uint8_t bytesAvailable = Wire.available();
+        if (!bytesAvailable) {
+          Serial.print("No I2C data available to read!");
+        }
 	data = Wire.read();                      // Fill Rx buffer with result
 	return data;                             // Return data read from slave register
 }
