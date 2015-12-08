@@ -113,7 +113,7 @@ void sd_setup() {
   bout << pstr(",Loadshed Transmit Rate");              //4
   bout << pstr(",Transit Transmit Rate");               //5
   bout << pstr(",Emergency Transit Transmit Rate");     //6
-  bout << pstr(",Spare Transmit Rate");                  //7
+  bout << pstr(",Spare Transmit Rate");                 //7
   bout << pstr(",SD Card Write Rate");                  //8
   bout << pstr(",Battery 1 Temp 1");                    //9
   bout << pstr(",Battery 1 Temp 2");                    //10
@@ -127,10 +127,11 @@ void sd_setup() {
   bout << pstr(",Battery 1 Voltage Red");               //18
   bout << pstr(",Battery 1 Charge Current 1");          //19
   bout << pstr(",Battery 1 Charge Current 2");          //20
-  bout << pstr(",Spare 1");                             //21
+  // TODO: I THINK WE'RE ACTUALLY OUTPUTTING TEMP CONSTANTS IN SPARE 1 & 2
+  bout << pstr(",Spare 1");                             //21  
   bout << pstr(",Spare 2");                             //22
-  bout << pstr(",Spare 3");                             //23
-  bout << pstr(",Spare 4");                             //24
+  bout << pstr(",Telemetry Processing Period");         //23
+  bout << pstr(",Spare 3");                             //24
   bout << pstr(",GPS Latitude");                        //25
   bout << pstr(",GPS Longitude");                       //26
   bout << pstr(",GPS Altitude");                        //27
@@ -271,9 +272,10 @@ void write_telemetry_data_to_sd()
   bout << ',' << telemetry_data.battery_1_voltage_2;                   //18
   bout << ',' << telemetry_data.battery_1_charge_current_1;            //19
   bout << ',' << telemetry_data.battery_1_charge_current_2;            //20
+  // TODO: I THINK WE'RE ACTUALLY OUTPUTTING TEMP CONSTANTS IN SPARE 1 & 2
   bout << ',' << "00000000000000000000000000000000";                   //21
   bout << ',' << "00000000000000000000000000000000";                   //22
-  bout << ',' << "00000000000000000000000000000000";                   //23
+  bout << ',' << parameters.tlm_processing_period;                     //23
   bout << ',' << "00000000000000000000000000000000";                   //24
   bout << ',' << gps.location.lat();                                   //25
   bout << ',' << gps.location.lng();                                   //26

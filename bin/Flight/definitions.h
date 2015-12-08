@@ -56,6 +56,7 @@
 #define DEFAULT_SD_CARD_WRITE_PERIOD               6000 // TEST ONLY!!!
 
 //#define DEFAULT_SD_CARD_WRITE_PERIOD             60000  // FOR FLIGHT !!!
+#define DEFAULT_TLM_PROCESSING_PERIOD              5000
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
 
@@ -180,6 +181,7 @@ struct parameter_struct
   unsigned long loop_sleep;
   unsigned long transmit_period;  
   unsigned long sd_card_write_period;
+  unsigned long tlm_processing_period;
   int vehicle_mode;
   int command_count;
   int battery_temperature_limit_high;
@@ -242,6 +244,7 @@ struct parameter_struct
   elapsedMillis cutdown_initiation_elapsed_time;
   elapsedMillis transmit_elapsed_time;
   elapsedMillis sd_card_write_elapsed_time;
+  elapsedMillis tlm_processing_time;
   elapsedMillis battery_1_charge_current_read_elapsed_time;
   elapsedMillis battery_2_charge_current_read_elapsed_time;
   elapsedMillis intialization_timeout_time;
