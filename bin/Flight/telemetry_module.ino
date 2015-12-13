@@ -8,53 +8,53 @@ int count_low_alt;
 void collect_analog_telemetry()
 { 
   //Air Pressure Data
-  raw_val = analogRead(PIN_PRESSURE_SENSOR);
-  telemetry_data.air_pressure = raw_val * PRESSURE_CONSTANT;
+  raw_telemetry_data.raw_air_pressure = analogRead(PIN_PRESSURE_SENSOR);
+  telemetry_data.air_pressure = raw_telemetry_data.raw_air_pressure * PRESSURE_CONSTANT;
   delay(100);
   
   //Battery 1-1 Temp
-  raw_val = analogRead(PIN_BATTERY1_1_TEMP);
-  telemetry_data.battery_1_temp_1 = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
+  raw_telemetry_data.raw_battery_1_temp_1 = analogRead(PIN_BATTERY1_1_TEMP);
+  telemetry_data.battery_1_temp_1 = calculate_temp(raw_telemetry_data.raw_battery_1_temp_1);
   delay(100);
   
   //Battery 1-2 Temp
-  raw_val = analogRead(PIN_BATTERY1_2_TEMP);
-  telemetry_data.battery_1_temp_2 = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
+  raw_telemetry_data.raw_battery_1_temp_2 = analogRead(PIN_BATTERY1_2_TEMP);
+  telemetry_data.battery_1_temp_2 = calculate_temp(raw_telemetry_data.raw_battery_1_temp_2);
   delay(100);
 
   //Battery 2-1 Temp
-  raw_val = analogRead(PIN_BATTERY2_1_TEMP);
-  telemetry_data.battery_2_temp_1 = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
+  raw_telemetry_data.raw_battery_2_temp_1 = analogRead(PIN_BATTERY2_1_TEMP);
+  telemetry_data.battery_2_temp_1 = calculate_temp(raw_telemetry_data.raw_battery_2_temp_1);
   delay(100);
   
   //Battery 2-2 Temp
-  raw_val = analogRead(PIN_BATTERY2_2_TEMP);
-  telemetry_data.battery_2_temp_2 = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
+  raw_telemetry_data.raw_battery_2_temp_2 = analogRead(PIN_BATTERY2_2_TEMP);
+  telemetry_data.battery_2_temp_2 = calculate_temp(raw_telemetry_data.raw_battery_2_temp_2);
   delay(100);
 
   //External Temp 1
-  raw_val = analogRead(PIN_EXTERNAL_INNER_TEMP);
-  telemetry_data.inner_external_temp = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
+  raw_telemetry_data.raw_inner_external_temp = analogRead(PIN_EXTERNAL_INNER_TEMP);
+  telemetry_data.inner_external_temp = calculate_temp(raw_telemetry_data.raw_inner_external_temp);
   delay(100);
   
   //External Temp 2
-  raw_val = analogRead(PIN_EXTERNAL_OUTTER_TEMP);
-  telemetry_data.outter_external_temp = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
+  raw_telemetry_data.raw_outter_external_temp = analogRead(PIN_EXTERNAL_OUTTER_TEMP);
+  telemetry_data.outter_external_temp = calculate_temp(raw_telemetry_data.raw_outter_external_temp);
   delay(100);
   
   //Internal Temp
-  raw_val = analogRead(PIN_INTERNAL_TEMP);
-  telemetry_data.internal_temp = TEMP_CONSTANT_1 * (raw_val - TEMP_CONSTANT_2);
+  raw_telemetry_data.raw_internal_temp = analogRead(PIN_INTERNAL_TEMP);
+  telemetry_data.internal_temp = calculate_temp(raw_telemetry_data.raw_internal_temp);
   delay(100);
   
   //Battery 1 Voltage 1
-  raw_val = analogRead(PIN_BATTERY_1_VOLTAGE_1);
-  telemetry_data.battery_1_voltage_1 = ((raw_val * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
+  raw_telemetry_data.raw_battery_1_voltage_1 = analogRead(PIN_BATTERY_1_VOLTAGE_1);
+  telemetry_data.battery_1_voltage_1 = ((raw_telemetry_data.raw_battery_1_voltage_1 * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
   delay(100);
   
   //Battery 1 Voltage 2
-  raw_val = analogRead(PIN_BATTERY_1_VOLTAGE_2);
-  telemetry_data.battery_1_voltage_2 = ((raw_val * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
+  raw_telemetry_data.raw_battery_1_voltage_2 = analogRead(PIN_BATTERY_1_VOLTAGE_2);
+  telemetry_data.battery_1_voltage_2 = ((raw_telemetry_data.raw_battery_1_voltage_2 * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
   delay(100);
   
   //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
@@ -73,6 +73,20 @@ void collect_analog_battery_current_telemetry()
   delay(100);
 
   //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
+}
+
+void calculate_temp(double counts)
+{
+  float temp;
+  if (counts > TEMP_BREAK_COUNT)
+  {
+    temp = TEMP_CONSTANT_1_1+TEMP_CONSTANT_1_2*counts+TEMP_CONSTANT_1_3*(counts^2)+TEMP_CONSTANT_1_4*(counts^3)+TEMP_CONSTANT_1_5*(counts^4)+TEMP_CONSTANT_1_6*(counts^5);
+  }
+  else
+  {
+    temp = TEMP_CONSTANT_2_1+TEMP_CONSTANT_2_2*counts+TEMP_CONSTANT_2_3*(counts^2)+TEMP_CONSTANT_2_4*(counts^3)+TEMP_CONSTANT_2_5*(counts^4)+TEMP_CONSTANT_2_6*(counts^5);
+  }
+  return temp;
 }
 
 void cutdown_check()

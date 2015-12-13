@@ -42,6 +42,7 @@
 #include "IntersemaBaro.h"
 
 struct telemetry_data_struct telemetry_data;
+struct raw_telemetry_data_struct raw_telemetry_data;
 struct satellite_data_struct satellite_data;
 struct parameter_struct parameters;
 struct threshold_struct thresholds;
@@ -69,7 +70,7 @@ void setup()
    baro.init();
    set_normal_mode();
    //sd_setup();
-   initialize_rb();
+   //initialize_rb();
 
    Serial.println("/nFLIGHT CODE START: /n");  
    Serial.println(" PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  

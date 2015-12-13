@@ -8,9 +8,21 @@
 #define COMMANDS_TO_PROCESS           1
 
 //Constants
-#define PRESSURE_CONSTANT   0.0036140
-#define TEMP_CONSTANT_1     0.0497
-#define TEMP_CONSTANT_2     54.794
+#define PRESSURE_CONSTANT     0.0036140
+#define TEMP_BREAK_COUNT      160
+#define TEMP_CONSTANT_1_1     91.31522494
+#define TEMP_CONSTANT_1_2     -0.173536021
+#define TEMP_CONSTANT_1_3     0.000162517
+#define TEMP_CONSTANT_1_4     -8.30807E-08
+#define TEMP_CONSTANT_1_5     2.04376E-11
+#define TEMP_CONSTANT_1_6     -1.94001E-15
+#define TEMP_CONSTANT_2_1     201.0543745
+#define TEMP_CONSTANT_2_2     -4.089196897
+#define TEMP_CONSTANT_2_3     0.071827729
+#define TEMP_CONSTANT_2_4     -0.000719311
+#define TEMP_CONSTANT_2_5     3.65125E-06
+#define TEMP_CONSTANT_2_6     -7.29058E-09
+
 #define VOLTAGE_CONSTANT_1  3.3
 #define VOLTAGE_CONSTANT_2  4095.0
 #define VOLTAGE_CONSTANT_3  3.83
@@ -175,6 +187,22 @@ struct satellite_data_struct
 {
   char* command;
 };
+
+struct raw_telemetry_data_struct
+{
+  int raw_battery_1_temp_1;
+  int raw_battery_1_temp_2;
+  int raw_battery_2_temp_1;
+  int raw_battery_2_temp_2;
+  int raw_inner_external_temp;
+  int raw_outter_external_temp;
+  int raw_internal_temp;
+  int raw_air_pressure;
+  int raw_battery_1_voltage_1;
+  int raw_battery_1_voltage_2;
+  int raw_battery_1_charge_current_1;
+  int raw_battery_1_charge_current_2;
+}
 
 struct parameter_struct
 {

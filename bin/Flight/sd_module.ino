@@ -254,12 +254,12 @@ void write_telemetry_data_to_sd()
 
   bout << ',' << parameters.vehicle_mode;                              //1
   bout << ',' << parameters.command_count;                             //2
-  bout << ',' << thresholds.normal_transmit_period;                      //3
-  bout << ',' << thresholds.load_shed_transmit_period;                   //4
-  bout << ',' << thresholds.transit_transmit_period;                     //5
-  bout << ',' << thresholds.emergency_transit_transmit_period;           //6
-  bout << ',' << thresholds.spare_transmit_period;                        //7
-  bout << ',' << parameters.sd_card_write_period;                        //8
+  bout << ',' << thresholds.normal_transmit_period;                    //3
+  bout << ',' << thresholds.load_shed_transmit_period;                 //4
+  bout << ',' << thresholds.transit_transmit_period;                   //5
+  bout << ',' << thresholds.emergency_transit_transmit_period;         //6
+  bout << ',' << thresholds.spare_transmit_period;                     //7
+  bout << ',' << parameters.sd_card_write_period;                      //8
   bout << ',' << telemetry_data.battery_1_temp_1;                      //9
   bout << ',' << telemetry_data.battery_1_temp_2;                      //10
   bout << ',' << telemetry_data.battery_2_temp_1;                      //11
@@ -272,7 +272,6 @@ void write_telemetry_data_to_sd()
   bout << ',' << telemetry_data.battery_1_voltage_2;                   //18
   bout << ',' << telemetry_data.battery_1_charge_current_1;            //19
   bout << ',' << telemetry_data.battery_1_charge_current_2;            //20
-  // TODO: I THINK WE'RE ACTUALLY OUTPUTTING TEMP CONSTANTS IN SPARE 1 & 2
   bout << ',' << "00000000000000000000000000000000";                   //21
   bout << ',' << "00000000000000000000000000000000";                   //22
   bout << ',' << parameters.tlm_processing_period;                     //23
@@ -286,16 +285,16 @@ void write_telemetry_data_to_sd()
   bout << ',' << gps.speed.kmph();                                     //31
   bout << ',' << gps.satellites.value();                               //32
   
-  //NOTE: THE NEXT TWO MIGHT NEEDS SOME MASSAGING POST PROCESS
+//NOTE: THE NEXT TWO MIGHT NEEDS SOME MASSAGING POST PROCESS
+
   bout << ',' << gps.date.value();                                     //33
   bout << ',' << gps.time.value();                                     //34
-  
   bout << ',' << gps.hdop.value();                                     //35
   bout << ',' << gps.charsProcessed();                                 //36
   bout << ',' << gps.sentencesWithFix();                               //37
   bout << ',' << gps.failedChecksum();                                 //38
   
-   // ISVALID STRINGS FOR GPS!!!
+// ISVALID STRINGS FOR GPS!!!
   gps_isvalid_str = String(gps.hdop.isValid());                        //39-1
   gps_isvalid_str = gps_isvalid_str + String(gps.location.isValid());  //39-2 
   gps_isvalid_str = gps_isvalid_str + String(gps.altitude.isValid());  //39-3 
