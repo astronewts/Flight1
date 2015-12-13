@@ -14,14 +14,37 @@ void initialize_rb()
     isbd.adjustATTimeout(DEFAULT_RB_AT_BUS_TIMEOUT); // Default is 20 seconds
     isbd.adjustSendReceiveTimeout(DEFAULT_RB_SEND_RECIEVE_TIMEOUT); // Default is 300 seconds
 
+      if(rb_debug_mode == 1)
+      {
+        Serial.println("isbd.setPowerProfile(DEFAULT_RB_POWER_MODE ) : start");
+      }
+      
     isbd.setPowerProfile(DEFAULT_RB_POWER_MODE ); // Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
     // isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
 
+      if(rb_debug_mode == 1)
+      {
+        Serial.println("isbd.setPowerProfile(DEFAULT_RB_POWER_MODE ) : done");
+      }
+      
+      if(rb_debug_mode == 1)
+      {
+        Serial.print(" isbd.isAsleep() =");
+        Serial.println( isbd.isAsleep()); 
+      }
+      
     if (isbd.isAsleep() == 1)
     {
+      if(rb_debug_mode == 1)
+      {
+        Serial.println(" initiating isbd.begin()");
+      }
       isbd.begin();
       if(rb_debug_mode == 1)
       {
+        Serial.println("isbd.begin() = done");
+        Serial.print("isbd.begin() =");
+        Serial.println(isbd.begin());
         Serial.println(" ");
         Serial.println("########################### isdb.begin() was just commanded ################################");
         Serial.println(" ");
