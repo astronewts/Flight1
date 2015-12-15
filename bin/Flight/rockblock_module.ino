@@ -6,7 +6,7 @@
 #define MSEC_IN_SEC 1000
 
 // Set the RB Debug Mode 
-bool rb_debug_mode = 0; // 0 = Normal, 1 = Active Debug, 
+bool rb_debug_mode = 1; // 0 = Normal, 1 = Active Debug, 
 
 void initialize_rb()
 {
@@ -39,7 +39,7 @@ void initialize_rb()
       {
         Serial.println(" initiating isbd.begin()");
       }
-      isbd.begin();
+      isbd.begin();  // the initialization gets stuck here if the RB is not connected.
       if(rb_debug_mode == 1)
       {
         Serial.println("isbd.begin() = done");
