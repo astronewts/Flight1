@@ -77,7 +77,7 @@ void setup()
    set_normal_mode();
    Serial.println("--- done ");
    Serial.print("sd setup ---");
-   sd_setup();
+   //sd_setup();
    Serial.println("--- done ");
    Serial.println("initialize_rb ---");
    initialize_rb();
