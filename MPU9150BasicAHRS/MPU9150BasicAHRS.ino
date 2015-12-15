@@ -242,68 +242,74 @@ float ax, ay, az, gx, gy, gz, mx, my, mz; // variables to hold latest sensor dat
 float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};    // vector to hold quaternion
 float eInt[3] = {0.0f, 0.0f, 0.0f};       // vector to hold integral error for Mahony method
 
-void setup()
+bool initGyro()
 {
-  Serial.begin(38400);
-  Wire.begin();
- 
+  bool setupSuccess = false;
   // Set up the interrupt pin, its set as active high, push-pull
   pinMode(intPin, INPUT);
   digitalWrite(intPin, LOW);
-  pinMode(blinkPin, OUTPUT);
-  digitalWrite(blinkPin, HIGH);
-
-while(1){
+  
   // Read the WHO_AM_I register, this is a good test of communication
-  delay(1000);
   uint8_t c = readByte(MPU9150_ADDRESS, WHO_AM_I_MPU9150);  // Read WHO_AM_I register for MPU-9150
-  delay(1000);
 
   if (c == 0x68) // WHO_AM_I should always be 0x68
   {  
     Serial.println("MPU9150 is online...");
     
-  MPU6050SelfTest(SelfTest); // Start by performing self test and reporting values
+    MPU6050SelfTest(SelfTest); // Start by performing self test and reporting values
 //  Serial.print("x-axis self test: acceleration trim within : "); Serial.print(SelfTest[0],1); Serial.println("% of factory value");
 //  Serial.print("y-axis self test: acceleration trim within : "); Serial.print(SelfTest[1],1); Serial.println("% of factory value");
 //  Serial.print("z-axis self test: acceleration trim within : "); Serial.print(SelfTest[2],1); Serial.println("% of factory value");
 //  Serial.print("x-axis self test: gyration trim within : "); Serial.print(SelfTest[3],1); Serial.println("% of factory value");
 //  Serial.print("y-axis self test: gyration trim within : "); Serial.print(SelfTest[4],1); Serial.println("% of factory value");
 //  Serial.print("z-axis self test: gyration trim within : "); Serial.print(SelfTest[5],1); Serial.println("% of factory value");
-  if(SelfTest[0] < 1.0f && SelfTest[1] < 1.0f && SelfTest[2] < 1.0f && SelfTest[3] < 1.0f && SelfTest[4] < 1.0f && SelfTest[5] < 1.0f) {
-  delay(1000);
-  }
+    if(SelfTest[0] < 1.0f && SelfTest[1] < 1.0f && SelfTest[2] < 1.0f && SelfTest[3] < 1.0f && SelfTest[4] < 1.0f && SelfTest[5] < 1.0f) {
+      delay(1000);
+    }
   
-  calibrateMPU9150(gyroBias, accelBias); // Calibrate gyro and accelerometers, load biases in bias registers  
+    calibrateMPU9150(gyroBias, accelBias); // Calibrate gyro and accelerometers, load biases in bias registers  
 
-  delay(1000); 
     
-  initMPU9150(); // Inititalize and configure accelerometer and gyroscope
-  Serial.println("MPU9150 initialized for active data mode...."); // Initialize device for active mode read of acclerometer, gyroscope, and temperature
+    initMPU9150(); // Inititalize and configure accelerometer and gyroscope
+    Serial.println("MPU9150 initialized for active data mode...."); // Initialize device for active mode read of acclerometer, gyroscope, and temperature
   
-  // Read the WHO_AM_I register of the magnetometer, this is a good test of communication
-  uint8_t c = readByte(AK8975A_ADDRESS, WHO_AM_I_AK8975A);  // Read WHO_AM_I register for AK8975A
-  delay(1000); 
+    // Read the WHO_AM_I register of the magnetometer, this is a good test of communication
+    uint8_t c = readByte(AK8975A_ADDRESS, WHO_AM_I_AK8975A);  // Read WHO_AM_I register for AK8975A
   
-  // Get magnetometer calibration from AK8975A ROM
-  initAK8975A(magCalibration);
-  if(SerialDebug) {
-  Serial.println("Magnetometer calibration values: ");
-  Serial.print("X-Axis sensitivity adjustment value "); Serial.println(magCalibration[0], 2);
-  Serial.print("Y-Axis sensitivity adjustment value "); Serial.println(magCalibration[1], 2);
-  Serial.print("Z-Axis sensitivity adjustment value "); Serial.println(magCalibration[2], 2); 
-  }
+    // Get magnetometer calibration from AK8975A ROM
+    initAK8975A(magCalibration);
+    if(SerialDebug) {
+      Serial.println("Magnetometer calibration values: ");
+      Serial.print("X-Axis sensitivity adjustment value "); Serial.println(magCalibration[0], 2);
+      Serial.print("Y-Axis sensitivity adjustment value "); Serial.println(magCalibration[1], 2);
+      Serial.print("Z-Axis sensitivity adjustment value "); Serial.println(magCalibration[2], 2); 
+    }
    
-  MagRate = 10; // set magnetometer read rate in Hz; 10 to 100 (max) Hz are reasonable values
-  break;
+    MagRate = 10; // set magnetometer read rate in Hz; 10 to 100 (max) Hz are reasonable values
+    setupSuccess = true;
   }
   else
   {
     Serial.print("Could not connect to MPU9150: 0x");
     Serial.println(c, HEX);
-    delay(1000);
   }
+  return setupSuccess;
 }
+
+void setup()
+{
+  Serial.begin(38400);
+  Wire.begin();
+ 
+  pinMode(blinkPin, OUTPUT);
+  digitalWrite(blinkPin, HIGH);
+  bool gyroSetupSuccessful = initGyro();
+  if (!gyroSetupSuccessful) {
+    while(1) {
+      delay(1000);
+      Serial.print("Fail!\n");
+    }
+  }
 }
 
 void loop()
