@@ -202,7 +202,7 @@ struct raw_telemetry_data_struct
   int raw_battery_1_voltage_2;
   int raw_battery_1_charge_current_1;
   int raw_battery_1_charge_current_2;
-}
+};
 
 struct parameter_struct
 {

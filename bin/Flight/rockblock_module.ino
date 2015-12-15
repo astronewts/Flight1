@@ -693,7 +693,7 @@ void write_output_telemetry_dataword()
     parameters.output_dataword = combine(12, raw_telemetry_data.raw_inner_external_temp, parameters.output_dataword);                 //13
     parameters.output_dataword = combine(12, raw_telemetry_data.raw_outter_external_temp, parameters.output_dataword);                //14
     parameters.output_dataword = combine(12, raw_telemetry_data.raw_internal_temp, parameters.output_dataword);                       //15                             
-    parameters.output_dataword = combine(12, raw_telemetry_data.raw_telemetry_data.air_pressure, parameters.output_dataword);         //16
+    parameters.output_dataword = combine(12, raw_telemetry_data.raw_air_pressure, parameters.output_dataword);         //16
     parameters.output_dataword = combine(12, raw_telemetry_data.raw_battery_1_voltage_1, parameters.output_dataword);                 //17
     parameters.output_dataword = combine(12, raw_telemetry_data.raw_battery_1_voltage_2, parameters.output_dataword);        //18
     parameters.output_dataword = combine(12, raw_telemetry_data.raw_battery_1_charge_current_1, parameters.output_dataword); //19

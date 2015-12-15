@@ -75,9 +75,9 @@ void collect_analog_battery_current_telemetry()
   //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
 }
 
-void calculate_temp(double counts)
+double calculate_temp(int counts)
 {
-  float temp;
+  double temp;
   if (counts > TEMP_BREAK_COUNT)
   {
     temp = TEMP_CONSTANT_1_1+TEMP_CONSTANT_1_2*counts+TEMP_CONSTANT_1_3*(counts^2)+TEMP_CONSTANT_1_4*(counts^3)+TEMP_CONSTANT_1_5*(counts^4)+TEMP_CONSTANT_1_6*(counts^5);
