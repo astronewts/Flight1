@@ -249,6 +249,14 @@ bool initGyro()
   pinMode(intPin, INPUT);
   digitalWrite(intPin, LOW);
   
+  // Clear the 'sleep' bit to start the sensor.
+  //MPU9150_writeSensor(MPU9150_PWR_MGMT_1, 0);
+  uint8_t err = -1;
+  while (err) {
+    delay(100);
+    err = writeByte(MPU9150_ADDRESS, PWR_MGMT_1, 0);
+  }
+
   // Read the WHO_AM_I register, this is a good test of communication
   uint8_t c = readByte(MPU9150_ADDRESS, WHO_AM_I_MPU9150);  // Read WHO_AM_I register for MPU-9150
 
@@ -883,15 +891,23 @@ void MPU6050SelfTest(float * destination) // Should return percent deviation fro
 }
 
         // Wire.h read and write protocols
-        void writeByte(uint8_t address, uint8_t subAddress, uint8_t data)
+uint8_t writeByte(uint8_t address, uint8_t subAddress, uint8_t data)
 {
 	Wire.beginTransmission(address);  // Initialize the Tx buffer
 	Wire.write(subAddress);           // Put slave register address in Tx buffer
 	Wire.write(data);                 // Put data in Tx buffer
-	Wire.endTransmission();           // Send the Tx buffer
+	uint8_t err = Wire.endTransmission(true);             // Send the Tx buffer, but send a restart to keep connection alive
+        if (err) {
+          Serial.print("Error encountered in I2C transmission\n");
+          if (err==1) Serial.print("1:data too long to fit in transmit buffer\n");
+          if (err==2) Serial.print("2:received NACK on transmit of address\n");
+          if (err==3) Serial.print("3:received NACK on transmit of data\n");
+          if (err==4) Serial.print("4:other error\n");
+        }
+        return err;
 }
 
-        uint8_t readByte(uint8_t address, uint8_t subAddress)
+uint8_t readByte(uint8_t address, uint8_t subAddress)
 {
 	uint8_t data; // `data` will store the register data	 
 	Wire.beginTransmission(address);         // Initialize the Tx buffer
