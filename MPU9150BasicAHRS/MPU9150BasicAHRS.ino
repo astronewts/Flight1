@@ -199,6 +199,8 @@ float aRes, gRes, mRes; // scale resolutions per LSB for the sensors
   
 // Pin definitions
 int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
+// Power to gyro
+int gyroPower = 28;
 #define blinkPin 13  // Blink LED on Teensy or Pro Mini when updating
 boolean blinkOn = false;
 
@@ -244,6 +246,12 @@ float eInt[3] = {0.0f, 0.0f, 0.0f};       // vector to hold integral error for M
 
 bool initGyro()
 {
+  // Power on sequence for gyro (avoids intermittent failure to communicate on I2C)
+  pinMode(gyroPower, OUTPUT);
+  digitalWrite(gyroPower, LOW);
+  delay(1000); // Drain power!
+  digitalWrite(gyroPower, HIGH);
+  delay(100); // Give power time to stabilize.
   bool setupSuccess = false;
   // Set up the interrupt pin, its set as active high, push-pull
   pinMode(intPin, INPUT);
@@ -920,7 +928,7 @@ uint8_t readByte(uint8_t address, uint8_t subAddress)
           if (err==3) Serial.print("3:received NACK on transmit of data\n");
           if (err==4) Serial.print("4:other error\n");
         }
-	Wire.requestFrom(address, (uint8_t) 1);  // Read one byte from slave register address 
+	Wire.requestFrom((uint8_t) address, (uint8_t) 1, (uint8_t) false);  // Read one byte from slave register address
         uint8_t bytesAvailable = Wire.available();
         if (!bytesAvailable) {
           Serial.print("No I2C data available to read!");
