@@ -67,7 +67,7 @@ protected:
         static const int32_t PZLUT_ENTRIES = 77; 
         // not for the offset value: to be estimated so that we have 25 m of elevation at 767. 
         // the rest of the table is correct. verified from: http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
-        static const int32_t PA_INIT       = 106000; // this value has been extracted from http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html | original value: 101325; //104908;
+        static const int32_t PA_INIT       = 106200; //106000; // this value has been extracted from http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html | original value: 101325; //104908;
         static const int32_t PA_DELTA      = 1024;
 
         static const int32_t lookupTable[PZLUT_ENTRIES] = {
