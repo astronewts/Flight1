@@ -1,4 +1,4 @@
-#ifndef INTERSEMA_BARO_H
+    #ifndef INTERSEMA_BARO_H
 #define INTERSEMA_BARO_H
 
 /*
@@ -64,8 +64,10 @@ protected:
         // pressure value, calculated as [PA_INIT - 1024*index] in Pa.
         // The table is calculated for a nominal sea-level pressure  = 101325 Pa.
         
-        static const int32_t PZLUT_ENTRIES = 77;
-        static const int32_t PA_INIT       = 104908;
+        static const int32_t PZLUT_ENTRIES = 77; 
+        // not for the offset value: to be estimated so that we have 25 m of elevation at 767. 
+        // the rest of the table is correct. verified from: http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+        static const int32_t PA_INIT       = 106200; //106000; // this value has been extracted from http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html | original value: 101325; //104908;
         static const int32_t PA_DELTA      = 1024;
 
         static const int32_t lookupTable[PZLUT_ENTRIES] = {

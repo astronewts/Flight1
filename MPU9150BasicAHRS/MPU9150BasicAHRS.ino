@@ -199,6 +199,8 @@ float aRes, gRes, mRes; // scale resolutions per LSB for the sensors
   
 // Pin definitions
 int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
+// Power to gyro
+int gyroPower = 28;
 #define blinkPin 13  // Blink LED on Teensy or Pro Mini when updating
 boolean blinkOn = false;
 
@@ -242,68 +244,88 @@ float ax, ay, az, gx, gy, gz, mx, my, mz; // variables to hold latest sensor dat
 float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};    // vector to hold quaternion
 float eInt[3] = {0.0f, 0.0f, 0.0f};       // vector to hold integral error for Mahony method
 
-void setup()
+bool initGyro()
 {
-  Serial.begin(38400);
-  Wire.begin();
- 
+  // Power on sequence for gyro (avoids intermittent failure to communicate on I2C)
+  pinMode(gyroPower, OUTPUT);
+  digitalWrite(gyroPower, LOW);
+  delay(1000); // Drain power!
+  digitalWrite(gyroPower, HIGH);
+  delay(100); // Give power time to stabilize.
+  bool setupSuccess = false;
   // Set up the interrupt pin, its set as active high, push-pull
   pinMode(intPin, INPUT);
   digitalWrite(intPin, LOW);
-  pinMode(blinkPin, OUTPUT);
-  digitalWrite(blinkPin, HIGH);
+  
+  // Clear the 'sleep' bit to start the sensor.
+  //MPU9150_writeSensor(MPU9150_PWR_MGMT_1, 0);
+  uint8_t err = -1;
+  while (err) {
+    delay(100);
+    err = writeByte(MPU9150_ADDRESS, PWR_MGMT_1, 0);
+  }
 
-while(1){
   // Read the WHO_AM_I register, this is a good test of communication
-  delay(1000);
   uint8_t c = readByte(MPU9150_ADDRESS, WHO_AM_I_MPU9150);  // Read WHO_AM_I register for MPU-9150
-  delay(1000);
 
   if (c == 0x68) // WHO_AM_I should always be 0x68
   {  
     Serial.println("MPU9150 is online...");
     
-  MPU6050SelfTest(SelfTest); // Start by performing self test and reporting values
+    MPU6050SelfTest(SelfTest); // Start by performing self test and reporting values
 //  Serial.print("x-axis self test: acceleration trim within : "); Serial.print(SelfTest[0],1); Serial.println("% of factory value");
 //  Serial.print("y-axis self test: acceleration trim within : "); Serial.print(SelfTest[1],1); Serial.println("% of factory value");
 //  Serial.print("z-axis self test: acceleration trim within : "); Serial.print(SelfTest[2],1); Serial.println("% of factory value");
 //  Serial.print("x-axis self test: gyration trim within : "); Serial.print(SelfTest[3],1); Serial.println("% of factory value");
 //  Serial.print("y-axis self test: gyration trim within : "); Serial.print(SelfTest[4],1); Serial.println("% of factory value");
 //  Serial.print("z-axis self test: gyration trim within : "); Serial.print(SelfTest[5],1); Serial.println("% of factory value");
-  if(SelfTest[0] < 1.0f && SelfTest[1] < 1.0f && SelfTest[2] < 1.0f && SelfTest[3] < 1.0f && SelfTest[4] < 1.0f && SelfTest[5] < 1.0f) {
-  delay(1000);
-  }
+    if(SelfTest[0] < 1.0f && SelfTest[1] < 1.0f && SelfTest[2] < 1.0f && SelfTest[3] < 1.0f && SelfTest[4] < 1.0f && SelfTest[5] < 1.0f) {
+      delay(1000);
+    }
   
-  calibrateMPU9150(gyroBias, accelBias); // Calibrate gyro and accelerometers, load biases in bias registers  
+    calibrateMPU9150(gyroBias, accelBias); // Calibrate gyro and accelerometers, load biases in bias registers  
 
-  delay(1000); 
     
-  initMPU9150(); // Inititalize and configure accelerometer and gyroscope
-  Serial.println("MPU9150 initialized for active data mode...."); // Initialize device for active mode read of acclerometer, gyroscope, and temperature
+    initMPU9150(); // Inititalize and configure accelerometer and gyroscope
+    Serial.println("MPU9150 initialized for active data mode...."); // Initialize device for active mode read of acclerometer, gyroscope, and temperature
   
-  // Read the WHO_AM_I register of the magnetometer, this is a good test of communication
-  uint8_t c = readByte(AK8975A_ADDRESS, WHO_AM_I_AK8975A);  // Read WHO_AM_I register for AK8975A
-  delay(1000); 
+    // Read the WHO_AM_I register of the magnetometer, this is a good test of communication
+    uint8_t c = readByte(AK8975A_ADDRESS, WHO_AM_I_AK8975A);  // Read WHO_AM_I register for AK8975A
   
-  // Get magnetometer calibration from AK8975A ROM
-  initAK8975A(magCalibration);
-  if(SerialDebug) {
-  Serial.println("Magnetometer calibration values: ");
-  Serial.print("X-Axis sensitivity adjustment value "); Serial.println(magCalibration[0], 2);
-  Serial.print("Y-Axis sensitivity adjustment value "); Serial.println(magCalibration[1], 2);
-  Serial.print("Z-Axis sensitivity adjustment value "); Serial.println(magCalibration[2], 2); 
-  }
+    // Get magnetometer calibration from AK8975A ROM
+    initAK8975A(magCalibration);
+    if(SerialDebug) {
+      Serial.println("Magnetometer calibration values: ");
+      Serial.print("X-Axis sensitivity adjustment value "); Serial.println(magCalibration[0], 2);
+      Serial.print("Y-Axis sensitivity adjustment value "); Serial.println(magCalibration[1], 2);
+      Serial.print("Z-Axis sensitivity adjustment value "); Serial.println(magCalibration[2], 2); 
+    }
    
-  MagRate = 10; // set magnetometer read rate in Hz; 10 to 100 (max) Hz are reasonable values
-  break;
+    MagRate = 10; // set magnetometer read rate in Hz; 10 to 100 (max) Hz are reasonable values
+    setupSuccess = true;
   }
   else
   {
     Serial.print("Could not connect to MPU9150: 0x");
     Serial.println(c, HEX);
-    delay(1000);
   }
+  return setupSuccess;
 }
+
+void setup()
+{
+  Serial.begin(38400);
+  Wire.begin();
+ 
+  pinMode(blinkPin, OUTPUT);
+  digitalWrite(blinkPin, HIGH);
+  bool gyroSetupSuccessful = initGyro();
+  if (!gyroSetupSuccessful) {
+    while(1) {
+      delay(1000);
+      Serial.print("Fail!\n");
+    }
+  }
 }
 
 void loop()
@@ -877,15 +899,23 @@ void MPU6050SelfTest(float * destination) // Should return percent deviation fro
 }
 
         // Wire.h read and write protocols
-        void writeByte(uint8_t address, uint8_t subAddress, uint8_t data)
+uint8_t writeByte(uint8_t address, uint8_t subAddress, uint8_t data)
 {
 	Wire.beginTransmission(address);  // Initialize the Tx buffer
 	Wire.write(subAddress);           // Put slave register address in Tx buffer
 	Wire.write(data);                 // Put data in Tx buffer
-	Wire.endTransmission();           // Send the Tx buffer
+	uint8_t err = Wire.endTransmission(true);             // Send the Tx buffer, but send a restart to keep connection alive
+        if (err) {
+          Serial.print("Error encountered in I2C transmission\n");
+          if (err==1) Serial.print("1:data too long to fit in transmit buffer\n");
+          if (err==2) Serial.print("2:received NACK on transmit of address\n");
+          if (err==3) Serial.print("3:received NACK on transmit of data\n");
+          if (err==4) Serial.print("4:other error\n");
+        }
+        return err;
 }
 
-        uint8_t readByte(uint8_t address, uint8_t subAddress)
+uint8_t readByte(uint8_t address, uint8_t subAddress)
 {
 	uint8_t data; // `data` will store the register data	 
 	Wire.beginTransmission(address);         // Initialize the Tx buffer
@@ -898,7 +928,7 @@ void MPU6050SelfTest(float * destination) // Should return percent deviation fro
           if (err==3) Serial.print("3:received NACK on transmit of data\n");
           if (err==4) Serial.print("4:other error\n");
         }
-	Wire.requestFrom(address, (uint8_t) 1);  // Read one byte from slave register address 
+	Wire.requestFrom((uint8_t) address, (uint8_t) 1, (uint8_t) false);  // Read one byte from slave register address
         uint8_t bytesAvailable = Wire.available();
         if (!bytesAvailable) {
           Serial.print("No I2C data available to read!");

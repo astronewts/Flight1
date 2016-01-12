@@ -4,16 +4,17 @@
 
 #define MSEC_IN_MIN (1000*60)
 #define MSEC_IN_SEC 1000
+elapsedMillis time_initialization_rb;
 
 // Set the RB Debug Mode 
-bool rb_debug_mode = 1; // 0 = Normal, 1 = Active Debug, 
+bool rb_debug_mode = 0; // 0 = Normal, 1 = Active Debug, 
 
 void initialize_rb()
 {
+    Serial.println("If the RockBlock is not connected, this initialization will timeout in 4 min");
     // Set RB Timeout Variables
     isbd.adjustATTimeout(DEFAULT_RB_AT_BUS_TIMEOUT); // Default is 20 seconds
-    isbd.adjustSendReceiveTimeout(DEFAULT_RB_SEND_RECIEVE_TIMEOUT); // Default is 300 seconds
-
+    isbd.adjustSendReceiveTimeout(DEFAULT_RB_SEND_RECIEVE_TIMEOUT); // Default value set in definition.h
       if(rb_debug_mode == 1)
       {
         Serial.println("isbd.setPowerProfile(DEFAULT_RB_POWER_MODE ) : start");
@@ -38,16 +39,16 @@ void initialize_rb()
       if(rb_debug_mode == 1)
       {
         Serial.println(" initiating isbd.begin()");
+        time_initialization_rb = 0;
       }
-      isbd.begin();  // the initialization gets stuck here if the RB is not connected.
+      
+      isbd.begin();  // the initialization gets stuck here if the RB is not connected... and will time out in 4 min (240000 ms).  
       if(rb_debug_mode == 1)
       {
-        Serial.println("isbd.begin() = done");
-        Serial.print("isbd.begin() =");
-        Serial.println(isbd.begin());
-        Serial.println(" ");
-        Serial.println("########################### isdb.begin() was just commanded ################################");
-        Serial.println(" ");
+        Serial.println("isbd.begin() has finished");
+        Serial.print("initialization took:");
+        Serial.print(time_initialization_rb);
+        Serial.println("ms");
       }
     }
 }

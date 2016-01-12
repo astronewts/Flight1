@@ -75,20 +75,16 @@ void setup()
    Serial.println("--- done ");
    Serial.print("set_normal_mode ---");
    set_normal_mode();
-
-   //sd_setup();
-   //initialize_rb();
-   
    Serial.println("--- done ");
-   Serial.print("sd setup ---");
-   //sd_setup();
-   Serial.println("--- done ");
-   Serial.print("initialize_rb ---");
-   //initialize_rb();
-   Serial.println("--- done ");
-   Serial.print("gyro_setup ---");
-   //gyro_setup();
-   Serial.println("--- done ");
+//   Serial.print("sd setup ---");
+//   sd_setup();
+//   Serial.println("--- done ");
+//   Serial.println("initialize_rb ---");
+//   initialize_rb();
+//   Serial.println("--- done ");
+//   Serial.print("gyro_setup ---");
+//   gyro_setup();
+//   Serial.println("--- done ");
 
    Serial.println("/nFLIGHT CODE START: /n");  
    Serial.println(" PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
