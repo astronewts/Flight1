@@ -137,7 +137,7 @@
 
 
 // I2C address 0x69 could be 0x68 depends on your wiring. 
-int MPU9150_I2C_ADDRESS = 0x69;
+int MPU9150_I2C_ADDRESS = 0x68;
 
 
 //Variables where our values can be stored
@@ -202,7 +202,7 @@ void MPU9150_setupCompass(){
   MPU9150_writeSensor(0x0A, 0x0F); //SelfTest
   MPU9150_writeSensor(0x0A, 0x00); //PowerDownMode
 
-  MPU9150_I2C_ADDRESS = 0x69;      //change Adress to MPU
+  MPU9150_I2C_ADDRESS = 0x68;      //change Adress to MPU
 
   MPU9150_writeSensor(0x24, 0x40); //Wait for Data at Slave0
   MPU9150_writeSensor(0x25, 0x8C); //Set i2c address at slave0 at 0x0C
@@ -230,15 +230,43 @@ void MPU9150_setupCompass(){
 int MPU9150_readSensor(int addrL, int addrH){
   Wire.beginTransmission(MPU9150_I2C_ADDRESS);
   Wire.write(addrL);
-  Wire.endTransmission(false);
-
+  //Wire.endTransmission(false);
+  uint8_t err = Wire.endTransmission(false);             // Send the Tx buffer, but send a restart to keep connection alive
+        if (err) {
+          Serial.print("Error encountered in I2C transmission\n");
+          if (err==1) Serial.print("1:data too long to fit in transmit buffer\n");
+          if (err==2) Serial.print("2:received NACK on transmit of address\n");
+          if (err==3) Serial.print("3:received NACK on transmit of data\n");
+          if (err==4) Serial.print("4:other error\n");
+          delay(10000);
+        }
+  Wire.requestFrom(MPU9150_I2C_ADDRESS, 1, true);  // Read one byte from slave register address 
+        uint8_t bytesAvailable = Wire.available();
+        if (!bytesAvailable) {
+          Serial.print("No I2C data available to read!");
+        }
+  
   Wire.requestFrom(MPU9150_I2C_ADDRESS, 1, true);
   byte L = Wire.read();
 
   Wire.beginTransmission(MPU9150_I2C_ADDRESS);
   Wire.write(addrH);
-  Wire.endTransmission(false);
-
+  //Wire.endTransmission(false);
+  err = Wire.endTransmission(false);             // Send the Tx buffer, but send a restart to keep connection alive
+        if (err) {
+          Serial.print("Error encountered in I2C transmission\n");
+          if (err==1) Serial.print("1:data too long to fit in transmit buffer\n");
+          if (err==2) Serial.print("2:received NACK on transmit of address\n");
+          if (err==3) Serial.print("3:received NACK on transmit of data\n");
+          if (err==4) Serial.print("4:other error\n");
+          delay(10000);
+        }
+  Wire.requestFrom(MPU9150_I2C_ADDRESS, 1, true);  // Read one byte from slave register address 
+        bytesAvailable = Wire.available();
+        if (!bytesAvailable) {
+          Serial.print("No I2C data available to read!");
+        }
+  
   Wire.requestFrom(MPU9150_I2C_ADDRESS, 1, true);
   byte H = Wire.read();
 
@@ -246,12 +274,29 @@ int MPU9150_readSensor(int addrL, int addrH){
 }
 
 int MPU9150_readSensor(int addr){
+  uint8_t data;
   Wire.beginTransmission(MPU9150_I2C_ADDRESS);
   Wire.write(addr);
-  Wire.endTransmission(false);
-
-  Wire.requestFrom(MPU9150_I2C_ADDRESS, 1, true);
-  return Wire.read();
+  //Wire.endTransmission(false);
+  uint8_t err = Wire.endTransmission(false);             // Send the Tx buffer, but send a restart to keep connection alive
+        if (err) {
+          Serial.print("Error encountered in I2C transmission\n");
+          if (err==1) Serial.print("1:data too long to fit in transmit buffer\n");
+          if (err==2) Serial.print("2:received NACK on transmit of address\n");
+          if (err==3) Serial.print("3:received NACK on transmit of data\n");
+          if (err==4) Serial.print("4:other error\n");
+        }
+  Wire.requestFrom( MPU9150_I2C_ADDRESS, 1, true);  // Read one byte from slave register address 
+        uint8_t bytesAvailable = Wire.available();
+        if (!bytesAvailable) {
+          Serial.print("No I2C data available to read!");
+        }
+  data = Wire.read();                      // Fill Rx buffer with result
+  return data;
+ 
+  
+  //Wire.requestFrom(MPU9150_I2C_ADDRESS, 1, true);
+  //return Wire.read();
 }
 
 int MPU9150_writeSensor(int addr,int data){
