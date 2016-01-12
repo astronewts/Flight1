@@ -730,24 +730,24 @@ void write_output_telemetry_dataword()
   
     parameters.output_dataword = parameters.output_dataword + valid_str;                                                     //39
     
-    parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_X], parameters.output_dataword);                   //40
-    parameters.output_dataword = combine_float(32, std::max(calData.accelMaxX, (short)(-calData.accelMinX)), parameters.output_dataword);  //41
-    parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_Y], parameters.output_dataword);                   //42
-    parameters.output_dataword = combine_float(32, std::max(calData.accelMaxY, (short)(-calData.accelMinY)), parameters.output_dataword);  //43
-    parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_Z], parameters.output_dataword);                   //44
-    parameters.output_dataword = combine_float(32, std::max(calData.accelMaxZ, (short)(-calData.accelMinZ)), parameters.output_dataword);  //45
-    parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_X], parameters.output_dataword);                     //46
-    parameters.output_dataword = combine_float(32, std::max(calData.magMaxX, (short)(-calData.magMinX)), parameters.output_dataword);      //47
-    parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_Y], parameters.output_dataword);                     //48
-    parameters.output_dataword = combine_float(32, std::max(calData.magMaxY, (short)(-calData.magMinY)), parameters.output_dataword);      //49
-    parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_Z], parameters.output_dataword);                     //50
-    parameters.output_dataword = combine_float(32, std::max(calData.magMaxZ, (short)(-calData.magMinZ)), parameters.output_dataword);      //51
+//    parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_X], parameters.output_dataword);                   //40
+//    parameters.output_dataword = combine_float(32, std::max(calData.accelMaxX, (short)(-calData.accelMinX)), parameters.output_dataword);  //41
+//    parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_Y], parameters.output_dataword);                   //42
+//    parameters.output_dataword = combine_float(32, std::max(calData.accelMaxY, (short)(-calData.accelMinY)), parameters.output_dataword);  //43
+//    parameters.output_dataword = combine_float(32, dueMPU.m_calAccel[VEC3_Z], parameters.output_dataword);                   //44
+//    parameters.output_dataword = combine_float(32, std::max(calData.accelMaxZ, (short)(-calData.accelMinZ)), parameters.output_dataword);  //45
+//    parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_X], parameters.output_dataword);                     //46
+//    parameters.output_dataword = combine_float(32, std::max(calData.magMaxX, (short)(-calData.magMinX)), parameters.output_dataword);      //47
+//    parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_Y], parameters.output_dataword);                     //48
+//    parameters.output_dataword = combine_float(32, std::max(calData.magMaxY, (short)(-calData.magMinY)), parameters.output_dataword);      //49
+//    parameters.output_dataword = combine_float(32, dueMPU.m_calMag[VEC3_Z], parameters.output_dataword);                     //50
+ //   parameters.output_dataword = combine_float(32, std::max(calData.magMaxZ, (short)(-calData.magMinZ)), parameters.output_dataword);      //51
     // Quaternion consists of 4 32-bit floats. Only including vector component zero is a known issue. Pivotal bug ID 95940810
-    parameters.output_dataword = combine_float(32, dueMPU.m_rawQuaternion[0], parameters.output_dataword);                  //52
+  //  parameters.output_dataword = combine_float(32, dueMPU.m_rawQuaternion[0], parameters.output_dataword);                  //52
     // Euler pose is a 3-dimensional vector. Only including one vector component here is a known issue. Pivotal bug ID 95940810
-    parameters.output_dataword = combine_float(32, (long) dueMPU.m_dmpEulerPose, parameters.output_dataword);                //53
-    parameters.output_dataword = combine_float(32, (long) dueMPU.m_fusedEulerPose, parameters.output_dataword);              //54
-    parameters.output_dataword = combine(32, gyro.gyro_temp, parameters.output_dataword);                                         //55 
+   // parameters.output_dataword = combine_float(32, (long) dueMPU.m_dmpEulerPose, parameters.output_dataword);                //53
+   // parameters.output_dataword = combine_float(32, (long) dueMPU.m_fusedEulerPose, parameters.output_dataword);              //54
+    //parameters.output_dataword = combine(32, gyro.gyro_temp, parameters.output_dataword);                                         //55 
     parameters.output_dataword = combine(8, parameters.voltage_sanity_check_high, parameters.output_dataword);               //56
     parameters.output_dataword = combine(8, parameters.voltage_sanity_check_low, parameters.output_dataword);                //57
     parameters.output_dataword = combine(8, parameters.charge_current_sanity_check_high, parameters.output_dataword);        //58

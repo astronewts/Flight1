@@ -307,22 +307,22 @@ void write_telemetry_data_to_sd()
   
   bout << ',' << gps_isvalid_str;                                       //39
                                                                        
-  bout << ',' << dueMPU.m_calAccel[VEC3_X];                            //40
-  bout << ',' << std::max(calData.accelMaxX, (short)(-calData.accelMinX)); //41
-  bout << ',' << dueMPU.m_calAccel[VEC3_Y];                            //42
-  bout << ',' << std::max(calData.accelMaxY, (short)(-calData.accelMinY)); //43
-  bout << ',' << dueMPU.m_calAccel[VEC3_Z];                            //44
-  bout << ',' << std::max(calData.accelMaxZ, (short)(-calData.accelMinZ)); //45
-  bout << ',' << dueMPU.m_calMag[VEC3_X];                               //46
-  bout << ',' << std::max(calData.magMaxX, (short)(-calData.magMinX)); //47
-  bout << ',' << dueMPU.m_calMag[VEC3_Y];                              //48
-  bout << ',' << std::max(calData.magMaxY, (short)(-calData.magMinY)); //49
-  bout << ',' << dueMPU.m_calMag[VEC3_Z];                              //50
-  bout << ',' << std::max(calData.magMaxZ, (short)(-calData.magMinZ)); //51
-  bout << ',' << dueMPU.m_rawQuaternion;                               //52
-  bout << ',' << dueMPU.m_dmpEulerPose;                                //53
-  bout << ',' << dueMPU.m_fusedEulerPose;                              //54
-  bout << ',' << gyro_temp;                                            //55
+//  bout << ',' << dueMPU.m_calAccel[VEC3_X];                            //40
+//  bout << ',' << std::max(calData.accelMaxX, (short)(-calData.accelMinX)); //41
+//  bout << ',' << dueMPU.m_calAccel[VEC3_Y];                            //42
+//  bout << ',' << std::max(calData.accelMaxY, (short)(-calData.accelMinY)); //43
+ // bout << ',' << dueMPU.m_calAccel[VEC3_Z];                            //44
+ // bout << ',' << std::max(calData.accelMaxZ, (short)(-calData.accelMinZ)); //45
+ // bout << ',' << dueMPU.m_calMag[VEC3_X];                               //46
+ // bout << ',' << std::max(calData.magMaxX, (short)(-calData.magMinX)); //47
+//  bout << ',' << dueMPU.m_calMag[VEC3_Y];                              //48
+//  bout << ',' << std::max(calData.magMaxY, (short)(-calData.magMinY)); //49
+//  bout << ',' << dueMPU.m_calMag[VEC3_Z];                              //50
+//  bout << ',' << std::max(calData.magMaxZ, (short)(-calData.magMinZ)); //51
+//  bout << ',' << dueMPU.m_rawQuaternion;                               //52
+//  bout << ',' << dueMPU.m_dmpEulerPose;                                //53
+ // bout << ',' << dueMPU.m_fusedEulerPose;                              //54
+ // bout << ',' << gyro_temp;                                            //55
   bout << ',' << parameters.voltage_sanity_check_high;                 //56
   bout << ',' << parameters.voltage_sanity_check_low;                  //57
   bout << ',' << parameters.charge_current_sanity_check_high;          //58

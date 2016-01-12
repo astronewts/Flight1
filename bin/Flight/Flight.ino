@@ -83,7 +83,7 @@ void setup()
 //   initialize_rb();
 //   Serial.println("--- done ");
 //   Serial.print("gyro_setup ---");
-//   gyro_setup();
+   gyro_setup();
 //   Serial.println("--- done ");
 
    Serial.println("/nFLIGHT CODE START: /n");  
@@ -168,10 +168,13 @@ void loop()
      //TODO: Add Collections for the Digital GYRO Data
      
      // Collect GPS Data
-     get_gps_data(); 
+     collect_gps_data(); 
       
      // Collect Altimiter Data
      collect_alt_data();
+
+    //Collect gyro data
+    collect_gyro_data(); 
 
      // Process All Software Data    
 
@@ -203,9 +206,9 @@ void loop()
        //TODO: Add Collections for the Digital Data
        
        // Collect GPS Data
-       get_gps_data(); 
+       collect_gps_data(); 
        
-       // Collect_Gyro_data();
+        collect_gyro_data();
        //TODO: Add Collections for the Digital GYRO Data
         
        // Collect Altimiter Data

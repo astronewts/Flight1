@@ -10,7 +10,7 @@ static char sz[64];
 // The TinyGPS++ object
 TinyGPSPlus gps;
 
-void get_gps_data()
+void collect_gps_data()
 {
   if(Serial1.available())
   {

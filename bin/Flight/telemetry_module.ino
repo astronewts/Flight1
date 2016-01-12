@@ -562,7 +562,7 @@ void print_telemetry()
   print_analog_data();
   print_alt_data();
   print_gps_data();
-  get_gyro_data();
+  print_gyro_data();
 
   // TODO: ADD CODE FOR CALCULATED SOFTWARE VARIABLE THAT WE WANT TO OUTPUT !!!!
   

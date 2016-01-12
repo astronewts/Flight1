@@ -157,6 +157,15 @@ struct gps_struct
 struct gyro_struct
 {
   double gyro_temp;
+  double ax;
+  double ay;
+  double az;
+  double gx;
+  double gy;
+  double gz;
+  double mx;
+  double my;
+  double mz;
 };
 
 struct telemetry_data_struct
