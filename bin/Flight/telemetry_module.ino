@@ -538,9 +538,13 @@ void print_analog_data()
   Serial.print("Internal Temp: ");
   Serial.println(telemetry_data.internal_temp); 
   Serial.print("Battery Voltage 1: ");
-  Serial.println(telemetry_data.battery_1_voltage_1);   
+  Serial.println(telemetry_data.battery_1_voltage_1); 
+  Serial.print("Battery Voltage 1 RAW: ");
+  Serial.println(raw_telemetry_data.raw_battery_1_voltage_1); 
   Serial.print("Battery Voltage 2: ");
-  Serial.println(telemetry_data.battery_1_voltage_2);   
+  Serial.println(telemetry_data.battery_1_voltage_2);  
+  Serial.print("Battery Voltage 2 RAW: ");
+  Serial.println(raw_telemetry_data.raw_battery_1_voltage_2);   
   Serial.print("Charge Current 1: ");
   Serial.println(telemetry_data.battery_1_charge_current_1);
   Serial.print("Charge Current 2: ");
