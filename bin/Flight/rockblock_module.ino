@@ -7,7 +7,7 @@
 elapsedMillis time_initialization_rb;
 
 // Set the RB Debug Mode 
-bool rb_debug_mode = 1; // 0 = Normal, 1 = Active Debug, 
+bool rb_debug_mode = 0; // 0 = Normal, 1 = Active Debug, 
 
 void initialize_rb()
 {
