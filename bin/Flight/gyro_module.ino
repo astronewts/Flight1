@@ -176,6 +176,7 @@
 
 #define AHRS  false          // set to false for basic data read
 #define SerialDebug true  // set to true to print serial output for debugging
+#define MAX_RETRY_COUNT 10 // How many times to retry gyro setup
 
 // Set initial input parameters
 enum Ascale {
@@ -260,9 +261,15 @@ bool initGyro()
   // Clear the 'sleep' bit to start the sensor.
   //MPU9150_writeSensor(MPU9150_PWR_MGMT_1, 0);
   uint8_t err = -1;
-  while (err) {
+  uint8_t retryCount = 0;
+  while (err && retryCount < MAX_RETRY_COUNT) {
+    retryCount++;
     delay(100);
     err = writeByte(MPU9150_ADDRESS, PWR_MGMT_1, 0);
+  }
+
+  if (err) {
+    return setupSuccess;
   }
 
   // Read the WHO_AM_I register, this is a good test of communication
