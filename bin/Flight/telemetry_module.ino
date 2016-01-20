@@ -49,12 +49,12 @@ void collect_analog_telemetry()
   
   //Battery 1 Voltage 1
   raw_telemetry_data.raw_battery_1_voltage_1 = analogRead(PIN_BATTERY_1_VOLTAGE_1);
-  telemetry_data.battery_1_voltage_1 = ((raw_telemetry_data.raw_battery_1_voltage_1 * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
+  telemetry_data.battery_1_voltage_1 = ((raw_telemetry_data.raw_battery_1_voltage_1 * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3 + VOLTAGE_CONSTANT_4;
   delay(100);
   
   //Battery 1 Voltage 2
   raw_telemetry_data.raw_battery_1_voltage_2 = analogRead(PIN_BATTERY_1_VOLTAGE_2);
-  telemetry_data.battery_1_voltage_2 = ((raw_telemetry_data.raw_battery_1_voltage_2 * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3;
+  telemetry_data.battery_1_voltage_2 = ((raw_telemetry_data.raw_battery_1_voltage_2 * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3 + VOLTAGE_CONSTANT_4;
   delay(100);
   
   //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
