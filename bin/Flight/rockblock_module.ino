@@ -42,7 +42,7 @@ void initialize_rb()
         Serial.println(" initiating isbd.begin()");
         time_initialization_rb = 0;
       }
-      Serial.println(" the initialization gets stuck here if the RB is not connected... and will time out in 10 s (set in IridiumSBD.h)");
+      Serial.println(" the initialization gets stuck here if the RB is not connected... and will time out in 20 s (set in IridiumSBD.h)");
       parameters.rb_initialization_error_status = isbd.begin(); 
        
       if(rb_debug_mode == 1)
@@ -197,6 +197,7 @@ void sendreceive_satellite_data()
          Serial.println(sig_qual_err);
          Serial.print("Time: ");
          Serial.println(parameters.transmit_elapsed_time);
+         // TODO: WRITE THIS TO THE SD BUFFER
       //}
       //      ERROR CODES!!!
       //      #define ISBD_SUCCESS             0

@@ -267,7 +267,6 @@ void loop()
         parameters.transmit_elapsed_time = 0;
         sendreceive_satellite_data(); 
      }
-
   }
 }
 
