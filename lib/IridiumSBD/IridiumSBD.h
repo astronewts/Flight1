@@ -44,7 +44,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define ISBD_SERIAL_FAILURE      2
 #define ISBD_PROTOCOL_ERROR      3
 #define ISBD_CANCELLED           4
-#define ISBD_NO_MODEM_DETECTED   5
+#define ISBD_NO_MODEM_DETECTED   5 // that the mssg returned by isbd.begin() if the RB is not connected
 #define ISBD_SBDIX_FATAL_ERROR   6
 #define ISBD_SENDRECEIVE_TIMEOUT 7
 #define ISBD_RX_OVERFLOW         8

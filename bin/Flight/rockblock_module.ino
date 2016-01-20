@@ -43,9 +43,14 @@ void initialize_rb()
         time_initialization_rb = 0;
       }
       Serial.println(" the initialization gets stuck here if the RB is not connected... and will time out in 10 s (set in IridiumSBD.h)");
-      isbd.begin();    
+      isbd.begin(); 
+
       if(rb_debug_mode == 1)
       {
+       if (isbd.begin()==5)
+       {
+         Serial.println(" RB is not connected   ");
+       } 
         Serial.println("isbd.begin() has finished");
         Serial.print("initialization took:");
         Serial.print(time_initialization_rb);
