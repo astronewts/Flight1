@@ -100,7 +100,7 @@ void sendreceive_satellite_data()
       Serial.println(parameters.cutdown_initiation_elapsed_time);
       Serial.println(" ");
       
-      // The follo  wing two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
+      // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
       isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
       Serial.println(" ");
       Serial.println("###########################  isbd.attachConsole(Serial) was just commanded ###########################");   

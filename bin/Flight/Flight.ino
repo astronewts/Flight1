@@ -79,11 +79,11 @@ void setup()
    Serial.print("sd setup ---");
    sd_setup();
    Serial.println("--- done ");
-   Serial.println("initialize_rb ---");
-   initialize_rb();
-   Serial.println("--- done ");
    Serial.print("gyro_setup ---");
    gyro_setup();
+   Serial.println("--- done ");
+   Serial.println("initialize_rb ---");
+   initialize_rb();
    Serial.println("--- done ");
 
    Serial.println("/nFLIGHT CODE START: /n");  

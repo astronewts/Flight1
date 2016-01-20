@@ -314,7 +314,6 @@ bool initGyro()
 
 void gyro_setup()
 {
-  Serial.begin(38400);
   Wire.begin();
  
   pinMode(blinkPin, OUTPUT);
