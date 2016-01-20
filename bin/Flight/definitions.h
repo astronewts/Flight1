@@ -256,6 +256,8 @@ struct parameter_struct
   int altitude_limit_low;
   int altitude_sanity_check_low;
 
+  int rb_initialization_error_status;
+
   int test_count;
   String user_intialization_input;
   int prompt_from_user_makes_sense;
@@ -286,6 +288,7 @@ struct parameter_struct
   elapsedMillis battery_1_charge_current_read_elapsed_time;
   elapsedMillis battery_2_charge_current_read_elapsed_time;
   elapsedMillis intialization_timeout_time;
+  elapsedMillis rb_reinitialize_time;
 
   String output_dataword;
   String valid_str;

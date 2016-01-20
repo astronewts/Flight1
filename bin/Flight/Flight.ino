@@ -259,8 +259,16 @@ void loop()
      // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
      if(parameters.transmit_elapsed_time > parameters.transmit_period)
      {
+        if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
+        {
+          initialize_rb();
+          parameters.rb_reinitialize_time = 0;  
+        }
+        
         parameters.transmit_elapsed_time = 0;
         sendreceive_satellite_data(); 
+        Serial.print(" RB isbd.begin() error is: ");
+        Serial.println(rb_err);
      }
 
   }
@@ -323,6 +331,7 @@ void set_defaults()
   parameters.voltage_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
 
   parameters.test_count = INITIAL_TEST_COUNT;
+  parameters.rb_initialization_error_status = 0;
   
   parameters.battery_1_recharge_ratio = DEFAULT_B1_RECHARGE_RATIO;
   parameters.battery_1_amphrs_charging = 0.0;

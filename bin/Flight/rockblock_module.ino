@@ -43,18 +43,18 @@ void initialize_rb()
         time_initialization_rb = 0;
       }
       Serial.println(" the initialization gets stuck here if the RB is not connected... and will time out in 10 s (set in IridiumSBD.h)");
-      isbd.begin(); 
-
+      parameters.rb_initialization_error_status = isbd.begin(); 
+       
       if(rb_debug_mode == 1)
-      {
-       if (isbd.begin()==5)
-       {
-         Serial.println(" RB is not connected   ");
-       } 
-        Serial.println("isbd.begin() has finished");
-        Serial.print("initialization took:");
-        Serial.print(time_initialization_rb);
-        Serial.println("ms");
+      { 
+         if(parameters.rb_initialization_error_status == 5)
+         {
+            Serial.println(" RB is not connected   ");
+         }
+         Serial.println("isbd.begin() has finished");
+         Serial.print("initialization took:");
+         Serial.print(time_initialization_rb);
+         Serial.println("ms");
       }
     }
 }
@@ -143,7 +143,7 @@ void sendreceive_satellite_data()
     
     if (isbd.isAsleep() == 1)
     {
-      isbd.begin();
+      parameters.rb_initialization_error_status = isbd.begin();
       if(rb_debug_mode == 1)
       {
         Serial.println(" ");
