@@ -7,7 +7,7 @@
 elapsedMillis time_initialization_rb;
 
 // Set the RB Debug Mode 
-bool rb_debug_mode = 0; // 0 = Normal, 1 = Active Debug, 
+bool rb_debug_mode = 1; // 0 = Normal, 1 = Active Debug, 
 
 void initialize_rb()
 {
@@ -30,7 +30,8 @@ void initialize_rb()
       
       if(rb_debug_mode == 1)
       {
-        Serial.print(" isbd.isAsleep() =");
+        Serial.print(" isbd.isAsleep() = 0 if RB is awake but 1 if asleep ");
+        Serial.print(" isbd.isAsleep() =  ");
         Serial.println( isbd.isAsleep()); 
       }
       
@@ -41,8 +42,8 @@ void initialize_rb()
         Serial.println(" initiating isbd.begin()");
         time_initialization_rb = 0;
       }
-      
-      isbd.begin();  // the initialization gets stuck here if the RB is not connected... and will time out in 4 min (240000 ms).  
+      Serial.println(" the initialization gets stuck here if the RB is not connected... and will time out in 10 s (set in IridiumSBD.h)");
+      isbd.begin();    
       if(rb_debug_mode == 1)
       {
         Serial.println("isbd.begin() has finished");
@@ -99,7 +100,7 @@ void sendreceive_satellite_data()
       Serial.println(parameters.cutdown_initiation_elapsed_time);
       Serial.println(" ");
       
-      // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
+      // The follo  wing two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
       isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
       Serial.println(" ");
       Serial.println("###########################  isbd.attachConsole(Serial) was just commanded ###########################");   
