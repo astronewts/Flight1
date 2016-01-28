@@ -107,116 +107,109 @@ void sd_setup() {
   bout << pstr(",date,time");
 #endif  // USE_DS1307
 
-  bout << pstr(",Vehicle Mode");                        //1
-  bout << pstr(",Command Count");                       //2
-  bout << pstr(",Normal Transmit Rate");                //3
-  bout << pstr(",Loadshed Transmit Rate");              //4
-  bout << pstr(",Transit Transmit Rate");               //5
-  bout << pstr(",Emergency Transit Transmit Rate");     //6
-  bout << pstr(",Spare Transmit Rate");                 //7
-  bout << pstr(",SD Card Write Rate");                  //8
-  bout << pstr(",Battery 1 Temp 1");                    //9
-  bout << pstr(",Battery 1 Temp 2");                    //10
-  bout << pstr(",Battery 2 Temp 1");                    //11
-  bout << pstr(",Battery 2 Temp 2");                    //12
-  bout << pstr(",Inner External Temp");                 //13
-  bout << pstr(",Outer External Temp");                 //14
-  bout << pstr(",Internal Temp");                       //15
-  bout << pstr(",Air Pressure");                        //16
-  bout << pstr(",Battery 1 Voltage Pri");               //17
-  bout << pstr(",Battery 1 Voltage Red");               //18
-  bout << pstr(",Battery 1 Charge Current 1");          //19
-  bout << pstr(",Battery 1 Charge Current 2");          //20
+  bout << pstr(",Vehicle Mode [-]");                         //1
+  bout << pstr(",Command Count [-]");                        //2
+  bout << pstr(",Normal Transmit Period [ms]");              //3
+  bout << pstr(",Loadshed Transmit Period [ms]");            //4
+  bout << pstr(",Transit Transmit Period [ms]");             //5
+  bout << pstr(",Emergency Transit Transmit Period [ms]");   //6
+  bout << pstr(",Spare Transmit Period [ms]");               //7
+  bout << pstr(",SD Card Write Period [ms]");                //8
+  bout << pstr(",Battery 1 Temp 1 [C]");                     //9
+  bout << pstr(",Battery 1 Temp 2 [C]");                     //10
+  bout << pstr(",Battery 2 Temp 1 [C]");                     //11
+  bout << pstr(",Battery 2 Temp 2 [C]");                     //12
+  bout << pstr(",Inner External Temp [C]");                  //13
+  bout << pstr(",Outer External Temp [C]");                  //14
+  bout << pstr(",Internal Temp [C]");                        //15
+  bout << pstr(",Air Pressure [Pa]");                        //16
+  bout << pstr(",Battery 1 Voltage Pri [V]");                //17
+  bout << pstr(",Battery 1 Voltage Red [V]");                //18
+  bout << pstr(",Battery 1 Charge Current 1 [A]");           //19
+  bout << pstr(",Battery 1 Charge Current 2 [A]");           //20
   // TODO: I THINK WE'RE ACTUALLY OUTPUTTING TEMP CONSTANTS IN SPARE 1 & 2
-  bout << pstr(",Spare 1");                             //21  
-  bout << pstr(",Spare 2");                             //22
-  bout << pstr(",Telemetry Processing Period");         //23
-  bout << pstr(",Spare 3");                             //24
-  bout << pstr(",GPS Latitude");                        //25
-  bout << pstr(",GPS Longitude");                       //26
-  bout << pstr(",GPS Altitude");                        //27
-  bout << pstr(",GPS Location Age");                    //28
-  bout << pstr(",GPS Altitude Age");                    //29
-  bout << pstr(",GPS Course");                          //30
-  bout << pstr(",GPS Speed");                           //31
-  bout << pstr(",GPS # of Satellites");                 //32
-  bout << pstr(",GPS Date");                            //33
-  bout << pstr(",GPS Time");                            //34
-  bout << pstr(",HDOP Value");                          //35
-  bout << pstr(",GPS Chars Processed");                 //36
-  bout << pstr(",GPS Sentences with Fix");              //37
-  bout << pstr(",GPS Failed Checksum");                 //38
-  bout << pstr(",GPS Isvalid Conglomerate");            //39
-  bout << pstr(",Acceleration Min X");                  //40
-  bout << pstr(",Acceleration Max X");                  //41
-  bout << pstr(",Acceleration Min Y");                  //42
-  bout << pstr(",Acceleration Max Y");                  //43
-  bout << pstr(",Acceleration Min Z");                  //44
-  bout << pstr(",Acceleration Max Z");                  //45
-  bout << pstr(",Magnetometer Min X");                  //46
-  bout << pstr(",Magnetometer Max X");                  //47
-  bout << pstr(",Magnetometer Min Y");                  //48
-  bout << pstr(",Magnetometer Max Y");                  //49
-  bout << pstr(",Magnetometer Min Z");                  //50
-  bout << pstr(",Magnetometer Max Z");                  //51
-  bout << pstr(",GYRO Raw Quaternion");                 //52
-  bout << pstr(",GYRO Euler Angle");                    //53
-  bout << pstr(",GYRO Fused Euler Angle");              //54
-  bout << pstr(",Accelerometer Temp");                  //55
-  bout << pstr(",Voltage Sanity Check High");           //56
-  bout << pstr(",Voltage Sanity Check Low");            //57  
-  bout << pstr(",Charge Current Sanity High");          //58
-  bout << pstr(",Charge Current Sanity Low");           //59
-  bout << pstr(",Battery 1 Recharge Ratio");            //60
-  bout << pstr(",Battery 1 Amp Hours Charging");        //61
-  bout << pstr(",Battery 1 Amp Hours Discharging");     //62
-  bout << pstr(",Battery 1 Capacity Limit High");       //63
-  bout << pstr(",Battery 1 Capacity Limit Low");        //64
-  bout << pstr(",Battery 1 Voltage Term. Charge Limit");//65
-  bout << pstr(",Battery 1 Voltage Init. Charge Limit");//66
-  bout << pstr(",Battery 2 Recharge Ratio");            //67
-  bout << pstr(",Battery 2 Amp Hours Charging");        //68
-  bout << pstr(",Battery 2 Amp Hours Discharging");     //69
-  bout << pstr(",Battery 2 Capacity Limit High");       //70
-  bout << pstr(",Battery 2 Capacity Limit Low");        //71
-  bout << pstr(",Battery 2 Voltage Term. Charge Limit");//72
-  bout << pstr(",Battery 2 Voltage Init. Charge Limit");//73
-  bout << pstr(",Battery Active Temp Limit High");      //74
-  bout << pstr(",Battery Active Temp Limit Low");       //75
-  bout << pstr(",Battery Temp Sanity Check High");      //76
-  bout << pstr(",Battery Normal Temp Limit High");      //77
-  bout << pstr(",Battery Normal Temp Limit Low");       //78
-  bout << pstr(",Battery Survival Temp Limit High");    //79
-  bout << pstr(",Battery Survival Temp Limit Low");     //80
-  bout << pstr(",Battery Temp Sanity Check Low");       //81  
-  bout << pstr(",Loadshed Entry Voltage Limit");        //82
-  bout << pstr(",Auto Cutdown Voltage Limit");          //83
-  bout << pstr(",Low Voltage Time until Cut-down");     //84
-  bout << pstr(",Altitude Limit Low");                  //85  
-  bout << pstr(",Altiude Sanity Check Low");            //86
-  bout << pstr(",Pyro Pulse Width");                    //87
-  bout << pstr(",Camera Period");                       //88
-  bout << pstr(",Camera On Time");                      //89
-  bout << pstr(",Battery 1 Charging Status");           //90-1
-  bout << pstr(",Battery 2 Charging Status");           //90-2
-  bout << pstr(",Battery Bus Low Voltage Flag");        //90-3  
-  bout << pstr(",Heater State 1");                      //90-4
-  bout << pstr(",Heater State 2");                      //90-5
-  bout << pstr(",Cut-down Enable");                     //90-6
-  bout << pstr(",Cut-down 1 Fire Status");              //90-7
-  bout << pstr(",Cut-down 2 Fire Status");              //90-8
-  bout << pstr(",Altitude Valid Flag");                 //90-9
-  bout << pstr(",Camera Enabled");                      //90-10
-  bout << pstr(",Camera Status");                       //90-11
-  bout << pstr(",Battery 1 Temp TLM Valid Flag");       //90-12  
-  bout << pstr(",Battery 2 Temp TLM Valid Flag");       //90-13  
-  bout << pstr(",Bus Voltage TLM Valid Flag");          //90-14   
-  bout << pstr(",Battery 1 Current TLM Valid Flag");    //90-15
-  bout << pstr(",Battery 2 Current TLM Valid Flag");    //90-16  
-  bout << pstr(",Altitude (ft)");                       //91
-  bout << pstr(",Alt Temp");                            //92
-  bout << pstr(",Alt Pressure");                        //93 
-  bout << pstr(",Spare 5");                             //94 
+  bout << pstr(",Spare 1");                                  //21  
+  bout << pstr(",Spare 2");                                  //22
+  bout << pstr(",Telemetry Processing Period [ms]");         //23
+  bout << pstr(",Spare 3");                                  //24
+  bout << pstr(",GPS Latitude [deg]");                       //25
+  bout << pstr(",GPS Longitude [deg]");                      //26
+  bout << pstr(",GPS Altitude [m]");                         //27
+  bout << pstr(",GPS Location Age [s]");                     //28
+  bout << pstr(",GPS Altitude Age [s]");                     //29
+  bout << pstr(",GPS Course [deg]");                         //30
+  bout << pstr(",GPS Speed [km/h]");                         //31
+  bout << pstr(",GPS # of Satellites [-]");                  //32
+  bout << pstr(",GPS Date [-]");                             //33
+  bout << pstr(",GPS Time [-]");                             //34
+  bout << pstr(",HDOP Value [?]");                           //35
+  bout << pstr(",GPS Chars Processed [-]");                  //36
+  bout << pstr(",GPS Sentences with Fix [-]");               //37
+  bout << pstr(",GPS Failed Checksum [-]");                  //38
+  bout << pstr(",GPS Isvalid Conglomerate [-]");             //39
+  bout << pstr(",Acc X [mg]");                               //40
+  bout << pstr(",Acc Y [mg]");                               //41
+  bout << pstr(",Acc Z [mg]");                               //42
+  bout << pstr(",Gyro mag X [mG]");                          //43
+  bout << pstr(",Gyro mag Y [mG]");                          //44
+  bout << pstr(",Gyro mag Z [mG]");                          //45
+  bout << pstr(",Gyro X [deg/s]");                           //46
+  bout << pstr(",Gyro Y [deg/s]");                           //47
+  bout << pstr(",Gyro Z [deg/s]");                           //48
+  bout << pstr(",Gyro Temp [C]");                            //49
+  bout << pstr(",Voltage Sanity Check High [V]");            //50
+  bout << pstr(",Voltage Sanity Check Low [V]");             //51  
+  bout << pstr(",Charge Current Sanity High [A]");           //52
+  bout << pstr(",Charge Current Sanity Low [A]");            //53
+  bout << pstr(",Battery 1 Recharge Ratio [-]");             //54
+  bout << pstr(",Battery 1 Amp Hours Charging [A]");         //55
+  bout << pstr(",Battery 1 Amp Hours Discharging [A]");      //56
+  bout << pstr(",Battery 1 Capacity Limit High [A.h]");      //57
+  bout << pstr(",Battery 1 Capacity Limit Low [A.h]");       //58
+  bout << pstr(",Battery 1 Voltage Term. Charge Limit [V]"); //59
+  bout << pstr(",Battery 1 Voltage Init. Charge Limit [V]"); //60
+  bout << pstr(",Battery 2 Recharge Ratio [-]");             //61
+  bout << pstr(",Battery 2 Amp Hours Charging [A]");         //62
+  bout << pstr(",Battery 2 Amp Hours Discharging [A]");      //63
+  bout << pstr(",Battery 2 Capacity Limit High [A.h]");      //64
+  bout << pstr(",Battery 2 Capacity Limit Low [A.h]");       //65
+  bout << pstr(",Battery 2 Voltage Term. Charge Limit [V]"); //66
+  bout << pstr(",Battery 2 Voltage Init. Charge Limit [V]"); //67
+  bout << pstr(",Battery Active Temp Limit High [C]");       //68
+  bout << pstr(",Battery Active Temp Limit Low [C]");        //68
+  bout << pstr(",Battery Temp Sanity Check High [C]");       //70
+  bout << pstr(",Battery Normal Temp Limit High [C]");       //71
+  bout << pstr(",Battery Normal Temp Limit Low [C]");        //72
+  bout << pstr(",Battery Survival Temp Limit High [C]");     //73
+  bout << pstr(",Battery Survival Temp Limit Low [C]");      //74
+  bout << pstr(",Battery Temp Sanity Check Low [C]");        //75  
+  bout << pstr(",Loadshed Entry Voltage Limit [V]");         //76
+  bout << pstr(",Auto Cutdown Voltage Limit [V]");           //77
+  bout << pstr(",Low Voltage Time until Cut-down [s]");      //78
+  bout << pstr(",Altitude Limit Low [m]");                   //79  
+  bout << pstr(",Altiude Sanity Check Low [m]");             //80
+  bout << pstr(",Pyro Pulse Width [?ms]");                   //81
+  bout << pstr(",Camera Period [ms]");                       //82
+  bout << pstr(",Camera On Time [s]");                       //83
+  bout << pstr(",Battery 1 Charging Status [-]");            //84
+  bout << pstr(",Battery 2 Charging Status [-]");            //85
+  bout << pstr(",Battery Bus Low Voltage Flag [-]");         //86  
+  bout << pstr(",Heater State 1 [-]");                       //87
+  bout << pstr(",Heater State 2 [-]");                       //88
+  bout << pstr(",Cut-down Enable");                          //89
+  bout << pstr(",Cut-down 1 Fire Status [-]");               //90
+  bout << pstr(",Cut-down 2 Fire Status [-]");               //91
+  bout << pstr(",Altitude Valid Flag [-]");                  //92
+  bout << pstr(",Camera Enabled [-]");                       //93
+  bout << pstr(",Camera Status [-]");                        //94
+  bout << pstr(",Battery 1 Temp TLM Valid Flag [-]");        //95  
+  bout << pstr(",Battery 2 Temp TLM Valid Flag [-]");        //96  
+  bout << pstr(",Bus Voltage TLM Valid Flag [-]");           //97  
+  bout << pstr(",Battery 1 Current TLM Valid Flag [-]");     //98
+  bout << pstr(",Battery 2 Current TLM Valid Flag []");      //99  
+  bout << pstr(",Altitude [ft]");                            //100
+  bout << pstr(",Alt Temp [C]");                             //101
+  bout << pstr(",Alt Pressure [?]");                         //102
   logfile << buf << endl << flush;
 
 #if ECHO_TO_SERIAL
@@ -311,14 +304,14 @@ void write_telemetry_data_to_sd()
   bout << ',' << gps_isvalid_str;                                       //39
                                                                        
   bout << ',' << gyro.ax;                                              //40
-  bout << ',' << dummy_value;                                           //41
-  bout << ',' << gyro.ay;                                                //42
-  bout << ',' << dummy_value;                                            //43
-  bout << ',' << gyro.az;                                           //44
-  bout << ',' << dummy_value;                                                //45
-  bout << ',' << gyro.mx;                               //46
+  bout << ',' << dummy_value;                                          //41
+  bout << ',' << gyro.ay;                                              //42
+  bout << ',' << dummy_value;                                          //43
+  bout << ',' << gyro.az;                                              //44
+  bout << ',' << dummy_value;                                          //45
+  bout << ',' << gyro.mx;                                              //46
   bout << ',' << dummy_value; //47
-  bout << ',' << gyro.my;                              //48
+  bout << ',' << gyro.my;                                               //48
   bout << ',' << dummy_value; //49
   bout << ',' << gyro.gx;                              //50
   bout << ',' << gyro.gy; //51
