@@ -131,12 +131,12 @@ void setup()
       parameters.vehicle_mode=FLIGHT_MODE;
     }
     if (parameters.user_intialization_input =="") {
-      Serial.println("\nUser ... you are too slow I picked the mode for you: Flight Mode\n");
+      Serial.println("\n User ... you are too slow I picked the mode for you: Flight Mode\n");
       parameters.vehicle_mode=FLIGHT_MODE;
     }
         
    delay(5000);
-   Serial.print("\nFinally! The mode we are in is: "); 
+   Serial.print("\n Finally! The mode we are in is: "); 
    Serial.println(parameters.vehicle_mode);     
 }
 
@@ -147,14 +147,46 @@ void loop()
   // Cut-Down Test Mode Loop
   if(parameters.vehicle_mode == CUTDOWN_TEST_MODE)
   {
+     
      parameters.test_count = parameters.test_count + 1;
+     if(parameters.test_count <= CUTDOWN_TEST_TIME)
+     {
+     Serial.print("\n Time left before cutdown ... "); 
+     Serial.print(CUTDOWN_TEST_TIME - parameters.test_count); 
+     Serial.println(" seconds ... tic tac tic tac"); 
+     
      delay(1000);
+     }
+     else 
+     {
+     Serial.println("\n Cutdown has been fired ... we are falling (hopefully) "); 
+     }
 
      if(parameters.test_count == CUTDOWN_TEST_TIME)
      {
         cutdown_fire();
+        parameters.sd_card_write_period  = 500; // default sd card period 6s
+        parameters.tlm_processing_period = 500; // default is every 5s
      }
      cutdown_check();
+    
+    // Get all data 
+    if(parameters.tlm_processing_time > parameters.tlm_processing_period)
+    {
+       collect_analog_telemetry();
+       collect_gps_data(); 
+       collect_gyro_data();
+       collect_alt_data();
+       // Process Camera
+       // TODO: Figure out How to Write process_camera_function();
+       parameters.tlm_processing_time = 0.0;
+    }
+    // Write to SD card
+    if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
+    {
+        write_telemetry_data_to_sd();
+        parameters.sd_card_write_elapsed_time = 0;
+    }
 
      print_cutdown_telemetry();
   }
@@ -231,7 +263,7 @@ void loop()
      //Check if time to write data to SD Card 
      if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
      {
-       //write_telemetry_data_to_sd();
+        write_telemetry_data_to_sd();
         parameters.sd_card_write_elapsed_time = 0;
      }
 
