@@ -109,34 +109,34 @@ void sd_setup() {
 
   bout << pstr(",Vehicle Mode [-]");                         //1
   bout << pstr(",Command Count [-]");                        //2
-  bout << pstr(",Normal Transmit Period [ms]");              //3
-  bout << pstr(",Loadshed Transmit Period [ms]");            //4
-  bout << pstr(",Transit Transmit Period [ms]");             //5
-  bout << pstr(",Emergency Transit Transmit Period [ms]");   //6
-  bout << pstr(",Spare Transmit Period [ms]");               //7
-  bout << pstr(",SD Card Write Period [ms]");                //8
-  bout << pstr(",Battery 1 Temp 1 [C]");                     //9
-  bout << pstr(",Battery 1 Temp 2 [C]");                     //10
-  bout << pstr(",Battery 2 Temp 1 [C]");                     //11
-  bout << pstr(",Battery 2 Temp 2 [C]");                     //12
-  bout << pstr(",Inner External Temp [C]");                  //13
-  bout << pstr(",Outer External Temp [C]");                  //14
-  bout << pstr(",Internal Temp [C]");                        //15
+  bout << pstr(",Normal Transmit Period [s]");              //3
+  bout << pstr(",Loadshed Transmit Period [s]");            //4
+  bout << pstr(",Transit Transmit Period [s]");             //5
+  bout << pstr(",Emergency Transit Transmit Period [s]");   //6
+  bout << pstr(",Spare Transmit Period [s]");               //7
+  bout << pstr(",SD Card Write Period [s]");                //8
+  bout << pstr(",Bat 1 Temp 1 [C]");                     //9
+  bout << pstr(",Bat 1 Temp 2 [C]");                     //10
+  bout << pstr(",Bat 2 Temp 1 [C]");                     //11
+  bout << pstr(",Bat 2 Temp 2 [C]");                     //12
+  bout << pstr(",Inner Ext Temp [C]");                  //13
+  bout << pstr(",Outer Ext Temp [C]");                  //14
+  bout << pstr(",Int Temp [C]");                        //15
   bout << pstr(",Air Pressure [Pa]");                        //16
-  bout << pstr(",Battery 1 Voltage Pri [V]");                //17
-  bout << pstr(",Battery 1 Voltage Red [V]");                //18
-  bout << pstr(",Battery 1 Charge Current 1 [A]");           //19
-  bout << pstr(",Battery 1 Charge Current 2 [A]");           //20
+  bout << pstr(",Bat 1 Voltage Pri [V]");                //17
+  bout << pstr(",Bat 1 Voltage Red [V]");                //18
+  bout << pstr(",Bat 1 Charge Current 1 [A]");           //19
+  bout << pstr(",Bat 1 Charge Current 2 [A]");           //20
   // TODO: I THINK WE'RE ACTUALLY OUTPUTTING TEMP CONSTANTS IN SPARE 1 & 2
   bout << pstr(",Spare 1");                                  //21  
   bout << pstr(",Spare 2");                                  //22
   bout << pstr(",Telemetry Processing Period [ms]");         //23
   bout << pstr(",Spare 3");                                  //24
-  bout << pstr(",GPS Latitude [deg]");                       //25
-  bout << pstr(",GPS Longitude [deg]");                      //26
-  bout << pstr(",GPS Altitude [m]");                         //27
-  bout << pstr(",GPS Location Age [s]");                     //28
-  bout << pstr(",GPS Altitude Age [s]");                     //29
+  bout << pstr(",GPS Lat [deg]");                       //25
+  bout << pstr(",GPS Long [deg]");                      //26
+  bout << pstr(",GPS Alt [m]");                         //27
+  bout << pstr(",GPS Loc Age [s]");                     //28
+  bout << pstr(",GPS Alt Age [s]");                     //29
   bout << pstr(",GPS Course [deg]");                         //30
   bout << pstr(",GPS Speed [km/h]");                         //31
   bout << pstr(",GPS # of Satellites [-]");                  //32
@@ -161,52 +161,52 @@ void sd_setup() {
   bout << pstr(",Voltage Sanity Check Low [V]");             //51  
   bout << pstr(",Charge Current Sanity High [A]");           //52
   bout << pstr(",Charge Current Sanity Low [A]");            //53
-  bout << pstr(",Battery 1 Recharge Ratio [-]");             //54
-  bout << pstr(",Battery 1 Amp Hours Charging [A]");         //55
-  bout << pstr(",Battery 1 Amp Hours Discharging [A]");      //56
-  bout << pstr(",Battery 1 Capacity Limit High [A.h]");      //57
-  bout << pstr(",Battery 1 Capacity Limit Low [A.h]");       //58
-  bout << pstr(",Battery 1 Voltage Term. Charge Limit [V]"); //59
-  bout << pstr(",Battery 1 Voltage Init. Charge Limit [V]"); //60
-  bout << pstr(",Battery 2 Recharge Ratio [-]");             //61
-  bout << pstr(",Battery 2 Amp Hours Charging [A]");         //62
-  bout << pstr(",Battery 2 Amp Hours Discharging [A]");      //63
-  bout << pstr(",Battery 2 Capacity Limit High [A.h]");      //64
-  bout << pstr(",Battery 2 Capacity Limit Low [A.h]");       //65
-  bout << pstr(",Battery 2 Voltage Term. Charge Limit [V]"); //66
-  bout << pstr(",Battery 2 Voltage Init. Charge Limit [V]"); //67
-  bout << pstr(",Battery Active Temp Limit High [C]");       //68
-  bout << pstr(",Battery Active Temp Limit Low [C]");        //68
-  bout << pstr(",Battery Temp Sanity Check High [C]");       //70
-  bout << pstr(",Battery Normal Temp Limit High [C]");       //71
-  bout << pstr(",Battery Normal Temp Limit Low [C]");        //72
-  bout << pstr(",Battery Survival Temp Limit High [C]");     //73
-  bout << pstr(",Battery Survival Temp Limit Low [C]");      //74
-  bout << pstr(",Battery Temp Sanity Check Low [C]");        //75  
+  bout << pstr(",Bat 1 Recharge Ratio [-]");             //54
+  bout << pstr(",Bat 1 Amp Hours Charging [A]");         //55
+  bout << pstr(",Bat 1 Amp Hours Discharging [A]");      //56
+  bout << pstr(",Bat 1 Capacity Lim High [A.h]");      //57
+  bout << pstr(",Bat 1 Capacity Lim Low [A.h]");       //58
+  bout << pstr(",Bat 1 Voltage Term. Charge Limit [V]"); //59
+  bout << pstr(",Bat 1 Voltage Init. Charge Limit [V]"); //60
+  bout << pstr(",Bat 2 Recharge Ratio [-]");             //61
+  bout << pstr(",Bat 2 Amp Hours Charging [A]");         //62
+  bout << pstr(",Bat 2 Amp Hours Discharging [A]");      //63
+  bout << pstr(",Bat 2 Capacity Limit High [A.h]");      //64
+  bout << pstr(",Bat 2 Capacity Limit Low [A.h]");       //65
+  bout << pstr(",Bat 2 Voltage Term. Charge Limit [V]"); //66
+  bout << pstr(",Bat 2 Voltage Init. Charge Limit [V]"); //67
+  bout << pstr(",Bat Active Temp Limit High [C]");       //68
+  bout << pstr(",Bat Active Temp Limit Low [C]");        //68
+  bout << pstr(",Bat Temp Sanity Check High [C]");       //70
+  bout << pstr(",Bat Normal Temp Limit High [C]");       //71
+  bout << pstr(",Bat Normal Temp Limit Low [C]");        //72
+  bout << pstr(",Bat Survival Temp Limit High [C]");     //73
+  bout << pstr(",Bat Survival Temp Limit Low [C]");      //74
+  bout << pstr(",Bat Temp Sanity Check Low [C]");        //75  
   bout << pstr(",Loadshed Entry Voltage Limit [V]");         //76
   bout << pstr(",Auto Cutdown Voltage Limit [V]");           //77
   bout << pstr(",Low Voltage Time until Cut-down [s]");      //78
-  bout << pstr(",Altitude Limit Low [m]");                   //79  
-  bout << pstr(",Altiude Sanity Check Low [m]");             //80
+  bout << pstr(",Alt Limit Low [m]");                   //79  
+  bout << pstr(",Alt Sanity Check Low [m]");             //80
   bout << pstr(",Pyro Pulse Width [?ms]");                   //81
-  bout << pstr(",Camera Period [ms]");                       //82
-  bout << pstr(",Camera On Time [s]");                       //83
-  bout << pstr(",Battery 1 Charging Status [-]");            //84
-  bout << pstr(",Battery 2 Charging Status [-]");            //85
+  bout << pstr(",Cam Period [ms]");                       //82
+  bout << pstr(",Cam On Time [s]");                       //83
+  bout << pstr(",Bat 1 Charging Status [-]");            //84
+  bout << pstr(",Bat 2 Charging Status [-]");            //85
   bout << pstr(",Battery Bus Low Voltage Flag [-]");         //86  
   bout << pstr(",Heater State 1 [-]");                       //87
   bout << pstr(",Heater State 2 [-]");                       //88
   bout << pstr(",Cut-down Enable");                          //89
   bout << pstr(",Cut-down 1 Fire Status [-]");               //90
   bout << pstr(",Cut-down 2 Fire Status [-]");               //91
-  bout << pstr(",Altitude Valid Flag [-]");                  //92
-  bout << pstr(",Camera Enabled [-]");                       //93
-  bout << pstr(",Camera Status [-]");                        //94
-  bout << pstr(",Battery 1 Temp TLM Valid Flag [-]");        //95  
-  bout << pstr(",Battery 2 Temp TLM Valid Flag [-]");        //96  
+  bout << pstr(",Alt Valid Flag [-]");                  //92
+  bout << pstr(",Cam Enabled [-]");                       //93
+  bout << pstr(",Cam Status [-]");                        //94
+  bout << pstr(",Bat 1 Temp TLM Valid Flag [-]");        //95  
+  bout << pstr(",Bat 2 Temp TLM Valid Flag [-]");        //96  
   bout << pstr(",Bus Voltage TLM Valid Flag [-]");           //97  
-  bout << pstr(",Battery 1 Current TLM Valid Flag [-]");     //98
-  bout << pstr(",Battery 2 Current TLM Valid Flag []");      //99  
+  bout << pstr(",Bat 1 Cur TLM Valid Flag [-]");     //98
+  bout << pstr(",Bat 2 Cur TLM Valid Flag []");      //99  
   bout << pstr(",Altitude [ft]");                            //100
   bout << pstr(",Alt Temp [C]");                             //101
   bout << pstr(",Alt Pressure [?]");                         //102
@@ -250,12 +250,12 @@ void write_telemetry_data_to_sd()
 
   bout << ',' << parameters.vehicle_mode;                              //1
   bout << ',' << parameters.command_count;                             //2
-  bout << ',' << thresholds.normal_transmit_period;                    //3
-  bout << ',' << thresholds.load_shed_transmit_period;                 //4
-  bout << ',' << thresholds.transit_transmit_period;                   //5
-  bout << ',' << thresholds.emergency_transit_transmit_period;         //6
-  bout << ',' << thresholds.spare_transmit_period;                     //7
-  bout << ',' << parameters.sd_card_write_period;                      //8
+  bout << ',' << thresholds.normal_transmit_period/1000;                    //3
+  bout << ',' << thresholds.load_shed_transmit_period/1000;                 //4
+  bout << ',' << thresholds.transit_transmit_period/10000;                   //5
+  bout << ',' << thresholds.emergency_transit_transmit_period/1000;         //6
+  bout << ',' << thresholds.spare_transmit_period/1000;                     //7
+  bout << ',' << parameters.sd_card_write_period/1000;                      //8
   bout << ',' << telemetry_data.battery_1_temp_1;                      //9
   bout << ',' << telemetry_data.battery_1_temp_2;                      //10
   bout << ',' << telemetry_data.battery_2_temp_1;                      //11
