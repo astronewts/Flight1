@@ -93,7 +93,7 @@
 
 //Test Variables
 #define INITIAL_TEST_COUNT                          0
-#define CUTDOWN_TEST_TIME                           30000
+#define CUTDOWN_TEST_TIME                           20 // 30000 // those are cycle of 1s
 #define INITIALIZATION_TIMEOUT                      10000
 
 //Vehicle Modes
