@@ -187,8 +187,8 @@ void sd_setup() {
   bout << pstr(",Loadshed Entry Volt Lim [V]");         //76
   bout << pstr(",Auto Cutdown Volt Lim [V]");           //77
   bout << pstr(",Low Volt Time until Cut-down [s]");      //78
-  bout << pstr(",Alt Limit Low [m]");                   //79  
-  bout << pstr(",Alt Sanity Check Low [m]");             //80
+  bout << pstr(",Alt Limit Low [ft]");                   //79  
+  bout << pstr(",Alt Sanity Check Low [ft]");             //80
   bout << pstr(",Pyro Pulse Width [s]");                   //81
   bout << pstr(",Cam Period [s]");                       //82
   bout << pstr(",Cam On Time [s]");                       //83
@@ -344,9 +344,9 @@ void write_telemetry_data_to_sd()
   bout << ',' << parameters.low_voltage_time_limit;                    //78
   bout << ',' << parameters.altitude_limit_low;                        //79
   bout << ',' << parameters.altitude_sanity_check_low;                 //80
-  bout << ',' << parameters.cutdown_pulse_width;                       //81
-  bout << ',' << parameters.camera_period;                             //82
-  bout << ',' << parameters.camera_on_time;                            //83
+  bout << ',' << parameters.cutdown_pulse_width/1000;                       //81
+  bout << ',' << parameters.camera_period/1000;                             //82
+  bout << ',' << parameters.camera_on_time/1000;                            //83
   
 // BEGINNING OF THE PARENT BILEVEL WORD                                
   bout << ',' << parameters.battery_1_charging_status;                 //84
