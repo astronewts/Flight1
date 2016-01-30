@@ -211,6 +211,7 @@ void sd_setup() {
   bout << pstr(",Alt [ft]");                            //100
   bout << pstr(",Alt Temp [C]");                             //101
   bout << pstr(",Alt Pressure [?]");                         //102
+    bout << pstr(",The End");                         //103
   logfile << buf << endl << flush;
   
 }
