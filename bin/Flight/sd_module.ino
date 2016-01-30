@@ -212,10 +212,6 @@ void sd_setup() {
   bout << pstr(",Alt Temp [C]");                             //101
   bout << pstr(",Alt Pressure [?]");                         //102
   logfile << buf << endl << flush;
-
-#if ECHO_TO_SERIAL
-  cout << buf << endl;
-#endif  // ECHO_TO_SERIAL
   
 }
 
@@ -380,10 +376,6 @@ void write_telemetry_data_to_sd()
 
   // check for error
   if (!logfile) error("SD card write data failed");
-
-#if ECHO_TO_SERIAL
-  cout << buf;
-#endif  // ECHO_TO_SERIAL
 
   // don't log two points in the same millis
   if (m == millis()) delay(1);
