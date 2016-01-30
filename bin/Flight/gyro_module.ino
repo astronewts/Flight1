@@ -327,11 +327,9 @@ void gyro_setup()
   digitalWrite(blinkPin, HIGH);
   bool gyroSetupSuccessful = initGyro();
   if (!gyroSetupSuccessful) {
-    while(1) {
-      delay(1000);
+       delay(1000);
       Serial.print("Fail!\n");
-    }
-  }
+      }
 }
 
 //===================================================================================================================
