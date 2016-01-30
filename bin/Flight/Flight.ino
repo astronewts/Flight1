@@ -60,7 +60,7 @@ Intersema::BaroPressure_MS5607 baro;
 
 void setup() 
 {
-   Serial.begin(9600); 
+   Serial.begin(38400);
    Serial1.begin(4800);
    Serial3.begin(19200); // Wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
    Serial.println("Flight1 starting up");
