@@ -86,7 +86,7 @@ void setup()
    initialize_rb();
    Serial.println("--- done ");
 
-   Serial.println("/nFLIGHT CODE START: /n");  
+   Serial.println("\nFLIGHT CODE START: \n");
    Serial.println(" PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
    Serial.print(" (you have ");
    Serial.print(INITIALIZATION_TIMEOUT/1000);
