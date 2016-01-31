@@ -849,6 +849,7 @@ gyro.mz=mz;
     if(!AHRS) {
     tempCount = readTempData();  // Read the x/y/z adc values
     temperature = ((float) tempCount) / 340. + 36.53; // Temperature in degrees Centigrade
+    gyro.gyro_temp=temperature;
     }
  }
 }
