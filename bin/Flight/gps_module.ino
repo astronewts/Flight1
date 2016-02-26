@@ -25,7 +25,7 @@ void collect_gps_data()
 
 void print_gps_data()
 {
-//  Serial.println(F("Sats HDOP Latitude   Longitude   Fix  Date       Time     Date Alt  Alt  Course Speed Card   Chars Sentences Checksum"));
+ //  Serial.println(F("Sats HDOP Latitude   Longitude   Fix  Date       Time     Date Alt  Alt  Course Speed Card   Chars Sentences Checksum"));
 //  Serial.println(F("          (deg)      (deg)       Age                      Age  (m)  Age    --- from GPS ----    RX    RX        Fail"));
 //  Serial.println(F("-------------------------------------------------------------------------------------------------------------------------"));
 //  printInt(gps.satellites.value(), gps.satellites.isValid(), 5);
@@ -53,7 +53,9 @@ void print_gps_data()
   Serial.print("GPS Sentences With Fix: ");
   Serial.println(gps.sentencesWithFix());
   Serial.print("GPS Failed CheckSum: ");
-  Serial.println(gps.failedChecksum()); 
+  Serial.println(gps.failedChecksum());
+  Serial.print("GPS Nb of satellites: ");
+  Serial.println(gps.satellites.value()); 
   Serial.print("GPS Latitude [deg]: ");
   Serial.println(gps.location.lat());
   Serial.print("GPS Longtitude [deg]: ");

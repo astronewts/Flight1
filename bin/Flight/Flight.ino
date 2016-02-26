@@ -60,7 +60,7 @@ Intersema::BaroPressure_MS5607 baro;
 
 void setup() 
 {
-   Serial.begin(9600);
+   Serial.begin(38400);
    Serial1.begin(4800);
    Serial3.begin(19200); // Wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
    Serial.println("Flight1 starting up");
@@ -83,7 +83,7 @@ void setup()
    gyro_setup();
    Serial.println("--- done ");
    Serial.println("initialize_rb ---");
-   initialize_rb();
+   // initialize_rb();
    Serial.println("--- done ");
    Serial.println("\nFLIGHT CODE START: \n");
    Serial.println("PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
@@ -237,7 +237,7 @@ void loop()
        
        // Collect GPS Data
        collect_gps_data();   
-       //print_gps_data();
+//       print_gps_data();
        
       //  collect_gyro_data();
        collect_gyro_data(); 
