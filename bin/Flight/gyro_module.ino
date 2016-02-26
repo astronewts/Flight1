@@ -200,9 +200,9 @@ float aRes, gRes, mRes; // scale resolutions per LSB for the sensors
 
 // TODO: DELETE THE FOLLOWING USELESS CODE/COMMENTS !!!!!!!!!!!!!!!!!!!!!!  
 // Pin definitions
-// int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
+int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
 // Power to gyro
-<// int gyroPower = 28;
+// int gyroPower = 28;
 #define blinkPin 13  // Blink LED on Teensy or Pro Mini when updating
 // boolean blinkOn = false;
 
