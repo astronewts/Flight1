@@ -49,7 +49,6 @@ struct parameter_struct parameters;
 struct threshold_struct thresholds;
 struct alt_struct alt;
 struct gyro_struct gyro;
-struct gps_struct gps_chip;
 
 String output_dataword;
 
@@ -76,17 +75,16 @@ void setup()
    Serial.println("done!");
    Serial.print("set_normal_mode: ");
    set_normal_mode();
-   Serial.println("done!");
-   Serial.print("sd_setup: ");
-   //sd_setup();
-   Serial.println("done!");
-   Serial.print("gyro_setup: ");
-   //gyro_setup();
-   Serial.println("done!");
-   Serial.println("initialize_rb: ");
+   Serial.println("--- done ");
+   Serial.print("sd setup ---");
+   sd_setup();
+   Serial.println("--- done ");
+   Serial.print("gyro_setup ---");
+   gyro_setup();
+   Serial.println("--- done ");
+   Serial.println("initialize_rb ---");
    initialize_rb();
-   Serial.println("done!");
-
+   Serial.println("--- done ");
    Serial.println("\nFLIGHT CODE START: \n");
    Serial.println("PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
    Serial.print(" (you have ");
@@ -238,9 +236,13 @@ void loop()
        //TODO: Add Collections for the Digital Data
        
        // Collect GPS Data
-       //collect_gps_data(); 
+       collect_gps_data();   
+       //print_gps_data();
        
-        //collect_gyro_data();
+      //  collect_gyro_data();
+       collect_gyro_data(); 
+       //print_gyro_data();
+
        //TODO: Add Collections for the Digital GYRO Data
         
        // Collect Altimiter Data
@@ -288,17 +290,17 @@ void loop()
         }
      */
        
-     // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
-     if(parameters.transmit_elapsed_time > parameters.transmit_period)
-     {
-        if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
-        {
-          initialize_rb();
-          parameters.rb_reinitialize_time = 0;  
-        }
-        parameters.transmit_elapsed_time = 0;
-        sendreceive_satellite_data(); 
-     }
+//     // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
+//     if(parameters.transmit_elapsed_time > parameters.transmit_period)
+//     {
+//        if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
+//        {
+//          initialize_rb();
+//          parameters.rb_reinitialize_time = 0;  
+//        }
+//        parameters.transmit_elapsed_time = 0;
+//        sendreceive_satellite_data(); 
+//     }
   }
 }
 

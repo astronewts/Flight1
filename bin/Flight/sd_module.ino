@@ -1,6 +1,5 @@
 #include "Arduino.h"
 
-
 // *****************************************************************************
 
 // file system object
@@ -224,7 +223,7 @@ void write_telemetry_data_to_sd()
   double dummy_value;
 
 
- dummy_value=gps.location.lat();
+ dummy_value=0;
   
   // wait for time to be a multiple of interval
   do {
@@ -271,8 +270,7 @@ void write_telemetry_data_to_sd()
   bout << ',' << "00000000000000000000000000000000";                   //22
   bout << ',' << parameters.tlm_processing_period/1000;                     //23
   bout << ',' << "00000000000000000000000000000000";                   //24
-  //bout << ',' << gps.location.lat();                                   //25
-  bout << ',' << dummy_value;
+  bout << ',' << gps.location.lat();                                   //25   
   bout << ',' << gps.location.lng();                                   //26
   bout << ',' << gps.altitude.meters();                                //27
   bout << ',' << gps.location.age();                                   //28

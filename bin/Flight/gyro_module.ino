@@ -202,7 +202,7 @@ float aRes, gRes, mRes; // scale resolutions per LSB for the sensors
 // Pin definitions
 // int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
 // Power to gyro
-// int gyroPower = 28;
+<// int gyroPower = 28;
 #define blinkPin 13  // Blink LED on Teensy or Pro Mini when updating
 // boolean blinkOn = false;
 
@@ -836,11 +836,11 @@ gyro.gz=gz;
     my = (float)magCount[1]*mRes*magCalibration[1] - magbias[1];  
     mz = (float)magCount[2]*mRes*magCalibration[2] - magbias[2];   
     mcount = 0;
-    }
-
+    //
 gyro.mx=mx;
 gyro.my=my;
 gyro.mz=mz;
+    }
     
     if(!AHRS) {
     tempCount = readTempData();  // Read the x/y/z adc values

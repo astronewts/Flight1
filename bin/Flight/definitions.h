@@ -150,11 +150,6 @@ struct alt_struct
   double pressure;
 };
 
-struct gps_struct
-{
-  
-};
-
 struct gyro_struct
 {
   double gyro_temp;
