@@ -746,7 +746,8 @@ uint8_t writeByte(uint8_t address, uint8_t subAddress, uint8_t data)
   Wire.write(subAddress);           // Put slave register address in Tx buffer
   Wire.write(data);                 // Put data in Tx buffer
   uint8_t err = Wire.endTransmission(true);             // Send the Tx buffer, but send a restart to keep connection alive
-        if (err) {
+	// TODO: replace with debug flag
+        if (err && false) {
           Serial.print("Error encountered in I2C transmission\n");
           if (err==1) Serial.print("1:data too long to fit in transmit buffer\n");
           if (err==2) Serial.print("2:received NACK on transmit of address\n");
@@ -762,7 +763,8 @@ uint8_t readByte(uint8_t address, uint8_t subAddress)
   Wire.beginTransmission(address);         // Initialize the Tx buffer
   Wire.write(subAddress);                  // Put slave register address in Tx buffer
   uint8_t err = Wire.endTransmission(false);             // Send the Tx buffer, but send a restart to keep connection alive
-        if (err) {
+	// TODO: replace with debug flag
+        if (err && false) {
           Serial.print("Error encountered in I2C transmission\n");
           if (err==1) Serial.print("1:data too long to fit in transmit buffer\n");
           if (err==2) Serial.print("2:received NACK on transmit of address\n");
