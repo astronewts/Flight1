@@ -163,27 +163,32 @@ void loop()
      if(parameters.test_count == CUTDOWN_TEST_TIME)
      {
         cutdown_fire();
-        parameters.sd_card_write_period  = 500; // default sd card period 6s
-        parameters.tlm_processing_period = 500; // default is every 5s
      }
      cutdown_check();
     
-    // Get all data 
-    if(parameters.tlm_processing_time > parameters.tlm_processing_period)
+    // High rate processes
+    if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
     {
-       collect_analog_telemetry();
        collect_gps_data(); 
        collect_gyro_data();
-       collect_alt_data();
        // Process Camera
        // TODO: Figure out How to Write process_camera_function();
-       parameters.tlm_processing_time = 0.0;
+       write_telemetry_data_to_sd();
+       parameters.high_rate_elapsed_time -= HIGH_RATE_PERIOD;
     }
-    // Write to SD card
-    if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
+
+    // Medium rate processes
+    if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
     {
-        write_telemetry_data_to_sd();
-        parameters.sd_card_write_elapsed_time = 0;
+        collect_analog_telemetry();
+        parameters.medium_rate_elapsed_time -= MEDIUM_RATE_PERIOD;
+    }
+    
+    // Low rate processes
+    if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD)
+    {
+        collect_alt_data();
+        parameters.low_rate_elapsed_time -= LOW_RATE_PERIOD;
     }
 
      print_cutdown_telemetry();
@@ -223,28 +228,37 @@ void loop()
      // EXECUTE FLIGHT CODE //
      /////////////////////////
 
-     // Execute High Rate Code
-     collect_analog_battery_current_telemetry();
-     process_charge_current_tlm();
+    // High rate processes
+    if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
+    {
+       collect_gps_data(); 
+       collect_gyro_data();
+       // Process Camera
+       // TODO: Figure out How to Write process_camera_function();
+       write_telemetry_data_to_sd();
+       parameters.high_rate_elapsed_time -= HIGH_RATE_PERIOD;
+    }
+
+    // Medium rate processes
+    if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
+    {
+        collect_analog_telemetry();
+        collect_analog_battery_current_telemetry();
+        process_charge_current_tlm();
+        // Collect Altimiter Data
+        collect_alt_data();
+        parameters.medium_rate_elapsed_time -= MEDIUM_RATE_PERIOD;
+    }
     
-     // Execute Nominal Rate Code
-     // Collect Analog Telemetry
+    // Low rate processes
+    if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD)
+    {
+        collect_alt_data();
+        parameters.low_rate_elapsed_time -= LOW_RATE_PERIOD;
+    }
+    
      if(parameters.tlm_processing_time > parameters.tlm_processing_period)
      {
-       collect_analog_telemetry();
-  
-      
-       // Collect GPS Data
-       collect_gps_data();   
-       
-      //  collect_gyro_data();
-       collect_gyro_data(); 
-
-       //TODO: Add Collections for the Digital GYRO Data
-        
-       // Collect Altimiter Data
-       collect_alt_data();
-       
        // RUN FLIGHT HOUSEKEEPING CODE
        execute_thermal_control_check();
        execute_electrical_control_check();
@@ -254,16 +268,6 @@ void loop()
        parameters.tlm_processing_time = 0.0;
      }
      
-     //////////////////////////
-     // WRITE TLM TO SD CARD //
-     //////////////////////////
-
-     //Check if time to write data to SD Card 
-     if(parameters.sd_card_write_elapsed_time > parameters.sd_card_write_period)
-     {
-        write_telemetry_data_to_sd();
-        parameters.sd_card_write_elapsed_time = 0;
-     }
 
      //////////////////////////////
      // OUTPUT DATA TO ROCKBLOCK //
