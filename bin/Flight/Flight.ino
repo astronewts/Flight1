@@ -233,15 +233,12 @@ void loop()
      {
        collect_analog_telemetry();
   
-       //TODO: Add Collections for the Digital Data
-       
+      
        // Collect GPS Data
        collect_gps_data();   
-//       print_gps_data();
        
       //  collect_gyro_data();
        collect_gyro_data(); 
-       //print_gyro_data();
 
        //TODO: Add Collections for the Digital GYRO Data
         
@@ -252,7 +249,6 @@ void loop()
        execute_thermal_control_check();
        execute_electrical_control_check();
       
-     
        // Process Camera
        // TODO: Figure out How to Write process_camera_function();
        parameters.tlm_processing_time = 0.0;
