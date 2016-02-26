@@ -71,6 +71,10 @@
 #define DEFAULT_TLM_PROCESSING_PERIOD              5000
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
+#define HIGH_RATE_PERIOD                           100 // ms
+#define MEDIUM_RATE_PERIOD                         10000 // ms
+#define LOW_RATE_PERIOD                            10000 // ms
+
 
 #define DEFAULT_ALTITUDE_LIMIT_LOW                 65000  // 97:for test in living room  //  A2 ft
 #define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          75000  // 101:for test in living room //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
@@ -280,6 +284,9 @@ struct parameter_struct
   elapsedMillis transmit_elapsed_time;
   elapsedMillis sd_card_write_elapsed_time;
   elapsedMillis tlm_processing_time;
+  elapsedMillis high_rate_elapsed_time;
+  elapsedMillis medium_rate_elapsed_time;
+  elapsedMillis low_rate_elapsed_time;
   elapsedMillis battery_1_charge_current_read_elapsed_time;
   elapsedMillis battery_2_charge_current_read_elapsed_time;
   elapsedMillis intialization_timeout_time;
