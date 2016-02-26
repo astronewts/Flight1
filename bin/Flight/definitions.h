@@ -58,14 +58,13 @@
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
 
 #define DEFAULT_RB_AT_BUS_TIMEOUT                  20 // seconds // Default is 20 seconds
-#define DEFAULT_RB_SEND_RECIEVE_TIMEOUT            240 // seconds // Default is 300 seconds
-
+#define DEFAULT_RB_SEND_RECIEVE_TIMEOUT            300 // seconds // Default is 300 seconds
+    
+#define DEFAULT_RB_POWER_MODE                      1
 // Use "1" for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
-// Use "0" for "high current" applications; interval between transmit retries is 20 seconds    
-#define DEFAULT_RB_POWER_MODE                      1 
+// Use "0" for "high current" applications; interval between transmit retries is 20 seconds
 
 #define DEFAULT_PYRO_PULSE_WIDTH                   8000
-
 #define DEFAULT_SD_CARD_WRITE_PERIOD               6000 // TEST ONLY!!!
 
 //#define DEFAULT_SD_CARD_WRITE_PERIOD             60000  // FOR FLIGHT !!!
@@ -101,7 +100,7 @@
 #define LOADSHED_MODE                             2
 #define TRANSIT_MODE                              3
 #define EMERGENCY_DESCENT_MODE                    4
-#define SPARE_MODE                                 5
+#define SPARE_MODE                                5
 #define CUTDOWN_TEST_MODE                         6
 #define TERMINAL_TEST_MODE                        7
 
@@ -128,18 +127,19 @@
 #define PIN_CAMERA_SWITCH               9
 #define PIN_HEATER_CONTROL_1            5 // was 22: correct pin num
 #define PIN_HEATER_CONTROL_2            8 // was 23
+#define PIN_GPS_POWER                   28
 
 
-#define RESOLUTION_PRESSURE_SENSOR   12
+#define RESOLUTION_PRESSURE_SENSOR      12
 
 // SD CARD CONSTANTS
-#define SD_CHIP_SELECT  10  // SD chip select pin
-#define USE_DS1307       0  // set nonzero to use DS1307 RTC
-#define LOG_INTERVAL  1000  // mills between entries
-//#define SENSOR_COUNT     3  // number of analog pins to log
-#define ECHO_TO_SERIAL   1  // echo data to serial port if nonzero
-#define WAIT_TO_START    1  // Wait for serial input in setup(), 1=true
-#define ADC_DELAY       10  // ADC delay for high impedence sensors
+#define SD_CHIP_SELECT                  10  // SD chip select pin
+#define USE_DS1307                      0  // set nonzero to use DS1307 RTC
+#define LOG_INTERVAL                    1000  // mills between entries
+//#define SENSOR_COUNT                  3  // number of analog pins to log
+#define ECHO_TO_SERIAL                  1  // echo data to serial port if nonzero
+#define WAIT_TO_START                   1  // Wait for serial input in setup(), 1=true
+#define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // GYRO CONSTANTS:
 

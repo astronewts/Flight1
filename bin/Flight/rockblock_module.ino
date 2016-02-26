@@ -4,57 +4,68 @@
 
 #define MSEC_IN_MIN (1000*60)
 #define MSEC_IN_SEC 1000
+
 elapsedMillis time_initialization_rb;
 
 // Set the RB Debug Mode 
-bool rb_debug_mode = 0; // 0 = Normal, 1 = Active Debug, 
+bool rb_debug_mode = 1; // 0 = Normal, 1 = Active Debug, 
 
 void initialize_rb()
 {
     Serial.println("If the RockBlock is not connected, this initialization will timeout in 4 min");
     // Set RB Timeout Variables
-    isbd.adjustATTimeout(DEFAULT_RB_AT_BUS_TIMEOUT); // Default is 20 seconds
-    isbd.adjustSendReceiveTimeout(DEFAULT_RB_SEND_RECIEVE_TIMEOUT); // Default value set in definition.h
-      if(rb_debug_mode == 1)
-      {
-        Serial.println("isbd.setPowerProfile(DEFAULT_RB_POWER_MODE ) : start");
-      }
+    
+    isbd.adjustATTimeout(DEFAULT_RB_AT_BUS_TIMEOUT);                  // Default is 20 seconds. Value is set in definition.h
+    
+    isbd.adjustSendReceiveTimeout(DEFAULT_RB_SEND_RECIEVE_TIMEOUT);   // Default is 300 seconds. Value is set in definition.h
+    
+    if(rb_debug_mode == 1)
+    {
+        // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
+        isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+        Serial.println(" ");
+        Serial.println("###########################  isbd.attachConsole(Serial) was just commanded ###########################");   
       
-    isbd.setPowerProfile(DEFAULT_RB_POWER_MODE ); // Use this option for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
-    // isbd.setPowerProfile(0); // Use this option for "high current" applications; interval between transmit retries is 20 seconds
+        isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+        Serial.println("###########################  isbd.attachDiags(Serial) was just commanded ###########################");   
+        Serial.println(" ");
+        Serial.println("Setting the RB Power Mode: isbd.setPowerProfile(DEFAULT_RB_POWER_MODE). 0 = High Power Mode, 1 = Low Power Mode");
+    }
+      
+    isbd.setPowerProfile(DEFAULT_RB_POWER_MODE); 
 
-      if(rb_debug_mode == 1)
-      {
-        Serial.println("isbd.setPowerProfile(DEFAULT_RB_POWER_MODE ) : done");
-      }
-      
-      if(rb_debug_mode == 1)
-      {
-        Serial.print(" isbd.isAsleep() = 0 if RB is awake but 1 if asleep ");
-        Serial.print(" isbd.isAsleep() =  ");
-        Serial.println( isbd.isAsleep()); 
-      }
+    if(rb_debug_mode == 1)
+    {
+       Serial.print("Power Mode is Set to: ");
+       Serial.println(DEFAULT_RB_POWER_MODE);
+       
+       Serial.print("\nChecking: isbd.isAsleep() = ");
+       Serial.println(isbd.isAsleep()); 
+       Serial.println(" ");
+       Serial.println("[Note: isbd.isAsleep() = 0 if RB is awake but 1 if asleep]");
+    }
       
     if (isbd.isAsleep() == 1)
     {
       if(rb_debug_mode == 1)
       {
-        Serial.println(" initiating isbd.begin()");
+        Serial.println("The Rockblock is Asleep.  We are initiating with isbd.begin()...");
         time_initialization_rb = 0;
       }
-      Serial.println(" the initialization gets stuck here if the RB is not connected... and will time out in 20 s (set in IridiumSBD.h)");
+      Serial.println("Note: The initialization will get stuck here if the RB is not connected.  It will take XXXX seconds (This var is set in IridiumSBD.h)");
+      
       parameters.rb_initialization_error_status = isbd.begin(); 
        
       if(rb_debug_mode == 1)
       { 
          if(parameters.rb_initialization_error_status == 5)
          {
-            Serial.println(" RB is not connected   ");
+            Serial.println("!!!!! ERROR:  Init Error Status is equal to 5, which means the Rockblock is not physically connected. !!!!!");
          }
-         Serial.println("isbd.begin() has finished");
-         Serial.print("initialization took:");
+         Serial.println("Calling isbd.begin() has completed.");
+         Serial.print("The initialization took:");
          Serial.print(time_initialization_rb);
-         Serial.println("ms");
+         Serial.println("msec\n");
       }
     }
 }
@@ -104,17 +115,6 @@ void sendreceive_satellite_data()
       // TODO: USE A BETTER TIMER HERE
       Serial.println(parameters.cutdown_initiation_elapsed_time);
       Serial.println(" ");
-      
-      // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
-      isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-      Serial.println(" ");
-      Serial.println("###########################  isbd.attachConsole(Serial) was just commanded ###########################");   
-      Serial.println(" ");
-      
-      isbd.attachDiags(Serial);   // see http://arduiniana.org/libraries/iridiumsbd/ for details 
-      Serial.println(" ");
-      Serial.println("###########################  isbd.attachDiags(Serial) was just commanded ###########################");   
-      Serial.println(" ");
   
       Serial.println(" ");
       Serial.print("###########################  isbd.adjustATTimeout(");
@@ -146,6 +146,9 @@ void sendreceive_satellite_data()
       parameters.rb_initialization_error_status = isbd.begin();
       if(rb_debug_mode == 1)
       {
+        Serial.println(" ");
+        Serial.print("parameters.rb_initialization_error_status = ");
+        Serial.println(parameters.rb_initialization_error_status);
         Serial.println(" ");
         Serial.println("########################### isdb.begin() was just commanded ################################");
         Serial.println(" ");
@@ -192,7 +195,7 @@ void sendreceive_satellite_data()
       }
       //if(sig_qual_err == 7)
       //{
-         Serial.println("SQ ERROR FAIL !!!!!!!!!!!!!!!!!!!!!!!!");
+         Serial.println("!!!!! ERROR: Signal Quality Error = 7 !!!!!");
          Serial.print("Error: ");
          Serial.println(sig_qual_err);
          Serial.print("Time: ");

@@ -12,11 +12,12 @@
 // *****************************************************************************
 // IMPORTANT NOTES: 
 // *****************************************************************************
-// Version 0.1: 4/30/2015
+// Version 0.2: 2/3/2016
 //   - Electrical Architecture only deals performs charge control and monitoring
 //     on one Battery (assumes other battery is not connected to the Bus).
-//   - Automatic cut down voltage is not processed.
 //   - Parity bit on the Tx and Rx are not calculated
+//
+//
 //   
 //     To send / recieve commands throught rockblock connect to: https://core.rock7.com/Operations
 // *****************************************************************************
@@ -60,38 +61,37 @@ Intersema::BaroPressure_MS5607 baro;
 
 void setup() 
 {
-   Serial.begin(38400);
+   Serial.begin(9600);
    Serial1.begin(4800);
    Serial3.begin(19200); // Wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
    Serial.println("Flight1 starting up");
-   Serial.print("set_output_pins ---");
+   Serial.print("set_output_pins: ");
    set_output_pins();
-   Serial.println("--- done ");
-   Serial.print("set_defaults---");
+   Serial.print("done! ");
+   Serial.print("set_defaults:  ");
    set_defaults();
-   Serial.println("--- done ");
-   Serial.print("baro.init ---");
+   Serial.println("done!");
+   Serial.print("baro.init: ");
    baro.init();
-   Serial.println("--- done ");
-   Serial.print("set_normal_mode ---");
+   Serial.println("done!");
+   Serial.print("set_normal_mode: ");
    set_normal_mode();
-   Serial.println("--- done ");
-   Serial.print("sd setup ---");
-   sd_setup();
-   Serial.println("--- done ");
-   Serial.print("gyro_setup ---");
-   gyro_setup();
-   Serial.println("--- done ");
-   Serial.println("initialize_rb ---");
+   Serial.println("done!");
+   Serial.print("sd_setup: ");
+   //sd_setup();
+   Serial.println("done!");
+   Serial.print("gyro_setup: ");
+   //gyro_setup();
+   Serial.println("done!");
+   Serial.println("initialize_rb: ");
    initialize_rb();
-   Serial.println("--- done ");
+   Serial.println("done!");
 
    Serial.println("\nFLIGHT CODE START: \n");
-   Serial.println(" PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
+   Serial.println("PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
    Serial.print(" (you have ");
    Serial.print(INITIALIZATION_TIMEOUT/1000);
    Serial.println(" seconds): ");
-   
    
    parameters.intialization_timeout_time = 0;
    parameters.prompt_from_user_makes_sense=0;
@@ -238,9 +238,9 @@ void loop()
        //TODO: Add Collections for the Digital Data
        
        // Collect GPS Data
-       collect_gps_data(); 
+       //collect_gps_data(); 
        
-        collect_gyro_data();
+        //collect_gyro_data();
        //TODO: Add Collections for the Digital GYRO Data
         
        // Collect Altimiter Data
@@ -407,8 +407,7 @@ void set_output_pins()
    pinMode(PIN_CUTDOWN_1_FIRE, OUTPUT);
    pinMode(PIN_CUTDOWN_2_FIRE, OUTPUT);
    pinMode(PIN_CAMERA_SWITCH, OUTPUT);
-   
-   
+   pinMode(PIN_GPS_POWER, OUTPUT);
 }
 
 void set_load_shed_mode()

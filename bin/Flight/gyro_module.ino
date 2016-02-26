@@ -197,13 +197,14 @@ enum Gscale {
 uint8_t Gscale = GFS_250DPS;
 uint8_t Ascale = AFS_2G;
 float aRes, gRes, mRes; // scale resolutions per LSB for the sensors
-  
+
+// TODO: DELETE THE FOLLOWING USELESS CODE/COMMENTS !!!!!!!!!!!!!!!!!!!!!!  
 // Pin definitions
-int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
+// int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
 // Power to gyro
-int gyroPower = 30;
+// int gyroPower = 28;
 #define blinkPin 13  // Blink LED on Teensy or Pro Mini when updating
-boolean blinkOn = false;
+// boolean blinkOn = false;
 
 int16_t accelCount[3];  // Stores the 16-bit signed accelerometer sensor output
 int16_t gyroCount[3];   // Stores the 16-bit signed gyro sensor output
@@ -248,10 +249,9 @@ float eInt[3] = {0.0f, 0.0f, 0.0f};       // vector to hold integral error for M
 bool initGyro()
 {
   // Power on sequence for gyro (avoids intermittent failure to communicate on I2C)
-  pinMode(gyroPower, OUTPUT);
-  digitalWrite(gyroPower, LOW);
+  digitalWrite(PIN_GPS_POWER, LOW);
   delay(1000); // Drain power!
-  digitalWrite(gyroPower, HIGH);
+  digitalWrite(PIN_GPS_POWER, HIGH);
   delay(100); // Give power time to stabilize.
   bool setupSuccess = false;
   // Set up the interrupt pin, its set as active high, push-pull
@@ -788,10 +788,6 @@ uint8_t readByte(uint8_t address, uint8_t subAddress)
   while (Wire.available()) {
         dest[i++] = Wire.read(); }         // Put read results in the Rx buffer
 }
-
-
-
-
 
 
 
