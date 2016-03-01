@@ -71,9 +71,9 @@
 #define DEFAULT_TLM_PROCESSING_PERIOD              5000
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
-#define HIGH_RATE_PERIOD                           100 // ms
-#define MEDIUM_RATE_PERIOD                         10000 // ms
-#define LOW_RATE_PERIOD                            10000 // ms
+#define HIGH_RATE_PERIOD                           50 // ms
+#define MEDIUM_RATE_PERIOD                         20000 // ms
+#define LOW_RATE_PERIOD                            20000 // ms
 
 
 #define DEFAULT_ALTITUDE_LIMIT_LOW                 65000  // 97:for test in living room  //  A2 ft
@@ -139,7 +139,7 @@
 // SD CARD CONSTANTS
 #define SD_CHIP_SELECT                  10  // SD chip select pin
 #define USE_DS1307                      0  // set nonzero to use DS1307 RTC
-#define LOG_INTERVAL                    1000  // mills between entries
+#define LOG_INTERVAL                    10 // mills between entries
 //#define SENSOR_COUNT                  3  // number of analog pins to log
 #define ECHO_TO_SERIAL                  1  // echo data to serial port if nonzero
 #define WAIT_TO_START                   1  // Wait for serial input in setup(), 1=true

@@ -222,13 +222,12 @@ void write_telemetry_data_to_sd()
   uint32_t m;
   double dummy_value;
 
-
  dummy_value=0;
   
   // wait for time to be a multiple of interval
-  do {
+   //do {
     m = millis();
-  } while (m % LOG_INTERVAL);
+//  } while (m % LOG_INTERVAL);
 
   // use buffer stream to format line
   obufstream bout(buf, sizeof(buf));

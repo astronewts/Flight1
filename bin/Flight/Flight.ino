@@ -169,28 +169,27 @@ void loop()
     // High rate processes
     if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
     {
-       collect_gps_data(); 
        collect_gyro_data();
        // Process Camera
        // TODO: Figure out How to Write process_camera_function();
        write_telemetry_data_to_sd();
-       parameters.high_rate_elapsed_time -= HIGH_RATE_PERIOD;
+       parameters.high_rate_elapsed_time = 0;
     }
 
     // Medium rate processes
     if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
     {
+       collect_gps_data(); 
         collect_analog_telemetry();
-        parameters.medium_rate_elapsed_time -= MEDIUM_RATE_PERIOD;
+        parameters.medium_rate_elapsed_time =0;
     }
     
     // Low rate processes
     if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD)
     {
         collect_alt_data();
-        parameters.low_rate_elapsed_time -= LOW_RATE_PERIOD;
+        parameters.low_rate_elapsed_time =0;
     }
-
      print_cutdown_telemetry();
   }
   // Terminal Test Mode Loop
@@ -236,7 +235,8 @@ void loop()
        // Process Camera
        // TODO: Figure out How to Write process_camera_function();
        write_telemetry_data_to_sd();
-       parameters.high_rate_elapsed_time -= HIGH_RATE_PERIOD;
+       parameters.high_rate_elapsed_time =0;
+       //    parameters.high_rate_elapsed_time -= HIGH_RATE_PERIOD;
     }
 
     // Medium rate processes
@@ -247,14 +247,15 @@ void loop()
         process_charge_current_tlm();
         // Collect Altimiter Data
         collect_alt_data();
-        parameters.medium_rate_elapsed_time -= MEDIUM_RATE_PERIOD;
+        parameters.medium_rate_elapsed_time=0; 
+     //   parameters.medium_rate_elapsed_time -= MEDIUM_RATE_PERIOD;
     }
     
     // Low rate processes
     if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD)
     {
         collect_alt_data();
-        parameters.low_rate_elapsed_time -= LOW_RATE_PERIOD;
+        parameters.low_rate_elapsed_time=0;
     }
     
      if(parameters.tlm_processing_time > parameters.tlm_processing_period)
