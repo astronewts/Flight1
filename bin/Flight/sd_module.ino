@@ -68,7 +68,7 @@ void sd_setup() {
   
   cout << endl << pstr("FreeRam: ") << FreeRam() << endl;
 
-  
+ 
 
   #if USE_DS1307
   // connect to RTC

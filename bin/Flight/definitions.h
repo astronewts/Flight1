@@ -74,6 +74,9 @@
 #define HIGH_RATE_PERIOD                           50 // ms
 #define MEDIUM_RATE_PERIOD                         20000 // ms
 #define LOW_RATE_PERIOD                            20000 // ms
+#define HIGH_RATE_PERIOD_CUTDOWN                   20 // ms
+#define MEDIUM_RATE_PERIOD_CUTDOWN                 20000 // ms
+#define LOW_RATE_PERIOD_CUTDOWN                    20000 // ms
 
 
 #define DEFAULT_ALTITUDE_LIMIT_LOW                 65000  // 97:for test in living room  //  A2 ft
@@ -96,7 +99,7 @@
 
 //Test Variables
 #define INITIAL_TEST_COUNT                          0
-#define CUTDOWN_TEST_TIME                           20 // 30000 // those are cycle of 1s
+#define CUTDOWN_TEST_TIME                          50 // 30000 // those are cycle of 1s
 #define INITIALIZATION_TIMEOUT                      10000
 
 //Vehicle Modes

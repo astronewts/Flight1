@@ -63,28 +63,35 @@ void setup()
    Serial.begin(38400);
    Serial1.begin(4800);
    Serial3.begin(19200); // Wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
-   Serial.println("**** Flight code starting up");
+   Serial.println("------- FLIGHT CODE STARTING UP -------");
    Serial.println("**** Set_output_pins:");
    set_output_pins();
    Serial.println("===> Set_output_pins done!");
+   Serial.println("");  
    Serial.println("**** Set_defaults:");
    set_defaults();
    Serial.println("===> Set_defaults done!");
+   Serial.println("");  
    Serial.println("**** Initialize baro");
    baro.init();
    Serial.println("===> Initialize baro done!");
+   Serial.println("");  
    Serial.println("**** Set_normal_mode:");
    set_normal_mode();
    Serial.println("===> Set_normal_mode done!");
-   Serial.println("sd setup ---");
+   Serial.println("");  
+   Serial.print("**** sd setup");
    sd_setup();
-   Serial.println("--- done ");
-   Serial.print("gyro_setup ---");
+   Serial.println("===> sd setup done ");
+   Serial.println("");  
+   Serial.println("****gyro_setup");
    gyro_setup();
-   Serial.println("--- done ");
-   Serial.println("initialize_rb ---");
+   Serial.println("===> gyro setup done ");
+   Serial.println("");  
+   Serial.println("**** Initialize_rb");
    // initialize_rb();
-   Serial.println("--- done ");
+   Serial.println("===> Initialize rb done ");
+   Serial.println("\n");  
    Serial.println("\nFLIGHT CODE START: \n");
    Serial.println("PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
    Serial.print(" (you have ");
@@ -144,20 +151,22 @@ void loop()
   
   // Cut-Down Test Mode Loop
   if(parameters.vehicle_mode == CUTDOWN_TEST_MODE)
-  {
-     
+  {  
      parameters.test_count = parameters.test_count + 1;
      if(parameters.test_count <= CUTDOWN_TEST_TIME)
      {
-     Serial.print("\n Time left before cutdown ... "); 
-     Serial.print(CUTDOWN_TEST_TIME - parameters.test_count); 
-     Serial.println(" seconds ... tic tac tic tac"); 
-     
-     delay(1000);
+       Serial.print("\n Time left before cutdown ... "); 
+       Serial.print(CUTDOWN_TEST_TIME - parameters.test_count -20); 
+       Serial.println(" seconds ... tic tac tic tac"); 
+
+       if( CUTDOWN_TEST_TIME - parameters.test_count > 20)
+       {
+       delay(1000);
+       }
      }
      else 
      {
-     Serial.println("\n Cutdown has been fired ... we are falling (hopefully) "); 
+        Serial.println("\n Cutdown has been fired ... we are falling (hopefully) "); 
      }
 
      if(parameters.test_count == CUTDOWN_TEST_TIME)
@@ -165,29 +174,29 @@ void loop()
         cutdown_fire();
      }
      cutdown_check();
-    
+ 
     // High rate processes
-    if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
+    if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD_CUTDOWN)
     {
        collect_gyro_data();
-       // Process Camera
+       collect_gps_data(); 
+        // Process Camera
        // TODO: Figure out How to Write process_camera_function();
        write_telemetry_data_to_sd();
        parameters.high_rate_elapsed_time = 0;
     }
 
     // Medium rate processes
-    if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
+    if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD_CUTDOWN)
     {
-       collect_gps_data(); 
-        collect_analog_telemetry();
-        parameters.medium_rate_elapsed_time =0;
+       collect_alt_data();
+       collect_analog_telemetry();
+       parameters.medium_rate_elapsed_time =0;
     }
     
     // Low rate processes
-    if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD)
+    if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD_CUTDOWN)
     {
-        collect_alt_data();
         parameters.low_rate_elapsed_time =0;
     }
      print_cutdown_telemetry();
@@ -236,7 +245,6 @@ void loop()
        // TODO: Figure out How to Write process_camera_function();
        write_telemetry_data_to_sd();
        parameters.high_rate_elapsed_time =0;
-       //    parameters.high_rate_elapsed_time -= HIGH_RATE_PERIOD;
     }
 
     // Medium rate processes
