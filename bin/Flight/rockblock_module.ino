@@ -7,9 +7,6 @@
 
 elapsedMillis time_initialization_rb;
 
-// Set the RB Debug Mode 
-bool rb_debug_mode = 1; // 0 = Normal, 1 = Active Debug, 
-
 void initialize_rb()
 {
     Serial.println("If the RockBlock is not connected, this initialization will timeout in 4 min");
@@ -19,7 +16,7 @@ void initialize_rb()
     
     isbd.adjustSendReceiveTimeout(DEFAULT_RB_SEND_RECIEVE_TIMEOUT);   // Default is 300 seconds. Value is set in definition.h
     
-    if(rb_debug_mode == 1)
+    if(debug.mode == 1)
     {
         // The following two lines are diagnostic routines for monitoring traffic and debug messages on a PC - comment these out for final flight code
         isbd.attachConsole(Serial); // see http://arduiniana.org/libraries/iridiumsbd/ for details 
@@ -34,7 +31,7 @@ void initialize_rb()
       
     isbd.setPowerProfile(DEFAULT_RB_POWER_MODE); 
 
-    if(rb_debug_mode == 1)
+    if(debug.mode == 1)
     {
        Serial.print("Power Mode is Set to: ");
        Serial.println(DEFAULT_RB_POWER_MODE);
@@ -47,7 +44,7 @@ void initialize_rb()
       
     if (isbd.isAsleep() == 1)
     {
-      if(rb_debug_mode == 1)
+      if(debug.mode == 1)
       {
         Serial.println("The Rockblock is Asleep.  We are initiating with isbd.begin()...");
         time_initialization_rb = 0;
@@ -56,7 +53,7 @@ void initialize_rb()
       
       parameters.rb_initialization_error_status = isbd.begin(); 
        
-      if(rb_debug_mode == 1)
+      if(debug.mode == 1)
       { 
          if(parameters.rb_initialization_error_status == 5)
          {
@@ -84,7 +81,7 @@ void sendreceive_satellite_data()
     // determine number of bytes in dataword
     size_t tx_bufferSize  = size_mssg / 8;
     tx_bufferSize += size_mssg % 8 ? 1 : 0;
-    if(rb_debug_mode == 1)
+    if(debug.mode == 1)
     {
        Serial.println("numb of bytes in mssg:");
        Serial.println(tx_bufferSize);
@@ -107,7 +104,7 @@ void sendreceive_satellite_data()
 
     ////////////////// Start of Iridium Transmit Code //////////////////////////
 
-    if(rb_debug_mode == 1)
+    if(debug.mode == 1)
     {
       // TIC MARK!!!
       Serial.println(" ");
@@ -144,7 +141,7 @@ void sendreceive_satellite_data()
     if (isbd.isAsleep() == 1)
     {
       parameters.rb_initialization_error_status = isbd.begin();
-      if(rb_debug_mode == 1)
+      if(debug.mode == 1)
       {
         Serial.println(" ");
         Serial.print("parameters.rb_initialization_error_status = ");
@@ -155,7 +152,7 @@ void sendreceive_satellite_data()
       }
     }
 
-    if(rb_debug_mode == 1)
+    if(debug.mode == 1)
     {
       Serial.println(" ");
       Serial.print("Sleep Status (#2):");
@@ -173,7 +170,7 @@ void sendreceive_satellite_data()
     int signalQuality = -1;
     int sig_qual_err = isbd.getSignalQuality(signalQuality);
 
-    if(rb_debug_mode == 1)
+    if(debug.mode == 1)
     {
       Serial.println(" ");
       Serial.print("########  signalQuality = ");
@@ -188,7 +185,7 @@ void sendreceive_satellite_data()
     if (sig_qual_err != 0)
     {
       // TODO: WRITE THIS TO THE ERROR BUFFER
-      if(rb_debug_mode == 1)
+      if(debug.mode == 1)
       {
         Serial.println("SignalQuality failed: error ");
         //Serial.println(sig_qual_err);
@@ -219,7 +216,7 @@ void sendreceive_satellite_data()
       return;
     }
 
-    if(rb_debug_mode == 1)
+    if(debug.mode == 1)
     {
       Serial.println(" ");
       Serial.print("Signal quality (0=nonexistent, 5=high) is ");
@@ -257,7 +254,7 @@ void sendreceive_satellite_data()
          Serial.print("Time: ");
          Serial.println(parameters.transmit_elapsed_time);
         
-        if(rb_debug_mode == 1)
+        if(debug.mode == 1)
         {
           Serial.print("########  ERROR: isbd.sendReceiveSBDBinary(a,b,c,d) = ");
           Serial.print(send_receive_err);
@@ -289,7 +286,7 @@ void sendreceive_satellite_data()
       Serial.println(parameters.transmit_elapsed_time);
       Serial.println("**Satellite transmit/receive complete!**");
 
-      if(rb_debug_mode == 1)
+      if(debug.mode == 1)
         {
             Serial.println("");
             Serial.println("**Satellite transmit/receive complete!**");

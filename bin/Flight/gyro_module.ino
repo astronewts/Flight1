@@ -885,7 +885,6 @@ void print_gyro_data()
  
    // Print temperature in degrees Centigrade      
     Serial.print("Temperature is ");  Serial.print(temperature, 1);  Serial.println(" degrees C"); // Print T values to tenths of s degree C
-    Serial.println("");
 }
      
 

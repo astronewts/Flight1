@@ -171,6 +171,11 @@ struct gyro_struct
   double mz;
 };
 
+struct debug_struct
+{
+  bool mode; 
+};
+
 struct telemetry_data_struct
 {
   // char "\xA30133";

@@ -49,6 +49,7 @@ struct parameter_struct parameters;
 struct threshold_struct thresholds;
 struct alt_struct alt;
 struct gyro_struct gyro;
+struct debug_struct debug;
 
 String output_dataword;
 
@@ -60,6 +61,7 @@ Intersema::BaroPressure_MS5607 baro;
 
 void setup() 
 {
+   debug.mode=0;
    Serial.begin(38400);
    Serial1.begin(4800);
    Serial3.begin(19200); // Wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
@@ -93,7 +95,7 @@ void setup()
    Serial.println("===> Initialize rb done ");
    Serial.println("\n");  
    Serial.println("\nFLIGHT CODE START: \n");
-   Serial.println("PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
+   Serial.println("PROMPT: Type one of the following option: (f=Flight, d=Flight with debug , c=Cutdown-Test, t=Terminal-Test)");  
    Serial.print(" (you have ");
    Serial.print(INITIALIZATION_TIMEOUT/1000);
    Serial.println(" seconds): ");
@@ -125,6 +127,13 @@ void setup()
       parameters.prompt_from_user_makes_sense=1;
       Serial.println("Then we are in Cutdown-Test Mode");
       parameters.vehicle_mode=CUTDOWN_TEST_MODE;
+    }
+    if (parameters.user_intialization_input =="d") {
+      parameters.prompt_from_user_makes_sense=1;
+      Serial.println("Then we are in Flight Mode with Debug Output");
+      parameters.vehicle_mode=FLIGHT_MODE;
+      debug.mode=1;
+      debug.mode=1;
     }
     if (parameters.user_intialization_input =="f") {
       parameters.prompt_from_user_makes_sense=1;
@@ -236,38 +245,64 @@ void loop()
      // EXECUTE FLIGHT CODE //
      /////////////////////////
 
+       // Process Camera
+       // TODO: Figure out How to Write process_camera_function();
+
     // High rate processes
     if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
     {
+              if (debug.mode==1)
+              { 
+              Serial.println("===> DEBUG: HIGH-RATE PROCESS");
+              }       
        collect_gps_data(); 
+              if (debug.mode==1)
+              { 
+              Serial.println("=> DEBUG: GPS DATA");
+              print_gps_data();
+              }
        collect_gyro_data();
-       // Process Camera
-       // TODO: Figure out How to Write process_camera_function();
+              if (debug.mode==1)
+              { 
+              Serial.println("=> DEBUG: GYRO DATA");
+              print_gyro_data();
+              }           
        write_telemetry_data_to_sd();
-       parameters.high_rate_elapsed_time =0;
+       parameters.high_rate_elapsed_time =0;  
     }
 
     // Medium rate processes
     if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
     {
+              if (debug.mode==1)
+              { 
+              Serial.println();
+              Serial.println("===> DEBUG: MEDIUM-RATE PROCESS");
+              }
         collect_analog_telemetry();
         collect_analog_battery_current_telemetry();
         process_charge_current_tlm();
-        // Collect Altimiter Data
         collect_alt_data();
-        parameters.medium_rate_elapsed_time=0; 
-     //   parameters.medium_rate_elapsed_time -= MEDIUM_RATE_PERIOD;
+              if (debug.mode==1)
+              { 
+              Serial.println("=> DEBUG: ALTIMETER DATA");
+              print_alt_data();
+              }
+        parameters.medium_rate_elapsed_time=0;           
     }
     
     // Low rate processes
     if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD)
     {
-        collect_alt_data();
         parameters.low_rate_elapsed_time=0;
     }
     
      if(parameters.tlm_processing_time > parameters.tlm_processing_period)
      {
+              if (debug.mode==1)
+              { 
+             Serial.println("===> DEBUG: RUN FLIGHT HOUSEKEEPING CODE");
+              }
        // RUN FLIGHT HOUSEKEEPING CODE
        execute_thermal_control_check();
        execute_electrical_control_check();
@@ -299,17 +334,30 @@ void loop()
         }
      */
        
-//     // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
-//     if(parameters.transmit_elapsed_time > parameters.transmit_period)
-//     {
-//        if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
-//        {
-//          initialize_rb();
-//          parameters.rb_reinitialize_time = 0;  
-//        }
-//        parameters.transmit_elapsed_time = 0;
-//        sendreceive_satellite_data(); 
-//     }
+     // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
+     if(parameters.transmit_elapsed_time > parameters.transmit_period)
+     {    
+              if (debug.mode==1)
+              { 
+             Serial.println();
+             Serial.println("===> DEBUG: ROCK-BLOCK CALL (SEND/RECEIVE DATA OR RE-INITIALIZE RB)");
+              }
+        if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
+        {
+              if (debug.mode==1)
+              { 
+             Serial.println("===> DEBUG: WE ARE TRYING TO RE-INITIALIZE THE RB");
+              }
+          initialize_rb();
+          parameters.rb_reinitialize_time = 0;  
+        }
+              if (debug.mode==1)
+              { 
+             Serial.println("===> DEBUG: STARTING TO SEND/RECIEVE DATA WITH RB");
+              }
+        parameters.transmit_elapsed_time = 0;
+        sendreceive_satellite_data(); 
+     }
   }
 }
 
