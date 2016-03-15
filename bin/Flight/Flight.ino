@@ -498,7 +498,7 @@ void set_output_pins()
    pinMode(PIN_CUTDOWN_1_FIRE, OUTPUT);
    pinMode(PIN_CUTDOWN_2_FIRE, OUTPUT);
    pinMode(PIN_CAMERA_SWITCH, OUTPUT);
-   pinMode(PIN_GPS_POWER, OUTPUT);
+   pinMode(PIN_GYRO_POWER, OUTPUT);
 }
 
 void set_load_shed_mode()

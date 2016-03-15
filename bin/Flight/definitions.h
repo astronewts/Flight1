@@ -135,7 +135,7 @@
 #define PIN_CAMERA_SWITCH               9
 #define PIN_HEATER_CONTROL_1            5 // was 22: correct pin num
 #define PIN_HEATER_CONTROL_2            8 // was 23
-#define PIN_GPS_POWER                   28
+#define PIN_GYRO_POWER                  28
 
 
 #define RESOLUTION_PRESSURE_SENSOR      12
