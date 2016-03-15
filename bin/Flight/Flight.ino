@@ -137,7 +137,7 @@ void setup()
     if (parameters.user_intialization_input =="s") {
       parameters.prompt_from_user_makes_sense=1;
       Serial.println("Then we are in Signal Quality mode to test RB");
-      Serial.println("Time [ms]  ;   Signal Quality (0=no bueno, 5=bueno)  ;  sig_qual_err (0=bueno, 3=no visbility)");
+      Serial.println("Time [ms]  ;   Signal Quality (0=no bueno, 5=bueno)  ;  sig_qual_err (0=rb connected, 3=rb not connected)");
       parameters.vehicle_mode=SIGNAL_TEST_MODE;
     }
     if (parameters.user_intialization_input =="f") {
