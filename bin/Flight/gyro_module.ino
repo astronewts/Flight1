@@ -249,9 +249,9 @@ float eInt[3] = {0.0f, 0.0f, 0.0f};       // vector to hold integral error for M
 bool initGyro()
 {
   // Power on sequence for gyro (avoids intermittent failure to communicate on I2C)
-  digitalWrite(PIN_GPS_POWER, LOW);
+  digitalWrite(PIN_GYRO_POWER, LOW);
   delay(1000); // Drain power!
-  digitalWrite(PIN_GPS_POWER, HIGH);
+  digitalWrite(PIN_GYRO_POWER, HIGH);
   delay(100); // Give power time to stabilize.
   bool setupSuccess = false;
   // Set up the interrupt pin, its set as active high, push-pull
