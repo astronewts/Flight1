@@ -133,7 +133,6 @@ void setup()
       Serial.println("Then we are in Flight Mode with Debug Output");
       parameters.vehicle_mode=FLIGHT_MODE;
       debug.mode=1;
-      debug.mode=1;
     }
     if (parameters.user_intialization_input =="s") {
       parameters.prompt_from_user_makes_sense=1;
