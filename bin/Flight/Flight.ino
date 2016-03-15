@@ -62,7 +62,7 @@ Intersema::BaroPressure_MS5607 baro;
 void setup() 
 {
    debug.mode=0;
-   Serial.begin(38400);
+   Serial.begin(115200);
    Serial1.begin(4800);
    Serial3.begin(19200); // Wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
    Serial.println("------- FLIGHT CODE STARTING UP -------");
@@ -91,11 +91,11 @@ void setup()
    Serial.println("===> gyro setup done ");
    Serial.println("");  
    Serial.println("**** Initialize_rb");
-   // initialize_rb();
+   initialize_rb();
    Serial.println("===> Initialize rb done ");
    Serial.println("\n");  
    Serial.println("\nFLIGHT CODE START: \n");
-   Serial.println("PROMPT: Type one of the following option: (f=Flight, d=Flight with debug , c=Cutdown-Test, t=Terminal-Test)");  
+   Serial.println("PROMPT: Type one of the following option: (f=Flight, d=Flight w/ debug , c=Cutdown-Test, t=Terminal-Test, s=Sig Qual-Test)");  
    Serial.print(" (you have ");
    Serial.print(INITIALIZATION_TIMEOUT/1000);
    Serial.println(" seconds): ");
@@ -135,6 +135,12 @@ void setup()
       debug.mode=1;
       debug.mode=1;
     }
+    if (parameters.user_intialization_input =="s") {
+      parameters.prompt_from_user_makes_sense=1;
+      Serial.println("Then we are in Signal Quality mode to test RB");
+      Serial.println("Time [ms]  ;   Signal Quality [0-5]  ;  sig_qual_err");
+      parameters.vehicle_mode=SIGNAL_TEST_MODE;
+    }
     if (parameters.user_intialization_input =="f") {
       parameters.prompt_from_user_makes_sense=1;
       Serial.println("Then we are in Flight Mode");
@@ -150,8 +156,8 @@ void setup()
     }
         
    delay(5000);
-   Serial.print("\n Finally! The mode we are in is: "); 
-   Serial.println(parameters.vehicle_mode);     
+//   Serial.print("\n Finally! The mode we are in is: "); 
+//   Serial.println(parameters.vehicle_mode);     
 }
 
 void loop() 
@@ -209,6 +215,32 @@ void loop()
         parameters.low_rate_elapsed_time =0;
     }
      print_cutdown_telemetry();
+  }
+  // Signal Test Mode Loop
+  else if(parameters.vehicle_mode == SIGNAL_TEST_MODE)
+  {
+    if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
+    {
+      initialize_rb();
+      Serial.println("initializing rb");
+      parameters.rb_reinitialize_time = 0;  
+    }
+    if (isbd.isAsleep() == 1)
+    {
+      Serial.println("RB is asleep: time to wake up !!");
+      parameters.rb_initialization_error_status = isbd.begin();
+      Serial.print("Error number at initialization: ");
+      Serial.println(parameters.rb_initialization_error_status);
+    }
+    delay(1000);
+    int signalQuality = -1;
+    int sig_qual_err = -1;
+    sig_qual_err = isbd.getSignalQuality(signalQuality);
+    Serial.print(parameters.elasped_time_for_rb_quality_test);
+    Serial.print("  ");
+    Serial.print(signalQuality);
+    Serial.print("  ");
+    Serial.println(sig_qual_err);
   }
   // Terminal Test Mode Loop
   else if(parameters.vehicle_mode == TERMINAL_TEST_MODE)
