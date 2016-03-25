@@ -81,15 +81,15 @@ void setup()
    Serial.println("===> Set_normal_mode done!");
    Serial.println("");  
    Serial.print("**** sd setup");
-   sd_setup();
+   //sd_setup();
    Serial.println("===> sd setup done ");
    Serial.println("");  
    Serial.println("****gyro_setup");
-   gyro_setup();
+   //gyro_setup();
    Serial.println("===> gyro setup done ");
    Serial.println("");  
    Serial.println("**** Initialize_rb");
-   // initialize_rb();
+   initialize_rb();
    Serial.println("===> Initialize rb done ");
    Serial.println("\n");  
    Serial.println("\nFLIGHT CODE START: \n");
@@ -97,6 +97,7 @@ void setup()
    Serial.print(" (you have ");
    Serial.print(INITIALIZATION_TIMEOUT/1000);
    Serial.println(" seconds): ");
+  
    
    parameters.intialization_timeout_time = 0;
    parameters.prompt_from_user_makes_sense=0;
@@ -178,11 +179,11 @@ void loop()
     // High rate processes
     if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD_CUTDOWN)
     {
-       collect_gyro_data();
-       collect_gps_data(); 
+       //collect_gyro_data();
+       //collect_gps_data(); 
         // Process Camera
        // TODO: Figure out How to Write process_camera_function();
-       write_telemetry_data_to_sd();
+       //write_telemetry_data_to_sd();
        parameters.high_rate_elapsed_time = 0;
     }
 
@@ -237,13 +238,13 @@ void loop()
      /////////////////////////
 
     // High rate processes
-    if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
+    //if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
     {
-       collect_gps_data(); 
-       collect_gyro_data();
+       //collect_gps_data(); 
+       //collect_gyro_data();
        // Process Camera
        // TODO: Figure out How to Write process_camera_function();
-       write_telemetry_data_to_sd();
+       //write_telemetry_data_to_sd();
        parameters.high_rate_elapsed_time =0;
     }
 
@@ -252,7 +253,7 @@ void loop()
     {
         collect_analog_telemetry();
         collect_analog_battery_current_telemetry();
-        process_charge_current_tlm();
+        //process_charge_current_tlm();
         // Collect Altimiter Data
         collect_alt_data();
         parameters.medium_rate_elapsed_time=0; 
@@ -266,18 +267,17 @@ void loop()
         parameters.low_rate_elapsed_time=0;
     }
     
-     if(parameters.tlm_processing_time > parameters.tlm_processing_period)
+     //if(parameters.tlm_processing_time > parameters.tlm_processing_period)
      {
        // RUN FLIGHT HOUSEKEEPING CODE
-       execute_thermal_control_check();
-       execute_electrical_control_check();
+       //execute_thermal_control_check();
+       //execute_electrical_control_check();
       
        // Process Camera
        // TODO: Figure out How to Write process_camera_function();
        parameters.tlm_processing_time = 0.0;
      }
      
-
      //////////////////////////////
      // OUTPUT DATA TO ROCKBLOCK //
      //////////////////////////////
@@ -299,17 +299,21 @@ void loop()
         }
      */
        
-//     // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
-//     if(parameters.transmit_elapsed_time > parameters.transmit_period)
-//     {
-//        if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
-//        {
-//          initialize_rb();
-//          parameters.rb_reinitialize_time = 0;  
-//        }
-//        parameters.transmit_elapsed_time = 0;
-//        sendreceive_satellite_data(); 
-//     }
+     // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
+     if(parameters.transmit_elapsed_time > parameters.transmit_period)
+     {
+        if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
+        {
+          initialize_rb();
+          parameters.rb_reinitialize_time = 0;  
+        }
+        parameters.transmit_elapsed_time = 0;
+        if(rb_debug_mode == 1)
+        {
+          Serial.println("Kicking off Send/Recieve");
+        }
+        sendreceive_satellite_data(); 
+     }
   }
 }
 

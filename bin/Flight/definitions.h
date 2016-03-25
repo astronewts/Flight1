@@ -294,6 +294,8 @@ struct parameter_struct
   elapsedMillis battery_2_charge_current_read_elapsed_time;
   elapsedMillis intialization_timeout_time;
   elapsedMillis rb_reinitialize_time;
+  elapsedMillis life_time;
+  
 
   String output_dataword;
   String valid_str;
