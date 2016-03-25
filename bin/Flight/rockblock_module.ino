@@ -291,14 +291,6 @@ void sendreceive_satellite_data()
             Serial.println("");
             Serial.println("**Satellite transmit/receive complete!**");
             Serial.println(parameters.output_dataword);
-            for (int ii=0;ii<tx_bufferSize;ii++) {
-              if (tx_buffer[ii]<10) {
-                Serial.print((char)tx_buffer[ii]+48);
-              } else {
-                Serial.print((char)tx_buffer[ii]+65-10);
-              }
-            }
-            Serial.print("\n");
 
             // TOC MARK!!!
             Serial.println(" ");
