@@ -232,7 +232,10 @@ void write_telemetry_data_to_sd()
   // use buffer stream to format line
   obufstream bout(buf, sizeof(buf));
   bout << setprecision(8);
-
+        if (debug.mode==1){
+        Serial.print("=> DEBUG: WRITE SD_CARD AT TIME: ");
+        Serial.println(m);
+        }
   // start with time in millis
   bout << m;
 

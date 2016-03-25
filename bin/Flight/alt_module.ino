@@ -1,4 +1,3 @@
-
 void collect_alt_data()
 {
    alt.altitude_in_feet = baro.getHeightCentiMeters() / 30.48;

@@ -42,6 +42,7 @@
 #include <IridiumSBD.h>
 #include "IntersemaBaro.h"
 
+struct debug_struct debug;
 struct telemetry_data_struct telemetry_data;
 struct raw_telemetry_data_struct raw_telemetry_data;
 struct satellite_data_struct satellite_data;
@@ -308,7 +309,7 @@ void loop()
           parameters.rb_reinitialize_time = 0;  
         }
         parameters.transmit_elapsed_time = 0;
-        if(rb_debug_mode == 1)
+        if(debug.mode == 1)
         {
           Serial.println("Kicking off Send/Recieve");
         }
@@ -422,7 +423,7 @@ void set_output_pins()
    pinMode(PIN_CUTDOWN_1_FIRE, OUTPUT);
    pinMode(PIN_CUTDOWN_2_FIRE, OUTPUT);
    pinMode(PIN_CAMERA_SWITCH, OUTPUT);
-   pinMode(PIN_GPS_POWER, OUTPUT);
+   pinMode(PIN_GYRO_POWER, OUTPUT);
 }
 
 void set_load_shed_mode()

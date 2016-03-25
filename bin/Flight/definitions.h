@@ -99,7 +99,7 @@
 
 //Test Variables
 #define INITIAL_TEST_COUNT                          0
-#define CUTDOWN_TEST_TIME                          50 // 30000 // those are cycle of 1s
+#define CUTDOWN_TEST_TIME                          50 // 30000 // Put here a number +20. Exemple 50 will correspond to a cut-down time of 30sec
 #define INITIALIZATION_TIMEOUT                      10000
 
 //Vehicle Modes
@@ -110,6 +110,7 @@
 #define SPARE_MODE                                5
 #define CUTDOWN_TEST_MODE                         6
 #define TERMINAL_TEST_MODE                        7
+#define SIGNAL_TEST_MODE                          8
 
 //Analog Pins
 #define PIN_PRESSURE_SENSOR                    A0
@@ -134,7 +135,7 @@
 #define PIN_CAMERA_SWITCH               9
 #define PIN_HEATER_CONTROL_1            5 // was 22: correct pin num
 #define PIN_HEATER_CONTROL_2            8 // was 23
-#define PIN_GPS_POWER                   28
+#define PIN_GYRO_POWER                  28
 
 
 #define RESOLUTION_PRESSURE_SENSOR      12
@@ -169,6 +170,11 @@ struct gyro_struct
   double mx;
   double my;
   double mz;
+};
+
+struct debug_struct
+{
+  bool mode; 
 };
 
 struct telemetry_data_struct
@@ -295,8 +301,8 @@ struct parameter_struct
   elapsedMillis intialization_timeout_time;
   elapsedMillis rb_reinitialize_time;
   elapsedMillis life_time;
+  elapsedMillis elasped_time_for_rb_quality_test;
   
-
   String output_dataword;
   String valid_str;
 };

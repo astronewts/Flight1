@@ -2,12 +2,10 @@
 
 static const int RXPin = 4, TXPin = 3;
 static const uint32_t GPSBaud = 4800;
-//static const double LONDON_LAT = 51.508131, LONDON_LON = -0.128002;
 static char sz[64];
     
 // The TinyGPS++ object
 TinyGPSPlus gps;
-
 
 void collect_gps_data()
 {
@@ -21,7 +19,6 @@ void collect_gps_data()
     Serial.println(F("No GPS data received: check wiring"));
   }
 }
-
 
 void print_gps_data()
 {
