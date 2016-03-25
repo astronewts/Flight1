@@ -100,7 +100,7 @@ void sendreceive_satellite_data()
            
            tx_buffer[i] = tx_buffer[i] + bit_extr * pow(2,7-j);    
        }
-    }  
+    }
 
     ////////////////// Start of Iridium Transmit Code //////////////////////////
 
@@ -290,7 +290,8 @@ void sendreceive_satellite_data()
         {
             Serial.println("");
             Serial.println("**Satellite transmit/receive complete!**");
-          
+            Serial.println(parameters.output_dataword);
+
             // TOC MARK!!!
             Serial.println(" ");
             Serial.print("TOC: ");
