@@ -42,6 +42,7 @@
 #include <IridiumSBD.h>
 #include "IntersemaBaro.h"
 
+struct debug_struct debug;
 struct telemetry_data_struct telemetry_data;
 struct raw_telemetry_data_struct raw_telemetry_data;
 struct satellite_data_struct satellite_data;
@@ -49,7 +50,6 @@ struct parameter_struct parameters;
 struct threshold_struct thresholds;
 struct alt_struct alt;
 struct gyro_struct gyro;
-struct debug_struct debug;
 
 String output_dataword;
 
@@ -61,8 +61,7 @@ Intersema::BaroPressure_MS5607 baro;
 
 void setup() 
 {
-   debug.mode=1;
-   Serial.begin(115200);
+   Serial.begin(38400);
    Serial1.begin(4800);
    Serial3.begin(19200); // Wake up the rockblock and prepare it to communicate (since it will never be put to sleep, ok to call in Setup)
    Serial.println("------- FLIGHT CODE STARTING UP -------");
@@ -83,11 +82,11 @@ void setup()
    Serial.println("===> Set_normal_mode done!");
    Serial.println("");  
    Serial.print("**** sd setup");
-   sd_setup();
+   //sd_setup();
    Serial.println("===> sd setup done ");
    Serial.println("");  
    Serial.println("****gyro_setup");
-   gyro_setup();
+   //gyro_setup();
    Serial.println("===> gyro setup done ");
    Serial.println("");  
    Serial.println("**** Initialize_rb");
@@ -95,10 +94,11 @@ void setup()
    Serial.println("===> Initialize rb done ");
    Serial.println("\n");  
    Serial.println("\nFLIGHT CODE START: \n");
-   Serial.println("PROMPT: Type one of the following option: (f=Flight, d=Flight w/ debug , c=Cutdown-Test, t=Terminal-Test, s=Sig Qual-Test)");  
+   Serial.println("PROMPT: Type one of the following option: (f=Flight, c=Cutdown-Test, t=Terminal-Test)");  
    Serial.print(" (you have ");
    Serial.print(INITIALIZATION_TIMEOUT/1000);
    Serial.println(" seconds): ");
+  
    
    parameters.intialization_timeout_time = 0;
    parameters.prompt_from_user_makes_sense=0;
@@ -128,18 +128,6 @@ void setup()
       Serial.println("Then we are in Cutdown-Test Mode");
       parameters.vehicle_mode=CUTDOWN_TEST_MODE;
     }
-    if (parameters.user_intialization_input =="d") {
-      parameters.prompt_from_user_makes_sense=1;
-      Serial.println("Then we are in Flight Mode with Debug Output");
-      parameters.vehicle_mode=FLIGHT_MODE;
-      debug.mode=1;
-    }
-    if (parameters.user_intialization_input =="s") {
-      parameters.prompt_from_user_makes_sense=1;
-      Serial.println("Then we are in Signal Quality mode to test RB");
-      Serial.println("Time [ms]  ;   Signal Quality (0=no bueno, 5=bueno)  ;  sig_qual_err (0=rb connected, 3=rb not connected)");
-      parameters.vehicle_mode=SIGNAL_TEST_MODE;
-    }
     if (parameters.user_intialization_input =="f") {
       parameters.prompt_from_user_makes_sense=1;
       Serial.println("Then we are in Flight Mode");
@@ -155,8 +143,8 @@ void setup()
     }
         
    delay(5000);
-//   Serial.print("\n Finally! The mode we are in is: "); 
-//   Serial.println(parameters.vehicle_mode);     
+   Serial.print("\n Finally! The mode we are in is: "); 
+   Serial.println(parameters.vehicle_mode);     
 }
 
 void loop() 
@@ -192,11 +180,11 @@ void loop()
     // High rate processes
     if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD_CUTDOWN)
     {
-       collect_gyro_data();
-       collect_gps_data(); 
+       //collect_gyro_data();
+       //collect_gps_data(); 
         // Process Camera
        // TODO: Figure out How to Write process_camera_function();
-       write_telemetry_data_to_sd();
+       //write_telemetry_data_to_sd();
        parameters.high_rate_elapsed_time = 0;
     }
 
@@ -214,32 +202,6 @@ void loop()
         parameters.low_rate_elapsed_time =0;
     }
      print_cutdown_telemetry();
-  }
-  // Signal Test Mode Loop
-  else if(parameters.vehicle_mode == SIGNAL_TEST_MODE)
-  {
-    if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
-    {
-      initialize_rb();
-      Serial.println("initializing rb");
-      parameters.rb_reinitialize_time = 0;  
-    }
-    if (isbd.isAsleep() == 1)
-    {
-      Serial.println("RB is asleep: time to wake up !!");
-      parameters.rb_initialization_error_status = isbd.begin();
-      Serial.print("Error number at initialization: ");
-      Serial.println(parameters.rb_initialization_error_status);
-    }
-    delay(1000);
-    int signalQuality = -1;
-    int sig_qual_err = -1;
-    sig_qual_err = isbd.getSignalQuality(signalQuality);
-    Serial.print(parameters.elasped_time_for_rb_quality_test);
-    Serial.print("  ");
-    Serial.print(signalQuality);
-    Serial.print("  ");
-    Serial.println(sig_qual_err);
   }
   // Terminal Test Mode Loop
   else if(parameters.vehicle_mode == TERMINAL_TEST_MODE)
@@ -276,74 +238,47 @@ void loop()
      // EXECUTE FLIGHT CODE //
      /////////////////////////
 
+    // High rate processes
+    //if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
+    {
+       //collect_gps_data(); 
+       //collect_gyro_data();
        // Process Camera
        // TODO: Figure out How to Write process_camera_function();
-
-    // High rate processes
-    if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
-    {
-              if (debug.mode==1)
-              { 
-              Serial.println("===> DEBUG: HIGH-RATE PROCESS");
-              }       
-       collect_gps_data(); 
-              if (debug.mode==1)
-              { 
-              Serial.println("=> DEBUG: GPS DATA");
-              print_gps_data();
-              }
-       collect_gyro_data();
-              if (debug.mode==1)
-              { 
-              Serial.println("=> DEBUG: GYRO DATA");
-              print_gyro_data();
-              }           
-       write_telemetry_data_to_sd();
-       parameters.high_rate_elapsed_time =0;  
+       //write_telemetry_data_to_sd();
+       parameters.high_rate_elapsed_time =0;
     }
 
     // Medium rate processes
     if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
     {
-              if (debug.mode==1)
-              { 
-              Serial.println();
-              Serial.println("===> DEBUG: MEDIUM-RATE PROCESS");
-              }
         collect_analog_telemetry();
         collect_analog_battery_current_telemetry();
-        process_charge_current_tlm();
+        //process_charge_current_tlm();
+        // Collect Altimiter Data
         collect_alt_data();
-              if (debug.mode==1)
-              { 
-              Serial.println("=> DEBUG: ALTIMETER DATA");
-              print_alt_data();
-              }
-        parameters.medium_rate_elapsed_time=0;           
+        parameters.medium_rate_elapsed_time=0; 
+     //   parameters.medium_rate_elapsed_time -= MEDIUM_RATE_PERIOD;
     }
     
     // Low rate processes
     if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD)
     {
+        collect_alt_data();
         parameters.low_rate_elapsed_time=0;
     }
     
-     if(parameters.tlm_processing_time > parameters.tlm_processing_period)
+     //if(parameters.tlm_processing_time > parameters.tlm_processing_period)
      {
-              if (debug.mode==1)
-              { 
-             Serial.println("===> DEBUG: RUN FLIGHT HOUSEKEEPING CODE");
-              }
        // RUN FLIGHT HOUSEKEEPING CODE
-       execute_thermal_control_check();
-       execute_electrical_control_check();
+       //execute_thermal_control_check();
+       //execute_electrical_control_check();
       
        // Process Camera
        // TODO: Figure out How to Write process_camera_function();
        parameters.tlm_processing_time = 0.0;
      }
      
-
      //////////////////////////////
      // OUTPUT DATA TO ROCKBLOCK //
      //////////////////////////////
@@ -367,26 +302,17 @@ void loop()
        
      // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
      if(parameters.transmit_elapsed_time > parameters.transmit_period)
-     {    
-              if (debug.mode==1)
-              { 
-             Serial.println();
-             Serial.println("===> DEBUG: ROCK-BLOCK CALL (SEND/RECEIVE DATA OR RE-INITIALIZE RB)");
-              }
+     {
         if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
         {
-              if (debug.mode==1)
-              { 
-             Serial.println("===> DEBUG: WE ARE TRYING TO RE-INITIALIZE THE RB");
-              }
           initialize_rb();
           parameters.rb_reinitialize_time = 0;  
         }
-              if (debug.mode==1)
-              { 
-             Serial.println("===> DEBUG: STARTING TO SEND/RECIEVE DATA WITH RB");
-              }
         parameters.transmit_elapsed_time = 0;
+        if(debug.mode == 1)
+        {
+          Serial.println("Kicking off Send/Recieve");
+        }
         sendreceive_satellite_data(); 
      }
   }
