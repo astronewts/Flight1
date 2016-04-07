@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define ISBD_DEFAULT_SBDIX_INTERVAL     30
 #define ISBD_DEFAULT_SBDIX_INTERVAL_USB 30
 #define ISBD_DEFAULT_SENDRECEIVE_TIME   300
-#define ISBD_STARTUP_MAX_TIME           10 // max time in sec for the initialization of RB //240
+#define ISBD_STARTUP_MAX_TIME           240 // 10 // max time in sec for the initialization of RB //240: default time that came with the lib
 #define ISBD_DEFAULT_CSQ_MINIMUM        2
 
 #define ISBD_SUCCESS             0
