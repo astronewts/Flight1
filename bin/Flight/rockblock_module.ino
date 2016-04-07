@@ -289,7 +289,7 @@ void sendreceive_satellite_data()
       if(debug.mode == 1)
         {
             Serial.println("");
-            Serial.println("**Satellite transmit/receive complete!**");
+            Serial.println("**This is the output.dataword**");
             Serial.println(parameters.output_dataword);
 
             // TOC MARK!!!
@@ -302,7 +302,8 @@ void sendreceive_satellite_data()
         
             Serial.print("Inbound buffer size is ");
             Serial.println(rx_bufferSize);
-          
+
+            Serial.println("**This is rx_buffer**");
             for (int i=0; i<rx_bufferSize; ++i)
             {
               // Serial.write(rx_buffer[i]);
