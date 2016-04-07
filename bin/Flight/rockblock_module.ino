@@ -7,11 +7,6 @@
 
 elapsedMillis time_initialization_rb;
 
-// Set the RB Debug Mode 
-//bool debug.mode = 1; // 0 = Normal, 1 = Active Debug, 
-
-int msg_count = 0;
-
 void initialize_rb()
 {
     Serial.println("If the RockBlock is not connected, this initialization will timeout in 4 min");
@@ -74,7 +69,7 @@ void initialize_rb()
 
 void sendreceive_satellite_data()
 {
-  // Do-while loop to Send/Receive until Iridium queue is cleared
+  //do-while loop to Send/Receive until Iridium queue is cleared
   do
   {
     // output telemetry to "output_dataword"
@@ -86,30 +81,27 @@ void sendreceive_satellite_data()
     // determine number of bytes in dataword
     size_t tx_bufferSize  = size_mssg / 8;
     tx_bufferSize += size_mssg % 8 ? 1 : 0;
-    
     if(debug.mode == 1)
     {
-       Serial.println("Number of bytes in Message:");
+       Serial.println("numb of bytes in mssg:");
        Serial.println(tx_bufferSize);
     }
-    
-    // Create unsigned integer array for input to Iridium send/receive function
+    // create unsigned integer array for input to Iridium send/receive function
     uint8_t tx_buffer[tx_bufferSize];
 
-    // Convert concatenated dataword characters into 8-bit chunks and add each to unsigned integer array
+    //convert concatenated dataword characters into 8-bit chunks and add each to unsigned integer array
     
-    for(int i=0; i<tx_bufferSize; i++)
-    {
+    for(int i=0; i<tx_bufferSize; i++){
         tx_buffer[i] = 0;
-        for(int j=0; j<8; j++)
-        {
-           int k = i*8 + j;
+        for(int j=0; j<8; j++){
+            int k = i*8 + j;
            char myChar = parameters.output_dataword.charAt(k); 
            int  bit_extr = std::max(myChar - '0', 0);  
            
            tx_buffer[i] = tx_buffer[i] + bit_extr * pow(2,7-j);    
-        }
-    }  
+       }
+    }
+
     ////////////////// Start of Iridium Transmit Code //////////////////////////
 
     if(debug.mode == 1)
@@ -117,7 +109,8 @@ void sendreceive_satellite_data()
       // TIC MARK!!!
       Serial.println(" ");
       Serial.print("TIC: ");
-      Serial.println(parameters.life_time);
+      // TODO: USE A BETTER TIMER HERE
+      Serial.println(parameters.cutdown_initiation_elapsed_time);
       Serial.println(" ");
   
       Serial.println(" ");
@@ -139,7 +132,7 @@ void sendreceive_satellite_data()
       Serial.println(" "); 
       
       Serial.println(" ");
-      Serial.print("Sleep Status (#1): ");
+      Serial.print("Sleep Status (#1):");
       Serial.println(isbd.isAsleep());   
     }
      
@@ -165,8 +158,10 @@ void sendreceive_satellite_data()
       Serial.print("Sleep Status (#2):");
       Serial.println(isbd.isAsleep());
     }
-     
+       
+    
     // isbd.useMSSTMWorkaround(false);  // see http://arduiniana.org/libraries/iridiumsbd/ for details 
+    
     // int getSignalQuality(int &quality);
     // Description:   Queries the signal strength and visibility of satellites
     // Returns:       ISBD_SUCCESS if successful, a non-zero code otherwise;
@@ -178,10 +173,10 @@ void sendreceive_satellite_data()
     if(debug.mode == 1)
     {
       Serial.println(" ");
-      Serial.print("Signal quality (0=nonexistent, 5=high) is : ");
-      Serial.println(signalQuality);
-      Serial.println("");
-      Serial.print("######## isbd.getSignalQuality(signalQuality) = ");
+      Serial.print("########  signalQuality = ");
+      Serial.print(signalQuality);
+      Serial.println("##########");
+      Serial.print("########  isbd.getSignalQuality(signalQuality) = ");
       Serial.print(sig_qual_err);
       Serial.println(" ##########");
       Serial.println(" ");
@@ -192,14 +187,18 @@ void sendreceive_satellite_data()
       // TODO: WRITE THIS TO THE ERROR BUFFER
       if(debug.mode == 1)
       {
-        Serial.println("SignalQuality failed: Error = ");
-        Serial.println(sig_qual_err);
-
-        Serial.print("Time: ");
-        Serial.println(parameters.life_time);
+        Serial.println("SignalQuality failed: error ");
+        //Serial.println(sig_qual_err);
       }
-      // TODO: WRITE THIS TO THE SD BUFFER
-      //
+      //if(sig_qual_err == 7)
+      //{
+         Serial.println("!!!!! ERROR: Signal Quality Error = 7 !!!!!");
+         Serial.print("Error: ");
+         Serial.println(sig_qual_err);
+         Serial.print("Time: ");
+         Serial.println(parameters.transmit_elapsed_time);
+         // TODO: WRITE THIS TO THE SD BUFFER
+      //}
       //      ERROR CODES!!!
       //      #define ISBD_SUCCESS             0
       //      #define ISBD_ALREADY_AWAKE       1
@@ -216,6 +215,14 @@ void sendreceive_satellite_data()
       
       return;
     }
+
+    if(debug.mode == 1)
+    {
+      Serial.println(" ");
+      Serial.print("Signal quality (0=nonexistent, 5=high) is ");
+      Serial.println(signalQuality);
+      Serial.println(" ");
+    }
     
     // Comment out above code after diagnostics are complete
     
@@ -229,7 +236,6 @@ void sendreceive_satellite_data()
     // NOTE: uint8_t is shorthand for: a type of unsigned integer of length 8 bits
     // NOTE: The maximum size of a transmitted packet (including header and checksum) is 340 bytes.
     // NOTE: The maximum size of a received packet is 270 bytes.
-    
     //=========== real command =========================================== //
    
       size_t rx_bufferSize = sizeof(rx_buffer);
@@ -241,24 +247,49 @@ void sendreceive_satellite_data()
       if (send_receive_err != 0)
       {
         // TODO: WRITE THIS TO THE ERROR BUFFER
+
          Serial.println("Send Recieve FAIL !!!!!!!!!!!!!!!!!!!!!!!!");
          Serial.print("Error: ");
          Serial.println(send_receive_err);
          Serial.print("Time: ");
-         Serial.println(parameters.life_time);
-       
-         return;
+         Serial.println(parameters.transmit_elapsed_time);
+        
+        if(debug.mode == 1)
+        {
+          Serial.print("########  ERROR: isbd.sendReceiveSBDBinary(a,b,c,d) = ");
+          Serial.print(send_receive_err);
+          Serial.println("##########");
+          Serial.print("sendReceiveSBDBinary failed: error ");
+          
+          Serial.println(" ");
+          //err = isbd.sleep();
+        
+          //if (err != 0)
+          //{
+          //  Serial.print("sleepfailed: error ");
+          //  Serial.println(err);
+          //}
+        
+          // TOC MARK!!!
+          
+          Serial.println(" ");
+          Serial.print("TOC: ");
+          Serial.println(parameters.cutdown_initiation_elapsed_time);
+          Serial.println(" ");
+          
+          //Serial.println(send_receive_err);
+        }
+        return;
       }
 
       Serial.print("ELAPSED TIME: ");
-      Serial.println(parameters.life_time);
+      Serial.println(parameters.transmit_elapsed_time);
       Serial.println("**Satellite transmit/receive complete!**");
 
       if(debug.mode == 1)
-
         {
             Serial.println("");
-            Serial.println("**This is the output.dataword**");
+            Serial.println("**This is output.dataword**");
             Serial.println(parameters.output_dataword);
 
             // TOC MARK!!!
@@ -266,13 +297,24 @@ void sendreceive_satellite_data()
             Serial.print("TOC: ");
             Serial.println(parameters.cutdown_initiation_elapsed_time);
             Serial.println(" ");
-         
+        
             // ================ Print inbound message ================================= //
         
             Serial.print("Inbound buffer size is ");
             Serial.println(rx_bufferSize);
 
-            Serial.println("**This is rx_buffer**");
+
+          Serial.println("**This is rx buffer in RAW*");
+            for (int i=0; i<rx_bufferSize; ++i)
+            {
+              // Serial.write(rx_buffer[i]);
+              Serial.print(" ");
+              Serial.print(rx_buffer[i], HEX);
+              //Serial.print(rx_buffer[i]);
+             // Serial.print(") ");
+            }
+
+          Serial.println("**This is rx buffer in HEX*");
             for (int i=0; i<rx_bufferSize; ++i)
             {
               // Serial.write(rx_buffer[i]);
@@ -281,32 +323,25 @@ void sendreceive_satellite_data()
               //Serial.print(rx_buffer[i]);
               Serial.print(") ");
             }
-            
-        } // end debug section
-        
-        msg_count = isbd.getWaitingMessageCount();
-     
-        if(debug.mode == 1)
-        {
-          //  int getWaitingMessageCount();
-          //  Description: Returns the number of waiting messages on the Iridium servers.
-          //  Returns:     The number of messages waiting.
-          
-          Serial.println("");
-          Serial.print("Number of remaining messages in Iridium queue: ");
-          Serial.println(msg_count);
-          
-        }
+              // ================ END Print inbound message ============================== //
+                Serial.println("");
+                Serial.print("Number of remaining messages in Iridium queue: ");
+              //  int getWaitingMessageCount();
+              //  Description:   Returns the number of waiting messages on the Iridium servers.
+              //  Returns:            The number of messages waiting.
+                Serial.println(isbd.getWaitingMessageCount());
+         } // end debug section
 
-        if (rx_bufferSize == 0)
-        {
-           break; // all done with do-while loop to Send/Receive until Iridium queue is cleared
-        }
          
-        // if a message has been received from Iridium, process the command 
-        process_satellite_command();
-        
-  } while (msg_count > 0);
+      if (rx_bufferSize == 0)
+        break; // all done with do-while loop to Send/Receive until Iridium queue is cleared
+      
+      // if a message has been received from Iridium, process the command 
+      process_satellite_command();
+
+      
+  } while (isbd.getWaitingMessageCount() > 0);
+   
    //////////End of Iridium Transmit Code/////////////////
 }
 
@@ -663,8 +698,8 @@ void write_output_telemetry_dataword()
     String valid_str;
     valid_str = "0";
 
-    double dummy_value;
-    dummy_value=0;
+double dummy_value;
+dummy_value=0;
     
     parameters.output_dataword = "10101010";                                                                                               // Balloon ID
     parameters.output_dataword = combine(8, parameters.vehicle_mode, parameters.output_dataword);                                          //1

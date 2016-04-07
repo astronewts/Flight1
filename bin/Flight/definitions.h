@@ -300,9 +300,8 @@ struct parameter_struct
   elapsedMillis battery_2_charge_current_read_elapsed_time;
   elapsedMillis intialization_timeout_time;
   elapsedMillis rb_reinitialize_time;
-  elapsedMillis life_time;
   elapsedMillis elasped_time_for_rb_quality_test;
-  
+
   String output_dataword;
   String valid_str;
 };
