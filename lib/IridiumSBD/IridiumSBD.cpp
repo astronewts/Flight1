@@ -256,7 +256,7 @@ int IridiumSBD::internalSendReceiveSBD(const char *txTxtMessage, const uint8_t *
       }
 
       console(F("["));
-      
+
       // ASTRONEWTS CODE ADDED TO ADDRESS DUE ISSUE
       console((uint16_t)txDataSize);
       //console(txDataSize);
@@ -617,8 +617,6 @@ int IridiumSBD::doSBDRB(uint8_t *rxBuffer, size_t *prxBufferSize)
    console(size);
    console(F("]"));
    
-   int first_time = 0;
-   
    for (int i=0; i<size; ++i)
    {
       if (cancelled())
@@ -626,12 +624,12 @@ int IridiumSBD::doSBDRB(uint8_t *rxBuffer, size_t *prxBufferSize)
 
       // ASTRONEWTS CODE ADDED TO ADDRESS RATE ADDITION
       while(!stream.available() && (millis() - start < 1000UL * atTimeout)) {delay(1);}
-      
+
       if (stream.available())
       {
-         
+
          uint8_t c = stream.read();
-         
+
          if (rxBuffer && prxBufferSize)
             if (*prxBufferSize > 0)
             {
