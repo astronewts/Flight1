@@ -256,6 +256,8 @@ int IridiumSBD::internalSendReceiveSBD(const char *txTxtMessage, const uint8_t *
       }
 
       console(F("["));
+      
+      // ASTRONEWTS CODE ADDED TO ADDRESS DUE ISSUE
       console((uint16_t)txDataSize);
       //console(txDataSize);
       
@@ -302,11 +304,13 @@ int IridiumSBD::internalSendReceiveSBD(const char *txTxtMessage, const uint8_t *
       {
          uint16_t moCode = 0, moMSN = 0, mtCode = 0, mtMSN = 0, mtLen = 0, mtRemaining = 0;
          ret = doSBDIX(moCode, moMSN, mtCode, mtMSN, mtLen, mtRemaining);
+         
          if (ret != ISBD_SUCCESS)
             return ret;
 
          dbg(F("SBDIX MO code: "));
          dbg(moCode);
+         
          dbg(F("\r\n"));
 
          if (moCode >= 0 && moCode <= 4) // successful return!
@@ -612,14 +616,22 @@ int IridiumSBD::doSBDRB(uint8_t *rxBuffer, size_t *prxBufferSize)
    console(F("[Binary size:"));
    console(size);
    console(F("]"));
+   
+   int first_time = 0;
+   
    for (int i=0; i<size; ++i)
    {
       if (cancelled())
          return ISBD_CANCELLED;
 
+      // ASTRONEWTS CODE ADDED TO ADDRESS RATE ADDITION
+      while(!stream.available() && (millis() - start < 1000UL * atTimeout)) {delay(1);}
+      
       if (stream.available())
       {
+         
          uint8_t c = stream.read();
+         
          if (rxBuffer && prxBufferSize)
             if (*prxBufferSize > 0)
             {
@@ -643,7 +655,8 @@ int IridiumSBD::doSBDRB(uint8_t *rxBuffer, size_t *prxBufferSize)
       if (stream.available() >= 2)
          break;
    }
-
+   
+   
    if (stream.available() < 2)
       return ISBD_SENDRECEIVE_TIMEOUT;
 
