@@ -210,7 +210,8 @@ void sd_setup() {
   bout << pstr(",Alt [ft]");                            //100
   bout << pstr(",Alt Temp [C]");                             //101
   bout << pstr(",Alt Pressure [?]");                         //102
-    bout << pstr(",The End");                         //103
+  bout << pstr(",RB Words Recieved");                //103
+  bout << pstr(",The End");                         //104
   logfile << buf << endl << flush;
   
 }
@@ -368,7 +369,9 @@ void write_telemetry_data_to_sd()
   bout << ',' << alt.altitude_in_feet;                                 //100
   bout << ',' << alt.temperature;                                      //101
   bout << ',' << alt.pressure;                                         //102
-  bout << ',' << "00000000000000000000000000000000";                   //103
+  bout << ',' << parameters.num_rb_words_recieved;                     //103
+  bout << ',' << "00000000000000000000000000000000";                   //104
+  
 
   bout << endl;
   

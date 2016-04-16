@@ -410,16 +410,28 @@ int process_satellite_command()
         }
       CommandString = CommandString + temp_str;
     }
+
+    if(debug.mode == 1)
+    {
+        Serial.println("Satellite message received! Processing command...");
+        Serial.println("CommandString in hexadecimal format:");
+        Serial.println(CommandString);
+    }
     
-    Serial.println("Satellite message received! Processing command...");
-    Serial.println("CommandString in hexadecimal format:");
-    Serial.println(CommandString);
+    if (parameters.command_count < 255) { 
+      parameters.num_rb_words_recieved = parameters.num_rb_words_recieved + 1;
+    }
+    else {  
+      parameters.num_rb_words_recieved = 1;
+    }
   
   // Allow the Commands through if it matches the intended vehicle and code version
   if (CommandString.substring(0,6) == "030133") {
     
-    Serial.println("Vehicle ID and code version in command string OK");
-    
+    if(debug.mode == 1)
+    {
+      Serial.println("Vehicle ID and code version in command string OK");
+    }
     // INCREMENT VALID COMMAND RECIEVED COUNTER
     if (parameters.command_count < 255) { 
       parameters.command_count = parameters.command_count + 1;
@@ -808,26 +820,30 @@ dummy_value=0;
     parameters.output_dataword = combine(12, parameters.camera_on_time, parameters.output_dataword);                         //89
 
     // Start Bilevel Parent TLM 
-    parameters.output_dataword = combine(1, parameters.battery_1_charging_status, parameters.output_dataword);               //90-1
-    parameters.output_dataword = combine(1, parameters.battery_2_charging_status, parameters.output_dataword);               //90-2    
-    parameters.output_dataword = combine(1, parameters.battery_bus_low_voltage_flag, parameters.output_dataword);            //90-3
-    parameters.output_dataword = combine(1, parameters.heater_state_1, parameters.output_dataword);                          //90-4
-    parameters.output_dataword = combine(1, parameters.heater_state_2, parameters.output_dataword);                          //90-5
-    parameters.output_dataword = combine(1, parameters.cutdown_enable_state, parameters.output_dataword);                    //90-6
-    parameters.output_dataword = combine(1, parameters.cutdown_1_status, parameters.output_dataword);                        //90-7
-    parameters.output_dataword = combine(1, parameters.cutdown_2_status, parameters.output_dataword);                        //90-8
-    parameters.output_dataword = combine(1, parameters.altitude_valid_flag, parameters.output_dataword);                     //90-9
-    parameters.output_dataword = combine(1, parameters.camera_enabled, parameters.output_dataword);                        //90-10
-    parameters.output_dataword = combine(1, parameters.camera_status, parameters.output_dataword);                          //90-11
-    parameters.output_dataword = combine(1, parameters.battery_1_temp_tlm_valid_flag, parameters.output_dataword);           //90-12 
-    parameters.output_dataword = combine(1, parameters.battery_2_temp_tlm_valid_flag, parameters.output_dataword);           //90-13
-    parameters.output_dataword = combine(1, parameters.battery_voltage_tlm_valid_flag, parameters.output_dataword);          //90-14
-    parameters.output_dataword = combine(1, parameters.battery_1_current_tlm_valid_flag, parameters.output_dataword);        //90-15 
-    parameters.output_dataword = combine(1, parameters.battery_2_current_tlm_valid_flag, parameters.output_dataword);         //90-16   
+    parameters.output_dataword = combine(1, parameters.battery_1_charging_status, parameters.output_dataword);                //90-1
+    parameters.output_dataword = combine(1, parameters.battery_2_charging_status, parameters.output_dataword);                //90-2    
+    parameters.output_dataword = combine(1, parameters.battery_bus_low_voltage_flag, parameters.output_dataword);             //90-3
+    parameters.output_dataword = combine(1, parameters.heater_state_1, parameters.output_dataword);                           //90-4
+    parameters.output_dataword = combine(1, parameters.heater_state_2, parameters.output_dataword);                           //90-5
+    parameters.output_dataword = combine(1, parameters.cutdown_enable_state, parameters.output_dataword);                     //90-6
+    parameters.output_dataword = combine(1, parameters.cutdown_1_status, parameters.output_dataword);                         //90-7
+    parameters.output_dataword = combine(1, parameters.cutdown_2_status, parameters.output_dataword);                         //90-8
+    
+    parameters.output_dataword = combine(1, parameters.altitude_valid_flag, parameters.output_dataword);                      //90-9
+    parameters.output_dataword = combine(1, parameters.camera_enabled, parameters.output_dataword);                           //90-10
+    parameters.output_dataword = combine(1, parameters.camera_status, parameters.output_dataword);                            //90-11
+    parameters.output_dataword = combine(1, parameters.battery_1_temp_tlm_valid_flag, parameters.output_dataword);            //90-12 
+    parameters.output_dataword = combine(1, parameters.battery_2_temp_tlm_valid_flag, parameters.output_dataword);            //90-13
+    parameters.output_dataword = combine(1, parameters.battery_voltage_tlm_valid_flag, parameters.output_dataword);           //90-14
+    parameters.output_dataword = combine(1, parameters.battery_1_current_tlm_valid_flag, parameters.output_dataword);         //90-15 
+    parameters.output_dataword = combine(1, parameters.battery_2_current_tlm_valid_flag, parameters.output_dataword);         //90-16 
+      
     parameters.output_dataword = combine_float(32,alt.altitude_in_feet, parameters.output_dataword);                          //91
     parameters.output_dataword = combine_float(32,alt.temperature, parameters.output_dataword);                               //92
-    parameters.output_dataword = combine_float(32,alt.pressure, parameters.output_dataword);                                  //93  
-    parameters.output_dataword = parameters.output_dataword + "00000000000000000000000000000000";                            //94
+    parameters.output_dataword = combine_float(32,alt.pressure, parameters.output_dataword);                                  //93 
+
+    parameters.output_dataword = combine(8, parameters.num_rb_words_recieved, parameters.output_dataword);                    //94
+    parameters.output_dataword = parameters.output_dataword + "000000000000000000000000";                                     //95
   }
 }
 

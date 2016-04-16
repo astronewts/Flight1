@@ -307,17 +307,23 @@ void loop()
     {
               if (debug.mode==1)
               { 
-              Serial.println();
-              Serial.println("===> DEBUG: MEDIUM-RATE PROCESS");
+                 Serial.println();
+                 Serial.println("===> DEBUG: MEDIUM-RATE PROCESS");
               }
-        collect_analog_telemetry();
-        collect_analog_battery_current_telemetry();
-        process_charge_current_tlm();
-        collect_alt_data();
+              
+              Serial.println("collect_analog_telemetry();");
+              collect_analog_telemetry();
+              Serial.println("collect_analog_battery_current_telemetry();");
+              collect_analog_battery_current_telemetry();
+              Serial.println("process_charge_current_tlm();");
+              process_charge_current_tlm();
+              Serial.println("collect_alt_data();");
+              collect_alt_data();
+              
               if (debug.mode==1)
               { 
-              Serial.println("=> DEBUG: ALTIMETER DATA");
-              print_alt_data();
+                 Serial.println("=> DEBUG: ALTIMETER DATA");
+                 print_alt_data();
               }
         parameters.medium_rate_elapsed_time=0;           
     }
@@ -450,6 +456,7 @@ void set_defaults()
 
   parameters.test_count = INITIAL_TEST_COUNT;
   parameters.rb_initialization_error_status = 0;
+  parameters.num_rb_words_recieved = 0;
   
   parameters.battery_1_recharge_ratio = DEFAULT_B1_RECHARGE_RATIO;
   parameters.battery_1_amphrs_charging = 0.0;

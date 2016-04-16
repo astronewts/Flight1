@@ -78,7 +78,6 @@
 #define MEDIUM_RATE_PERIOD_CUTDOWN                 20000 // ms
 #define LOW_RATE_PERIOD_CUTDOWN                    20000 // ms
 
-
 #define DEFAULT_ALTITUDE_LIMIT_LOW                 65000  // 97:for test in living room  //  A2 ft
 #define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          75000  // 101:for test in living room //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
 
@@ -99,7 +98,7 @@
 
 //Test Variables
 #define INITIAL_TEST_COUNT                          0
-#define CUTDOWN_TEST_TIME                          50 // 30000 // Put here a number +20. Exemple 50 will correspond to a cut-down time of 30sec
+#define CUTDOWN_TEST_TIME                           50 // 30000 // Put here a number +20. Exemple 50 will correspond to a cut-down time of 30sec
 #define INITIALIZATION_TIMEOUT                      10000
 
 //Vehicle Modes
@@ -265,6 +264,7 @@ struct parameter_struct
   int altitude_sanity_check_low;
 
   int rb_initialization_error_status;
+  int num_rb_words_recieved;
 
   int test_count;
   String user_intialization_input;

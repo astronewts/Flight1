@@ -22,32 +22,57 @@ void collect_gps_data()
 
 void print_gps_data()
 {
+  Serial.println("***INTERNAL DATA***");
   Serial.print("GPS Characters Processed: ");
-  Serial.println(gps.charsProcessed());
+  Serial.println(gps.charsProcessed());  
   Serial.print("GPS Sentences With Fix: ");
   Serial.println(gps.sentencesWithFix());
   Serial.print("GPS Failed CheckSum: ");
   Serial.println(gps.failedChecksum());
+  Serial.print("GPS Passed CheckSum: ");
+  Serial.println(gps.passedChecksum());
+  
+  Serial.println("***EXTERNAL DATA***");
   Serial.print("GPS Nb of satellites: ");
-  Serial.println(gps.satellites.value()); 
+  Serial.print(gps.satellites.value()); 
+  Serial.print("  Validity: ");
+  Serial.println(gps.satellites.isValid());
+  Serial.print("GPS HDOP Value: ");
+  Serial.print(gps.hdop.value());
+  Serial.print("  Validity: ");
+  Serial.println(gps.hdop.isValid());
   Serial.print("GPS Latitude [deg]: ");
   Serial.println(gps.location.lat());
   Serial.print("GPS Longtitude [deg]: ");
   Serial.println(gps.location.lng());
   Serial.print("GPS Location Age: ");
-  Serial.println(gps.location.age());
+  Serial.print(gps.location.age());
+  Serial.print("  Validity: ");
+  Serial.println(gps.location.isValid());
   Serial.print("GPS date: ");
-  Serial.println(gps.date.value());
+  Serial.print(gps.date.value());
+  Serial.print("  Validity: ");
+  Serial.println(gps.date.isValid()); 
   Serial.print("GPS time: ");
-  Serial.println(gps.time.value()); 
+  Serial.print(gps.time.value()); 
+  Serial.print("  Validity: ");
+  Serial.println(gps.time.isValid()); 
   Serial.print("GPS Altitude [m]: ");
-  Serial.println(gps.altitude.meters());
+  Serial.print(gps.altitude.meters());
+  Serial.print("  Validity: ");
+  Serial.println(gps.altitude.isValid()); 
   Serial.print("GPS Course Deg: ");
-  Serial.println(gps.course.deg());
+  Serial.print(gps.course.deg());
+  Serial.print("  Validity: ");
+  Serial.println(gps.course.isValid()); 
   Serial.print("GPS Speed [km/h]: ");
-  Serial.println(gps.speed.kmph());
+  Serial.print(gps.speed.kmph());
+  Serial.print("  Validity: ");
+  Serial.println(gps.speed.isValid()); 
+  
   Serial.print("GPS Course Cardinal: ");
   Serial.println(TinyGPSPlus::cardinal(gps.course.value()));
+  Serial.print("\n");
 }
 
 // This custom version of delay() ensures that the gps object is being "fed".

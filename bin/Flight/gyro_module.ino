@@ -854,37 +854,40 @@ gyro.mz=mz;
 
 void print_gyro_data()
 {  
-//  Now = micros();
-//  deltat = ((Now - lastUpdate)/1000000.0f); // set integration time by time elapsed since last filter update
- // lastUpdate = Now;
+  // Now = micros();
+  // deltat = ((Now - lastUpdate)/1000000.0f); // set integration time by time elapsed since last filter update
+  // lastUpdate = Now;
 
-  // Sensors x (y)-axis of the accelerometer is aligned with the y (x)-axis of the magnetometer;
-  // the magnetometer z-axis (+ down) is opposite to z-axis (+ up) of accelerometer and gyro!
-  // We have to make some allowance for this orientation mismatch in feeding the output to the quaternion filter.
-  // For the MPU-9150, we have chosen a magnetic rotation that keeps the sensor forward along the x-axis just like
-  // in the LSM9DS0 sensor. This rotation can be modified to allow any convenient orientation convention.
-  // This is ok by aircraft orientation standards!  
-  // Pass gyro rate as rad/s
-//   MadgwickQuaternionUpdate(ax, ay, az, gx*PI/180.0f, gy*PI/180.0f, gz*PI/180.0f,  my,  mx, mz);
-// MahonyQuaternionUpdate(ax, ay, az, gx*PI/180.0f, gy*PI/180.0f, gz*PI/180.0f, my, mx, mz);
+   // Sensors x (y)-axis of the accelerometer is aligned with the y (x)-axis of the magnetometer;
+   // the magnetometer z-axis (+ down) is opposite to z-axis (+ up) of accelerometer and gyro!
+   // We have to make some allowance for this orientation mismatch in feeding the output to the quaternion filter.
+   // For the MPU-9150, we have chosen a magnetic rotation that keeps the sensor forward along the x-axis just like
+   // in the LSM9DS0 sensor. This rotation can be modified to allow any convenient orientation convention.
+   // This is ok by aircraft orientation standards!  
+   // Pass gyro rate as rad/s
+   //   MadgwickQuaternionUpdate(ax, ay, az, gx*PI/180.0f, gy*PI/180.0f, gz*PI/180.0f,  my,  mx, mz);
+   // MahonyQuaternionUpdate(ax, ay, az, gx*PI/180.0f, gy*PI/180.0f, gz*PI/180.0f, my, mx, mz);
 
     // Print acceleration values in milligs!
-    Serial.print("X-acceleration: "); Serial.print(1000*ax); Serial.print(" mg "); 
-    Serial.print("Y-acceleration: "); Serial.print(1000*ay); Serial.print(" mg "); 
-    Serial.print("Z-acceleration: "); Serial.print(1000*az); Serial.println(" mg"); 
+    Serial.println("Acceleration Values:");
+    Serial.print("X-acceleration: "); Serial.print(1000*ax); Serial.println(" mG"); 
+    Serial.print("Y-acceleration: "); Serial.print(1000*ay); Serial.println(" mG"); 
+    Serial.print("Z-acceleration: "); Serial.print(1000*az); Serial.println(" mG"); 
  
     // Print gyro values in degree/sec
-    Serial.print("X-gyro rate: "); Serial.print(gx, 3); Serial.print(" degrees/sec "); 
-    Serial.print("Y-gyro rate: "); Serial.print(gy, 3); Serial.print(" degrees/sec "); 
+    Serial.println("Gyro Values:");
+    Serial.print("X-gyro rate: "); Serial.print(gx, 3); Serial.println(" degrees/sec "); 
+    Serial.print("Y-gyro rate: "); Serial.print(gy, 3); Serial.println(" degrees/sec "); 
     Serial.print("Z-gyro rate: "); Serial.print(gz, 3); Serial.println(" degrees/sec"); 
     
-    // Print mag values in degree/sec
-    Serial.print("X-mag field: "); Serial.print(mx); Serial.print(" mG "); 
-    Serial.print("Y-mag field: "); Serial.print(my); Serial.print(" mG "); 
+    // Print mag values in milli Gauss
+    Serial.println("GMagnitude Values:");
+    Serial.print("X-mag field: "); Serial.print(mx); Serial.println(" mG"); 
+    Serial.print("Y-mag field: "); Serial.print(my); Serial.println(" mG"); 
     Serial.print("Z-mag field: "); Serial.print(mz); Serial.println(" mG"); 
- 
+    Serial.print("\n");
    // Print temperature in degrees Centigrade      
-    Serial.print("Temperature is ");  Serial.print(temperature, 1);  Serial.println(" degrees C"); // Print T values to tenths of s degree C
+    Serial.print("Temperature is: ");  Serial.print(temperature, 1);  Serial.println(" degrees C"); // Print T values to tenths of s degree C
 }
      
 
