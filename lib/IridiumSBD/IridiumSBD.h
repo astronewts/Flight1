@@ -22,6 +22,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#ifndef _IRIDIUM_SBD_
+#define _IRIDIUM_SBD_
+
 #include <WString.h> // for FlashString
 #include <Stream.h> // for Stream
 #include "Arduino.h"
@@ -151,3 +154,5 @@ private:
    void console(uint16_t n);
    void console(char c);
 };
+
+#endif /* _IRIDIUM_SBD_ */

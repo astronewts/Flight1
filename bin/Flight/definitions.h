@@ -1,3 +1,5 @@
+#ifndef _FLIGHT_DEFINITIONS_
+#define _FLIGHT_DEFINITIONS_
 
 #include <elapsedMillis.h>
 
@@ -318,4 +320,5 @@ struct threshold_struct
   unsigned long emergency_transit_transmit_period;
   unsigned long load_shed_transmit_period;
 };
-  
+
+#endif /* _FLIGHT_DEFINITIONS_ */
