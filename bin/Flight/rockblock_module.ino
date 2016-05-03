@@ -7,6 +7,12 @@
 
 elapsedMillis time_initialization_rb;
 
+/* Periodic callback, do housekeeping here. */
+bool ISBDCallback()
+{
+  return true;
+}
+
 void initialize_rb()
 {
     Serial.println("If the RockBlock is not connected, this initialization will timeout in 4 min");
