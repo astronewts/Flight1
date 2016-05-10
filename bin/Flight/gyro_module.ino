@@ -162,7 +162,7 @@
 #define FIFO_COUNTH      0x72
 #define FIFO_COUNTL      0x73
 #define FIFO_R_W         0x74
-#define WHO_AM_I_MPU9150 0x75 // Should return 0x68
+#define WHO_AM_I_MPU9150 0x75 //should return 0x68
 
 // Using the GY-521 breakout board, I set ADO to 0 by grounding through a 4k7 resistor
 // Seven-bit device address is 110100 for ADO = 0 and 110101 for ADO = 1
@@ -252,7 +252,7 @@ bool initGyro()
   digitalWrite(PIN_GYRO_POWER, LOW);
   delay(1000); // Drain power!
   digitalWrite(PIN_GYRO_POWER, HIGH);
-  delay(100); // Give power time to stabilize.
+  delay(1000); // Give power time to stabilize.
   bool setupSuccess = false;
   // Set up the interrupt pin, its set as active high, push-pull
   pinMode(intPin, INPUT);
@@ -262,19 +262,30 @@ bool initGyro()
   //MPU9150_writeSensor(MPU9150_PWR_MGMT_1, 0);
   uint8_t err = -1;
   uint8_t retryCount = 0;
-  while (err && retryCount < MAX_RETRY_COUNT) {
+  Serial.println("entering while (err && retryCount < MAX_RETRY_COUNT)");
+  while (err && retryCount < MAX_RETRY_COUNT) 
+  {
     retryCount++;
+    Serial.print("we are retrying to initialize gyro, and this is the count:");
+    Serial.println(retryCount);
+    
     delay(100);
     err = writeByte(MPU9150_ADDRESS, PWR_MGMT_1, 0);
   }
 
-  if (err) {
+  if (err) 
+  {
+    Serial.print("error=");
+    Serial.print(err);
+    Serial.println(", we are exiting setup gyro because of failure in writeByte(MPU9150_ADDRESS, PWR_MGMT_1, 0)");
     return setupSuccess;
   }
+  
+  Serial.println("no error so we keep going in init gyro...");
 
   // Read the WHO_AM_I register, this is a good test of communication
   uint8_t c = readByte(MPU9150_ADDRESS, WHO_AM_I_MPU9150);  // Read WHO_AM_I register for MPU-9150
-
+  
   if (c == 0x68) // WHO_AM_I should always be 0x68
   {  
     Serial.println("MPU9150 is online...");
@@ -300,8 +311,12 @@ bool initGyro()
     uint8_t c = readByte(AK8975A_ADDRESS, WHO_AM_I_AK8975A);  // Read WHO_AM_I register for AK8975A
   
     // Get magnetometer calibration from AK8975A ROM
+    Serial.println("initiating AK8975A");
     initAK8975A(magCalibration);
-    if(SerialDebug) {
+    Serial.println("DOMNE initiating AK8975A");
+    
+    if(SerialDebug) 
+    {
       Serial.println("Magnetometer calibration values: ");
       Serial.print("X-Axis sensitivity adjustment value "); Serial.println(magCalibration[0], 2);
       Serial.print("Y-Axis sensitivity adjustment value "); Serial.println(magCalibration[1], 2);
@@ -325,6 +340,7 @@ void gyro_setup()
  
   pinMode(blinkPin, OUTPUT);
   digitalWrite(blinkPin, HIGH);
+  Serial.println("starting initGyro");
   bool gyroSetupSuccessful = initGyro();
   if (!gyroSetupSuccessful) {
        delay(1000);
