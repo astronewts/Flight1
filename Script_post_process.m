@@ -21,6 +21,8 @@ assignin('base',Name_variable_mod,Data(:,c));
 end
 %
 Time=millis/1e3;
+xlimits=[350 400];
+%xlimits=[min(Time) max(Time)];
 %
 Mode=Veh_Mode(1);
 %
@@ -48,9 +50,10 @@ Size_fig=[4 4 8 3];
 %
 h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
 set(gca,'Box','on')
-line(Time,Acc_Z_g-1,'Color',[0 0.5 0])
+line(Time,Acc_Z_g-1,'Color',[0 0.5 0],'Marker','o')
 title(title_str)
 grid on
+xlim(xlimits)
 xlabel('Time [s]')
 ylabel('Z Acceleration [g]')
 saveas(h,strcat(Output_results_dir,'Acceleration_Z.png'),'png')
@@ -58,11 +61,12 @@ close(h)
 %
 h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
 set(gca,'Box','on')
-line(Time,Acc_X_g,'Color',[0 0 0])
-line(Time,Acc_Y_g,'Color',[1 0 0])
-line(Time,Acc_Z_g-1,'Color',[0 0.5 0])
+line(Time,Acc_X_g,'Color',[0 0 0],'Marker','o')
+line(Time,Acc_Y_g,'Color',[1 0 0],'Marker','o')
+line(Time,Acc_Z_g-1,'Color',[0 0.5 0],'Marker','o')
 title(title_str)
 grid on
+xlim(xlimits)
 xlabel('Time [s]')
 ylabel('Acceleration [g]')
 saveas(h,strcat(Output_results_dir,'Acceleration.png'),'png')
@@ -71,10 +75,11 @@ close(h)
 h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
 set(gca,'Box','on')
 title(title_str)
-line(Time,Gyro_mag_X_G,'Color',[0 0 0])
-line(Time,Gyro_mag_Y_G,'Color',[1 0 0])
-line(Time,Gyro_mag_Z_G,'Color',[0 0.5 0])
+line(Time,Gyro_mag_X_G,'Color',[0 0 0],'Marker','o')
+line(Time,Gyro_mag_Y_G,'Color',[1 0 0],'Marker','o')
+line(Time,Gyro_mag_Z_G,'Color',[0 0.5 0],'Marker','o')
 grid on
+xlim(xlimits)
 xlabel('Time [s]')
 ylabel('Mag data [mG]')
 saveas(h,strcat(Output_results_dir,'Mag_data.png'),'png')
@@ -83,10 +88,11 @@ close(h)
 h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
 set(gca,'Box','on')
 title(title_str)
-line(Time,Gyro_X_degs,'Color',[0 0 0])
-line(Time,Gyro_Y_degs,'Color',[1 0 0])
-line(Time,Gyro_Z_degs,'Color',[0 0.5 0])
+line(Time,Gyro_X_degs,'Color',[0 0 0],'Marker','o')
+line(Time,Gyro_Y_degs,'Color',[1 0 0],'Marker','o')
+line(Time,Gyro_Z_degs,'Color',[0 0.5 0],'Marker','o')
 grid on
+xlim(xlimits)
 xlabel('Time [s]')
 ylabel('Gyro [deg]')
 saveas(h,strcat(Output_results_dir,'Gyro.png'),'png')
@@ -94,9 +100,10 @@ close(h)
 %
 h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
 set(gca,'Box','on')
-line(GPS_Long_deg,GPS_Lat_deg,'Color',[0 0 0])
+line(GPS_Long_deg,GPS_Lat_deg,'Color',[0 0 0],'Marker','o')
 title(title_str)
 grid on
+xlim(xlimits)
 xlabel('Longitude [deg]')
 ylabel('Lattitude [deg]')
 saveas(h,strcat(Output_results_dir,'GPS_coord.png'),'png')
@@ -104,9 +111,10 @@ close(h)
 %
 h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
 set(gca,'Box','on')
-line(Time,Alt_ft,'Color',[0 0 0])
+line(Time,Alt_ft,'Color',[0 0 0],'Marker','o')
 title(title_str)
 grid on
+xlim(xlimits)
 xlabel('Time [s]')
 ylabel('Altitude [ft]')
 saveas(h,strcat(Output_results_dir,'Alt_ft.png'),'png')
@@ -115,19 +123,21 @@ close(h)
 %
 h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
 set(gca,'Box','on')
-line(Time,GPS_Alt_m*100/30.48,'Color',[0 0 0])
+line(Time,GPS_Alt_m*100/30.48,'Color',[0 0 0],'Marker','o')
 title(title_str)
 grid on
+xlim(xlimits)
 xlabel('Time [s]')
-ylabel('Altitude [ft]')
+ylabel('Altitude from GPS [ft]')
 saveas(h,strcat(Output_results_dir,'Alt_ft_from_GPS.png'),'png')
 close(h)
 %
 h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
 set(gca,'Box','on')
-line(Time,Command_Count,'Color',[0 0 0])
+line(Time,Command_Count,'Color',[0 0 0],'Marker','o')
 title(title_str)
 grid on
+xlim(xlimits)
 xlabel('Time [s]')
 ylabel('Command count [-]')
 saveas(h,strcat(Output_results_dir,'Command_count.png'),'png')
@@ -139,14 +149,38 @@ Legend_txt(3,1)=cellstr('Fire 2 status');
 %
 h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
 set(gca,'Box','on')
-line(Time,Cutdown_Enable,'Color',[0 0 0])
-line(Time,Cutdown_1_Fire_Status,'Color',[1 0 0])
-line(Time,Cutdown_2_Fire_Status,'Color',[0 0.5 0])
+line(Time,Cutdown_Enable,'Color',[0 0 0],'Marker','o')
+line(Time,Cutdown_1_Fire_Status,'Color',[1 0 0],'Marker','o')
+line(Time,Cutdown_2_Fire_Status,'Color',[0 0.5 0],'Marker','o')
 title(title_str)
 legend(Legend_txt,'Location','best')
 legend('boxoff')
 grid on
+xlim(xlimits)
 xlabel('Time [s]')
 ylabel('Cutdown [-]')
 saveas(h,strcat(Output_results_dir,'Cutdown.png'),'png')
+close(h)
+%
+h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
+set(gca,'Box','on')
+line(Time,Heater_State_1,'Color',[0 0 0],'Marker','o')
+title(title_str)
+grid on
+xlim(xlimits)
+xlabel('Time [s]')
+ylabel('Heater state [-]')
+saveas(h,strcat(Output_results_dir,'Heater_state.png'),'png')
+close(h)
+%
+h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
+set(gca,'Box','on')
+line(Time,Bat_1_Temp_1_C,'Color',[0 0 0],'Marker','o')
+line(Time,Bat_1_Temp_2_C,'Color',[0 0.5 0],'Marker','o')
+title(title_str)
+grid on
+xlim(xlimits)
+xlabel('Time [s]')
+ylabel('Battery 1 temperature [C]')
+saveas(h,strcat(Output_results_dir,'Battery_temp.png'),'png')
 close(h)
