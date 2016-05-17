@@ -275,12 +275,68 @@ void loop()
      /////////////////////////
      // EXECUTE FLIGHT CODE //
      /////////////////////////
+ Main_loop();
 
        // Process Camera
        // TODO: Figure out How to Write process_camera_function();
 
     // High rate processes
-    if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
+    
+    
+
+     //////////////////////////////
+     // OUTPUT DATA TO ROCKBLOCK //
+     //////////////////////////////
+
+     /*  
+     //Check if time to write data to ROCKBLOCK
+     if(parameters.transmit_elapsed_time > parameters.transmit_period)
+     {
+        write_satellite_data();      
+        parameters.transmit_elapsed_time = 0;
+     }
+ 
+     // Check if there is any data waiting for us from ROCKBLOCK
+        ret_val = read_satellite_data();
+   
+        if(ret_val == COMMANDS_TO_PROCESS)
+        {
+          read_satellite_data();
+        }
+     */
+       
+     // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
+    // ISBDCallback();
+     if(parameters.transmit_elapsed_time > parameters.transmit_period)
+     {    
+              if (debug.mode==1)
+              { 
+             Serial.println();
+             Serial.println("===> DEBUG: ROCK-BLOCK CALL (SEND/RECEIVE DATA OR RE-INITIALIZE RB)");
+              }
+        if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
+        {
+              if (debug.mode==1)
+              { 
+             Serial.println("===> DEBUG: WE ARE TRYING TO RE-INITIALIZE THE RB");
+              }
+          initialize_rb();
+          parameters.rb_reinitialize_time = 0;  
+        }
+              if (debug.mode==1)
+              { 
+             Serial.println("===> DEBUG: STARTING TO SEND/RECIEVE DATA WITH RB");
+              }
+        parameters.transmit_elapsed_time = 0;
+        sendreceive_satellite_data(); 
+     }
+  }
+}
+
+
+void Main_loop()
+{
+      if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
     {
               if (debug.mode==1)
               { 
@@ -348,55 +404,8 @@ void loop()
        // TODO: Figure out How to Write process_camera_function();
        parameters.tlm_processing_time = 0.0;
      }
-     
-
-     //////////////////////////////
-     // OUTPUT DATA TO ROCKBLOCK //
-     //////////////////////////////
-
-     /*  
-     //Check if time to write data to ROCKBLOCK
-     if(parameters.transmit_elapsed_time > parameters.transmit_period)
-     {
-        write_satellite_data();      
-        parameters.transmit_elapsed_time = 0;
-     }
- 
-     // Check if there is any data waiting for us from ROCKBLOCK
-        ret_val = read_satellite_data();
-   
-        if(ret_val == COMMANDS_TO_PROCESS)
-        {
-          read_satellite_data();
-        }
-     */
-       
-     // Perform RockBlock module functions if elapsed time has exceeded specified transmit rate
-     if(parameters.transmit_elapsed_time > parameters.transmit_period)
-     {    
-              if (debug.mode==1)
-              { 
-             Serial.println();
-             Serial.println("===> DEBUG: ROCK-BLOCK CALL (SEND/RECEIVE DATA OR RE-INITIALIZE RB)");
-              }
-        if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
-        {
-              if (debug.mode==1)
-              { 
-             Serial.println("===> DEBUG: WE ARE TRYING TO RE-INITIALIZE THE RB");
-              }
-          initialize_rb();
-          parameters.rb_reinitialize_time = 0;  
-        }
-              if (debug.mode==1)
-              { 
-             Serial.println("===> DEBUG: STARTING TO SEND/RECIEVE DATA WITH RB");
-              }
-        parameters.transmit_elapsed_time = 0;
-        sendreceive_satellite_data(); 
-     }
   }
-}
+
 
 void set_defaults()
 {
