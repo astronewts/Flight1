@@ -10,8 +10,18 @@ elapsedMillis time_initialization_rb;
 /* Periodic callback, do housekeeping here. */
 bool ISBDCallback()
 {
-  Main_loop();
-  return true;
+if (Flag_RB.loop_started==1)
+  {
+    if (parameters.vehicle_mode==FLIGHT_MODE_WITH_DEBUG)
+    {
+    Main_flight_loop();
+    }
+    if (parameters.vehicle_mode==FLIGHT_MODE)
+    {
+    Main_flight_loop();
+    }
+  }
+return true;
 }
 
 void initialize_rb()
@@ -288,6 +298,11 @@ void sendreceive_satellite_data()
         }
         return;
       }
+
+      // If we are here, it means the send/receive was complete
+      Flag_RB.try_send_reveive=1;
+      write_telemetry_data_to_sd();
+      Flag_RB.try_send_reveive=0;
 
       Serial.print("ELAPSED TIME: ");
       Serial.println(parameters.transmit_elapsed_time);

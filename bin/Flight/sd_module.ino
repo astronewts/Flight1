@@ -106,7 +106,7 @@ void sd_setup() {
 #if USE_DS1307
   bout << pstr(",date,time");
 #endif  // USE_DS1307
-
+  bout << pstr(",Data to RB  [-]");                         //0
   bout << pstr(",Veh Mode [-]");                         //1
   bout << pstr(",Command Count [-]");                        //2
   bout << pstr(",Normal Trans Period [s]");              //3
@@ -249,6 +249,7 @@ void write_telemetry_data_to_sd()
 //############### ASTRONEWTS SD TLM ###############
 //#################################################
 
+  bout << ',' << Flag_RB.try_send_reveive;                              //0
   bout << ',' << parameters.vehicle_mode;                              //1
   bout << ',' << parameters.command_count;                             //2
   bout << ',' << thresholds.normal_transmit_period/1000;                    //3

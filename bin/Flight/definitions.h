@@ -112,6 +112,8 @@
 #define CUTDOWN_TEST_MODE                         6
 #define TERMINAL_TEST_MODE                        7
 #define SIGNAL_TEST_MODE                          8
+#define FLIGHT_MODE_WITH_DEBUG                    9
+#define FLIGHT_MODE_WITHOUT_RB                    10
 
 //Analog Pins
 #define PIN_PRESSURE_SENSOR                    A0
@@ -176,6 +178,12 @@ struct gyro_struct
 struct debug_struct
 {
   bool mode; 
+};
+
+struct Flag_RB_struct
+{
+  int try_send_reveive; 
+  int loop_started; 
 };
 
 struct telemetry_data_struct
