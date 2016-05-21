@@ -21,8 +21,8 @@ assignin('base',Name_variable_mod,Data(:,c));
 end
 %
 Time=millis/1e3;
-xlimits=[350 400];
-%xlimits=[min(Time) max(Time)];
+%xlimits=[350 400];
+xlimits=[min(Time) max(Time)];
 %
 Mode=Veh_Mode(1);
 %
@@ -103,7 +103,6 @@ set(gca,'Box','on')
 line(GPS_Long_deg,GPS_Lat_deg,'Color',[0 0 0],'Marker','o')
 title(title_str)
 grid on
-xlim(xlimits)
 xlabel('Longitude [deg]')
 ylabel('Lattitude [deg]')
 saveas(h,strcat(Output_results_dir,'GPS_coord.png'),'png')
