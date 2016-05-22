@@ -41,6 +41,7 @@
 #include <SdFatUtil.h>
 #include <IridiumSBD.h>
 #include "IntersemaBaro.h"
+#include <Adafruit_INA219.h>
 
 struct telemetry_data_struct telemetry_data;
 struct raw_telemetry_data_struct raw_telemetry_data;
@@ -59,6 +60,8 @@ uint8_t rx_buffer[MAX_RX_BUFFER_SIZE]; // max size of a received packet is 270 b
 
 IridiumSBD isbd(Serial3, 50);
 Intersema::BaroPressure_MS5607 baro;
+Adafruit_INA219 ina219_1; // Battery 1 Current Sense default (0x40)
+Adafruit_INA219 ina219_2(0x41); // Battery 2 Current Sense 
 
 void setup() 
 {
@@ -107,7 +110,6 @@ void setup()
       Init_components();
       Init_RB();
     }
-
       if (parameters.user_intialization_input =="w") {
       parameters.prompt_from_user_makes_sense=1;
       Serial.println("Then we are in Flight Mode without RB");
@@ -165,34 +167,38 @@ Serial.println("****************************************************************
 void loop() 
 { 
    Flag_RB.loop_started=1;
+
+  // Mode Check
+  //Serial.print("MODE: ");
+  //Serial.println(parameters.vehicle_mode);
   
   // Cut-Down Test Mode Loop
   if(parameters.vehicle_mode == CUTDOWN_TEST_MODE)
   {  
-  Cutdown_test_loop();  
+    Cutdown_test_loop();  
   }
   // Signal Test Mode Loop
   else if(parameters.vehicle_mode == SIGNAL_TEST_MODE)
   {
-  Signal_test_loop();
+    Signal_test_loop();
   }
   // Terminal Test Mode Loop
   else if(parameters.vehicle_mode == TERMINAL_TEST_MODE)
   {
-  Terminal_test_loop();
+    Terminal_test_loop();
   }
   // Flight mode without RB
   else if(parameters.vehicle_mode == FLIGHT_MODE_WITHOUT_RB)
   {
-  Main_flight_loop();
+    Main_flight_loop();
   }
   else
   {
   /////////////////////////
   // EXECUTE FLIGHT CODE //
   /////////////////////////
-  Main_flight_loop();
-  RB_Send_Receive_data();
+    Main_flight_loop();
+    RB_Send_Receive_data();
   }
 }
 
@@ -200,61 +206,60 @@ void Main_flight_loop()
 {
     if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
     {
-              if (debug.mode==1)
-              { 
-              Serial.println("===> DEBUG: HIGH-RATE PROCESS");
-              }       
-    collect_gps_data(); 
-              if (debug.mode==1)
-              { 
-              Serial.println("=> DEBUG: GPS DATA");
-              print_gps_data();
-              }
-    collect_gyro_data();
-              if (debug.mode==1)
-              { 
-              Serial.println("=> DEBUG: GYRO DATA");
-              print_gyro_data();
-              }           
-    write_telemetry_data_to_sd();
-    parameters.high_rate_elapsed_time =0;  
+        if (debug.mode==1)
+        { 
+          Serial.println("===> DEBUG: HIGH-RATE PROCESS");
+        }       
+        collect_gps_data(); 
+        if (debug.mode==1)
+        { 
+          Serial.println("=> DEBUG: GPS DATA");
+          print_gps_data();
+        }
+        collect_gyro_data();
+        if (debug.mode==1)
+        { 
+          Serial.println("=> DEBUG: GYRO DATA");
+          print_gyro_data();
+        }           
+        collect_charge_current_data();
+        if (debug.mode==1) 
+        {
+          Serial.println("=> DEBUG: BATTERY CHARGE CURRENT DATA");
+          print_battery_charge_current_data();
+        }
+        process_charge_current_tlm();
+                   
+        write_telemetry_data_to_sd();
+        parameters.high_rate_elapsed_time =0;  
     }
 
     // Medium rate processes
     if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
     {
-              if (debug.mode==1)
-              { 
-                 Serial.println();
-                 Serial.println("===> DEBUG: MEDIUM-RATE PROCESS");
-              }
-              
-              if (debug.mode==1)
-              {
-                Serial.println("collect_analog_telemetry();");
-              }
-    collect_analog_telemetry();
-              if (debug.mode==1) 
-              {
-                Serial.println("collect_analog_battery_current_telemetry();");
-              }
-    collect_analog_battery_current_telemetry();
-              if (debug.mode==1) 
-              {
-                Serial.println("process_charge_current_tlm();");
-              }
-    process_charge_current_tlm();
-              if (debug.mode==1) 
-              {
-                Serial.println("collect_alt_data();");
-              }
-    collect_alt_data();
-              if (debug.mode==1)
-              { 
-                 Serial.println("=> DEBUG: ALTIMETER DATA");
-                 print_alt_data();
-              }
-    parameters.medium_rate_elapsed_time=0;           
+        if (debug.mode==1)
+        { 
+           Serial.println();
+           Serial.println("===> DEBUG: MEDIUM-RATE PROCESS");
+        }
+        
+        if (debug.mode==1)
+        {
+          Serial.println("collect_analog_telemetry();");
+        }
+        collect_analog_telemetry();
+        
+        if (debug.mode==1) 
+        {
+          Serial.println("collect_alt_data();");
+        }
+        collect_alt_data();
+        if (debug.mode==1)
+        { 
+           Serial.println("=> DEBUG: ALTIMETER DATA");
+           print_alt_data();
+        }
+        parameters.medium_rate_elapsed_time=0;           
     }
 
     // Low-rate processes
@@ -375,6 +380,7 @@ void Cutdown_test_loop()
     {
        collect_alt_data();
        collect_analog_telemetry();
+       collect_charge_current_data();
        parameters.medium_rate_elapsed_time =0;
     }
     
@@ -386,13 +392,11 @@ void Cutdown_test_loop()
      print_cutdown_telemetry();
 }
 
-
-
 void Terminal_test_loop()
 {
   //Collect Analog Telemetry
   collect_analog_telemetry();
-  collect_analog_battery_current_telemetry();
+  collect_charge_current_data();
      
   // Collect GPS Data
   collect_gps_data(); 
@@ -408,7 +412,7 @@ void Terminal_test_loop()
   // TODO: DETERMINE WHAT FUNCTIONS WE WANT TO RUN IN TERMINAL TEST MODE
 
   // Print All Collected TLM to the Terminal Window
-     print_telemetry();
+  print_telemetry();
     
   // TODO: MAKE SURE THAT ANY ERROR MESSAGES OR DISCONNECTED HW IS OUTPUT IN PRINT TLM
 
@@ -439,6 +443,10 @@ void Init_components()
   sd_setup();
   Serial.println("===> sd setup done ");
   Serial.println("");  
+  Serial.println("****current_sense_setup");
+  current_sense_setup();
+  Serial.println("===> current_sense_setup done ");
+  Serial.println(""); 
   Serial.println("****gyro_setup");
   gyro_setup();
   Serial.println("===> gyro setup done ");
@@ -466,6 +474,15 @@ void set_defaults()
   thresholds.transit_transmit_period = DEFAULT_TRANSIT_TRANSMIT_RATE;
   thresholds.load_shed_transmit_period = DEFAULT_LOAD_SHED_TRANSMIT_RATE;
   thresholds.emergency_transit_transmit_period = DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE;
+
+  telemetry_data.shuntvoltage_batt1 = 0.0;
+  telemetry_data.busvoltage_batt1 = 0.0;
+  telemetry_data.battery_1_charge_current = 0.0;
+  telemetry_data.loadvoltage_batt1 = 0.0;
+  telemetry_data.shuntvoltage_batt2 = 0.0;
+  telemetry_data.busvoltage_batt2 = 0.0;
+  telemetry_data.battery_2_charge_current = 0.0;
+  telemetry_data.loadvoltage_batt2 = 0.0;
 
   parameters.vehicle_mode = DEFAULT_MODE;
   parameters.command_count = 0.0;

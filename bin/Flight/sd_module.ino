@@ -268,8 +268,8 @@ void write_telemetry_data_to_sd()
   bout << ',' << telemetry_data.air_pressure;                          //16
   bout << ',' << telemetry_data.battery_1_voltage_1;                   //17
   bout << ',' << telemetry_data.battery_1_voltage_2;                   //18
-  bout << ',' << telemetry_data.battery_1_charge_current_1;            //19
-  bout << ',' << telemetry_data.battery_1_charge_current_2;            //20
+  bout << ',' << telemetry_data.battery_1_charge_current;              //19
+  bout << ',' << telemetry_data.battery_2_charge_current;              //20
   bout << ',' << "00000000000000000000000000000000";                   //21
   bout << ',' << "00000000000000000000000000000000";                   //22
   bout << ',' << parameters.tlm_processing_period/1000;                     //23

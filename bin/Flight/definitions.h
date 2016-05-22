@@ -200,8 +200,16 @@ struct telemetry_data_struct
   double air_pressure;
   double battery_1_voltage_1;
   double battery_1_voltage_2;
-  double battery_1_charge_current_1;
-  double battery_1_charge_current_2;
+  
+  float shuntvoltage_batt1;
+  float busvoltage_batt1;
+  float battery_1_charge_current;
+  float loadvoltage_batt1;
+  float shuntvoltage_batt2;
+  float busvoltage_batt2;
+  float battery_2_charge_current;
+  float loadvoltage_batt2;
+  
   //struct gps_struct gps_values;
   //struct gyro_struct gyro_values;
 };
@@ -227,8 +235,16 @@ struct raw_telemetry_data_struct
   int raw_air_pressure;
   int raw_battery_1_voltage_1;
   int raw_battery_1_voltage_2;
-  int raw_battery_1_charge_current_1;
-  int raw_battery_1_charge_current_2;
+  
+  float shuntvoltage_batt1;
+  float busvoltage_batt1;
+  float battery_1_charge_current;
+  float loadvoltage_batt1;
+  
+  float shuntvoltage_batt2;
+  float busvoltage_batt2;
+  float battery_2_charge_current;
+  float loadvoltage_batt2;
 };
 
 struct parameter_struct

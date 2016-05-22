@@ -60,20 +60,20 @@ void collect_analog_telemetry()
   //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
 }
 
-void collect_analog_battery_current_telemetry()
-{ 
-  //Battery 1 Charge Current 1
-  raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_1);
-  telemetry_data.battery_1_charge_current_1 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;
-  delay(100);
-  
-  //Battery 1 Charge Current 2
-  raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_2);
-  telemetry_data.battery_1_charge_current_2 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;  
-  delay(100);
-
-  //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
-}
+//void collect_analog_battery_current_telemetry()
+//{ 
+//  //Battery 1 Charge Current 1
+//  raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_1);
+//  telemetry_data.battery_1_charge_current_1 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;
+//  delay(100);
+//  
+//  //Battery 1 Charge Current 2
+//  raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_2);
+//  telemetry_data.battery_1_charge_current_2 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;  
+//  delay(100);
+//
+//  //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
+//}
 
 double calculate_temp(int counts)
 {
@@ -322,7 +322,7 @@ void process_charge_current_tlm()
    
    // Charge Current 
    // Sanity Check
-   tlm_value = sanity_processing(telemetry_data.battery_1_charge_current_1, telemetry_data.battery_1_charge_current_2, 4);
+   tlm_value = sanity_processing(telemetry_data.battery_1_charge_current, telemetry_data.battery_1_charge_current, 4);
    
    if(parameters.battery_1_current_tlm_valid_flag == true)
    {
@@ -547,11 +547,6 @@ void print_analog_data()
   Serial.println(telemetry_data.battery_1_voltage_2);  
   Serial.print("Battery Voltage 2 RAW: ");
   Serial.println(raw_telemetry_data.raw_battery_1_voltage_2);   
-  Serial.print("Charge Current 1: ");
-  Serial.println(telemetry_data.battery_1_charge_current_1);
-  Serial.print("Charge Current 2: ");
-  Serial.println(telemetry_data.battery_1_charge_current_2);
-  Serial.println(" ");
 }
 
 void print_telemetry()
@@ -562,6 +557,7 @@ void print_telemetry()
   Serial.println(" ");
 
   print_analog_data();
+  print_battery_charge_current_data();
   print_alt_data();
   print_gps_data();
   print_gyro_data();
