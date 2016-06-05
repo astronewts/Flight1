@@ -69,6 +69,20 @@ void setup()
    Serial1.begin(4800);
    Serial.println("\nASTRONEWTS CODE START: \n");
    //
+   Serial.println("**** Set_output_pins:");
+   set_output_pins();
+   Serial.println("===> Set_output_pins done!");
+   Serial.println("");  
+   Serial.println("**** Set_defaults:");
+   set_defaults();
+   Serial.println("===> Set_defaults done!");
+   Serial.println("");
+   Serial.println("**** Set_normal_mode:");
+   set_normal_mode();
+   Serial.println("===> Set_normal_mode done!");
+   Serial.println("");
+   Serial.println("");  
+   //
    Serial.println("PROMPT: Type one of the following option: (f=Flight, d=Flight w/ debug, w=Flight without RB, c=Cutdown-Test, t=Terminal-Test, s=Sig Qual-Test)");  
    Serial.print(" (you have ");
    Serial.print(INITIALIZATION_TIMEOUT/1000);
@@ -423,21 +437,10 @@ void Terminal_test_loop()
 void Init_components()
 {
   Serial.println("------- INIT COMPONENTS (NO RB) -------");
-  Serial.println("**** Set_output_pins:");
-  set_output_pins();
-  Serial.println("===> Set_output_pins done!");
-  Serial.println("");  
-  Serial.println("**** Set_defaults:");
-  set_defaults();
-  Serial.println("===> Set_defaults done!");
   Serial.println("");  
   Serial.println("**** Initialize baro");
   baro.init();
   Serial.println("===> Initialize baro done!");
-  Serial.println("");  
-  Serial.println("**** Set_normal_mode:");
-  set_normal_mode();
-  Serial.println("===> Set_normal_mode done!");
   Serial.println("");  
   Serial.print("**** sd setup");
   sd_setup();
