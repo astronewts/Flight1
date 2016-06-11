@@ -506,10 +506,6 @@ void execute_electrical_control_check()
    
 } // end of process telemetry
 
-
-
-
-
 /////////////////////////////////////////////////////////////////////////
 ////  This section includes code which prints to the Terminal output ////
 /////////////////////////////////////////////////////////////////////////
@@ -558,6 +554,7 @@ void print_telemetry()
 
   print_analog_data();
   print_battery_charge_current_data();
+  print_low_rate_current_data();
   print_alt_data();
   print_gps_data();
   print_gyro_data();
@@ -568,7 +565,6 @@ void print_telemetry()
   Serial.println("");
   Serial.println("");
 }
-
 
 
 void print_cutdown_telemetry()

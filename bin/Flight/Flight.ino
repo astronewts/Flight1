@@ -62,6 +62,8 @@ IridiumSBD isbd(Serial3, 50);
 Intersema::BaroPressure_MS5607 baro;
 Adafruit_INA219 ina219_1; // Battery 1 Current Sense default (0x40)
 Adafruit_INA219 ina219_2(0x41); // Battery 2 Current Sense 
+Adafruit_INA219 ina219_3(0x44); // Solar Array Current Sense 
+Adafruit_INA219 ina219_4(0x45); // Load Path Current Sense 
 
 void setup() 
 {
@@ -237,6 +239,7 @@ void Main_flight_loop()
           print_gyro_data();
         }           
         collect_charge_current_data();
+        collect_low_rate_current_data();
         if (debug.mode==1) 
         {
           Serial.println("=> DEBUG: BATTERY CHARGE CURRENT DATA");
@@ -395,6 +398,7 @@ void Cutdown_test_loop()
        collect_alt_data();
        collect_analog_telemetry();
        collect_charge_current_data();
+       collect_low_rate_current_data();
        parameters.medium_rate_elapsed_time =0;
     }
     
@@ -408,9 +412,10 @@ void Cutdown_test_loop()
 
 void Terminal_test_loop()
 {
-  //Collect Analog Telemetry
+  //Collect Analog & Current Telemetry
   collect_analog_telemetry();
   collect_charge_current_data();
+  collect_low_rate_current_data();
      
   // Collect GPS Data
   collect_gps_data(); 
@@ -482,10 +487,21 @@ void set_defaults()
   telemetry_data.busvoltage_batt1 = 0.0;
   telemetry_data.battery_1_charge_current = 0.0;
   telemetry_data.loadvoltage_batt1 = 0.0;
+  
   telemetry_data.shuntvoltage_batt2 = 0.0;
   telemetry_data.busvoltage_batt2 = 0.0;
   telemetry_data.battery_2_charge_current = 0.0;
   telemetry_data.loadvoltage_batt2 = 0.0;
+  
+  telemetry_data.shuntvoltage_sa = 0.0;
+  telemetry_data.busvoltage_sa = 0.0;
+  telemetry_data.sa_current = 0.0;
+  telemetry_data.loadvoltage_sa = 0.0;
+  
+  telemetry_data.shuntvoltage_load_path = 0.0;
+  telemetry_data.busvoltage_load_path = 0.0;
+  telemetry_data.load_path_current = 0.0;
+  telemetry_data.loadvoltage_load_path = 0.0;
 
   parameters.vehicle_mode = DEFAULT_MODE;
   parameters.command_count = 0.0;

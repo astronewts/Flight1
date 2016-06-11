@@ -114,39 +114,38 @@ void sd_setup() {
   bout << pstr(",Transit Tran Period [s]");             //5
   bout << pstr(",Emergency Trans Transmit Period [s]");   //6
   bout << pstr(",Spare Trans Period [s]");               //7
-  bout << pstr(",SD Card Write Period [s]");                //8
+  bout << pstr(",SD Card Write Period [s]");             //8
   bout << pstr(",Bat 1 Temp 1 [C]");                     //9
   bout << pstr(",Bat 1 Temp 2 [C]");                     //10
   bout << pstr(",Bat 2 Temp 1 [C]");                     //11
   bout << pstr(",Bat 2 Temp 2 [C]");                     //12
-  bout << pstr(",Inner Ext Temp [C]");                  //13
-  bout << pstr(",Outer Ext Temp [C]");                  //14
-  bout << pstr(",Int Temp [C]");                        //15
+  bout << pstr(",Inner Ext Temp [C]");                   //13
+  bout << pstr(",Outer Ext Temp [C]");                   //14
+  bout << pstr(",Int Temp [C]");                         //15
   bout << pstr(",Air Pres [Pa]");                        //16
-  bout << pstr(",Bat 1 Volt Pri [V]");                //17
-  bout << pstr(",Bat 1 Volt Red [V]");                //18
-  bout << pstr(",Bat 1 Charge Cur 1 [A]");           //19
-  bout << pstr(",Bat 1 Charge Cur 2 [A]");           //20
-  // TODO: I THINK WE'RE ACTUALLY OUTPUTTING TEMP CONSTANTS IN SPARE 1 & 2
-  bout << pstr(",Spare 1");                                  //21  
-  bout << pstr(",Spare 2");                                  //22
-  bout << pstr(",Tel Processing Period [s]");         //23
-  bout << pstr(",Spare 3");                                  //24
-  bout << pstr(",GPS Lat [deg]");                       //25
-  bout << pstr(",GPS Long [deg]");                      //26
-  bout << pstr(",GPS Alt [m]");                         //27
-  bout << pstr(",GPS Loc Age [s]");                     //28
-  bout << pstr(",GPS Alt Age [s]");                     //29
-  bout << pstr(",GPS Course [deg]");                         //30
-  bout << pstr(",GPS Speed [km/h]");                         //31
-  bout << pstr(",GPS # of Sat [-]");                  //32
-  bout << pstr(",GPS Date [-]");                             //33
-  bout << pstr(",GPS Time [-]");                             //34
-  bout << pstr(",HDOP Value [?]");                           //35
-  bout << pstr(",GPS Chars Processed [-]");                  //36
-  bout << pstr(",GPS Sentences with Fix [-]");               //37
-  bout << pstr(",GPS Failed Checksum [-]");                  //38
-  bout << pstr(",GPS Isvalid Conglomerate [-]");             //39
+  bout << pstr(",Bat 1 Volt [V]");                       //17
+  bout << pstr(",Bat 2 Volt [V]");                       //18
+  bout << pstr(",Bat 1 Charge Current [A]");             //19
+  bout << pstr(",Bat 2 Charge Current [A]");             //20
+  bout << pstr(",Solar Array Current [A]");              //21
+  bout << pstr(",Load Path Current [A]");                //22
+  bout << pstr(",Tel Processing Period [s]");            //23
+  bout << pstr(",Spare 3");                              //24
+  bout << pstr(",GPS Lat [deg]");                        //25
+  bout << pstr(",GPS Long [deg]");                       //26
+  bout << pstr(",GPS Alt [m]");                          //27
+  bout << pstr(",GPS Loc Age [s]");                      //28
+  bout << pstr(",GPS Alt Age [s]");                      //29
+  bout << pstr(",GPS Course [deg]");                     //30
+  bout << pstr(",GPS Speed [km/h]");                     //31
+  bout << pstr(",GPS # of Sat [-]");                     //32
+  bout << pstr(",GPS Date [-]");                         //33
+  bout << pstr(",GPS Time [-]");                         //34
+  bout << pstr(",HDOP Value [?]");                       //35
+  bout << pstr(",GPS Chars Processed [-]");              //36
+  bout << pstr(",GPS Sentences with Fix [-]");           //37
+  bout << pstr(",GPS Failed Checksum [-]");              //38
+  bout << pstr(",GPS Isvalid Conglomerate [-]");          //39
   bout << pstr(",Acc X [g]");                               //40
   bout << pstr(",Acc Y [g]");                               //41
   bout << pstr(",Acc Z [g]");                               //42
@@ -249,15 +248,15 @@ void write_telemetry_data_to_sd()
 //############### ASTRONEWTS SD TLM ###############
 //#################################################
 
-  bout << ',' << Flag_RB.try_send_reveive;                              //0
+  bout << ',' << Flag_RB.try_send_reveive;                             //0
   bout << ',' << parameters.vehicle_mode;                              //1
   bout << ',' << parameters.command_count;                             //2
-  bout << ',' << thresholds.normal_transmit_period/1000;                    //3
-  bout << ',' << thresholds.load_shed_transmit_period/1000;                 //4
-  bout << ',' << thresholds.transit_transmit_period/10000;                   //5
-  bout << ',' << thresholds.emergency_transit_transmit_period/1000;         //6
-  bout << ',' << thresholds.spare_transmit_period/1000;                     //7
-  bout << ',' << parameters.sd_card_write_period/1000;                      //8
+  bout << ',' << thresholds.normal_transmit_period/1000;               //3
+  bout << ',' << thresholds.load_shed_transmit_period/1000;            //4
+  bout << ',' << thresholds.transit_transmit_period/10000;             //5
+  bout << ',' << thresholds.emergency_transit_transmit_period/1000;    //6
+  bout << ',' << thresholds.spare_transmit_period/1000;                //7
+  bout << ',' << parameters.sd_card_write_period/1000;                 //8
   bout << ',' << telemetry_data.battery_1_temp_1;                      //9
   bout << ',' << telemetry_data.battery_1_temp_2;                      //10
   bout << ',' << telemetry_data.battery_2_temp_1;                      //11
@@ -270,9 +269,9 @@ void write_telemetry_data_to_sd()
   bout << ',' << telemetry_data.battery_1_voltage_2;                   //18
   bout << ',' << telemetry_data.battery_1_charge_current;              //19
   bout << ',' << telemetry_data.battery_2_charge_current;              //20
-  bout << ',' << "00000000000000000000000000000000";                   //21
-  bout << ',' << "00000000000000000000000000000000";                   //22
-  bout << ',' << parameters.tlm_processing_period/1000;                     //23
+  bout << ',' << telemetry_data.sa_current;                            //21
+  bout << ',' << telemetry_data.load_path_current;                     //22
+  bout << ',' << parameters.tlm_processing_period/1000;                //23
   bout << ',' << "00000000000000000000000000000000";                   //24
   bout << ',' << gps.location.lat();                                   //25   
   bout << ',' << gps.location.lng();                                   //26
