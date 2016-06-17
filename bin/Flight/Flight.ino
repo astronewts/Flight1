@@ -65,6 +65,19 @@ Adafruit_INA219 ina219_2(0x41); // Battery 2 Current Sense
 Adafruit_INA219 ina219_3(0x44); // Solar Array Current Sense
 Adafruit_INA219 ina219_4(0x45); // Load Path Current Sense
 
+char get_user_input()
+{
+  elapsedMillis timeout_time = 0;
+  char user_input =0;
+  while (!user_input && timeout_time < INITIALIZATION_TIMEOUT) {
+    if (Serial.available() > 0) {
+      user_input = Serial.read();
+    }
+    delay(10);
+  }
+  return user_input;
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -89,36 +102,27 @@ void setup()
   Serial.print(" (you have ");
   Serial.print(INITIALIZATION_TIMEOUT/1000);
   Serial.println(" seconds): ");
-  parameters.intialization_timeout_time = 0;
-  parameters.prompt_from_user_makes_sense=0;
-  while (parameters.intialization_timeout_time<INITIALIZATION_TIMEOUT) {
-    // send data only when you receive data:
-    if (Serial.available() > 0) {
-      char user_prompt = Serial.read();
-      // userinput=Serial.readBytesUntil(lf, userinput, 10);
-      parameters.user_intialization_input += user_prompt;
-    }
-  } // end while loop
-  parameters.user_intialization_input.trim(); // remove trailling spaces: needed for comparison
+
+  char user_input = get_user_input();
   // say what you got:
   Serial.println("I received: ");
-  Serial.println(parameters.user_intialization_input);
+  Serial.println(user_input);
 
-  if (parameters.user_intialization_input =="t") {
+  if (user_input =='t') {
     parameters.prompt_from_user_makes_sense=1;
     Serial.println("Then we are in Terminal-Test Mode");
     parameters.vehicle_mode=TERMINAL_TEST_MODE;
     Init_components();
   }
 
-  if (parameters.user_intialization_input =="c") {
+  if (user_input =='c') {
     parameters.prompt_from_user_makes_sense=1;
     Serial.println("Then we are in Cutdown-Test Mode");
     parameters.vehicle_mode=CUTDOWN_TEST_MODE;
     Init_components();
   }
 
-  if (parameters.user_intialization_input =="d") {
+  if (user_input =='d') {
     parameters.prompt_from_user_makes_sense=1;
     Serial.println("Then we are in Flight Mode with Debug Output");
     parameters.vehicle_mode=FLIGHT_MODE_WITH_DEBUG;
@@ -126,14 +130,14 @@ void setup()
     Init_components();
     Init_RB();
   }
-  if (parameters.user_intialization_input =="w") {
+  if (user_input =='w') {
     parameters.prompt_from_user_makes_sense=1;
     Serial.println("Then we are in Flight Mode without RB");
     parameters.vehicle_mode=FLIGHT_MODE_WITHOUT_RB;
     Init_components();
   }
 
-  if (parameters.user_intialization_input =="s") {
+  if (user_input =='s') {
     parameters.prompt_from_user_makes_sense=1;
     Serial.println("Then we are in Signal Quality mode to test RB");
     Serial.println("Time [ms]  ;   Signal Quality (0=no bueno, 5=bueno)  ;  sig_qual_err (0=rb connected, 3=rb not connected)");
@@ -142,7 +146,7 @@ void setup()
     Init_RB();
   }
 
-  if (parameters.user_intialization_input =="f") {
+  if (user_input =='f') {
     parameters.prompt_from_user_makes_sense=1;
     Serial.println("Then we are in Flight Mode");
     parameters.vehicle_mode=FLIGHT_MODE;
@@ -151,7 +155,7 @@ void setup()
     Init_RB();
   }
 
-  if ((parameters.user_intialization_input !="") &&(parameters.prompt_from_user_makes_sense==0)) {
+  if (user_input &&(parameters.prompt_from_user_makes_sense==0)) {
     Serial.println("I don't get what you want so I pick: we are in Flight Mode");
     parameters.vehicle_mode=FLIGHT_MODE;
     Init_components();
@@ -159,7 +163,7 @@ void setup()
     Init_RB();
   }
 
-  if (parameters.user_intialization_input =="") {
+  if (user_input == 0) {
     Serial.println("\n User ... you are too slow I picked the mode for you: Flight Mode\n");
     parameters.vehicle_mode=FLIGHT_MODE;
     Init_components();
@@ -168,7 +172,6 @@ void setup()
   }
 
   // End of the setup
-  delay(5000);
 
   Serial.println("*****************************************************************************");
   Serial.println("*****************************************************************************");
