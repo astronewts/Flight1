@@ -50,8 +50,10 @@ struct parameter_struct parameters;
 struct threshold_struct thresholds;
 struct alt_struct alt;
 struct gyro_struct gyro;
-struct debug_struct debug;
 struct Flag_RB_struct Flag_RB;
+struct debug_struct debug;
+#define debug_println(...) if(debug.mode){Serial.println(__VA_ARGS__);}
+
 
 String output_dataword;
 
@@ -225,10 +227,7 @@ void Main_flight_loop()
 {
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
-    if (debug.mode==1)
-    {
-      Serial.println("===> DEBUG: HIGH-RATE PROCESS");
-    }
+    debug_println("===> DEBUG: HIGH-RATE PROCESS");
     collect_gps_data();
     if (debug.mode==1)
     {
@@ -251,35 +250,25 @@ void Main_flight_loop()
     process_charge_current_tlm();
 
     write_telemetry_data_to_sd();
-    parameters.high_rate_elapsed_time =0;
+    parameters.high_rate_elapsed_time = 0;
   }
 
   // Medium rate processes
   if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
   {
-    if (debug.mode==1)
-    {
-      Serial.println();
-      Serial.println("===> DEBUG: MEDIUM-RATE PROCESS");
-    }
+    debug_println();
+    debug_println("===> DEBUG: MEDIUM-RATE PROCESS");
 
-    if (debug.mode==1)
-    {
-      Serial.println("collect_analog_telemetry();");
-    }
+    debug_println("collect_analog_telemetry();");
     collect_analog_telemetry();
 
-    if (debug.mode==1)
-    {
-      Serial.println("collect_alt_data();");
-    }
+    debug_println("collect_alt_data();");
     collect_alt_data();
-    if (debug.mode==1)
-    {
-      Serial.println("=> DEBUG: ALTIMETER DATA");
+    debug_println("=> DEBUG: ALTIMETER DATA");
+    if (debug.mode) {
       print_alt_data();
     }
-    parameters.medium_rate_elapsed_time=0;
+    parameters.medium_rate_elapsed_time =  0;
   }
 
   // Low-rate processes
@@ -291,10 +280,7 @@ void Main_flight_loop()
   // House-Keeping processes
   if(parameters.tlm_processing_time > parameters.tlm_processing_period)
   {
-    if (debug.mode==1)
-    {
-      Serial.println("===> DEBUG: RUN FLIGHT HOUSEKEEPING CODE");
-    }
+    debug_println("===> DEBUG: RUN FLIGHT HOUSEKEEPING CODE");
     // RUN FLIGHT HOUSEKEEPING CODE
     execute_thermal_control_check();
     execute_electrical_control_check();
@@ -309,26 +295,17 @@ void RB_Send_Receive_data()
 {
   if(parameters.transmit_elapsed_time > parameters.transmit_period)
   {
-    if (debug.mode==1)
-    {
-      Serial.println();
-      Serial.println("===> DEBUG: ROCK-BLOCK CALL (SEND/RECEIVE DATA OR RE-INITIALIZE RB)");
-    }
+    debug_println();
+    debug_println("===> DEBUG: ROCK-BLOCK CALL (SEND/RECEIVE DATA OR RE-INITIALIZE RB)");
     if (parameters.rb_initialization_error_status == 5 && parameters.rb_reinitialize_time > 300000)
     {
-      if (debug.mode==1)
-      {
-        Serial.println("===> DEBUG: WE ARE TRYING TO RE-INITIALIZE THE RB");
-      }
+      debug_println("===> DEBUG: WE ARE TRYING TO RE-INITIALIZE THE RB");
       initialize_rb();
       parameters.rb_reinitialize_time = 0;
     }
-    if (debug.mode==1)
-    {
-      Serial.println("===> DEBUG: STARTING TO SEND/RECIEVE DATA WITH RB");
-    }
+    debug_println("===> DEBUG: STARTING TO SEND/RECIEVE DATA WITH RB");
     parameters.transmit_elapsed_time = 0;
-    Flag_RB.try_send_reveive=0;
+    Flag_RB.try_send_reveive = 0;
     sendreceive_satellite_data();
   }
 }
@@ -402,13 +379,13 @@ void Cutdown_test_loop()
     collect_analog_telemetry();
     collect_charge_current_data();
     collect_low_rate_current_data();
-    parameters.medium_rate_elapsed_time =0;
+    parameters.medium_rate_elapsed_time = 0;
   }
 
   // Low rate processes
   if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD_CUTDOWN)
   {
-    parameters.low_rate_elapsed_time =0;
+    parameters.low_rate_elapsed_time = 0;
   }
   print_cutdown_telemetry();
 }
