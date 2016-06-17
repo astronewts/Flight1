@@ -35,7 +35,7 @@ RTC_DS1307 RTC;  // define the Real Time Clock object
 //------------------------------------------------------------------------------
 // call back for file timestamps
 void dateTime(uint16_t* date, uint16_t* time) {
-    DateTime now = RTC.now();
+  DateTime now = RTC.now();
 
   // return date using FAT_DATE macro to format fields
   *date = FAT_DATE(now.year(), now.month(), now.day());
@@ -61,16 +61,16 @@ ostream& operator << (ostream& os, DateTime& dt) {
 // }
 
 void sd_setup() {
-  
+
   while (!Serial){
     delay(400);
   }
-  
+
   cout << endl << pstr("FreeRam: ") << FreeRam() << endl;
 
- 
 
-  #if USE_DS1307
+
+#if USE_DS1307
   // connect to RTC
   Wire.begin();
   if (!RTC.begin()) error("RTC failed");
@@ -157,7 +157,7 @@ void sd_setup() {
   bout << pstr(",Gyro Z [deg/s]");                           //48
   bout << pstr(",Gyro Temp [C]");                            //49
   bout << pstr(",Volt Sanity Check High [V]");            //50
-  bout << pstr(",Volt Sanity Check Low [V]");             //51  
+  bout << pstr(",Volt Sanity Check Low [V]");             //51
   bout << pstr(",Charge Cur Sanity High [A]");           //52
   bout << pstr(",Charge Cur Sanity Low [A]");            //53
   bout << pstr(",Bat 1 Recharge Ratio [-]");             //54
@@ -181,18 +181,18 @@ void sd_setup() {
   bout << pstr(",Bat Normal Temp Lim Low [C]");        //72
   bout << pstr(",Bat Survival Temp Lim High [C]");     //73
   bout << pstr(",Bat Survival Temp Lim Low [C]");      //74
-  bout << pstr(",Bat Temp Sanity Check Low [C]");        //75  
+  bout << pstr(",Bat Temp Sanity Check Low [C]");        //75
   bout << pstr(",Loadshed Entry Volt Lim [V]");         //76
   bout << pstr(",Auto Cutdown Volt Lim [V]");           //77
   bout << pstr(",Low Volt Time until Cut-down [s]");      //78
-  bout << pstr(",Alt Limit Low [ft]");                   //79  
+  bout << pstr(",Alt Limit Low [ft]");                   //79
   bout << pstr(",Alt Sanity Check Low [ft]");             //80
   bout << pstr(",Pyro Pulse Width [s]");                   //81
   bout << pstr(",Cam Period [s]");                       //82
   bout << pstr(",Cam On Time [s]");                       //83
   bout << pstr(",Bat 1 Charg Status [-]");            //84
   bout << pstr(",Bat 2 Charg Status [-]");            //85
-  bout << pstr(",Battery Bus Low Voltage Flag [-]");         //86  
+  bout << pstr(",Battery Bus Low Voltage Flag [-]");         //86
   bout << pstr(",Heater State 1 [-]");                       //87
   bout << pstr(",Heater State 2 [-]");                       //88
   bout << pstr(",Cut-down Enable");                          //89
@@ -201,18 +201,18 @@ void sd_setup() {
   bout << pstr(",Alt Valid Flag [-]");                  //92
   bout << pstr(",Cam Enabled [-]");                       //93
   bout << pstr(",Cam Status [-]");                        //94
-  bout << pstr(",Bat 1 Temp TLM Val Flag [-]");        //95  
-  bout << pstr(",Bat 2 Temp TLM Val Flag [-]");        //96  
-  bout << pstr(",Bus Voltage TLM Val Flag [-]");           //97  
+  bout << pstr(",Bat 1 Temp TLM Val Flag [-]");        //95
+  bout << pstr(",Bat 2 Temp TLM Val Flag [-]");        //96
+  bout << pstr(",Bus Voltage TLM Val Flag [-]");           //97
   bout << pstr(",Bat 1 Cur TLM Val Flag [-]");     //98
-  bout << pstr(",Bat 2 Cur TLM Val Flag []");      //99  
+  bout << pstr(",Bat 2 Cur TLM Val Flag []");      //99
   bout << pstr(",Alt [ft]");                            //100
   bout << pstr(",Alt Temp [C]");                             //101
   bout << pstr(",Alt Pressure [?]");                         //102
   bout << pstr(",RB Words Recieved");                //103
   bout << pstr(",The End");                         //104
   logfile << buf << endl << flush;
-  
+
 }
 
 //Write telemetry data to SD card
@@ -222,20 +222,20 @@ void write_telemetry_data_to_sd()
   uint32_t m;
   double dummy_value;
 
- dummy_value=0;
-  
+  dummy_value=0;
+
   // wait for time to be a multiple of interval
-   //do {
-    m = millis();
-//  } while (m % LOG_INTERVAL);
+  //do {
+  m = millis();
+  //  } while (m % LOG_INTERVAL);
 
   // use buffer stream to format line
   obufstream bout(buf, sizeof(buf));
   bout << setprecision(8);
-        if (debug.mode==1){
-        Serial.print("=> DEBUG: WRITE SD_CARD AT TIME: ");
-        Serial.println(m);
-        }
+  if (debug.mode==1){
+    Serial.print("=> DEBUG: WRITE SD_CARD AT TIME: ");
+    Serial.println(m);
+  }
   // start with time in millis
   bout << m;
 
@@ -244,9 +244,9 @@ void write_telemetry_data_to_sd()
   bout << ',' << now;
 #endif  // USE_DS1307
 
-//#################################################
-//############### ASTRONEWTS SD TLM ###############
-//#################################################
+  //#################################################
+  //############### ASTRONEWTS SD TLM ###############
+  //#################################################
 
   bout << ',' << Flag_RB.try_send_reveive;                             //0
   bout << ',' << parameters.vehicle_mode;                              //1
@@ -262,7 +262,7 @@ void write_telemetry_data_to_sd()
   bout << ',' << telemetry_data.battery_2_temp_1;                      //11
   bout << ',' << telemetry_data.battery_2_temp_2;                      //12
   bout << ',' << telemetry_data.inner_external_temp;                   //13
-  bout << ',' << telemetry_data.outter_external_temp;                  //14 
+  bout << ',' << telemetry_data.outter_external_temp;                  //14
   bout << ',' << telemetry_data.internal_temp;                         //15
   bout << ',' << telemetry_data.air_pressure;                          //16
   bout << ',' << telemetry_data.battery_1_voltage_1;                   //17
@@ -273,7 +273,7 @@ void write_telemetry_data_to_sd()
   bout << ',' << telemetry_data.load_path_current;                     //22
   bout << ',' << parameters.tlm_processing_period/1000;                //23
   bout << ',' << "00000000000000000000000000000000";                   //24
-  bout << ',' << gps.location.lat();                                   //25   
+  bout << ',' << gps.location.lat();                                   //25
   bout << ',' << gps.location.lng();                                   //26
   bout << ',' << gps.altitude.meters();                                //27
   bout << ',' << gps.location.age();                                   //28
@@ -281,8 +281,8 @@ void write_telemetry_data_to_sd()
   bout << ',' << gps.course.deg();                                     //30
   bout << ',' << gps.speed.kmph();                                     //31
   bout << ',' << gps.satellites.value();                               //32
-  
-//NOTE: THE NEXT TWO MIGHT NEEDS SOME MASSAGING POST PROCESS
+
+  //NOTE: THE NEXT TWO MIGHT NEEDS SOME MASSAGING POST PROCESS
 
   bout << ',' << gps.date.value();                                     //33
   bout << ',' << gps.time.value();                                     //34
@@ -290,20 +290,20 @@ void write_telemetry_data_to_sd()
   bout << ',' << gps.charsProcessed();                                 //36
   bout << ',' << gps.sentencesWithFix();                               //37
   bout << ',' << gps.failedChecksum();                                 //38
-  
-// ISVALID STRINGS FOR GPS!!!
+
+  // ISVALID STRINGS FOR GPS!!!
   gps_isvalid_str = String(gps.hdop.isValid());                        //39-1
-  gps_isvalid_str = gps_isvalid_str + String(gps.location.isValid());  //39-2 
-  gps_isvalid_str = gps_isvalid_str + String(gps.altitude.isValid());  //39-3 
-  gps_isvalid_str = gps_isvalid_str + String(gps.course.isValid());    //39-4 
-  gps_isvalid_str = gps_isvalid_str + String(gps.speed.isValid());     //39-5       
-  gps_isvalid_str = gps_isvalid_str + String(gps.satellites.isValid());//39-6                    
-  gps_isvalid_str = gps_isvalid_str + String(gps.date.isValid());      //39-7               
+  gps_isvalid_str = gps_isvalid_str + String(gps.location.isValid());  //39-2
+  gps_isvalid_str = gps_isvalid_str + String(gps.altitude.isValid());  //39-3
+  gps_isvalid_str = gps_isvalid_str + String(gps.course.isValid());    //39-4
+  gps_isvalid_str = gps_isvalid_str + String(gps.speed.isValid());     //39-5
+  gps_isvalid_str = gps_isvalid_str + String(gps.satellites.isValid());//39-6
+  gps_isvalid_str = gps_isvalid_str + String(gps.date.isValid());      //39-7
   gps_isvalid_str = gps_isvalid_str + String(gps.time.isValid());      //39-8
   gps_isvalid_str = gps_isvalid_str + String(gps.hdop.isValid());      //39-9
-  
+
   bout << ',' << gps_isvalid_str;                                      //39
-                                                                       
+
   bout << ',' << gyro.ax;                                              //40
   bout << ',' << gyro.ay;                                              //41
   bout << ',' << gyro.az;                                              //42
@@ -348,11 +348,11 @@ void write_telemetry_data_to_sd()
   bout << ',' << parameters.cutdown_pulse_width/1000;                       //81
   bout << ',' << parameters.camera_period/1000;                             //82
   bout << ',' << parameters.camera_on_time/1000;                            //83
-  
-// BEGINNING OF THE PARENT BILEVEL WORD                                
+
+  // BEGINNING OF THE PARENT BILEVEL WORD
   bout << ',' << parameters.battery_1_charging_status;                 //84
   bout << ',' << parameters.battery_2_charging_status;                 //85
-  bout << ',' << parameters.battery_bus_low_voltage_flag;              //86   
+  bout << ',' << parameters.battery_bus_low_voltage_flag;              //86
   bout << ',' << parameters.heater_state_1;                            //87
   bout << ',' << parameters.heater_state_2;                            //88
   bout << ',' << parameters.cutdown_enable_state;                      //89
@@ -371,10 +371,10 @@ void write_telemetry_data_to_sd()
   bout << ',' << alt.pressure;                                         //102
   bout << ',' << parameters.num_rb_words_recieved;                     //103
   bout << ',' << "00000000000000000000000000000000";                   //104
-  
+
 
   bout << endl;
-  
+
   // log data and flush to SD
   logfile << buf << flush;
 
@@ -383,13 +383,13 @@ void write_telemetry_data_to_sd()
 
   // don't log two points in the same millis
   if (m == millis()) delay(1);
-  
-//##########################################
-//##########################################
-//##########################################
+
+  //##########################################
+  //##########################################
+  //##########################################
   if (!Serial.available()) return;
   logfile.close();
   cout << pstr("Done!");
   while (1);
-  
+
 }
