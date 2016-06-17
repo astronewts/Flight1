@@ -6,7 +6,7 @@
 #define DEBUG
 
 //Command Sentinels
-#define NO_COMMANDS_TO_PROCESS        0 
+#define NO_COMMANDS_TO_PROCESS        0
 #define COMMANDS_TO_PROCESS           1
 
 //Constants
@@ -51,7 +51,7 @@
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_HIGH   16
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW    14
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH     150
-#define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80    
+#define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80
 #define DEFAULT_NORMAL_TRANSMIT_RATE               15000 // TEST ONLY!!!
 //#define DEFAULT_NORMAL_TRANSMIT_RATE             1200000 // FOR FLIGHT!!!
 #define DEFAULT_SPARE_TRANSMIT_RATE                60000
@@ -61,7 +61,7 @@
 
 #define DEFAULT_RB_AT_BUS_TIMEOUT                  20 // seconds // Default is 20 seconds
 #define DEFAULT_RB_SEND_RECIEVE_TIMEOUT            300 // seconds // Default is 300 seconds
-    
+
 #define DEFAULT_RB_POWER_MODE                      1
 // Use "1" for low current applications; when powered by a low-power 90 mA max USB supply, the interval between transmit retries is extended to as much as 60 seconds
 // Use "0" for "high current" applications; interval between transmit retries is 20 seconds
@@ -85,13 +85,13 @@
 
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           -0.1
-#define DEFAULT_B1_AMPHRS_INIT_THRESHOLD           -0.5  
+#define DEFAULT_B1_AMPHRS_INIT_THRESHOLD           -0.5
 #define DEFAULT_B1_VOLTAGE_TERM_THRESHOLD           12.5
 #define DEFAULT_B1_VOLTAGE_INIT_THRESHOLD           10.0
 
 #define DEFAULT_B2_RECHARGE_RATIO                   1.1
 #define DEFAULT_B2_AMPHRS_TERM_THRESHOLD           -0.1
-#define DEFAULT_B2_AMPHRS_INIT_THRESHOLD           -0.5  
+#define DEFAULT_B2_AMPHRS_INIT_THRESHOLD           -0.5
 #define DEFAULT_B2_VOLTAGE_TERM_THRESHOLD           12.5
 #define DEFAULT_B2_VOLTAGE_INIT_THRESHOLD           10.0
 
@@ -132,7 +132,7 @@
 //Digital Pins
 #define PIN_CUTDOWN_ENABLE              2
 #define PIN_CUTDOWN_1_FIRE              3
-#define PIN_CUTDOWN_2_FIRE              4 
+#define PIN_CUTDOWN_2_FIRE              4
 #define PIN_BATTERY_1_CHARGE_CUTOFF     6
 #define PIN_BATTERY_2_CHARGE_CUTOFF     7
 #define PIN_CAMERA_SWITCH               9
@@ -177,13 +177,13 @@ struct gyro_struct
 
 struct debug_struct
 {
-  bool mode; 
+  bool mode;
 };
 
 struct Flag_RB_struct
 {
-  int try_send_reveive; 
-  int loop_started; 
+  int try_send_reveive;
+  int loop_started;
 };
 
 struct telemetry_data_struct
@@ -200,12 +200,13 @@ struct telemetry_data_struct
   double air_pressure;
   double battery_1_voltage_1;
   double battery_1_voltage_2;
- 
+
+
   float shuntvoltage_batt1;
   float busvoltage_batt1;
   float battery_1_charge_current;
   float loadvoltage_batt1;
-  
+
   float shuntvoltage_batt2;
   float busvoltage_batt2;
   float battery_2_charge_current;
@@ -215,12 +216,12 @@ struct telemetry_data_struct
   float busvoltage_sa;
   float sa_current;
   float loadvoltage_sa;
-  
+
   float shuntvoltage_load_path;
   float busvoltage_load_path;
   float load_path_current;
   float loadvoltage_load_path;
-  
+
   //struct gps_struct gps_values;
   //struct gyro_struct gyro_values;
 };
@@ -234,24 +235,47 @@ struct satellite_data_struct
   char* command;
 };
 
+struct rb_data_struct
+{
+  unsigned int balloon_id : 8;
+  unsigned int vehicle_mode : 8;
+  unsigned int command_count : 8;
+  unsigned int normal_transmit_period : 8; // seconds?
+  unsigned int load_shed_transmit_period : 8;
+  unsigned int transit_transmit_period : 8;
+  unsigned int emergency_transit_transmit_period : 8;
+  unsigned int spare_transmit_period : 8;
+  unsigned int sd_card_write_period : 8;
+};
+
 struct raw_telemetry_data_struct
 {
-  int raw_battery_1_temp_1;
-  int raw_battery_1_temp_2;
-  int raw_battery_2_temp_1;
-  int raw_battery_2_temp_2;
-  int raw_inner_external_temp;
-  int raw_outter_external_temp;
-  int raw_internal_temp;
-  int raw_air_pressure;
-  int raw_battery_1_voltage_1;
-  int raw_battery_1_voltage_2;
+  int raw_battery_1_temp_1 : 12;
+  int raw_battery_1_temp_2 : 12;
+  int raw_battery_2_temp_1 : 12;
+  int raw_battery_2_temp_2 : 12;
+  int raw_inner_external_temp : 12;
+  int raw_outter_external_temp : 12;
+  int raw_internal_temp : 12;
+  int raw_air_pressure : 12;
+  int raw_battery_1_voltage_1 : 12;
+  int raw_battery_1_voltage_2 : 12;
+
+  float shuntvoltage_batt1;
+  float busvoltage_batt1;
+  float battery_1_charge_current;
+  float loadvoltage_batt1;
+
+  float shuntvoltage_batt2;
+  float busvoltage_batt2;
+  float battery_2_charge_current;
+  float loadvoltage_batt2;
 };
 
 struct parameter_struct
 {
   unsigned long loop_sleep;
-  unsigned long transmit_period;  
+  unsigned long transmit_period;
   unsigned long sd_card_write_period;
   unsigned long tlm_processing_period;
   int vehicle_mode;
@@ -280,12 +304,12 @@ struct parameter_struct
   unsigned long camera_on_time;
   bool battery_1_charging_status;
   bool battery_2_charging_status;
-  bool battery_1_temp_tlm_valid_flag; 
-  bool battery_2_temp_tlm_valid_flag;   
+  bool battery_1_temp_tlm_valid_flag;
+  bool battery_2_temp_tlm_valid_flag;
   bool battery_voltage_tlm_valid_flag;
   bool battery_1_current_tlm_valid_flag;
   bool battery_2_current_tlm_valid_flag;
-  
+
   bool altitude_valid_flag;
   int altitude_limit_low;
   int altitude_sanity_check_low;
@@ -294,9 +318,8 @@ struct parameter_struct
   int num_rb_words_recieved;
 
   int test_count;
-  String user_intialization_input;
   int prompt_from_user_makes_sense;
-    
+
   double battery_1_recharge_ratio;
   double battery_1_amphrs_charging;
   double battery_1_amphrs_discharging;
@@ -304,7 +327,7 @@ struct parameter_struct
   double battery_1_amphrs_init_threshold;
   double battery_1_voltage_term_threshold;
   double battery_1_voltage_init_threshold;
-  
+
   double battery_2_recharge_ratio;
   double battery_2_amphrs_charging;
   double battery_2_amphrs_discharging;
@@ -325,7 +348,6 @@ struct parameter_struct
   elapsedMillis low_rate_elapsed_time;
   elapsedMillis battery_1_charge_current_read_elapsed_time;
   elapsedMillis battery_2_charge_current_read_elapsed_time;
-  elapsedMillis intialization_timeout_time;
   elapsedMillis rb_reinitialize_time;
   elapsedMillis elasped_time_for_rb_quality_test;
 
