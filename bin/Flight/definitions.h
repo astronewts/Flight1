@@ -246,7 +246,48 @@ struct rb_data_struct
   unsigned int emergency_transit_transmit_period : 8;
   unsigned int spare_transmit_period : 8;
   unsigned int sd_card_write_period : 8;
+  unsigned int raw_battery_1_temp_1 : 12;
+  unsigned int raw_battery_1_temp_2 : 12;
+  unsigned int raw_battery_2_temp_1 : 12;
+  unsigned int raw_battery_2_temp_2 : 12;
+  unsigned int raw_inner_external_temp : 12;
+  unsigned int raw_outter_external_temp : 12;
+  unsigned int raw_internal_temp : 12;
+  unsigned int raw_air_pressure : 12;
+  unsigned int raw_battery_1_voltage_1 : 12;
+  unsigned int raw_battery_1_voltage_2 : 12;
+  unsigned int battery_1_charge_current : 12; // milliamps? offset?
+  unsigned int battery_2_charge_current : 12; // milliamps? offset?
+  unsigned int sa_current : 12;
+  unsigned int load_path_current : 12;
+  unsigned int tlm_processing_period : 8;
+  unsigned int gps_processed_lat : 16;
+  unsigned int gps_processed_long : 16;
+  unsigned int gps_altitude : 16;
+  unsigned int gps_age : 8; // MAX(gps_alt_age, gps_pos_age) in seconds
+  unsigned int gps_heading : 8; // 0-255
+  unsigned int gps_speed : 8; // km/hr
+  unsigned int gps_time : 32;
+
+  unsigned int gps_location_valid : 1;
+  unsigned int gps_altitude_valid : 1;
+  unsigned int gps_heading_valid : 1;
+  unsigned int gps_speed_valid : 1;
+  unsigned int gps_time_valid : 1;
+
+  // Which of 40-73 to include?
+
+  unsigned int battery_1_charging_status : 1;
+  unsigned int battery_2_charging_status : 1;
+  unsigned int battery_bus_low_voltage_flag : 1;
+  unsigned int heater_state_1 : 1;
+  unsigned int heater_state_2 : 1;
+  unsigned int cutdown_enable_state : 1;
+  unsigned int cutdown_1_status : 1;
+  unsigned int cutdown_2_status : 1;
 };
+
+// Use this enum whenever you need to ensure that EVERY telemetry item is iterated through
 
 struct raw_telemetry_data_struct
 {
