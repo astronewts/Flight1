@@ -233,7 +233,7 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
 
 void evaluate_heater_state(double val, int batt_ID)
 {
-  if(val < parameters.battery_temperature_limit_low)
+  if(val < parameters.battery_temperature_limit_low * 1.0)
   {
     //Turn heating element on
     if(batt_ID == 1)
@@ -250,7 +250,7 @@ void evaluate_heater_state(double val, int batt_ID)
             batt_ID, val, parameters.battery_temperature_limit_low);
     Serial.println(buffer);
   }
-  else if(val > parameters.battery_temperature_limit_high)
+  else if(val > parameters.battery_temperature_limit_high * 1.0)
   {
     //Turn heating element off
     if(batt_ID == 1)
