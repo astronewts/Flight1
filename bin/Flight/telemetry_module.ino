@@ -284,8 +284,7 @@ void execute_thermal_control_check()
   if(parameters.battery_1_temp_tlm_valid_flag == true)
   {
     // Second parameter specifies Battery 1
-    // TODO: REMOVE THE COMMENTED OUT HEATER STATE EVALUATE
-    // evaluate_heater_state(tlm_value,1);
+    evaluate_heater_state(tlm_value,1);
   }
   else
   {
@@ -301,8 +300,7 @@ void execute_thermal_control_check()
   if(parameters.battery_2_temp_tlm_valid_flag == true)
   {
     // Second parameter specifies Battery 2
-    // TODO: REMOVE THE COMMENTED OUT HEATER STATE EVALUATE
-    // evaluate_heater_state(tlm_value,2);
+    evaluate_heater_state(tlm_value,2);
   }
   else
   {
