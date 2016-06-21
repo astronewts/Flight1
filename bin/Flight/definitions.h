@@ -237,6 +237,8 @@ struct satellite_data_struct
 
 struct rb_data_struct
 {
+  unsigned int message_id : 7;
+  unsigned int delta_encoded : 1; // always 0 for this struct
   unsigned int balloon_id : 8;
   unsigned int vehicle_mode : 8;
   unsigned int command_count : 8;
@@ -251,7 +253,7 @@ struct rb_data_struct
   unsigned int raw_battery_2_temp_1 : 12;
   unsigned int raw_battery_2_temp_2 : 12;
   unsigned int raw_inner_external_temp : 12;
-  unsigned int raw_outter_external_temp : 12;
+  unsigned int raw_outer_external_temp : 12;
   unsigned int raw_internal_temp : 12;
   unsigned int raw_air_pressure : 12;
   unsigned int raw_battery_1_voltage_1 : 12;
@@ -275,7 +277,15 @@ struct rb_data_struct
   unsigned int gps_speed_valid : 1;
   unsigned int gps_time_valid : 1;
 
-  // Which of 40-73 to include?
+  unsigned int gyro_temp : 8;
+
+  // What else do we really need from 40-89?
+  unsigned int battery_1_recharge_ratio : 8;
+  unsigned int battery_1_amphrs_charging : 16;
+  unsigned int battery_1_amphrs_discharging : 16;
+  unsigned int battery_2_recharge_ratio : 8;
+  unsigned int battery_2_amphrs_charging : 16;
+  unsigned int battery_2_amphrs_discharging : 16;
 
   unsigned int battery_1_charging_status : 1;
   unsigned int battery_2_charging_status : 1;
@@ -285,6 +295,36 @@ struct rb_data_struct
   unsigned int cutdown_enable_state : 1;
   unsigned int cutdown_1_status : 1;
   unsigned int cutdown_2_status : 1;
+};
+
+struct rb_data_delta_struct
+{
+  unsigned int message_id : 7;
+  unsigned int delta_encoded : 1; // always 1 for this struct
+
+  unsigned int raw_battery_1_temp_1 : 8;
+  unsigned int raw_battery_1_temp_2 : 8;
+  unsigned int raw_battery_2_temp_1 : 8;
+  unsigned int raw_battery_2_temp_2 : 8;
+  unsigned int raw_inner_external_temp : 8;
+  unsigned int raw_outer_external_temp : 8;
+  unsigned int raw_internal_temp : 8;
+  unsigned int raw_air_pressure : 8;
+  unsigned int raw_battery_1_voltage_1 : 8;
+  unsigned int raw_battery_1_voltage_2 : 8;
+  unsigned int battery_1_charge_current : 8; // milliamps? offset?
+  unsigned int battery_2_charge_current : 8; // milliamps? offset?
+  unsigned int sa_current : 8;
+  unsigned int load_path_current : 8;
+
+  unsigned int gps_processed_lat : 8;
+  unsigned int gps_processed_long : 8;
+  unsigned int gps_altitude : 8;
+  unsigned int gps_age : 8; // MAX(gps_alt_age, gps_pos_age) in seconds
+  unsigned int gps_heading : 8; // 0-255
+  unsigned int gps_speed : 8; // km/hr
+  unsigned int gps_time : 12;
+  unsigned int gyro_temp : 8;
 };
 
 // Use this enum whenever you need to ensure that EVERY telemetry item is iterated through
