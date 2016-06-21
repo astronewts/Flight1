@@ -263,6 +263,7 @@ struct rb_data_struct
   unsigned int sa_current : 12;
   unsigned int load_path_current : 12;
   unsigned int tlm_processing_period : 8;
+
   unsigned int gps_processed_lat : 16;
   unsigned int gps_processed_long : 16;
   unsigned int gps_altitude : 16;
@@ -270,12 +271,7 @@ struct rb_data_struct
   unsigned int gps_heading : 8; // 0-255
   unsigned int gps_speed : 8; // km/hr
   unsigned int gps_time : 32;
-
-  unsigned int gps_location_valid : 1;
-  unsigned int gps_altitude_valid : 1;
-  unsigned int gps_heading_valid : 1;
-  unsigned int gps_speed_valid : 1;
-  unsigned int gps_time_valid : 1;
+  unsigned int gps_valid : 1;
 
   unsigned int gyro_temp : 8;
 

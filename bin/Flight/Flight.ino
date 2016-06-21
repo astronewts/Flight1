@@ -225,10 +225,14 @@ void loop()
 
 void Main_flight_loop()
 {
+  static struct rb_data_struct rb_data;
+  struct rb_data_struct rb_data_new = rb_data;
+  static struct rb_data_delta_struct rb_delta;
+
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
     debug_println("===> DEBUG: HIGH-RATE PROCESS");
-    collect_gps_data();
+    collect_gps_data(rb_data_new);
     if (debug.mode==1)
     {
       Serial.println("=> DEBUG: GPS DATA");
@@ -338,6 +342,10 @@ void Signal_test_loop()
 
 void Cutdown_test_loop()
 {
+  static struct rb_data_struct rb_data;
+  struct rb_data_struct rb_data_new = rb_data;
+  static struct rb_data_delta_struct rb_delta;
+
   parameters.test_count = parameters.test_count + 1;
   if(parameters.test_count <= CUTDOWN_TEST_TIME)
   {
@@ -365,7 +373,7 @@ void Cutdown_test_loop()
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD_CUTDOWN)
   {
     collect_gyro_data();
-    collect_gps_data();
+    collect_gps_data(rb_data_new);
     // Process Camera
     // TODO: Figure out How to Write process_camera_function();
     write_telemetry_data_to_sd();
@@ -392,13 +400,17 @@ void Cutdown_test_loop()
 
 void Terminal_test_loop()
 {
+  static struct rb_data_struct rb_data;
+  struct rb_data_struct rb_data_new = rb_data;
+  static struct rb_data_delta_struct rb_delta;
+
   //Collect Analog & Current Telemetry
   collect_analog_telemetry();
   collect_charge_current_data();
   collect_low_rate_current_data();
 
   // Collect GPS Data
-  collect_gps_data();
+  collect_gps_data(rb_data_new);
 
   // Collect Altimiter Data
   collect_alt_data();

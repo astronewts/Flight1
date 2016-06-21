@@ -7,7 +7,7 @@ static char sz[64];
 // The TinyGPS++ object
 TinyGPSPlus gps;
 
-void collect_gps_data()
+void collect_gps_data(struct rb_data_struct data)
 {
   if(Serial1.available())
   {
@@ -17,6 +17,16 @@ void collect_gps_data()
   if (gps.charsProcessed() < 10)
   {
     Serial.println(F("No GPS data received: check wiring"));
+  }
+
+  data.gps_valid = gps.isValid();
+  if (gps.isValid()) {
+    encode_lat_long(gps.location.lat(), gps.location.lng(), &data.gps_processed_lat, &data.gps_processed_long);
+    data.gps_altitude = constrain(gps.altitude.meters(), 0, (1<<16)-1);
+    data.gps_heading = constrain(gps.course.deg() * 360 / 256, 0, 255);
+    data.gps_speed = constrain(gps.speed.kmph(), 0, 255);
+    data.gps_age = constrain(gps.age() / 1000, 0, 255);
+    data.gps_time = gps.time.value();
   }
 }
 
