@@ -6,17 +6,17 @@ int count_low_alt;
 
 //Collect All Analog TLM
 void collect_analog_telemetry()
-{ 
+{
   //Air Pressure Data
   raw_telemetry_data.raw_air_pressure = analogRead(PIN_PRESSURE_SENSOR);
   telemetry_data.air_pressure = raw_telemetry_data.raw_air_pressure * PRESSURE_CONSTANT;
   delay(100);
-  
+
   //Battery 1-1 Temp
   raw_telemetry_data.raw_battery_1_temp_1 = analogRead(PIN_BATTERY1_1_TEMP);
   telemetry_data.battery_1_temp_1 = calculate_temp(raw_telemetry_data.raw_battery_1_temp_1);
   delay(100);
-  
+
   //Battery 1-2 Temp
   raw_telemetry_data.raw_battery_1_temp_2 = analogRead(PIN_BATTERY1_2_TEMP);
   telemetry_data.battery_1_temp_2 = calculate_temp(raw_telemetry_data.raw_battery_1_temp_2);
@@ -26,7 +26,7 @@ void collect_analog_telemetry()
   raw_telemetry_data.raw_battery_2_temp_1 = analogRead(PIN_BATTERY2_1_TEMP);
   telemetry_data.battery_2_temp_1 = calculate_temp(raw_telemetry_data.raw_battery_2_temp_1);
   delay(100);
-  
+
   //Battery 2-2 Temp
   raw_telemetry_data.raw_battery_2_temp_2 = analogRead(PIN_BATTERY2_2_TEMP);
   telemetry_data.battery_2_temp_2 = calculate_temp(raw_telemetry_data.raw_battery_2_temp_2);
@@ -36,40 +36,40 @@ void collect_analog_telemetry()
   raw_telemetry_data.raw_inner_external_temp = analogRead(PIN_EXTERNAL_INNER_TEMP);
   telemetry_data.inner_external_temp = calculate_temp(raw_telemetry_data.raw_inner_external_temp);
   delay(100);
-  
+
   //External Temp 2
   raw_telemetry_data.raw_outter_external_temp = analogRead(PIN_EXTERNAL_OUTTER_TEMP);
   telemetry_data.outter_external_temp = calculate_temp(raw_telemetry_data.raw_outter_external_temp);
   delay(100);
-  
+
   //Internal Temp
   raw_telemetry_data.raw_internal_temp = analogRead(PIN_INTERNAL_TEMP);
   telemetry_data.internal_temp = calculate_temp(raw_telemetry_data.raw_internal_temp);
   delay(100);
-  
+
   //Battery 1 Voltage 1
   raw_telemetry_data.raw_battery_1_voltage_1 = analogRead(PIN_BATTERY_1_VOLTAGE_1);
   telemetry_data.battery_1_voltage_1 = ((raw_telemetry_data.raw_battery_1_voltage_1 * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3 + VOLTAGE_CONSTANT_4;
   delay(100);
-  
+
   //Battery 1 Voltage 2
   raw_telemetry_data.raw_battery_1_voltage_2 = analogRead(PIN_BATTERY_1_VOLTAGE_2);
   telemetry_data.battery_1_voltage_2 = ((raw_telemetry_data.raw_battery_1_voltage_2 * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3 + VOLTAGE_CONSTANT_4;
   delay(100);
-  
+
   //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
 }
 
 //void collect_analog_battery_current_telemetry()
-//{ 
+//{
 //  //Battery 1 Charge Current 1
 //  raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_1);
 //  telemetry_data.battery_1_charge_current_1 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;
 //  delay(100);
-//  
+//
 //  //Battery 1 Charge Current 2
 //  raw_val = analogRead(PIN_BATTERY_1_CHARGE_CURRENT_2);
-//  telemetry_data.battery_1_charge_current_2 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;  
+//  telemetry_data.battery_1_charge_current_2 = (((raw_val * CHARGE_CONSTANT_1)/CHARGE_CONSTANT_2) - CHARGE_CONSTANT_3) * CHARGE_CONSTANT_4;
 //  delay(100);
 //
 //  //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
@@ -78,7 +78,7 @@ void collect_analog_telemetry()
 double calculate_temp(int counts)
 {
   double temp;
-  
+
   if (counts > TEMP_BREAK_COUNT)
   {
     temp = TEMP_CONSTANT_1_1+TEMP_CONSTANT_1_2*(counts)+TEMP_CONSTANT_1_3*(pow(counts,2))+TEMP_CONSTANT_1_4*(pow(counts,3))+TEMP_CONSTANT_1_5*(pow(counts,4))+TEMP_CONSTANT_1_6*(pow(counts,5));
@@ -93,36 +93,36 @@ double calculate_temp(int counts)
 void cutdown_check()
 {
   //Check Cutdown Process
-   if(parameters.cutdown_1_status == true)
-   {
-     if(parameters.cutdown_initiation_elapsed_time >= parameters.cutdown_pulse_width)
-     {
-        //Set Primary Cutdown to Low
-        digitalWrite(PIN_CUTDOWN_1_FIRE, LOW);
-        parameters.cutdown_1_status = false;
-        
-        //Set Backup Cutdown to High
-        digitalWrite(PIN_CUTDOWN_2_FIRE, HIGH);
-        parameters.cutdown_2_status = true;
-        
-        //Reset the initiation elapsed time
-        parameters.cutdown_initiation_elapsed_time = 0;
-     }
-   }
-   
-   if(parameters.cutdown_2_status == true)
-   {
-     if(parameters.cutdown_initiation_elapsed_time >= parameters.cutdown_pulse_width)
-     {
-        //Set Backup Cutdown to Low
-        digitalWrite(PIN_CUTDOWN_2_FIRE, LOW);
-        parameters.cutdown_2_status = false;
-        
-        //Disable the Cutdown Pin
-        digitalWrite(PIN_CUTDOWN_ENABLE, LOW);
-        parameters.cutdown_enable_state = false;
-     }
-   }
+  if(parameters.cutdown_1_status == true)
+  {
+    if(parameters.cutdown_initiation_elapsed_time >= parameters.cutdown_pulse_width)
+    {
+      //Set Primary Cutdown to Low
+      digitalWrite(PIN_CUTDOWN_1_FIRE, LOW);
+      parameters.cutdown_1_status = false;
+
+      //Set Backup Cutdown to High
+      digitalWrite(PIN_CUTDOWN_2_FIRE, HIGH);
+      parameters.cutdown_2_status = true;
+
+      //Reset the initiation elapsed time
+      parameters.cutdown_initiation_elapsed_time = 0;
+    }
+  }
+
+  if(parameters.cutdown_2_status == true)
+  {
+    if(parameters.cutdown_initiation_elapsed_time >= parameters.cutdown_pulse_width)
+    {
+      //Set Backup Cutdown to Low
+      digitalWrite(PIN_CUTDOWN_2_FIRE, LOW);
+      parameters.cutdown_2_status = false;
+
+      //Disable the Cutdown Pin
+      digitalWrite(PIN_CUTDOWN_ENABLE, LOW);
+      parameters.cutdown_enable_state = false;
+    }
+  }
 }
 
 double sanity_processing(int TLM1, int TLM2, int TLM_ID)
@@ -130,14 +130,14 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
   int tlm_out = 767;
   int high_thresh;
   int low_thresh;
-  
-  // Telemetry ID Decoder: 
+
+  // Telemetry ID Decoder:
   // Battery Temp 1 = 1
   // Battery Temp 2 = 2
   // Battery Voltages = 3
   // Battery 1 Currents = 4
   // Battery 2 Currents = 5
-  
+
   if(TLM_ID == 1)
   {
     parameters.battery_1_temp_tlm_valid_flag = true;
@@ -160,7 +160,7 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
   {
     parameters.battery_1_current_tlm_valid_flag = true;
     high_thresh = parameters.charge_current_sanity_check_high;
-    low_thresh = parameters.charge_current_sanity_check_low; 
+    low_thresh = parameters.charge_current_sanity_check_low;
   }
   else if(TLM_ID == 5)
   {
@@ -168,342 +168,342 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
     high_thresh = parameters.charge_current_sanity_check_high;
     low_thresh = parameters.charge_current_sanity_check_low;
   }
-  
-   //bool valid_data = true;
-   
-   if((TLM1 <= high_thresh) && (TLM1 >= low_thresh))
-   {
-     if((TLM2 <= high_thresh) && (TLM2 >= low_thresh))
-     { 
-          if(TLM_ID == 3)
-          {
-            if(TLM1 > TLM2)
-            {
-              tlm_out = TLM1;
-            }
-            else 
-            {
-              tlm_out = TLM2;
-            }
-              
-          }
-          else
-          {
-            tlm_out = (TLM1 + TLM2)/2.0;
-          }
-       }
-       else
-       {
+
+  //bool valid_data = true;
+
+  if((TLM1 <= high_thresh) && (TLM1 >= low_thresh))
+  {
+    if((TLM2 <= high_thresh) && (TLM2 >= low_thresh))
+    {
+      if(TLM_ID == 3)
+      {
+        if(TLM1 > TLM2)
+        {
           tlm_out = TLM1;
-       }
-   }
-   else
-   {
-       if((TLM2 <= high_thresh) &&
-      (TLM2 >= low_thresh))
-     { 
+        }
+        else
+        {
+          tlm_out = TLM2;
+        }
+
+      }
+      else
+      {
+        tlm_out = (TLM1 + TLM2)/2.0;
+      }
+    }
+    else
+    {
+      tlm_out = TLM1;
+    }
+  }
+  else
+  {
+    if((TLM2 <= high_thresh) &&
+       (TLM2 >= low_thresh))
+    {
       tlm_out = TLM2;
-     }
-     else
-     {
-        if(TLM_ID == 1)
-        {
-          parameters.battery_1_temp_tlm_valid_flag = false;
-        }
-          else if(TLM_ID == 2)
-        {
-          parameters.battery_2_temp_tlm_valid_flag = false;
-        }
-        else if(TLM_ID == 3)
-        {
-          parameters.battery_voltage_tlm_valid_flag = false;
-        }
-        else if(TLM_ID == 4)
-        {
-          parameters.battery_1_current_tlm_valid_flag = false;
-        }
-        else if(TLM_ID == 5)
-        {
-          parameters.battery_2_current_tlm_valid_flag = false;
-        }
-     }
-   }
-   return tlm_out;
+    }
+    else
+    {
+      if(TLM_ID == 1)
+      {
+        parameters.battery_1_temp_tlm_valid_flag = false;
+      }
+      else if(TLM_ID == 2)
+      {
+        parameters.battery_2_temp_tlm_valid_flag = false;
+      }
+      else if(TLM_ID == 3)
+      {
+        parameters.battery_voltage_tlm_valid_flag = false;
+      }
+      else if(TLM_ID == 4)
+      {
+        parameters.battery_1_current_tlm_valid_flag = false;
+      }
+      else if(TLM_ID == 5)
+      {
+        parameters.battery_2_current_tlm_valid_flag = false;
+      }
+    }
+  }
+  return tlm_out;
 }
 
 void evaluate_heater_state(double val, int batt_ID)
 {
-     if(val < parameters.battery_temperature_limit_low)
-     {
-        //Turn heating element on
-        if(batt_ID == 1)
-        {
-          digitalWrite(PIN_HEATER_CONTROL_1, HIGH);
-          parameters.heater_state_1 = true;
-        }
-        else if(batt_ID == 2)
-        {
-          digitalWrite(PIN_HEATER_CONTROL_2, HIGH);
-          parameters.heater_state_2 = true;
-        }
-        sprintf(buffer, "Heating element #%d turned on due to average battery temperature of %f going below threshhold of %d,",
-          batt_ID, val, parameters.battery_temperature_limit_low);
-          Serial.println(buffer);
-     }     
-     else if(val > parameters.battery_temperature_limit_high)
-     {
-      //Turn heating element off
-      if(batt_ID == 1)
-      {
-        digitalWrite(PIN_HEATER_CONTROL_1, LOW);
-        parameters.heater_state_1 = false;
-      }
-      else if(batt_ID == 2)
-      {
-        digitalWrite(PIN_HEATER_CONTROL_2, LOW);
-        parameters.heater_state_2 = false;
-      }
-      sprintf(buffer, "Heating element #%d turned off due to average battery temperature of %f going above threshhold of %d,",
+  if(val < parameters.battery_temperature_limit_low)
+  {
+    //Turn heating element on
+    if(batt_ID == 1)
+    {
+      digitalWrite(PIN_HEATER_CONTROL_1, HIGH);
+      parameters.heater_state_1 = true;
+    }
+    else if(batt_ID == 2)
+    {
+      digitalWrite(PIN_HEATER_CONTROL_2, HIGH);
+      parameters.heater_state_2 = true;
+    }
+    sprintf(buffer, "Heating element #%d turned on due to average battery temperature of %f going below threshhold of %d,",
+            batt_ID, val, parameters.battery_temperature_limit_low);
+    Serial.println(buffer);
+  }
+  else if(val > parameters.battery_temperature_limit_high)
+  {
+    //Turn heating element off
+    if(batt_ID == 1)
+    {
+      digitalWrite(PIN_HEATER_CONTROL_1, LOW);
+      parameters.heater_state_1 = false;
+    }
+    else if(batt_ID == 2)
+    {
+      digitalWrite(PIN_HEATER_CONTROL_2, LOW);
+      parameters.heater_state_2 = false;
+    }
+    sprintf(buffer, "Heating element #%d turned off due to average battery temperature of %f going above threshhold of %d,",
             batt_ID, val, parameters.battery_temperature_limit_high);
-      Serial.println(buffer);
-     }
+    Serial.println(buffer);
+  }
 }
 
 void execute_thermal_control_check()
 {
-   ////////////////////////////////////////////////////////////////////////////////////////////
-   ///////////////////////////// THERMAL CONTROL OF BATTERY HEATERS ///////////////////////////
-   ////////////////////////////////////////////////////////////////////////////////////////////
-   
-   double tlm_value = 0.0;
-   
-   // Battery 1
-   // Sanity Check: third input specifies Battery 1 TLM ID
-   tlm_value = sanity_processing(telemetry_data.battery_1_temp_1, telemetry_data.battery_1_temp_2, 1);
+  ////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////// THERMAL CONTROL OF BATTERY HEATERS ///////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////
 
-   if(parameters.battery_1_temp_tlm_valid_flag == true)
-   {
-     // Second parameter specifies Battery 1
-     // TODO: REMOVE THE COMMENTED OUT HEATER STATE EVALUATE
-     // evaluate_heater_state(tlm_value,1);
-   }
-   else
-   {
+  double tlm_value = 0.0;
+
+  // Battery 1
+  // Sanity Check: third input specifies Battery 1 TLM ID
+  tlm_value = sanity_processing(telemetry_data.battery_1_temp_1, telemetry_data.battery_1_temp_2, 1);
+
+  if(parameters.battery_1_temp_tlm_valid_flag == true)
+  {
+    // Second parameter specifies Battery 1
+    // TODO: REMOVE THE COMMENTED OUT HEATER STATE EVALUATE
+    // evaluate_heater_state(tlm_value,1);
+  }
+  else
+  {
     sprintf(buffer, "Battery 1 Temperatures are invalid! TLM1: %f, TLM2: %f",
             telemetry_data.battery_1_temp_1, telemetry_data.battery_1_temp_2);
     Serial.println(buffer);
-   }
-   
-   // Battery 2
-   // Sanity Check: third input specifies Battery 2 TLM ID
-   tlm_value = sanity_processing(telemetry_data.battery_2_temp_1, telemetry_data.battery_2_temp_2, 2);
+  }
 
-   if(parameters.battery_2_temp_tlm_valid_flag == true)
-   {
+  // Battery 2
+  // Sanity Check: third input specifies Battery 2 TLM ID
+  tlm_value = sanity_processing(telemetry_data.battery_2_temp_1, telemetry_data.battery_2_temp_2, 2);
+
+  if(parameters.battery_2_temp_tlm_valid_flag == true)
+  {
     // Second parameter specifies Battery 2
     // TODO: REMOVE THE COMMENTED OUT HEATER STATE EVALUATE
     // evaluate_heater_state(tlm_value,2);
-   }
-   else
-   {
+  }
+  else
+  {
     sprintf(buffer, "Battery 2 Temperatures are invalid! TLM1: %f, TLM2: %f",
             telemetry_data.battery_2_temp_1, telemetry_data.battery_2_temp_2);
     Serial.println(buffer);
-   }
+  }
 }
 
 
 void process_charge_current_tlm()
 {
-   double tlm_value = 0.0;
-   double tlm_check = 0.0;
-   double battery_1_elapsed_time_factor = 0.0;
-   // NOTE: MIGHT WANT TO THINK ABOUT A ROLLING AVERAGE HERE IN THE FUTURE
-   
-   // Charge Current 
-   // Sanity Check
-   tlm_value = sanity_processing(telemetry_data.battery_1_charge_current, telemetry_data.battery_1_charge_current, 4);
-   
-   if(parameters.battery_1_current_tlm_valid_flag == true)
-   {
-      // Get the elapsed time factor
-      battery_1_elapsed_time_factor = MS_IN_SEC /  parameters.battery_1_charge_current_read_elapsed_time;
-      
-      // Reset elapsed charge current time
-       parameters.battery_1_charge_current_read_elapsed_time = 0;
-      
-      if(tlm_value > 0)
-      {
-         parameters.battery_1_amphrs_charging += ((tlm_value / (battery_1_elapsed_time_factor * SECS_IN_HOUR)) / parameters.battery_1_recharge_ratio);
-      }
-      else if (tlm_value < 0)
-      {
-         parameters.battery_1_amphrs_discharging += (tlm_value / (battery_1_elapsed_time_factor * SECS_IN_HOUR));
-      }
-      
-      tlm_check = parameters.battery_1_amphrs_charging - parameters.battery_1_amphrs_discharging;
-      
-      if(tlm_check < parameters.battery_1_amphrs_init_threshold)
-      {
-         //Turn the power ON
-         digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
-         parameters.battery_1_charging_status = true;
-      }
-      
-      if(tlm_check > parameters.battery_1_amphrs_term_threshold)
-      {
-         //Turn the power Off
-         digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
-         parameters.battery_1_charging_status = false;
-         
-         //Reset the charge counts
-         parameters.battery_1_amphrs_charging = 0.0;
-         parameters.battery_1_amphrs_discharging = 0.0;
-      }
-   } 
-   //TODO: DUPLICATE TO ADD BATTERY 2 CODE !!!!
+  double tlm_value = 0.0;
+  double tlm_check = 0.0;
+  double battery_1_elapsed_time_factor = 0.0;
+  // NOTE: MIGHT WANT TO THINK ABOUT A ROLLING AVERAGE HERE IN THE FUTURE
+
+  // Charge Current
+  // Sanity Check
+  tlm_value = sanity_processing(telemetry_data.battery_1_charge_current, telemetry_data.battery_1_charge_current, 4);
+
+  if(parameters.battery_1_current_tlm_valid_flag == true)
+  {
+    // Get the elapsed time factor
+    battery_1_elapsed_time_factor = MS_IN_SEC /  parameters.battery_1_charge_current_read_elapsed_time;
+
+    // Reset elapsed charge current time
+    parameters.battery_1_charge_current_read_elapsed_time = 0;
+
+    if(tlm_value > 0)
+    {
+      parameters.battery_1_amphrs_charging += ((tlm_value / (battery_1_elapsed_time_factor * SECS_IN_HOUR)) / parameters.battery_1_recharge_ratio);
+    }
+    else if (tlm_value < 0)
+    {
+      parameters.battery_1_amphrs_discharging += (tlm_value / (battery_1_elapsed_time_factor * SECS_IN_HOUR));
+    }
+
+    tlm_check = parameters.battery_1_amphrs_charging - parameters.battery_1_amphrs_discharging;
+
+    if(tlm_check < parameters.battery_1_amphrs_init_threshold)
+    {
+      //Turn the power ON
+      digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
+      parameters.battery_1_charging_status = true;
+    }
+
+    if(tlm_check > parameters.battery_1_amphrs_term_threshold)
+    {
+      //Turn the power Off
+      digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
+      parameters.battery_1_charging_status = false;
+
+      //Reset the charge counts
+      parameters.battery_1_amphrs_charging = 0.0;
+      parameters.battery_1_amphrs_discharging = 0.0;
+    }
+  }
+  //TODO: DUPLICATE TO ADD BATTERY 2 CODE !!!!
 }
 
 void execute_electrical_control_check()
 {
-   int valid_data = true;
-   double tlm_value = 0.0;
+  int valid_data = true;
+  double tlm_value = 0.0;
 
-   // Check if the Cut-Down Process has been initiated, and continue if so.
-   cutdown_check();
+  // Check if the Cut-Down Process has been initiated, and continue if so.
+  cutdown_check();
 
-   /////////////////////////////////////////////////////////////////////////////////////////
-   ////////////////////////////// BATTERY BUS VOLTAGE CHECK ////////////////////////////////
-   /////////////////////////////////////////////////////////////////////////////////////////
-   
-   //Check Battery Voltage
-   //Get the highest voltage
-   //Sanity Check
-   
-   tlm_value = sanity_processing(telemetry_data.battery_1_voltage_1, telemetry_data.battery_1_voltage_2, 3);
-   
-   if(parameters.battery_voltage_tlm_valid_flag == true)
-   {
-      //Compare voltage to loadshed entry threshold
-      if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
-      {
+  /////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////// BATTERY BUS VOLTAGE CHECK ////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////
+
+  //Check Battery Voltage
+  //Get the highest voltage
+  //Sanity Check
+
+  tlm_value = sanity_processing(telemetry_data.battery_1_voltage_1, telemetry_data.battery_1_voltage_2, 3);
+
+  if(parameters.battery_voltage_tlm_valid_flag == true)
+  {
+    //Compare voltage to loadshed entry threshold
+    if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
+    {
 	     if(parameters.battery_bus_low_voltage_flag == false)
-	     {
-          //Battery voltage is low - set flag and mark time
+       {
+         //Battery voltage is low - set flag and mark time
 	        parameters.battery_bus_low_voltage_flag = true;
-           parameters.battery_low_voltage_elapsed_time = 0;
-           sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).  Goind into Load Shed Mode.",
-                            tlm_value, parameters.low_voltage_limit_for_loadshed_entry, parameters.low_voltage_time_limit);
-           Serial.println(buffer);
-            
-           //Enter Load Shed Mode
-           set_load_shed_mode();
-         }
-      }
-      else
-      {
-         if(parameters.battery_bus_low_voltage_flag == true)
-         {
-            parameters.battery_bus_low_voltage_flag = false;
-         }
-      }
-      
-      //TODO: THE FOLLOWING CODE WILL CHANGE WHEN WE HAVE ONLY ONE MONITOR PER BATTERY
+         parameters.battery_low_voltage_elapsed_time = 0;
+         sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).  Goind into Load Shed Mode.",
+                 tlm_value, parameters.low_voltage_limit_for_loadshed_entry, parameters.low_voltage_time_limit);
+         Serial.println(buffer);
 
-      // Battery Voltage Charge Control
-      if(tlm_value < parameters.battery_1_voltage_init_threshold)
-      {
-         //Turn the power on
-         digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
-         parameters.battery_1_charging_status = true;
-      }
-      
-      if(tlm_value > parameters.battery_1_voltage_term_threshold)
-      {
-         //Turn the power off
-         digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
-         parameters.battery_1_charging_status = false;
-         
-         //Reset the charge counts
-         parameters.battery_1_amphrs_charging = 0.0;
-         parameters.battery_1_amphrs_discharging = 0.0;
-      }       
-      //TODO: DUPLICATE TO ADD BATTERY 2 CODE!!!!
+         //Enter Load Shed Mode
+         set_load_shed_mode();
+       }
     }
-   
+    else
+    {
+      if(parameters.battery_bus_low_voltage_flag == true)
+      {
+        parameters.battery_bus_low_voltage_flag = false;
+      }
+    }
+
+    //TODO: THE FOLLOWING CODE WILL CHANGE WHEN WE HAVE ONLY ONE MONITOR PER BATTERY
+
+    // Battery Voltage Charge Control
+    if(tlm_value < parameters.battery_1_voltage_init_threshold)
+    {
+      //Turn the power on
+      digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
+      parameters.battery_1_charging_status = true;
+    }
+
+    if(tlm_value > parameters.battery_1_voltage_term_threshold)
+    {
+      //Turn the power off
+      digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
+      parameters.battery_1_charging_status = false;
+
+      //Reset the charge counts
+      parameters.battery_1_amphrs_charging = 0.0;
+      parameters.battery_1_amphrs_discharging = 0.0;
+    }
+    //TODO: DUPLICATE TO ADD BATTERY 2 CODE!!!!
+  }
+
   //TODO: NEEDS TO BE CODE THAT SEPARATES LOADSHED ENTRY FROM AUTO-CUTDOWN
 
-  // Battery Failure Checking 
+  // Battery Failure Checking
   // Check if voltage flag is already set
   if(parameters.battery_bus_low_voltage_flag == true)
   {
-	  //Check if the timer has reached 
-	  //the the low voltage time limit
-	  if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
-	  {
+    //Check if the timer has reached
+    //the the low voltage time limit
+    if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
+    {
 	     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Emergency Descent Mode.",
-                 tlm_value, parameters.low_voltage_limit_for_loadshed_entry, parameters.low_voltage_time_limit);
-       Serial.println(buffer);
-          
-       //Enter Emergency Descent Mode
-       set_emergency_decent_mode();
-	  }
+               tlm_value, parameters.low_voltage_limit_for_loadshed_entry, parameters.low_voltage_time_limit);
+      Serial.println(buffer);
+
+      //Enter Emergency Descent Mode
+      set_emergency_decent_mode();
+    }
   }
-  
+
   // Check Altitude.
   // TODO: ADD CODE THAT IMPLEMENTS THE AUTOMATIC CUTDOWN IF THE BATTERY IS TOO LOW !
-  
+
   // other strategy: 1) we enable the test if the paypload pass a resonnable altitude thershold A1
   //                 2) cut down if the payload goes below a low alt A2   A1>A2
   //                 A1 = altitude_sanity_check_low and A2 = altitude_limit_low
-  
+
   if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
   {
-     parameters.altitude_valid_flag = true;  
-     count_low_alt = 0 ; // counter: if counts 3 times below altitude thershold then cutdow
+    parameters.altitude_valid_flag = true;
+    count_low_alt = 0 ; // counter: if counts 3 times below altitude thershold then cutdow
   }
-  
-  if(parameters.altitude_valid_flag == true)  // we are now flying 
+
+  if(parameters.altitude_valid_flag == true)  // we are now flying
   {
-      Serial.println("WE are floating !!! (test for altitude cutdow, line 419 in telemetry_module)");  
-     
-     if(alt.altitude_in_feet < parameters.altitude_limit_low) // if we are too low then start counting ... to 3
-     {
-        count_low_alt = count_low_alt + 1;
-     }
-     
-     if(count_low_alt == 3 ) // we have been too low for a few counts => initiate cut down
-     {     
-        //Enter Emergency Descent Mode
-        Serial.println("SHIT we are too low: initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
-        set_emergency_decent_mode();
-        parameters.altitude_valid_flag = false; 
-     }  
-     
-// //The next section is commented as we will only rely on the altimeter for the critical altitude test. 
-//     if(gps.altitude.isValid())
-//     {
-//        if(gps.altitude.meters() >= parameters.altitude_sanity_check_low)
-//        {
-//           if(gps.altitude.meters() < parameters.altitude_limit_low)
-//           {
-//              //Enter Emergency Descent Mode
-//             set_emergency_decent_mode();
-//             parameters.altitude_valid_flag = false;
-//           }
-//        }
-//      }
-//      if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
-//       {
-//         if(alt.altitude_in_feet < parameters.altitude_limit_low)
-//           {
-//             //Enter Emergency Descent Mode
-//             set_emergency_decent_mode();
-//             parameters.altitude_valid_flag = false;
-//           }
-//       }
-   } // end of test on altitude 
-   
+    Serial.println("WE are floating !!! (test for altitude cutdow, line 419 in telemetry_module)");
+
+    if(alt.altitude_in_feet < parameters.altitude_limit_low) // if we are too low then start counting ... to 3
+    {
+      count_low_alt = count_low_alt + 1;
+    }
+
+    if(count_low_alt == 3 ) // we have been too low for a few counts => initiate cut down
+    {
+      //Enter Emergency Descent Mode
+      Serial.println("SHIT we are too low: initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
+      set_emergency_decent_mode();
+      parameters.altitude_valid_flag = false;
+    }
+
+    // //The next section is commented as we will only rely on the altimeter for the critical altitude test.
+    //     if(gps.altitude.isValid())
+    //     {
+    //        if(gps.altitude.meters() >= parameters.altitude_sanity_check_low)
+    //        {
+    //           if(gps.altitude.meters() < parameters.altitude_limit_low)
+    //           {
+    //              //Enter Emergency Descent Mode
+    //             set_emergency_decent_mode();
+    //             parameters.altitude_valid_flag = false;
+    //           }
+    //        }
+    //      }
+    //      if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
+    //       {
+    //         if(alt.altitude_in_feet < parameters.altitude_limit_low)
+    //           {
+    //             //Enter Emergency Descent Mode
+    //             set_emergency_decent_mode();
+    //             parameters.altitude_valid_flag = false;
+    //           }
+    //       }
+  } // end of test on altitude
+
 } // end of process telemetry
 
 /////////////////////////////////////////////////////////////////////////
@@ -511,9 +511,9 @@ void execute_electrical_control_check()
 /////////////////////////////////////////////////////////////////////////
 
 void print_analog_data()
-{ 
+{
   Serial.println("-----------ANALOG Telemetry---------------");
-  
+
   Serial.println("--------------------------------");
   Serial.print("Air Pressure: ");
   Serial.println(telemetry_data.air_pressure);
@@ -530,19 +530,19 @@ void print_analog_data()
   Serial.print("Battery 2-2 Temp: ");
   Serial.println(telemetry_data.battery_2_temp_2);
   Serial.print("Outter External Temp: ");
-  Serial.println(telemetry_data.outter_external_temp); 
+  Serial.println(telemetry_data.outter_external_temp);
   Serial.print("Inner External Temp: ");
-  Serial.println(telemetry_data.inner_external_temp); 
+  Serial.println(telemetry_data.inner_external_temp);
   Serial.print("Internal Temp: ");
-  Serial.println(telemetry_data.internal_temp); 
+  Serial.println(telemetry_data.internal_temp);
   Serial.print("Battery Voltage 1: ");
-  Serial.println(telemetry_data.battery_1_voltage_1); 
+  Serial.println(telemetry_data.battery_1_voltage_1);
   Serial.print("Battery Voltage 1 RAW: ");
-  Serial.println(raw_telemetry_data.raw_battery_1_voltage_1); 
+  Serial.println(raw_telemetry_data.raw_battery_1_voltage_1);
   Serial.print("Battery Voltage 2: ");
-  Serial.println(telemetry_data.battery_1_voltage_2);  
+  Serial.println(telemetry_data.battery_1_voltage_2);
   Serial.print("Battery Voltage 2 RAW: ");
-  Serial.println(raw_telemetry_data.raw_battery_1_voltage_2);   
+  Serial.println(raw_telemetry_data.raw_battery_1_voltage_2);
 }
 
 void print_telemetry()
@@ -560,7 +560,7 @@ void print_telemetry()
   print_gyro_data();
 
   // TODO: ADD CODE FOR CALCULATED SOFTWARE VARIABLE THAT WE WANT TO OUTPUT !!!!
-  
+
   Serial.println("");
   Serial.println("");
   Serial.println("");
@@ -584,4 +584,6 @@ void print_cutdown_telemetry()
   Serial.println(" ");
   Serial.println(" ");
 }
+
+
 
