@@ -12,7 +12,7 @@ void collect_gps_data()
   if(Serial1.available())
   {
    // smartDelay ensures that the GPS is fed 
-   smartDelay(0);
+   smartDelay(10);
   }
   if (gps.charsProcessed() < 10)
   {
