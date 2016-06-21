@@ -593,9 +593,9 @@ void print_cutdown_telemetry()
 // 0    Success
 // -1   Input out of bounds
 // -2   NULL pointer passed for outparameters
-int encode_lat_long(double lat, double long, unsigned int *newLat, unsigned int *newLong)
+int encode_lat_long(double lat, double lng, unsigned int *newLat, unsigned int *newLong)
 {
-  if (lat < -90 || lat > 90 || long < -180 || long > 180) return -1;
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return -1;
   if (!newLat || !newLong) return -2;
 
   unsigned int maxEncodedInt = (1 << 16) - 1;
@@ -603,7 +603,7 @@ int encode_lat_long(double lat, double long, unsigned int *newLat, unsigned int 
   *newLat = (lat + 90) / 180 * maxEncodedInt;
   *newLat = constrain(*newLat, 0, maxEncodedInt);
 
-  *newLong = (long + 180) / 360 * maxEncodedInt;
+  *newLong = (lng + 180) / 360 * maxEncodedInt;
   *newLong = constrain(*newLong, 0, maxEncodedInt);
 
   return 0;
@@ -615,17 +615,17 @@ int encode_lat_long(double lat, double long, unsigned int *newLat, unsigned int 
 // 0    Success
 // -1   Encoded input out of bounds
 // -2   NULL pointer passed for outparams
-int decode_lat_long(double *lat, double *long, unsigned int encLat, unsigned int encLong)
+int decode_lat_long(double *lat, double *lng, unsigned int encLat, unsigned int encLong)
 {
   int maxEncodedInt = (1 << 16) - 1;
   if (encLat > maxEncodedInt || encLong > maxEncodedInt) return -1;
-  if (!lat || !long) return -2;
+  if (!lat || !lng) return -2;
 
   *lat = ((encLat * 180.0) / maxEncodedInt) - 90;
   *lat = constrain(*lat, -90, 90);
 
-  *long = ((encLong * 360.0) / maxEncodedInt) - 180;
-  *long = constrain(*long, -180, 180);
+  *lng = ((encLong * 360.0) / maxEncodedInt) - 180;
+  *lng = constrain(*lng, -180, 180);
 
   return 0;
 }
