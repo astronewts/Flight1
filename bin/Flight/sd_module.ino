@@ -127,9 +127,24 @@ void sd_setup() {
   bout << pstr(",Bat 1 Volt [V]");                       //17
   bout << pstr(",Bat 2 Volt [V]");                       //18
   bout << pstr(",Bat 1 Charge Current [A]");             //19
+  
   bout << pstr(",Bat 2 Charge Current [A]");             //20
   bout << pstr(",Solar Array Current [A]");              //21
   bout << pstr(",Load Path Current [A]");                //22
+
+  bout << pstr(",shuntvoltage_batt1     [V]") ;          //
+  bout << pstr(",busvoltage_batt1       [V]") ;          //
+  bout << pstr(",loadvoltage_batt1      [V]") ;          //
+  bout << pstr(",shuntvoltage_batt2     [V]") ;          //
+  bout << pstr(",busvoltage_batt2       [V]") ;          //
+  bout << pstr(",loadvoltage_batt2      [V]") ;          //
+  bout << pstr(",shuntvoltage_sa        [V]") ;          //
+  bout << pstr(",busvoltage_sa          [V]") ;          //
+  bout << pstr(",loadvoltage_sa         [V]") ;          //
+  bout << pstr(",shuntvoltage_load_path [V]") ;          //
+  bout << pstr(",busvoltage_load_path   [V]") ;          //
+  bout << pstr(",loadvoltage_load_path  [V]") ;          //
+  
   bout << pstr(",Tel Processing Period [s]");            //23
   bout << pstr(",Spare 3");                              //24
   bout << pstr(",GPS Lat [deg]");                        //25
@@ -272,6 +287,18 @@ void write_telemetry_data_to_sd()
   bout << ',' << telemetry_data.battery_2_charge_current;              //20
   bout << ',' << telemetry_data.sa_current;                            //21
   bout << ',' << telemetry_data.load_path_current;                     //22
+  bout << ',' << telemetry_data.shuntvoltage_batt1;
+  bout << ',' << telemetry_data.busvoltage_batt1;
+  bout << ',' << telemetry_data.loadvoltage_batt1;
+  bout << ',' << telemetry_data.shuntvoltage_batt2;
+  bout << ',' << telemetry_data.busvoltage_batt2;
+  bout << ',' << telemetry_data.loadvoltage_batt2;
+  bout << ',' << telemetry_data.shuntvoltage_sa;
+  bout << ',' << telemetry_data.busvoltage_sa;
+  bout << ',' << telemetry_data.loadvoltage_sa;
+  bout << ',' << telemetry_data.shuntvoltage_load_path;
+  bout << ',' << telemetry_data.busvoltage_load_path;
+  bout << ',' << telemetry_data.loadvoltage_load_path;
   bout << ',' << parameters.tlm_processing_period/1000;                //23
   bout << ',' << "00000000000000000000000000000000";                   //24
   bout << ',' << gps.location.lat();                                   //25
