@@ -425,7 +425,7 @@ void Terminal_test_loop()
   // Print All Collected TLM to the Terminal Window
   print_telemetry();
 
-  // TODO: MAKE SURE THAT ANY ERROR MESSAGES OR DISCONNECTED HW IS OUTPUT IN PRINT TLM
+    write_telemetry_data_to_sd();
 
   delay(1000);
 }

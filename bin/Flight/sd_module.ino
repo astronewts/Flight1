@@ -85,7 +85,7 @@ void sd_setup() {
   if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorPrint();
 
   // create a new file in root, the current working directory
-  char name[] = "LOGxxx_Mx.CSV";
+  char name[] = "LOGxxx.CSV";
 
     name[9]=(uint8_t) parameters.vehicle_mode;
   for (uint16_t i = 0; i < 1000; i++) {
