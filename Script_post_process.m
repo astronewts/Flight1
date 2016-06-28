@@ -35,6 +35,15 @@ end
 if Mode==6
 Mode_str='Cut-down';
 end
+if Mode==8
+Mode_str='Signal test';
+end
+if Mode==9
+Mode_str='Flight with debug';
+end
+if Mode==10
+Mode_str='Flight without RB';
+end
 %
 title_str=strcat(FileName,{'  '},Mode_str);
 %
@@ -182,4 +191,41 @@ xlim(xlimits)
 xlabel('Time [s]')
 ylabel('Battery 1 temperature [C]')
 saveas(h,strcat(Output_results_dir,'Battery_temp.png'),'png')
+close(h)
+%
+%
+h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
+set(gca,'Box','on')
+line(Time,Bat_1_Temp_1_C,'Color',[1 0.2 0],'Marker','o')
+line(Time,Bat_1_Temp_2_C,'Color',[1 0 0],'Marker','o')
+line(Time,Bat_2_Temp_1_C,'Color',[0 0.6 0],'Marker','o')
+line(Time,Bat_2_Temp_2_C,'Color',[0 0.5 0],'Marker','o')
+title(title_str)
+grid on
+xlim(xlimits)
+xlabel('Time [s]')
+ylabel('Battery temperature [C]')
+saveas(h,strcat(Output_results_dir,'Battery_temp.png'),'png')
+close(h)
+%
+h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
+set(gca,'Box','on')
+line(Time,Bat_1_Charge_Current_A,'Color',[0 0 0],'Marker','o')
+title(title_str)
+grid on
+xlim(xlimits)
+xlabel('Time [s]')
+ylabel('Battery 1 Current [mA]')
+saveas(h,strcat(Output_results_dir,'Battery_1_Current.png'),'png')
+close(h)
+%
+h=figure('Visible','off','PaperUnits','inches','PaperPosition',Size_fig);
+set(gca,'Box','on')
+line(Time,Bat_1_Volt_V,'Color',[1 0 0],'Marker','o')
+title(title_str)
+grid on
+xlim(xlimits)
+xlabel('Time [s]')
+ylabel('Battery 1 Voltage [V]')
+saveas(h,strcat(Output_results_dir,'Battery_1_Voltage.png'),'png')
 close(h)
