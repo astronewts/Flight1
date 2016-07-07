@@ -425,7 +425,7 @@ void Terminal_test_loop()
   // Print All Collected TLM to the Terminal Window
   print_telemetry();
 
-    write_telemetry_data_to_sd();
+  write_telemetry_data_to_sd();
 
   delay(1000);
 }

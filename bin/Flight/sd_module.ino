@@ -85,9 +85,12 @@ void sd_setup() {
   if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorPrint();
 
   // create a new file in root, the current working directory
-  char name[] = "LOGxxx.CSV";
+  char name[] = "LOGxxx.MODEx.CSV";
 
-  for (uint16_t i = 0; i < 1000; i++) {
+  name[11] = (uint8_t) parameters.vehicle_mode + '0';
+  
+  for (uint16_t i = 0; i < 1000; i++) 
+  {
     name[3] = (uint8_t) (i / 100) + '0';
     name[4] = (uint8_t) ((i % 100) / 10) + '0';
     name[5] = (uint8_t) (i % 10) + '0';
@@ -96,6 +99,7 @@ void sd_setup() {
     cout << name << endl;
     break;
   }
+  
   if (!logfile.is_open()) error("file.open");
 
   // format header in buffer
@@ -213,21 +217,20 @@ void sd_setup() {
   bout << pstr(",Cut-down Enable");                          //89
   bout << pstr(",Cut-down 1 Fire Status [-]");               //90
   bout << pstr(",Cut-down 2 Fire Status [-]");               //91
-  bout << pstr(",Alt Valid Flag [-]");                  //92
-  bout << pstr(",Cam Enabled [-]");                       //93
-  bout << pstr(",Cam Status [-]");                        //94
-  bout << pstr(",Bat 1 Temp TLM Val Flag [-]");        //95
-  bout << pstr(",Bat 2 Temp TLM Val Flag [-]");        //96
+  bout << pstr(",Alt Valid Flag [-]");                     //92
+  bout << pstr(",Cam Enabled [-]");                        //93
+  bout << pstr(",Cam Status [-]");                         //94
+  bout << pstr(",Bat 1 Temp TLM Val Flag [-]");            //95
+  bout << pstr(",Bat 2 Temp TLM Val Flag [-]");            //96
   bout << pstr(",Bus Voltage TLM Val Flag [-]");           //97
-  bout << pstr(",Bat 1 Cur TLM Val Flag [-]");     //98
-  bout << pstr(",Bat 2 Cur TLM Val Flag []");      //99
-  bout << pstr(",Alt [ft]");                            //100
-  bout << pstr(",Alt Temp [C]");                             //101
-  bout << pstr(",Alt Pressure [?]");                         //102
-  bout << pstr(",RB Words Recieved");                //103
-  bout << pstr(",The End");                         //104
+  bout << pstr(",Bat 1 Cur TLM Val Flag [-]");             //98
+  bout << pstr(",Bat 2 Cur TLM Val Flag []");              //99
+  bout << pstr(",Alt [ft]");                               //100
+  bout << pstr(",Alt Temp [C]");                           //101
+  bout << pstr(",Alt Pressure [?]");                       //102
+  bout << pstr(",RB Words Recieved");                      //103
+  bout << pstr(",The End");                                //104
   logfile << buf << endl << flush;
-
 }
 
 //Write telemetry data to SD card
@@ -239,6 +242,8 @@ void write_telemetry_data_to_sd()
 
   dummy_value=0;
 
+  if (logfile.is_open())
+  {
   // wait for time to be a multiple of interval
   //do {
   m = millis();
@@ -404,7 +409,7 @@ void write_telemetry_data_to_sd()
 
   // log data and flush to SD
   logfile << buf << flush;
-
+  
   // check for error
   if (!logfile) error("SD card write data failed");
 
@@ -418,5 +423,6 @@ void write_telemetry_data_to_sd()
   logfile.close();
   cout << pstr("Done!");
   while (1);
+  }
 
 }
