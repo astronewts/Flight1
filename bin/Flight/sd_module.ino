@@ -85,9 +85,10 @@ void sd_setup() {
   if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorPrint();
 
   // create a new file in root, the current working directory
-  char name[] = "LOGxxx.MODEx.CSV";
+//  char name[] = "LOGxxx.MODEx.CSV";
+  char name[] = "LOGxxx.CSV";
 
-  name[11] = (uint8_t) parameters.vehicle_mode + '0';
+//  name[11] = (uint8_t) parameters.vehicle_mode + '0';
   
   for (uint16_t i = 0; i < 1000; i++) 
   {
@@ -419,10 +420,19 @@ void write_telemetry_data_to_sd()
   //##########################################
   //##########################################
   //##########################################
-  if (!Serial.available()) return;
-  logfile.close();
-  cout << pstr("Done!");
-  while (1);
-  }
+  // GL and LC (july 06 2016) suspect that was the 
+  // weird "DONE" issue. to work correctly the 
+  // Serial must have been not available all the time ?????
+  
+//  if (!Serial.available())
+//  {
+//  logfile.close();
+//  cout << pstr("Serial was not available, close SD file and end everything!");
+//  // while (1);
+//  return;
+//  }
+  
+  } // for sthg above
+  
 
 }
