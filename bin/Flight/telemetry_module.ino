@@ -550,12 +550,12 @@ void print_telemetry()
   Serial.println("----------------------------------------------------------");
   Serial.println(" ");
 
-  print_analog_data();
+  //print_analog_data();
   print_battery_charge_current_data();
   print_low_rate_current_data();
-  print_alt_data();
-  print_gps_data();
-  print_gyro_data();
+  //print_alt_data();
+  //print_gps_data();
+  //print_gyro_data();
 
   // TODO: ADD CODE FOR CALCULATED SOFTWARE VARIABLE THAT WE WANT TO OUTPUT !!!!
 

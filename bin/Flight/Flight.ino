@@ -92,6 +92,11 @@ void setup()
   Serial.println("");
   Serial.println("**** Set_defaults:");
   set_defaults();
+
+  static struct rb_data_struct rb_data;
+  struct rb_data_struct rb_data_new = rb_data;
+  static struct rb_data_delta_struct rb_delta;
+  
   Serial.println("===> Set_defaults done!");
   Serial.println("");
   Serial.println("**** Set_normal_mode:");
@@ -225,6 +230,7 @@ void loop()
 
 void Main_flight_loop()
 {
+  
   static struct rb_data_struct rb_data;
   struct rb_data_struct rb_data_new = rb_data;
   static struct rb_data_delta_struct rb_delta;
@@ -400,23 +406,19 @@ void Cutdown_test_loop()
 
 void Terminal_test_loop()
 {
-  static struct rb_data_struct rb_data;
-  struct rb_data_struct rb_data_new = rb_data;
-  static struct rb_data_delta_struct rb_delta;
-
   //Collect Analog & Current Telemetry
-  collect_analog_telemetry();
+  //collect_analog_telemetry();
   collect_charge_current_data();
   collect_low_rate_current_data();
 
   // Collect GPS Data
-  collect_gps_data(rb_data_new);
+  //collect_gps_data(rb_data_new);
 
   // Collect Altimiter Data
-  collect_alt_data();
+  //collect_alt_data();
 
   //Collect gyro data
-  collect_gyro_data();
+  //collect_gyro_data();
 
   // Process All Software Data
 
@@ -427,7 +429,7 @@ void Terminal_test_loop()
 
   write_telemetry_data_to_sd();
 
-  delay(1000);
+  //delay(1000);
 }
 
 
