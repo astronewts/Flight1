@@ -80,6 +80,7 @@ var_name{06} = 'perioddesc'     ; var_length(06) =8  ;     var_type{06} = 'unsig
 var_name{07} = 'periodemer'     ; var_length(07) =8  ;     var_type{07} = 'unsigned' ;    var_unit{07}='min';
 var_name{08} = 'periodtest'     ; var_length(08) =8  ;     var_type{08} = 'unsigned' ;    var_unit{08}='min';
 var_name{09} = 'periodwrite'    ; var_length(09) =8  ;     var_type{09} = 'unsigned' ;    var_unit{09}='sec';
+%
 var_name{10} = 'batt1temp1'     ; var_length(10) =12 ;     var_type{10} = 'float temp' ;    var_unit{10}='deg C';
 var_name{11} = 'batt1temp2'     ; var_length(11) =12 ;     var_type{11} = 'float temp' ;    var_unit{11}='deg C';
 var_name{12} = 'batt2temp1'     ; var_length(12) =12 ;     var_type{12} = 'float temp' ;    var_unit{12}='deg C';
