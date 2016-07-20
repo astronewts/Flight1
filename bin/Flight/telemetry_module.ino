@@ -47,17 +47,10 @@ void collect_analog_telemetry()
   telemetry_data.internal_temp = calculate_temp(raw_telemetry_data.raw_internal_temp);
   delay(100);
 
-  //Battery 1 Voltage 1
-  raw_telemetry_data.raw_battery_1_voltage_1 = analogRead(PIN_BATTERY_1_VOLTAGE_1);
-  telemetry_data.battery_1_voltage_1 = ((raw_telemetry_data.raw_battery_1_voltage_1 * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3 + VOLTAGE_CONSTANT_4;
+  //ANALOG VIN VOLTAGE
+  raw_telemetry_data.raw_analog_VIN_voltage = analogRead(PIN_ANALOG_VIN_VOLTAGE);
+  telemetry_data.analog_VIN_voltage = ((raw_telemetry_data.raw_analog_VIN_voltage * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3 + VOLTAGE_CONSTANT_4;
   delay(100);
-
-  //Battery 1 Voltage 2
-  raw_telemetry_data.raw_battery_1_voltage_2 = analogRead(PIN_BATTERY_1_VOLTAGE_2);
-  telemetry_data.battery_1_voltage_2 = ((raw_telemetry_data.raw_battery_1_voltage_2 * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3 + VOLTAGE_CONSTANT_4;
-  delay(100);
-
-  //TODO: ADD ALL BATTERY 2 TLM FLOWDOWNS
 }
 
 //void collect_analog_battery_current_telemetry()
@@ -78,7 +71,6 @@ void collect_analog_telemetry()
 double calculate_temp(int counts)
 {
   double temp;
-
   if (counts > TEMP_BREAK_COUNT)
   {
     temp = TEMP_CONSTANT_1_1+TEMP_CONSTANT_1_2*(counts)+TEMP_CONSTANT_1_3*(pow(counts,2))+TEMP_CONSTANT_1_4*(pow(counts,3))+TEMP_CONSTANT_1_5*(pow(counts,4))+TEMP_CONSTANT_1_6*(pow(counts,5));
@@ -310,7 +302,6 @@ void execute_thermal_control_check()
   }
 }
 
-
 void process_charge_current_tlm()
 {
   double tlm_value = 0.0;
@@ -359,6 +350,52 @@ void process_charge_current_tlm()
       parameters.battery_1_amphrs_discharging = 0.0;
     }
   }
+  // BATTERY 2 SECTION
+  tlm_value = 0.0;
+  tlm_check = 0.0;
+  double battery_2_elapsed_time_factor = 0.0;
+
+  // Charge Current
+  // Sanity Check
+  tlm_value = sanity_processing(telemetry_data.battery_2_charge_current, telemetry_data.battery_2_charge_current, 4);
+
+  if(parameters.battery_2_current_tlm_valid_flag == true)
+  {
+    // Get the elapsed time factor
+    battery_2_elapsed_time_factor = MS_IN_SEC /  parameters.battery_2_charge_current_read_elapsed_time;
+
+    // Reset elapsed charge current time
+    parameters.battery_2_charge_current_read_elapsed_time = 0;
+
+    if(tlm_value > 0)
+    {
+      parameters.battery_2_amphrs_charging += ((tlm_value / (battery_2_elapsed_time_factor * SECS_IN_HOUR)) / parameters.battery_2_recharge_ratio);
+    }
+    else if (tlm_value < 0)
+    {
+      parameters.battery_2_amphrs_discharging += (tlm_value / (battery_2_elapsed_time_factor * SECS_IN_HOUR));
+    }
+
+    tlm_check = parameters.battery_2_amphrs_charging - parameters.battery_2_amphrs_discharging;
+
+    if(tlm_check < parameters.battery_2_amphrs_init_threshold)
+    {
+      //Turn the power ON
+      digitalWrite(PIN_BATTERY_2_CHARGE_CUTOFF, LOW);
+      parameters.battery_2_charging_status = true;
+    }
+
+    if(tlm_check > parameters.battery_2_amphrs_term_threshold)
+    {
+      //Turn the power Off
+      digitalWrite(PIN_BATTERY_2_CHARGE_CUTOFF, HIGH);
+      parameters.battery_2_charging_status = false;
+
+      //Reset the charge counts
+      parameters.battery_2_amphrs_charging = 0.0;
+      parameters.battery_2_amphrs_discharging = 0.0;
+    }
+  }
   //TODO: DUPLICATE TO ADD BATTERY 2 CODE !!!!
 }
 
@@ -378,7 +415,7 @@ void execute_electrical_control_check()
   //Get the highest voltage
   //Sanity Check
 
-  tlm_value = sanity_processing(telemetry_data.battery_1_voltage_1, telemetry_data.battery_1_voltage_2, 3);
+  tlm_value = sanity_processing(telemetry_data.busvoltage_batt1, telemetry_data.busvoltage_batt2, 3);
 
   if(parameters.battery_voltage_tlm_valid_flag == true)
   {
@@ -388,7 +425,7 @@ void execute_electrical_control_check()
 	     if(parameters.battery_bus_low_voltage_flag == false)
        {
          //Battery voltage is low - set flag and mark time
-	        parameters.battery_bus_low_voltage_flag = true;
+	       parameters.battery_bus_low_voltage_flag = true;
          parameters.battery_low_voltage_elapsed_time = 0;
          sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).  Goind into Load Shed Mode.",
                  tlm_value, parameters.low_voltage_limit_for_loadshed_entry, parameters.low_voltage_time_limit);
@@ -533,14 +570,10 @@ void print_analog_data()
   Serial.println(telemetry_data.inner_external_temp);
   Serial.print("Internal Temp: ");
   Serial.println(telemetry_data.internal_temp);
-  Serial.print("Battery Voltage 1: ");
-  Serial.println(telemetry_data.battery_1_voltage_1);
-  Serial.print("Battery Voltage 1 RAW: ");
-  Serial.println(raw_telemetry_data.raw_battery_1_voltage_1);
-  Serial.print("Battery Voltage 2: ");
-  Serial.println(telemetry_data.battery_1_voltage_2);
-  Serial.print("Battery Voltage 2 RAW: ");
-  Serial.println(raw_telemetry_data.raw_battery_1_voltage_2);
+  Serial.print("Analog VIN Voltage: ");
+  Serial.println(telemetry_data.analog_VIN_voltage);
+  Serial.print("Analog VIN Voltage RAW: ");
+  Serial.println(raw_telemetry_data.raw_analog_VIN_voltage);
 }
 
 void print_telemetry()

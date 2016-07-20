@@ -117,10 +117,10 @@
 
 //Analog Pins
 #define PIN_PRESSURE_SENSOR                    A0
-#define PIN_BATTERY_1_CHARGE_CURRENT_1         A1
-#define PIN_BATTERY_1_CHARGE_CURRENT_2         A2
-#define PIN_BATTERY_1_VOLTAGE_1                A3
-#define PIN_BATTERY_1_VOLTAGE_2                A4
+// SPARE                                       A1
+// SPARE                                       A2
+#define PIN_ANALOG_VIN_VOLTAGE                 A3
+// SPARE                                       A4
 #define PIN_EXTERNAL_OUTTER_TEMP               A5
 #define PIN_INTERNAL_TEMP                      A6
 #define PIN_EXTERNAL_INNER_TEMP                A7
@@ -198,9 +198,7 @@ struct telemetry_data_struct
   double outter_external_temp;
   double internal_temp;
   double air_pressure;
-  double battery_1_voltage_1;
-  double battery_1_voltage_2;
-
+  double analog_VIN_voltage;
 
   float shuntvoltage_batt1;
   float busvoltage_batt1;
@@ -256,8 +254,7 @@ struct rb_data_struct
   unsigned int raw_outer_external_temp : 12;
   unsigned int raw_internal_temp : 12;
   unsigned int raw_air_pressure : 12;
-  unsigned int raw_battery_1_voltage_1 : 12;
-  unsigned int raw_battery_1_voltage_2 : 12;
+  unsigned int raw_analog_VIN_voltage : 12;
   unsigned int battery_1_charge_current : 12; // milliamps? offset?
   unsigned int battery_2_charge_current : 12; // milliamps? offset?
   unsigned int sa_current : 12;
@@ -306,8 +303,7 @@ struct rb_data_delta_struct
   unsigned int raw_outer_external_temp : 8;
   unsigned int raw_internal_temp : 8;
   unsigned int raw_air_pressure : 8;
-  unsigned int raw_battery_1_voltage_1 : 8;
-  unsigned int raw_battery_1_voltage_2 : 8;
+  unsigned int raw_analog_VIN_voltage : 8;
   unsigned int battery_1_charge_current : 8; // milliamps? offset?
   unsigned int battery_2_charge_current : 8; // milliamps? offset?
   unsigned int sa_current : 8;
@@ -335,18 +331,7 @@ struct raw_telemetry_data_struct
   int raw_outter_external_temp : 12;
   int raw_internal_temp : 12;
   int raw_air_pressure : 12;
-  int raw_battery_1_voltage_1 : 12;
-  int raw_battery_1_voltage_2 : 12;
-
-  float shuntvoltage_batt1;
-  float busvoltage_batt1;
-  float battery_1_charge_current;
-  float loadvoltage_batt1;
-
-  float shuntvoltage_batt2;
-  float busvoltage_batt2;
-  float battery_2_charge_current;
-  float loadvoltage_batt2;
+  int raw_analog_VIN_voltage : 12;
 };
 
 struct parameter_struct
