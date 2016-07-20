@@ -114,42 +114,42 @@ void sd_setup() {
   bout << pstr(",Data to RB  [-]");                         //0
   bout << pstr(",Veh Mode [-]");                         //1
   bout << pstr(",Command Count [-]");                        //2
-  bout << pstr(",Normal Trans Period [s]");              //3
-  bout << pstr(",Loadshed Trans Period [s]");            //4
-  bout << pstr(",Transit Tran Period [s]");             //5
-  bout << pstr(",Emergency Trans Transmit Period [s]");   //6
-  bout << pstr(",Spare Trans Period [s]");               //7
-  bout << pstr(",SD Card Write Period [s]");             //8
-  bout << pstr(",Bat 1 Temp 1 [C]");                     //9
-  bout << pstr(",Bat 1 Temp 2 [C]");                     //10
-  bout << pstr(",Bat 2 Temp 1 [C]");                     //11
-  bout << pstr(",Bat 2 Temp 2 [C]");                     //12
-  bout << pstr(",Inner Ext Temp [C]");                   //13
-  bout << pstr(",Outer Ext Temp [C]");                   //14
-  bout << pstr(",Int Temp [C]");                         //15
+  bout << pstr(",Normal Trans Per [s]");              //3
+  bout << pstr(",Loadshed Trans Per [s]");            //4
+  bout << pstr(",Transit Trans Per [s]");             //5
+  bout << pstr(",Emer Trans Per [s]");   //6
+  bout << pstr(",Spare Trans Per [s]");               //7
+  bout << pstr(",SD Card Write Per [s]");             //8
+  bout << pstr(",B 1 T 1 [C]");                     //9
+  bout << pstr(",B 1 T 2 [C]");                     //10
+  bout << pstr(",B 2 T 1 [C]");                     //11
+  bout << pstr(",B 2 T 2 [C]");                     //12
+  bout << pstr(",Inner Ext T [C]");                   //13
+  bout << pstr(",Outer Ext T [C]");                   //14
+  bout << pstr(",Int T [C]");                         //15
   bout << pstr(",Air Pres [Pa]");                        //16
-  bout << pstr(",Bat 1 Volt [V]");                       //17
-  bout << pstr(",Bat 2 Volt [V]");                       //18
-  bout << pstr(",Bat 1 Charge Current [A]");             //19
+  bout << pstr(",B 1 Volt [V]");                       //17
+  bout << pstr(",B 2 Volt [V]");                       //18
+  bout << pstr(",B 1 Charge Current [A]");             //19
   
-  bout << pstr(",Bat 2 Charge Current [A]");             //20
-  bout << pstr(",Solar Array Current [A]");              //21
+  bout << pstr(",B 2 Charge Current [A]");             //20
+  bout << pstr(",sa Current [A]");              //21
   bout << pstr(",Load Path Current [A]");                //22
 
-  bout << pstr(",shuntvoltage_batt1     [V]") ;          //
-  bout << pstr(",busvoltage_batt1       [V]") ;          //
-  bout << pstr(",loadvoltage_batt1      [V]") ;          //
-  bout << pstr(",shuntvoltage_batt2     [V]") ;          //
-  bout << pstr(",busvoltage_batt2       [V]") ;          //
-  bout << pstr(",loadvoltage_batt2      [V]") ;          //
-  bout << pstr(",shuntvoltage_sa        [V]") ;          //
-  bout << pstr(",busvoltage_sa          [V]") ;          //
-  bout << pstr(",loadvoltage_sa         [V]") ;          //
-  bout << pstr(",shuntvoltage_load_path [V]") ;          //
-  bout << pstr(",busvoltage_load_path   [V]") ;          //
-  bout << pstr(",loadvoltage_load_path  [V]") ;          //
+  bout << pstr(",shuntV_B1     [V]") ;          //
+  bout << pstr(",busV_B1       [V]") ;          //
+  bout << pstr(",loadV_B1      [V]") ;          //
+  bout << pstr(",shuntV_B2     [V]") ;          //
+  bout << pstr(",busV_B2       [V]") ;          //
+  bout << pstr(",loadV_B2      [V]") ;          //
+  bout << pstr(",shuntV_sa        [V]") ;          //
+  bout << pstr(",busV_sa          [V]") ;          //
+  bout << pstr(",loadV_sa         [V]") ;          //
+  bout << pstr(",shuntV_load_path [V]") ;          //
+  bout << pstr(",busV_load_path   [V]") ;          //
+  bout << pstr(",loadV_load_path  [V]") ;          //
   
-  bout << pstr(",Tel Processing Period [s]");            //23
+  bout << pstr(",Tel Proc Per [s]");            //23
   bout << pstr(",Spare 3");                              //24
   bout << pstr(",GPS Lat [deg]");                        //25
   bout << pstr(",GPS Long [deg]");                       //26
@@ -165,7 +165,7 @@ void sd_setup() {
   bout << pstr(",GPS Chars Processed [-]");              //36
   bout << pstr(",GPS Sentences with Fix [-]");           //37
   bout << pstr(",GPS Failed Checksum [-]");              //38
-  bout << pstr(",GPS Isvalid Conglomerate [-]");          //39
+  bout << pstr(",GPS Isvalid Congl [-]");          //39
   bout << pstr(",Acc X [g]");                               //40
   bout << pstr(",Acc Y [g]");                               //41
   bout << pstr(",Acc Z [g]");                               //42
@@ -175,44 +175,44 @@ void sd_setup() {
   bout << pstr(",Gyro X [deg/s]");                           //46
   bout << pstr(",Gyro Y [deg/s]");                           //47
   bout << pstr(",Gyro Z [deg/s]");                           //48
-  bout << pstr(",Gyro Temp [C]");                            //49
-  bout << pstr(",Volt Sanity Check High [V]");            //50
-  bout << pstr(",Volt Sanity Check Low [V]");             //51
+  bout << pstr(",Gyro T [C]");                            //49
+  bout << pstr(",Volt San Check High [V]");            //50
+  bout << pstr(",Volt San Check Low [V]");             //51
   bout << pstr(",Charge Cur Sanity High [A]");           //52
   bout << pstr(",Charge Cur Sanity Low [A]");            //53
-  bout << pstr(",Bat 1 Recharge Ratio [-]");             //54
-  bout << pstr(",Bat 1 Amp Hours Charging [A]");         //55
-  bout << pstr(",Bat 1 Amp Hours Discharging [A]");      //56
-  bout << pstr(",Bat 1 Cap Lim High [A.h]");      //57
-  bout << pstr(",Bat 1 Cap Lim Low [A.h]");       //58
-  bout << pstr(",Bat 1 Volt Term. Charge Limit [V]"); //59
-  bout << pstr(",Bat 1 Volt Init. Charge Limit [V]"); //60
-  bout << pstr(",Bat 2 Recharge Ratio [-]");             //61
-  bout << pstr(",Bat 2 Amp Hours Charging [A]");         //62
-  bout << pstr(",Bat 2 Amp Hours Discharging [A]");      //63
-  bout << pstr(",Bat 2 Capacity Limit High [A.h]");      //64
-  bout << pstr(",Bat 2 Capacity Limit Low [A.h]");       //65
-  bout << pstr(",Bat 2 Voltage Term. Charge Limit [V]"); //66
-  bout << pstr(",Bat 2 Voltage Init. Charge Limit [V]"); //67
-  bout << pstr(",Bat Active Temp Lim High [C]");       //68
-  bout << pstr(",Bat Active Temp Lim Low [C]");        //68
-  bout << pstr(",Bat Temp Sanity Check High [C]");       //70
-  bout << pstr(",Bat Normal Temp Lim High [C]");       //71
-  bout << pstr(",Bat Normal Temp Lim Low [C]");        //72
-  bout << pstr(",Bat Survival Temp Lim High [C]");     //73
-  bout << pstr(",Bat Survival Temp Lim Low [C]");      //74
-  bout << pstr(",Bat Temp Sanity Check Low [C]");        //75
+  bout << pstr(",B 1 Recharge Ratio [-]");             //54
+  bout << pstr(",B 1 AH Charging [A]");         //55
+  bout << pstr(",B 1 AH Discharging [A]");      //56
+  bout << pstr(",B 1 Cap Lim High [A.h]");      //57
+  bout << pstr(",B 1 Cap Lim Low [A.h]");       //58
+  bout << pstr(",B 1 Volt Term. Charge Limit [V]"); //59
+  bout << pstr(",B 1 Volt Init. Charge Limit [V]"); //60
+  bout << pstr(",B 2 Recharge Ratio [-]");             //61
+  bout << pstr(",B 2 Amp Hours Charging [A]");         //62
+  bout << pstr(",B 2 Amp Hours Discharging [A]");      //63
+  bout << pstr(",B 2 Cap Limit High [A.h]");      //64
+  bout << pstr(",B 2 Cap Limit Low [A.h]");       //65
+  bout << pstr(",B 2 Volt Term. Charge Lim [V]"); //66
+  bout << pstr(",B 2 Volt Init. Charge Lim [V]"); //67
+  bout << pstr(",B Active T Lim High [C]");       //68
+  bout << pstr(",B Active T Lim Low [C]");        //68
+  bout << pstr(",B T Sanity Check High [C]");       //70
+  bout << pstr(",B Normal T Lim High [C]");       //71
+  bout << pstr(",B Normal T Lim Low [C]");        //72
+  bout << pstr(",B Surv T Lim High [C]");     //73
+  bout << pstr(",B Surv T Lim Low [C]");      //74
+  bout << pstr(",B T Sanity Check Low [C]");        //75
   bout << pstr(",Loadshed Entry Volt Lim [V]");         //76
   bout << pstr(",Auto Cutdown Volt Lim [V]");           //77
   bout << pstr(",Low Volt Time until Cut-down [s]");      //78
   bout << pstr(",Alt Limit Low [ft]");                   //79
   bout << pstr(",Alt Sanity Check Low [ft]");             //80
   bout << pstr(",Pyro Pulse Width [s]");                   //81
-  bout << pstr(",Cam Period [s]");                       //82
+  bout << pstr(",Cam Per [s]");                       //82
   bout << pstr(",Cam On Time [s]");                       //83
-  bout << pstr(",Bat 1 Charg Status [-]");            //84
-  bout << pstr(",Bat 2 Charg Status [-]");            //85
-  bout << pstr(",Battery Bus Low Voltage Flag [-]");         //86
+  bout << pstr(",B 1 Charg Status [-]");            //84
+  bout << pstr(",B 2 Charg Status [-]");            //85
+  bout << pstr(",Battery Bus Low V Flag [-]");         //86
   bout << pstr(",Heater State 1 [-]");                       //87
   bout << pstr(",Heater State 2 [-]");                       //88
   bout << pstr(",Cut-down Enable");                          //89
@@ -221,13 +221,13 @@ void sd_setup() {
   bout << pstr(",Alt Valid Flag [-]");                     //92
   bout << pstr(",Cam Enabled [-]");                        //93
   bout << pstr(",Cam Status [-]");                         //94
-  bout << pstr(",Bat 1 Temp TLM Val Flag [-]");            //95
-  bout << pstr(",Bat 2 Temp TLM Val Flag [-]");            //96
-  bout << pstr(",Bus Voltage TLM Val Flag [-]");           //97
-  bout << pstr(",Bat 1 Cur TLM Val Flag [-]");             //98
-  bout << pstr(",Bat 2 Cur TLM Val Flag []");              //99
+  bout << pstr(",B 1 T TLM Val Flag [-]");            //95
+  bout << pstr(",B 2 T TLM Val Flag [-]");            //96
+  bout << pstr(",Bus V TLM Val Flag [-]");           //97
+  bout << pstr(",B 1 Cur TLM Val Flag [-]");             //98
+  bout << pstr(",B 2 Cur TLM Val Flag []");              //99
   bout << pstr(",Alt [ft]");                               //100
-  bout << pstr(",Alt Temp [C]");                           //101
+  bout << pstr(",Alt T [C]");                           //101
   bout << pstr(",Alt Pressure [?]");                       //102
   bout << pstr(",RB Words Recieved");                      //103
   bout << pstr(",The End");                                //104
