@@ -814,7 +814,7 @@ dummy_value=0;
     parameters.output_dataword = combine_float(32, dummy_value, parameters.output_dataword);                                 //49
     parameters.output_dataword = combine_float(32, gyro.mz, parameters.output_dataword);                                     //50
     parameters.output_dataword = combine_float(32, dummy_value, parameters.output_dataword);                                 //51
-// Quaternion consists of 4 32-bit floats. Only including vector component zero is a known issue. Pivotal bug ID 95940810
+    // Quaternion consists of 4 32-bit floats. Only including vector component zero is a known issue. Pivotal bug ID 95940810
     parameters.output_dataword = combine_float(32, gyro.gx, parameters.output_dataword);                                     //52
     // Euler pose is a 3-dimensional vector. Only including one vector component here is a known issue. Pivotal bug ID 95940810
     parameters.output_dataword = combine_float(32, gyro.gy, parameters.output_dataword);                                     //53

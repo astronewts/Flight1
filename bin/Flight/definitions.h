@@ -52,7 +52,7 @@
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW    14
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH     150
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80
-#define DEFAULT_NORMAL_TRANSMIT_RATE               15000 // TEST ONLY!!!
+#define DEFAULT_NORMAL_TRANSMIT_RATE               1800000 // TEST ONLY!!! (Once every half hour)
 //#define DEFAULT_NORMAL_TRANSMIT_RATE             1200000 // FOR FLIGHT!!!
 #define DEFAULT_SPARE_TRANSMIT_RATE                60000
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              30000
@@ -67,18 +67,17 @@
 // Use "0" for "high current" applications; interval between transmit retries is 20 seconds
 
 #define DEFAULT_PYRO_PULSE_WIDTH                   8000
-#define DEFAULT_SD_CARD_WRITE_PERIOD               6000 // TEST ONLY!!!
-
+#define DEFAULT_SD_CARD_WRITE_PERIOD               100 // TEST ONLY!!!
 //#define DEFAULT_SD_CARD_WRITE_PERIOD             60000  // FOR FLIGHT !!!
 #define DEFAULT_TLM_PROCESSING_PERIOD              5000
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
 #define HIGH_RATE_PERIOD                           50 // ms
-#define MEDIUM_RATE_PERIOD                         20000 // ms
-#define LOW_RATE_PERIOD                            20000 // ms
+#define MEDIUM_RATE_PERIOD                         10000 // ms
+#define LOW_RATE_PERIOD                            10000 // ms
 #define HIGH_RATE_PERIOD_CUTDOWN                   20 // ms
-#define MEDIUM_RATE_PERIOD_CUTDOWN                 20000 // ms
-#define LOW_RATE_PERIOD_CUTDOWN                    20000 // ms
+#define MEDIUM_RATE_PERIOD_CUTDOWN                 10000 // ms
+#define LOW_RATE_PERIOD_CUTDOWN                    10000 // ms
 
 #define DEFAULT_ALTITUDE_LIMIT_LOW                 65000  // 97:for test in living room  //  A2 ft
 #define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          75000  // 101:for test in living room //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
