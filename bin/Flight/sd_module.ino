@@ -286,8 +286,8 @@ void write_telemetry_data_to_sd()
   bout << ',' << telemetry_data.outter_external_temp;                  //14
   bout << ',' << telemetry_data.internal_temp;                         //15
   bout << ',' << telemetry_data.air_pressure;                          //16
-  bout << ',' << telemetry_data.battery_1_voltage_1;                   //17
-  bout << ',' << telemetry_data.battery_1_voltage_2;                   //18
+  bout << ',' << telemetry_data.analog_VIN_voltage;                     //17
+  bout << ',' << "00000000000000000000000000000000";                   //18  SPARE
   bout << ',' << telemetry_data.battery_1_charge_current;              //19
   bout << ',' << telemetry_data.battery_2_charge_current;              //20
   bout << ',' << telemetry_data.sa_current;                            //21

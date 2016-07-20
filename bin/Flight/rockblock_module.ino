@@ -752,8 +752,8 @@ dummy_value=0;
     parameters.output_dataword = combine(12, raw_telemetry_data.raw_outter_external_temp, parameters.output_dataword);                  //14
     parameters.output_dataword = combine(12, raw_telemetry_data.raw_internal_temp, parameters.output_dataword);                         //15                             
     parameters.output_dataword = combine(12, raw_telemetry_data.raw_air_pressure, parameters.output_dataword);                          //16
-    parameters.output_dataword = combine(12, raw_telemetry_data.raw_battery_1_voltage_1, parameters.output_dataword);                   //17
-    parameters.output_dataword = combine(12, raw_telemetry_data.raw_battery_1_voltage_2, parameters.output_dataword);                   //18
+    parameters.output_dataword = combine(12, raw_telemetry_data.raw_analog_VIN_voltage, parameters.output_dataword);                   //17
+    parameters.output_dataword = parameters.output_dataword + "000000000000";                                                          //18
     // TODO: RELABEL ALL VERTICAL DATA ID'S ON THE LEFT
     // Current Sensors Data
     parameters.output_dataword = combine_float(32, telemetry_data.battery_1_charge_current, parameters.output_dataword);                //19
