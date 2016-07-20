@@ -52,6 +52,9 @@ struct alt_struct alt;
 struct gyro_struct gyro;
 struct Flag_RB_struct Flag_RB;
 struct debug_struct debug;
+static struct rb_data_struct rb_data;
+struct rb_data_struct rb_data_new = rb_data;
+static struct rb_data_delta_struct rb_delta;
 #define debug_println(...) if(debug.mode){Serial.println(__VA_ARGS__);}
 
 
@@ -92,10 +95,6 @@ void setup()
   Serial.println("");
   Serial.println("**** Set_defaults:");
   set_defaults();
-
-  static struct rb_data_struct rb_data;
-  struct rb_data_struct rb_data_new = rb_data;
-  static struct rb_data_delta_struct rb_delta;
   
   Serial.println("===> Set_defaults done!");
   Serial.println("");
@@ -230,11 +229,6 @@ void loop()
 
 void Main_flight_loop()
 {
-  
-  static struct rb_data_struct rb_data;
-  struct rb_data_struct rb_data_new = rb_data;
-  static struct rb_data_delta_struct rb_delta;
-
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
     debug_println("===> DEBUG: HIGH-RATE PROCESS");
@@ -348,10 +342,6 @@ void Signal_test_loop()
 
 void Cutdown_test_loop()
 {
-  static struct rb_data_struct rb_data;
-  struct rb_data_struct rb_data_new = rb_data;
-  static struct rb_data_delta_struct rb_delta;
-
   parameters.test_count = parameters.test_count + 1;
   if(parameters.test_count <= CUTDOWN_TEST_TIME)
   {
