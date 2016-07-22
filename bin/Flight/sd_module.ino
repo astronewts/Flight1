@@ -106,131 +106,131 @@ void sd_setup() {
   // format header in buffer
   obufstream bout(buf, sizeof(buf));
 
-  bout << pstr("millis");
+  bout << pstr("millis");                                 //0
 
 #if USE_DS1307
   bout << pstr(",date,time");
 #endif  // USE_DS1307
-  bout << pstr(",Data to RB  [-]");                         //0
-  bout << pstr(",Veh Mode [-]");                         //1
-  bout << pstr(",Command Count [-]");                        //2
-  bout << pstr(",Normal Trans Per [s]");              //3
-  bout << pstr(",Loadshed Trans Per [s]");            //4
-  bout << pstr(",Transit Trans Per [s]");             //5
-  bout << pstr(",Emer Trans Per [s]");   //6
-  bout << pstr(",Spare Trans Per [s]");               //7
-  bout << pstr(",SD Card Write Per [s]");             //8
-  bout << pstr(",B 1 T 1 [C]");                     //9
-  bout << pstr(",B 1 T 2 [C]");                     //10
-  bout << pstr(",B 2 T 1 [C]");                     //11
-  bout << pstr(",B 2 T 2 [C]");                     //12
-  bout << pstr(",Inner Ext T [C]");                   //13
-  bout << pstr(",Outer Ext T [C]");                   //14
-  bout << pstr(",Int T [C]");                         //15
-  bout << pstr(",Air Pres [Pa]");                        //16
-  bout << pstr(",B 1 Volt [V]");                       //17
-  bout << pstr(",B 2 Volt [V]");                       //18
-  bout << pstr(",B 1 Charge Current [A]");             //19
+  bout << pstr(",Data to RB  [-]");                       //1  
+  bout << pstr(",Veh Mode [-]");                          //2
+  bout << pstr(",Command Count [-]");                     //3   
+  bout << pstr(",Normal Trans Per [s]");                  //4
+  bout << pstr(",Loadshed Trans Per [s]");                //5
+  bout << pstr(",Transit Trans Per [s]");                 //6
+  bout << pstr(",Emer Trans Per [s]");                    //7
+  bout << pstr(",Spare Trans Per [s]");                   //8
+  bout << pstr(",SD Card Write Per [s]");                 //9
+  bout << pstr(",B 1 T 1 [C]");                           //10
+  bout << pstr(",B 1 T 2 [C]");                           //11
+  bout << pstr(",B 2 T 1 [C]");                           //12
+  bout << pstr(",B 2 T 2 [C]");                           //13
+  bout << pstr(",Inner Ext T [C]");                       //14
+  bout << pstr(",Outer Ext T [C]");                       //15
+  bout << pstr(",Int T [C]");                             //16
+  bout << pstr(",Air Pres [Pa]");                         //17
+  bout << pstr(",VIN Voltage [V]");                       //18
+  bout << pstr(",SPARE [na]");                            //19
   
-  bout << pstr(",B 2 Charge Current [A]");             //20
-  bout << pstr(",sa Current [A]");              //21
-  bout << pstr(",Load Path Current [A]");                //22
+  bout << pstr(",B 1 Charge Current [A]");                //20
+  bout << pstr(",B 2 Charge Current [A]");                //21
+  bout << pstr(",SA Current [A]");                        //22
+  bout << pstr(",Load Path Current [A]");                 //23
 
-  bout << pstr(",shuntV_B1     [V]") ;          //
-  bout << pstr(",busV_B1       [V]") ;          //
-  bout << pstr(",loadV_B1      [V]") ;          //
-  bout << pstr(",shuntV_B2     [V]") ;          //
-  bout << pstr(",busV_B2       [V]") ;          //
-  bout << pstr(",loadV_B2      [V]") ;          //
-  bout << pstr(",shuntV_sa        [V]") ;          //
-  bout << pstr(",busV_sa          [V]") ;          //
-  bout << pstr(",loadV_sa         [V]") ;          //
-  bout << pstr(",shuntV_load_path [V]") ;          //
-  bout << pstr(",busV_load_path   [V]") ;          //
-  bout << pstr(",loadV_load_path  [V]") ;          //
+  bout << pstr(",B1_shunt_V        [V]") ;                //24
+  bout << pstr(",B1_Bus_V          [V]") ;                //25
+  bout << pstr(",B1_load_V         [V]") ;                //26
+  bout << pstr(",B2_shunt_V        [V]") ;                //27
+  bout << pstr(",B2_Bus_V          [V]") ;                //28
+  bout << pstr(",B2_load_V         [V]") ;                //29
+  bout << pstr(",SA_shuntV         [V]") ;                //30
+  bout << pstr(",SA_busV           [V]") ;                //31
+  bout << pstr(",SA_load_V         [V]") ;                //32
+  bout << pstr(",Loadpath_shunt_V  [V]") ;                //33
+  bout << pstr(",Loadpath_Bus_V    [V]") ;                //34
+  bout << pstr(",Loadpath_load_V   [V]") ;                //35
   
-  bout << pstr(",Tel Proc Per [s]");            //23
-  bout << pstr(",Spare 3");                              //24
-  bout << pstr(",GPS Lat [deg]");                        //25
-  bout << pstr(",GPS Long [deg]");                       //26
-  bout << pstr(",GPS Alt [m]");                          //27
-  bout << pstr(",GPS Loc Age [s]");                      //28
-  bout << pstr(",GPS Alt Age [s]");                      //29
-  bout << pstr(",GPS Course [deg]");                     //30
-  bout << pstr(",GPS Speed [km/h]");                     //31
-  bout << pstr(",GPS # of Sat [-]");                     //32
-  bout << pstr(",GPS Date [-]");                         //33
-  bout << pstr(",GPS Time [-]");                         //34
-  bout << pstr(",HDOP Value [?]");                       //35
-  bout << pstr(",GPS Chars Processed [-]");              //36
-  bout << pstr(",GPS Sentences with Fix [-]");           //37
-  bout << pstr(",GPS Failed Checksum [-]");              //38
-  bout << pstr(",GPS Isvalid Congl [-]");          //39
-  bout << pstr(",Acc X [g]");                               //40
-  bout << pstr(",Acc Y [g]");                               //41
-  bout << pstr(",Acc Z [g]");                               //42
-  bout << pstr(",Gyro mag X [G]");                          //43
-  bout << pstr(",Gyro mag Y [G]");                          //44
-  bout << pstr(",Gyro mag Z [G]");                          //45
-  bout << pstr(",Gyro X [deg/s]");                           //46
-  bout << pstr(",Gyro Y [deg/s]");                           //47
-  bout << pstr(",Gyro Z [deg/s]");                           //48
-  bout << pstr(",Gyro T [C]");                            //49
-  bout << pstr(",Volt San Check High [V]");            //50
-  bout << pstr(",Volt San Check Low [V]");             //51
-  bout << pstr(",Charge Cur Sanity High [A]");           //52
-  bout << pstr(",Charge Cur Sanity Low [A]");            //53
-  bout << pstr(",B 1 Recharge Ratio [-]");             //54
-  bout << pstr(",B 1 AH Charging [A]");         //55
-  bout << pstr(",B 1 AH Discharging [A]");      //56
-  bout << pstr(",B 1 Cap Lim High [A.h]");      //57
-  bout << pstr(",B 1 Cap Lim Low [A.h]");       //58
-  bout << pstr(",B 1 Volt Term. Charge Limit [V]"); //59
-  bout << pstr(",B 1 Volt Init. Charge Limit [V]"); //60
-  bout << pstr(",B 2 Recharge Ratio [-]");             //61
-  bout << pstr(",B 2 Amp Hours Charging [A]");         //62
-  bout << pstr(",B 2 Amp Hours Discharging [A]");      //63
-  bout << pstr(",B 2 Cap Limit High [A.h]");      //64
-  bout << pstr(",B 2 Cap Limit Low [A.h]");       //65
-  bout << pstr(",B 2 Volt Term. Charge Lim [V]"); //66
-  bout << pstr(",B 2 Volt Init. Charge Lim [V]"); //67
-  bout << pstr(",B Active T Lim High [C]");       //68
-  bout << pstr(",B Active T Lim Low [C]");        //68
-  bout << pstr(",B T Sanity Check High [C]");       //70
-  bout << pstr(",B Normal T Lim High [C]");       //71
-  bout << pstr(",B Normal T Lim Low [C]");        //72
-  bout << pstr(",B Surv T Lim High [C]");     //73
-  bout << pstr(",B Surv T Lim Low [C]");      //74
-  bout << pstr(",B T Sanity Check Low [C]");        //75
-  bout << pstr(",Loadshed Entry Volt Lim [V]");         //76
-  bout << pstr(",Auto Cutdown Volt Lim [V]");           //77
-  bout << pstr(",Low Volt Time until Cut-down [s]");      //78
-  bout << pstr(",Alt Limit Low [ft]");                   //79
-  bout << pstr(",Alt Sanity Check Low [ft]");             //80
-  bout << pstr(",Pyro Pulse Width [s]");                   //81
-  bout << pstr(",Cam Per [s]");                       //82
-  bout << pstr(",Cam On Time [s]");                       //83
-  bout << pstr(",B 1 Charg Status [-]");            //84
-  bout << pstr(",B 2 Charg Status [-]");            //85
-  bout << pstr(",Battery Bus Low V Flag [-]");         //86
-  bout << pstr(",Heater State 1 [-]");                       //87
-  bout << pstr(",Heater State 2 [-]");                       //88
-  bout << pstr(",Cut-down Enable");                          //89
-  bout << pstr(",Cut-down 1 Fire Status [-]");               //90
-  bout << pstr(",Cut-down 2 Fire Status [-]");               //91
-  bout << pstr(",Alt Valid Flag [-]");                     //92
-  bout << pstr(",Cam Enabled [-]");                        //93
-  bout << pstr(",Cam Status [-]");                         //94
-  bout << pstr(",B 1 T TLM Val Flag [-]");            //95
-  bout << pstr(",B 2 T TLM Val Flag [-]");            //96
-  bout << pstr(",Bus V TLM Val Flag [-]");           //97
-  bout << pstr(",B 1 Cur TLM Val Flag [-]");             //98
-  bout << pstr(",B 2 Cur TLM Val Flag []");              //99
-  bout << pstr(",Alt [ft]");                               //100
-  bout << pstr(",Alt T [C]");                           //101
-  bout << pstr(",Alt Pressure [?]");                       //102
-  bout << pstr(",RB Words Recieved");                      //103
-  bout << pstr(",The End");                                //104
+  bout << pstr(",Tel Proc Per [s]");                      //36
+  bout << pstr(",Spare 3");                               //37
+  bout << pstr(",GPS Lat [deg]");                         //38
+  bout << pstr(",GPS Long [deg]");                        //39
+  bout << pstr(",GPS Alt [m]");                           //40
+  bout << pstr(",GPS Loc Age [s]");                       //41
+  bout << pstr(",GPS Alt Age [s]");                       //42
+  bout << pstr(",GPS Course [deg]");                      //43
+  bout << pstr(",GPS Speed [km/h]");                      //44
+  bout << pstr(",GPS # of Sat [-]");                      //45
+  bout << pstr(",GPS Date [-]");                          //46
+  bout << pstr(",GPS Time [-]");                          //47
+  bout << pstr(",HDOP Value [?]");                        //48
+  bout << pstr(",GPS Chars Processed [-]");               //49
+  bout << pstr(",GPS Sentences with Fix [-]");            //50
+  bout << pstr(",GPS Failed Checksum [-]");               //51
+  bout << pstr(",GPS Isvalid Congl [-]");                 //52
+  bout << pstr(",Acc X [g]");                             //53
+  bout << pstr(",Acc Y [g]");                             //54
+  bout << pstr(",Acc Z [g]");                             //55
+  bout << pstr(",Gyro mag X [G]");                        //56
+  bout << pstr(",Gyro mag Y [G]");                        //57
+  bout << pstr(",Gyro mag Z [G]");                        //58
+  bout << pstr(",Gyro X [deg/s]");                        //59
+  bout << pstr(",Gyro Y [deg/s]");                        //60
+  bout << pstr(",Gyro Z [deg/s]");                        //61
+  bout << pstr(",Gyro T [C]");                            //62
+  bout << pstr(",Volt San Check High [V]");               //63
+  bout << pstr(",Volt San Check Low [V]");                //64
+  bout << pstr(",Charge Cur Sanity High [A]");            //65
+  bout << pstr(",Charge Cur Sanity Low [A]");             //66
+  bout << pstr(",B 1 Recharge Ratio [-]");                //67
+  bout << pstr(",B 1 AH Charging [A]");                   //68
+  bout << pstr(",B 1 AH Discharging [A]");                //69
+  bout << pstr(",B 1 Cap Lim High [A.h]");                //70
+  bout << pstr(",B 1 Cap Lim Low [A.h]");                 //71
+  bout << pstr(",B 1 Volt Term. Charge Limit [V]");       //72
+  bout << pstr(",B 1 Volt Init. Charge Limit [V]");       //73
+  bout << pstr(",B 2 Recharge Ratio [-]");                //74
+  bout << pstr(",B 2 Amp Hours Charging [A]");            //75
+  bout << pstr(",B 2 Amp Hours Discharging [A]");         //76
+  bout << pstr(",B 2 Cap Limit High [A.h]");              //77
+  bout << pstr(",B 2 Cap Limit Low [A.h]");               //78
+  bout << pstr(",B 2 Volt Term. Charge Lim [V]");         //79
+  bout << pstr(",B 2 Volt Init. Charge Lim [V]");         //80
+  bout << pstr(",B Active T Lim High [C]");               //81
+  bout << pstr(",B Active T Lim Low [C]");                //82
+  bout << pstr(",B T Sanity Check High [C]");             //83
+  bout << pstr(",B Normal T Lim High [C]");               //84
+  bout << pstr(",B Normal T Lim Low [C]");                //85
+  bout << pstr(",B Surv T Lim High [C]");                 //86
+  bout << pstr(",B Surv T Lim Low [C]");                  //87
+  bout << pstr(",B T Sanity Check Low [C]");              //88
+  bout << pstr(",Loadshed Entry Volt Lim [V]");           //89
+  bout << pstr(",Auto Cutdown Volt Lim [V]");             //90
+  bout << pstr(",Low Volt Time until Cut-down [s]");      //91
+  bout << pstr(",Alt Limit Low [ft]");                    //92
+  bout << pstr(",Alt Sanity Check Low [ft]");             //93
+  bout << pstr(",Pyro Pulse Width [s]");                  //94
+  bout << pstr(",Cam Per [s]");                           //95
+  bout << pstr(",Cam On Time [s]");                       //96
+  bout << pstr(",B 1 Charg Status [-]");                  //97
+  bout << pstr(",B 2 Charg Status [-]");                  //98
+  bout << pstr(",Battery Bus Low V Flag [-]");            //99
+  bout << pstr(",Heater State 1 [-]");                    //100
+  bout << pstr(",Heater State 2 [-]");                    //101
+  bout << pstr(",Cut-down Enable");                       //102
+  bout << pstr(",Cut-down 1 Fire Status [-]");            //103
+  bout << pstr(",Cut-down 2 Fire Status [-]");            //104
+  bout << pstr(",Alt Valid Flag [-]");                    //105
+  bout << pstr(",Cam Enabled [-]");                       //106
+  bout << pstr(",Cam Status [-]");                        //107
+  bout << pstr(",B 1 T TLM Val Flag [-]");                //108
+  bout << pstr(",B 2 T TLM Val Flag [-]");                //109
+  bout << pstr(",Bus V TLM Val Flag [-]");                //110
+  bout << pstr(",B 1 Cur TLM Val Flag [-]");              //111
+  bout << pstr(",B 2 Cur TLM Val Flag []");               //112
+  bout << pstr(",Alt [ft]");                              //113
+  bout << pstr(",Alt T [C]");                             //114
+  bout << pstr(",Alt Pressure [?]");                      //115
+  bout << pstr(",RB Words Recieved");                     //116
+  bout << pstr(",The End");                               //117
   logfile << buf << endl << flush;
 }
 
@@ -262,148 +262,145 @@ void write_telemetry_data_to_sd()
 
 #if USE_DS1307
   DateTime now = RTC.now();
-  bout << ',' << now;
+  bout << ',' << now;                                                  //0
 #endif  // USE_DS1307
 
   //#################################################
   //############### ASTRONEWTS SD TLM ###############
   //#################################################
 
-  bout << ',' << Flag_RB.try_send_reveive;                             //0
-  bout << ',' << parameters.vehicle_mode;                              //1
-  bout << ',' << parameters.command_count;                             //2
-  bout << ',' << thresholds.normal_transmit_period/1000;               //3
-  bout << ',' << thresholds.load_shed_transmit_period/1000;            //4
-  bout << ',' << thresholds.transit_transmit_period/10000;             //5
-  bout << ',' << thresholds.emergency_transit_transmit_period/1000;    //6
-  bout << ',' << thresholds.spare_transmit_period/1000;                //7
-  bout << ',' << parameters.sd_card_write_period/1000;                 //8
-  bout << ',' << telemetry_data.battery_1_temp_1;                      //9
-  bout << ',' << telemetry_data.battery_1_temp_2;                      //10
-  bout << ',' << telemetry_data.battery_2_temp_1;                      //11
-  bout << ',' << telemetry_data.battery_2_temp_2;                      //12
-  bout << ',' << telemetry_data.inner_external_temp;                   //13
-  bout << ',' << telemetry_data.outter_external_temp;                  //14
-  bout << ',' << telemetry_data.internal_temp;                         //15
-  bout << ',' << telemetry_data.air_pressure;                          //16
-  bout << ',' << telemetry_data.analog_VIN_voltage;                     //17
-  bout << ',' << "00000000000000000000000000000000";                   //18  SPARE
-  bout << ',' << telemetry_data.battery_1_charge_current;              //19
-  bout << ',' << telemetry_data.battery_2_charge_current;              //20
-  bout << ',' << telemetry_data.sa_current;                            //21
-  bout << ',' << telemetry_data.load_path_current;                     //22
-  bout << ',' << telemetry_data.shuntvoltage_batt1;
-  bout << ',' << telemetry_data.busvoltage_batt1;
-  bout << ',' << telemetry_data.loadvoltage_batt1;
-  bout << ',' << telemetry_data.shuntvoltage_batt2;
-  bout << ',' << telemetry_data.busvoltage_batt2;
-  bout << ',' << telemetry_data.loadvoltage_batt2;
-  bout << ',' << telemetry_data.shuntvoltage_sa;
-  bout << ',' << telemetry_data.busvoltage_sa;
-  bout << ',' << telemetry_data.loadvoltage_sa;
-  bout << ',' << telemetry_data.shuntvoltage_load_path;
-  bout << ',' << telemetry_data.busvoltage_load_path;
-  bout << ',' << telemetry_data.loadvoltage_load_path;
-  bout << ',' << parameters.tlm_processing_period/1000;                //23
-  bout << ',' << "00000000000000000000000000000000";                   //24
-  bout << ',' << gps.location.lat();                                   //25
-  bout << ',' << gps.location.lng();                                   //26
-  bout << ',' << gps.altitude.meters();                                //27
-  bout << ',' << gps.location.age();                                   //28
-  bout << ',' << gps.altitude.age();                                   //29
-  bout << ',' << gps.course.deg();                                     //30
-  bout << ',' << gps.speed.kmph();                                     //31
-  bout << ',' << gps.satellites.value();                               //32
-
-  //NOTE: THE NEXT TWO MIGHT NEEDS SOME MASSAGING POST PROCESS
-
-  bout << ',' << gps.date.value();                                     //33
-  bout << ',' << gps.time.value();                                     //34
-  bout << ',' << gps.hdop.value();                                     //35
-  bout << ',' << gps.charsProcessed();                                 //36
-  bout << ',' << gps.sentencesWithFix();                               //37
-  bout << ',' << gps.failedChecksum();                                 //38
+  bout << ',' << Flag_RB.try_send_reveive;                             //1
+  bout << ',' << parameters.vehicle_mode;                              //2
+  bout << ',' << parameters.command_count;                             //3
+  bout << ',' << thresholds.normal_transmit_period/1000;               //4
+  bout << ',' << thresholds.load_shed_transmit_period/1000;            //5
+  bout << ',' << thresholds.transit_transmit_period/10000;             //6
+  bout << ',' << thresholds.emergency_transit_transmit_period/1000;    //7
+  bout << ',' << thresholds.spare_transmit_period/1000;                //8
+  bout << ',' << parameters.sd_card_write_period/1000;                 //9
+  bout << ',' << telemetry_data.battery_1_temp_1;                      //10
+  bout << ',' << telemetry_data.battery_1_temp_2;                      //11
+  bout << ',' << telemetry_data.battery_2_temp_1;                      //12
+  bout << ',' << telemetry_data.battery_2_temp_2;                      //13
+  bout << ',' << telemetry_data.inner_external_temp;                   //14
+  bout << ',' << telemetry_data.outter_external_temp;                  //15
+  bout << ',' << telemetry_data.internal_temp;                         //16
+  bout << ',' << telemetry_data.air_pressure;                          //17
+  bout << ',' << telemetry_data.analog_VIN_voltage;                    //18
+  bout << ',' << "00000000000000000000000000000000";                   //19  SPARE
+  bout << ',' << telemetry_data.battery_1_charge_current;              //20
+  bout << ',' << telemetry_data.battery_2_charge_current;              //21
+  bout << ',' << telemetry_data.sa_current;                            //22
+  bout << ',' << telemetry_data.load_path_current;                     //23
+  bout << ',' << telemetry_data.shuntvoltage_batt1;                    //24
+  bout << ',' << telemetry_data.busvoltage_batt1;                      //25
+  bout << ',' << telemetry_data.loadvoltage_batt1;                     //26
+  bout << ',' << telemetry_data.shuntvoltage_batt2;                    //27
+  bout << ',' << telemetry_data.busvoltage_batt2;                      //28
+  bout << ',' << telemetry_data.loadvoltage_batt2;                     //29
+  bout << ',' << telemetry_data.shuntvoltage_sa;                       //30
+  bout << ',' << telemetry_data.busvoltage_sa;                         //31
+  bout << ',' << telemetry_data.loadvoltage_sa;                        //32
+  bout << ',' << telemetry_data.shuntvoltage_load_path;                //33
+  bout << ',' << telemetry_data.busvoltage_load_path;                  //34
+  bout << ',' << telemetry_data.loadvoltage_load_path;                 //35
+  bout << ',' << parameters.tlm_processing_period/1000;                //36
+  bout << ',' << "00000000000000000000000000000000";                   //37  SPARE
+  
+  bout << ',' << gps.location.lat();                                   //38
+  bout << ',' << gps.location.lng();                                   //39
+  bout << ',' << gps.altitude.meters();                                //40
+  bout << ',' << gps.location.age();                                   //41
+  bout << ',' << gps.altitude.age();                                   //42
+  bout << ',' << gps.course.deg();                                     //43
+  bout << ',' << gps.speed.kmph();                                     //44
+  bout << ',' << gps.satellites.value();                               //45
+  bout << ',' << gps.date.value();                                     //46
+  bout << ',' << gps.time.value();                                     //47
+  bout << ',' << gps.hdop.value();                                     //48
+  bout << ',' << gps.charsProcessed();                                 //49
+  bout << ',' << gps.sentencesWithFix();                               //50
+  bout << ',' << gps.failedChecksum();                                 //51
 
   // ISVALID STRINGS FOR GPS!!!
-  gps_isvalid_str = String(gps.hdop.isValid());                        //39-1
-  gps_isvalid_str = gps_isvalid_str + String(gps.location.isValid());  //39-2
-  gps_isvalid_str = gps_isvalid_str + String(gps.altitude.isValid());  //39-3
-  gps_isvalid_str = gps_isvalid_str + String(gps.course.isValid());    //39-4
-  gps_isvalid_str = gps_isvalid_str + String(gps.speed.isValid());     //39-5
-  gps_isvalid_str = gps_isvalid_str + String(gps.satellites.isValid());//39-6
-  gps_isvalid_str = gps_isvalid_str + String(gps.date.isValid());      //39-7
-  gps_isvalid_str = gps_isvalid_str + String(gps.time.isValid());      //39-8
-  gps_isvalid_str = gps_isvalid_str + String(gps.hdop.isValid());      //39-9
+  gps_isvalid_str = String(gps.hdop.isValid());                        //52-1
+  gps_isvalid_str = gps_isvalid_str + String(gps.location.isValid());  //52-2
+  gps_isvalid_str = gps_isvalid_str + String(gps.altitude.isValid());  //52-3
+  gps_isvalid_str = gps_isvalid_str + String(gps.course.isValid());    //52-4
+  gps_isvalid_str = gps_isvalid_str + String(gps.speed.isValid());     //52-5
+  gps_isvalid_str = gps_isvalid_str + String(gps.satellites.isValid());//52-6
+  gps_isvalid_str = gps_isvalid_str + String(gps.date.isValid());      //52-7
+  gps_isvalid_str = gps_isvalid_str + String(gps.time.isValid());      //52-8
+  gps_isvalid_str = gps_isvalid_str + String(gps.hdop.isValid());      //52-9
+  bout << ',' << gps_isvalid_str;                                      //52
 
-  bout << ',' << gps_isvalid_str;                                      //39
-
-  bout << ',' << gyro.ax;                                              //40
-  bout << ',' << gyro.ay;                                              //41
-  bout << ',' << gyro.az;                                              //42
-  bout << ',' << gyro.mx;                                              //43
-  bout << ',' << gyro.my;                                              //44
-  bout << ',' << gyro.mz;                                              //45
-  bout << ',' << gyro.gx;                                              //46
-  bout << ',' << gyro.gy;                                              //47
-  bout << ',' << gyro.gz;                                              //48
-  bout << ',' << gyro.gyro_temp;                                       //49
-  bout << ',' << parameters.voltage_sanity_check_high;                 //50
-  bout << ',' << parameters.voltage_sanity_check_low;                  //51
-  bout << ',' << parameters.charge_current_sanity_check_high;          //52
-  bout << ',' << parameters.charge_current_sanity_check_low;           //53
-  bout << ',' << parameters.battery_1_recharge_ratio;                  //54
-  bout << ',' << parameters.battery_1_amphrs_charging;                 //55
-  bout << ',' << parameters.battery_1_amphrs_discharging;              //56
-  bout << ',' << parameters.battery_1_amphrs_term_threshold;           //57
-  bout << ',' << parameters.battery_1_amphrs_init_threshold;           //58
-  bout << ',' << parameters.battery_1_voltage_term_threshold;          //59
-  bout << ',' << parameters.battery_1_voltage_init_threshold;          //60
-  bout << ',' << parameters.battery_2_recharge_ratio;                  //61
-  bout << ',' << parameters.battery_2_amphrs_charging;                 //62
-  bout << ',' << parameters.battery_2_amphrs_discharging;              //63
-  bout << ',' << parameters.battery_2_amphrs_term_threshold;           //64
-  bout << ',' << parameters.battery_2_amphrs_init_threshold;           //65
-  bout << ',' << parameters.battery_2_voltage_term_threshold;          //66
-  bout << ',' << parameters.battery_2_voltage_init_threshold;          //67
-  bout << ',' << parameters.battery_temperature_limit_high;            //68
-  bout << ',' << parameters.battery_temperature_limit_low;             //69
-  bout << ',' << parameters.battery_temperature_sanity_check_high;     //70
-  bout << ',' << thresholds.normal_battery_temperature_limit_high;     //71
-  bout << ',' << thresholds.normal_battery_temperature_limit_low;      //72
-  bout << ',' << thresholds.survival_battery_temperature_limit_high;   //73
-  bout << ',' << thresholds.survival_battery_temperature_limit_low;    //74
-  bout << ',' << parameters.battery_temperature_sanity_check_low;      //75
-  bout << ',' << parameters.low_voltage_limit_for_loadshed_entry;      //76
-  bout << ',' << parameters.low_voltage_limit_for_auto_cutdown;        //77
-  bout << ',' << parameters.low_voltage_time_limit;                    //78
-  bout << ',' << parameters.altitude_limit_low;                        //79
-  bout << ',' << parameters.altitude_sanity_check_low;                 //80
-  bout << ',' << parameters.cutdown_pulse_width/1000;                       //81
-  bout << ',' << parameters.camera_period/1000;                             //82
-  bout << ',' << parameters.camera_on_time/1000;                            //83
+  bout << ',' << gyro.ax;                                              //53
+  bout << ',' << gyro.ay;                                              //54
+  bout << ',' << gyro.az;                                              //55
+  bout << ',' << gyro.mx;                                              //56
+  bout << ',' << gyro.my;                                              //57
+  bout << ',' << gyro.mz;                                              //58
+  bout << ',' << gyro.gx;                                              //59
+  bout << ',' << gyro.gy;                                              //60
+  bout << ',' << gyro.gz;                                              //61
+  bout << ',' << gyro.gyro_temp;                                       //62
+  bout << ',' << parameters.voltage_sanity_check_high;                 //63
+  bout << ',' << parameters.voltage_sanity_check_low;                  //64
+  bout << ',' << parameters.charge_current_sanity_check_high;          //65
+  bout << ',' << parameters.charge_current_sanity_check_low;           //66
+  bout << ',' << parameters.battery_1_recharge_ratio;                  //67
+  bout << ',' << parameters.battery_1_amphrs_charging;                 //68
+  bout << ',' << parameters.battery_1_amphrs_discharging;              //69
+  bout << ',' << parameters.battery_1_amphrs_term_threshold;           //70
+  bout << ',' << parameters.battery_1_amphrs_init_threshold;           //71
+  bout << ',' << parameters.battery_1_voltage_term_threshold;          //72
+  bout << ',' << parameters.battery_1_voltage_init_threshold;          //73
+  bout << ',' << parameters.battery_2_recharge_ratio;                  //74
+  bout << ',' << parameters.battery_2_amphrs_charging;                 //75
+  bout << ',' << parameters.battery_2_amphrs_discharging;              //76
+  bout << ',' << parameters.battery_2_amphrs_term_threshold;           //77
+  bout << ',' << parameters.battery_2_amphrs_init_threshold;           //78
+  bout << ',' << parameters.battery_2_voltage_term_threshold;          //79
+  bout << ',' << parameters.battery_2_voltage_init_threshold;          //80
+  bout << ',' << parameters.battery_temperature_limit_high;            //81
+  bout << ',' << parameters.battery_temperature_limit_low;             //82
+  bout << ',' << parameters.battery_temperature_sanity_check_high;     //83
+  bout << ',' << thresholds.normal_battery_temperature_limit_high;     //84
+  bout << ',' << thresholds.normal_battery_temperature_limit_low;      //85
+  bout << ',' << thresholds.survival_battery_temperature_limit_high;   //86
+  bout << ',' << thresholds.survival_battery_temperature_limit_low;    //87
+  bout << ',' << parameters.battery_temperature_sanity_check_low;      //88
+  bout << ',' << parameters.low_voltage_limit_for_loadshed_entry;      //89
+  bout << ',' << parameters.low_voltage_limit_for_auto_cutdown;        //90
+  bout << ',' << parameters.low_voltage_time_limit;                    //91
+  bout << ',' << parameters.altitude_limit_low;                        //92
+  bout << ',' << parameters.altitude_sanity_check_low;                 //93
+  bout << ',' << parameters.cutdown_pulse_width/1000;                  //94
+  bout << ',' << parameters.camera_period/1000;                        //95
+  bout << ',' << parameters.camera_on_time/1000;                       //96
 
   // BEGINNING OF THE PARENT BILEVEL WORD
-  bout << ',' << parameters.battery_1_charging_status;                 //84
-  bout << ',' << parameters.battery_2_charging_status;                 //85
-  bout << ',' << parameters.battery_bus_low_voltage_flag;              //86
-  bout << ',' << parameters.heater_state_1;                            //87
-  bout << ',' << parameters.heater_state_2;                            //88
-  bout << ',' << parameters.cutdown_enable_state;                      //89
-  bout << ',' << parameters.cutdown_1_status;                          //90
-  bout << ',' << parameters.cutdown_2_status;                          //91
-  bout << ',' << parameters.altitude_valid_flag;                       //92
-  bout << ',' << parameters.camera_enabled;                            //93
-  bout << ',' << parameters.camera_status;                             //94
-  bout << ',' << parameters.battery_1_temp_tlm_valid_flag;             //95
-  bout << ',' << parameters.battery_2_temp_tlm_valid_flag;             //96
-  bout << ',' << parameters.battery_voltage_tlm_valid_flag;            //97
-  bout << ',' << parameters.battery_1_current_tlm_valid_flag;          //98
-  bout << ',' << parameters.battery_2_current_tlm_valid_flag;          //99
-  bout << ',' << alt.altitude_in_feet;                                 //100
-  bout << ',' << alt.temperature;                                      //101
-  bout << ',' << alt.pressure;                                         //102
-  bout << ',' << parameters.num_rb_words_recieved;                     //103
-  bout << ',' << "00000000000000000000000000000000";                   //104
+  bout << ',' << parameters.battery_1_charging_status;                 //97
+  bout << ',' << parameters.battery_2_charging_status;                 //98
+  bout << ',' << parameters.battery_bus_low_voltage_flag;              //99
+  bout << ',' << parameters.heater_state_1;                            //100
+  bout << ',' << parameters.heater_state_2;                            //101
+  bout << ',' << parameters.cutdown_enable_state;                      //102
+  bout << ',' << parameters.cutdown_1_status;                          //103
+  bout << ',' << parameters.cutdown_2_status;                          //104
+  bout << ',' << parameters.altitude_valid_flag;                       //105
+  bout << ',' << parameters.camera_enabled;                            //106
+  bout << ',' << parameters.camera_status;                             //107
+  bout << ',' << parameters.battery_1_temp_tlm_valid_flag;             //108
+  bout << ',' << parameters.battery_2_temp_tlm_valid_flag;             //109
+  bout << ',' << parameters.battery_voltage_tlm_valid_flag;            //110
+  bout << ',' << parameters.battery_1_current_tlm_valid_flag;          //111
+  bout << ',' << parameters.battery_2_current_tlm_valid_flag;          //112
+  bout << ',' << alt.altitude_in_feet;                                 //113
+  bout << ',' << alt.temperature;                                      //114
+  bout << ',' << alt.pressure;                                         //115
+  bout << ',' << parameters.num_rb_words_recieved;                     //116
+  bout << ',' << "00000000000000000000000000000000";                   //117
 
 
   bout << endl;
