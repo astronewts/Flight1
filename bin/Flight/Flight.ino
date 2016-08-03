@@ -397,7 +397,7 @@ void Cutdown_test_loop()
 void Terminal_test_loop()
 {
   //Collect Analog & Current Telemetry
-  collect_analog_telemetry();
+  //collect_analog_telemetry();
   collect_charge_current_data();
   collect_low_rate_current_data();
 
@@ -405,7 +405,7 @@ void Terminal_test_loop()
   collect_gps_data(rb_data_new);
 
   // Collect Altimiter Data
-  collect_alt_data();
+  //collect_alt_data();
 
   //Collect gyro data
   collect_gyro_data();
@@ -415,7 +415,7 @@ void Terminal_test_loop()
   // TODO: DETERMINE WHAT FUNCTIONS WE WANT TO RUN IN TERMINAL TEST MODE
 
   // Print All Collected TLM to the Terminal Window
-  print_telemetry();
+  //print_telemetry();
 
   write_telemetry_data_to_sd();
 

@@ -5,6 +5,17 @@
 // file system object
 SdFat sd;
 
+int linecount = 0;
+int max_num_lines = 1000000;
+
+
+//int max_num_lines = 10000000;
+
+// set up variables using the SD utility library functions:
+//Sd2Card card;
+//SdVolume volume;
+//SdFile s_file;
+
 // text file for logging
 ofstream logfile;
 ArduinoOutStream cout(Serial);
@@ -68,8 +79,6 @@ void sd_setup() {
 
   cout << endl << pstr("FreeRam: ") << FreeRam() << endl;
 
-
-
 #if USE_DS1307
   // connect to RTC
   Wire.begin();
@@ -85,10 +94,10 @@ void sd_setup() {
   if (!sd.begin(SD_CHIP_SELECT, SPI_HALF_SPEED)) sd.initErrorPrint();
 
   // create a new file in root, the current working directory
-//  char name[] = "LOGxxx.MODEx.CSV";
+  //char name[] = "LOGxxx.MODEx.CSV";
   char name[] = "LOGxxx.CSV";
 
-//  name[11] = (uint8_t) parameters.vehicle_mode + '0';
+ // name[11] = (uint8_t) parameters.vehicle_mode + '0';
   
   for (uint16_t i = 0; i < 1000; i++) 
   {
@@ -240,9 +249,24 @@ void write_telemetry_data_to_sd()
 {
   uint32_t m;
   double dummy_value;
-
   dummy_value=0;
+  linecount = linecount + 1; 
 
+  //if(sd.exists(name))
+  //{
+  //  Serial.println("The file exists!!!");
+  //  Serial.println(sd.chvol());
+  //}
+  
+  if(linecount > max_num_lines)
+  {
+    //  debug_println("FILE SIZE EXCEEDED! Closing FILE!");
+    logfile.close();
+    //  debug_println("OPENING A NEW FILE!");
+    sd_setup();
+    linecount = 0;
+  }
+  
   if (logfile.is_open())
   {
   // wait for time to be a multiple of interval
