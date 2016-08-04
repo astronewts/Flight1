@@ -405,7 +405,7 @@ void Terminal_test_loop()
   collect_gps_data(rb_data_new);
 
   // Collect Altimiter Data
-  //collect_alt_data();
+  collect_alt_data();
 
   //Collect gyro data
   collect_gyro_data();
