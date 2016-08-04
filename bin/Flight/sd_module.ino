@@ -6,10 +6,7 @@
 SdFat sd;
 
 int linecount = 0;
-int max_num_lines = 1000000;
-
-
-//int max_num_lines = 10000000;
+int max_num_lines = 500000;
 
 // set up variables using the SD utility library functions:
 //Sd2Card card;
