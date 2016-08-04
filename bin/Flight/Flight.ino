@@ -19,7 +19,7 @@
 //
 //
 //
-//     To send / recieve commands throught rockblock connect to: https://core.rock7.com/Operations
+//     To send / recieve commands throught rockblock connect to: https://rockblock.rock7.com/Operations
 // *****************************************************************************
 // *****************************************************************************
 // Open Source / Public Domain
