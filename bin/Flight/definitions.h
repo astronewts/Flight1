@@ -288,15 +288,15 @@ struct gps_data_struct
 
 struct raw_telemetry_data_struct
 {
-  int raw_battery_1_temp_1;
-  int raw_battery_1_temp_2;
-  int raw_battery_2_temp_1;
-  int raw_battery_2_temp_2;
-  int raw_inner_external_temp;
-  int raw_outter_external_temp;
-  int raw_internal_temp;
-  int raw_air_pressure;
-  int raw_analog_VIN_voltage;
+  unsigned long raw_battery_1_temp_1;
+  unsigned long raw_battery_1_temp_2;
+  unsigned long raw_battery_2_temp_1;
+  unsigned long raw_battery_2_temp_2;
+  unsigned long raw_inner_external_temp;
+  unsigned long raw_outter_external_temp;
+  unsigned long raw_internal_temp;
+  unsigned long raw_air_pressure;
+  unsigned long raw_analog_VIN_voltage;
 };
 
 struct parameter_struct

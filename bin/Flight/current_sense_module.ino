@@ -84,9 +84,9 @@ void collect_charge_current_data()
 
 void collect_low_rate_current_data() 
 {
-  telemetry_data.shuntvoltage_sa = ina219_4.getShuntVoltage_mV();
-  telemetry_data.busvoltage_sa = ina219_4.getBusVoltage_V();
-  telemetry_data.sa_current = ina219_4.getCurrent_mA();
+  telemetry_data.shuntvoltage_sa = ina219_3.getShuntVoltage_mV();
+  telemetry_data.busvoltage_sa = ina219_3.getBusVoltage_V();
+  telemetry_data.sa_current = ina219_3.getCurrent_mA();
   telemetry_data.loadvoltage_sa = telemetry_data.busvoltage_sa + (float)(telemetry_data.shuntvoltage_sa/1000);
 
   telemetry_data.shuntvoltage_load_path = ina219_4.getShuntVoltage_mV();
