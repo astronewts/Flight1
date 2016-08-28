@@ -116,7 +116,19 @@ void sd_setup() {
 
   for (int i=1; i<DB_SIZE+1; i++) 
   { 
-    bout << ',' << db[i].SD_Card_Title;
+    bout << ','; 
+    //String temp_str = db[i].SD_Card_Title;
+    //char charBuf[temp_str.length()];
+    //Serial.println(db[i].SD_Card_Title);
+    bout << db[i].SD_Card_Title;
+    //char temp_char_array [20];
+    //temp_char_array = temp_str.toCharArray(charBuf,temp_str.length());
+    //bout << pstr(temp_char_array);
+    //bout << pstr((const char)db[i].SD_Card_Title);
+    //String temp_str = ",";
+    //bout << pstr(temp_str.concat(db[i].SD_Card_Title));
+    //bout << pstr(temp_str.concat("test");
+    //bout << pstr("," + db[i].SD_Card_Title + '"');
   }
       
 //#if USE_DS1307
@@ -239,7 +251,6 @@ void sd_setup() {
 //  bout << pstr(",Alt Pressure [?]");                      //115
 //  bout << pstr(",RB Words Recieved");                     //116
 
-  
   bout << pstr(",The End");                               //117
   logfile << buf << endl << flush;
 }

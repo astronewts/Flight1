@@ -86,6 +86,7 @@ void initialize_rb()
 
 void sendreceive_satellite_data()
 {
+  debug.mode = 1;
   //do-while loop to Send/Receive until Iridium queue is cleared
   do
   {
@@ -93,7 +94,12 @@ void sendreceive_satellite_data()
     write_output_telemetry_dataword();
     
     // determine length of concatenated dataword string
-    size_t size_mssg = parameters.output_dataword.length(); 
+    size_t size_mssg = parameters.output_dataword.length();
+    if(debug.mode == 1)
+    {
+       Serial.println("length of output dataword:");
+       Serial.println(parameters.output_dataword.length());
+    }
 
     // determine number of bytes in dataword
     size_t tx_bufferSize  = size_mssg / 8;
@@ -176,7 +182,6 @@ void sendreceive_satellite_data()
       Serial.println(isbd.isAsleep());
     }
        
-    
     // isbd.useMSSTMWorkaround(false);  // see http://arduiniana.org/libraries/iridiumsbd/ for details 
     
     // int getSignalQuality(int &quality);
@@ -205,17 +210,18 @@ void sendreceive_satellite_data()
       if(debug.mode == 1)
       {
         Serial.println("SignalQuality failed: error ");
-        //Serial.println(sig_qual_err);
+        Serial.println(sig_qual_err);
+         Serial.print("Time: ");
+         Serial.println(parameters.transmit_elapsed_time);
       }
       //if(sig_qual_err == 7)
       //{
-         Serial.println("!!!!! ERROR: Signal Quality Error = 7 !!!!!");
+      //   Serial.println("!!!!! ERROR: Signal Quality Error = 7 !!!!!");
          Serial.print("Error: ");
          Serial.println(sig_qual_err);
-         Serial.print("Time: ");
-         Serial.println(parameters.transmit_elapsed_time);
-         // TODO: WRITE THIS TO THE SD BUFFER
-      //}
+     
+      // TODO: WRITE THIS TO THE SD BUFFER
+      //
       //      ERROR CODES!!!
       //      #define ISBD_SUCCESS             0
       //      #define ISBD_ALREADY_AWAKE       1
@@ -229,7 +235,6 @@ void sendreceive_satellite_data()
       //      #define ISBD_REENTRANT           9
       //      #define ISBD_IS_ASLEEP           10
       //      #define ISBD_NO_SLEEP_PIN        11
-      
       return;
     }
 
@@ -353,17 +358,15 @@ void sendreceive_satellite_data()
               //  Returns:            The number of messages waiting.
                 Serial.println(isbd.getWaitingMessageCount());
          } // end debug section
-
          
       if (rx_bufferSize == 0)
         break; // all done with do-while loop to Send/Receive until Iridium queue is cleared
       
       // if a message has been received from Iridium, process the command 
       process_satellite_command();
-
-      
   } while (isbd.getWaitingMessageCount() > 0);
-   
+  
+  debug.mode = 0; 
    //////////End of Iridium Transmit Code/////////////////
 }
 
@@ -726,29 +729,51 @@ int process_satellite_command()
 void write_output_telemetry_dataword()
 {
   // Process the Normal OPS Transmit Format
-  if (parameters.vehicle_mode < 6) {
+  //if (parameters.vehicle_mode < 6) {
     
     // Create intial word (+ header) to send to the ground
     String valid_str;
     valid_str = "0";
 
-double dummy_value;
-dummy_value=0;
-
+    //parameters.output_dataword = "10101010";
+    parameters.output_dataword = "";
+    
     for (int i=1; i<DB_SIZE+1; i++) {
+      Serial.print("Print line: ");
+      Serial.println(i);
       if (db[i].tlm_type == "float") 
       {
         parameters.output_dataword = combine_float(db[i].bitsize, *db[i].float_pointer, parameters.output_dataword); 
+        Serial.print("Print float data title: ");
+        Serial.println(db[i].SD_Card_Title);
+        Serial.print("Print float data: ");
+        Serial.println(*db[i].float_pointer);
       }
       else if (db[i].tlm_type == "long")
       {
         parameters.output_dataword = combine(db[i].bitsize, *db[i].long_pointer, parameters.output_dataword); 
+        Serial.print("Print long data title: ");
+        Serial.println(db[i].SD_Card_Title);        
+        Serial.print("Print long data: ");
+        Serial.println(*db[i].long_pointer);
       }
-      else if ((db[i].tlm_type == "int") || (db[i].tlm_type == "null")) 
+      else if ((db[i].tlm_type == "int")) 
       {
         parameters.output_dataword = combine(db[i].bitsize, *db[i].int_pointer, parameters.output_dataword); 
+        Serial.print("Print int data title: ");
+        Serial.println(db[i].SD_Card_Title);        
+        Serial.print("Print int data: ");
+        Serial.println(*db[i].int_pointer);      
+      }
+      else if ((db[i].tlm_type == "null")) 
+      {
+        parameters.output_dataword = combine(db[i].bitsize, (long) 0, parameters.output_dataword); 
+        Serial.print("Print int data title: ");
+        Serial.println(db[i].SD_Card_Title);        
+        Serial.print("Print int data: None");
       }
     }
+    Serial.println(parameters.output_dataword);
     
 //    parameters.output_dataword = "10101010";                                                                                               // Balloon ID
 //    parameters.output_dataword = combine(8, parameters.vehicle_mode, parameters.output_dataword);                                          //1
@@ -896,7 +921,7 @@ dummy_value=0;
 //
 //    parameters.output_dataword = combine(8, parameters.num_rb_words_recieved, parameters.output_dataword);                    //106
 //    parameters.output_dataword = parameters.output_dataword + "000000000000000000000000";                                     //107
-  }
+  //}
 }
 
 //  // Process the Loadshed Transmit Format
