@@ -730,49 +730,76 @@ void write_output_telemetry_dataword()
 {
   // Process the Normal OPS Transmit Format
   //if (parameters.vehicle_mode < 6) {
-    
-    // Create intial word (+ header) to send to the ground
+
+
+     // Create intial word (+ header) to send to the ground
     String valid_str;
     valid_str = "0";
 
     //parameters.output_dataword = "10101010";
     parameters.output_dataword = "";
-    
+
+    initialize_database_2();
+
     for (int i=1; i<DB_SIZE+1; i++) {
       Serial.print("Print line: ");
       Serial.println(i);
       if (db[i].tlm_type == "float") 
       {
-        parameters.output_dataword = combine_float(db[i].bitsize, *db[i].float_pointer, parameters.output_dataword); 
-        Serial.print("Print float data title: ");
-        Serial.println(db[i].SD_Card_Title);
-        Serial.print("Print float data: ");
-        Serial.println(*db[i].float_pointer);
+        parameters.output_dataword = combine_float(db[i].bitsize, db[i].float_pointer, parameters.output_dataword); 
       }
       else if (db[i].tlm_type == "long")
       {
-        parameters.output_dataword = combine(db[i].bitsize, *db[i].long_pointer, parameters.output_dataword); 
-        Serial.print("Print long data title: ");
-        Serial.println(db[i].SD_Card_Title);        
-        Serial.print("Print long data: ");
-        Serial.println(*db[i].long_pointer);
+        parameters.output_dataword = combine(db[i].bitsize, db[i].long_pointer, parameters.output_dataword); 
       }
       else if ((db[i].tlm_type == "int")) 
       {
-        parameters.output_dataword = combine(db[i].bitsize, *db[i].int_pointer, parameters.output_dataword); 
-        Serial.print("Print int data title: ");
-        Serial.println(db[i].SD_Card_Title);        
-        Serial.print("Print int data: ");
-        Serial.println(*db[i].int_pointer);      
+        parameters.output_dataword = combine(db[i].bitsize, db[i].int_pointer, parameters.output_dataword);     
       }
       else if ((db[i].tlm_type == "null")) 
       {
         parameters.output_dataword = combine(db[i].bitsize, (long) 0, parameters.output_dataword); 
-        Serial.print("Print int data title: ");
-        Serial.println(db[i].SD_Card_Title);        
-        Serial.print("Print int data: None");
       }
     }
+    Serial.println(parameters.output_dataword);
+    
+
+//    
+//    for (int i=1; i<DB_SIZE+1; i++) {
+//      Serial.print("Print line: ");
+//      Serial.println(i);
+//      if (db[i].tlm_type == "float") 
+//      {
+//        parameters.output_dataword = combine_float(db[i].bitsize, *db[i].float_pointer, parameters.output_dataword); 
+//        Serial.print("Print float data title: ");
+//        Serial.println(db[i].SD_Card_Title);
+//        Serial.print("Print float data: ");
+//        Serial.println(*db[i].float_pointer);
+//      }
+//      else if (db[i].tlm_type == "long")
+//      {
+//        parameters.output_dataword = combine(db[i].bitsize, *db[i].long_pointer, parameters.output_dataword); 
+//        Serial.print("Print long data title: ");
+//        Serial.println(db[i].SD_Card_Title);        
+//        Serial.print("Print long data: ");
+//        Serial.println(*db[i].long_pointer);
+//      }
+//      else if ((db[i].tlm_type == "int")) 
+//      {
+//        parameters.output_dataword = combine(db[i].bitsize, *db[i].int_pointer, parameters.output_dataword); 
+//        Serial.print("Print int data title: ");
+//        Serial.println(db[i].SD_Card_Title);        
+//        Serial.print("Print int data: ");
+//        Serial.println(*db[i].int_pointer);      
+//      }
+//      else if ((db[i].tlm_type == "null")) 
+//      {
+//        parameters.output_dataword = combine(db[i].bitsize, (long) 0, parameters.output_dataword); 
+//        Serial.print("Print int data title: ");
+//        Serial.println(db[i].SD_Card_Title);        
+//        Serial.print("Print int data: None");
+//      }
+//    }
     Serial.println(parameters.output_dataword);
     
 //    parameters.output_dataword = "10101010";                                                                                               // Balloon ID

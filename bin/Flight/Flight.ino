@@ -177,7 +177,7 @@ void setup()
   
   delay(2000);
   Serial.println("**** Initialize Database:");
-  initialize_database();
+  initialize_database_2();
   Serial.println("===> The database has been initialized!");
   Serial.println("");
   
@@ -231,7 +231,6 @@ void loop()
     Main_flight_loop();
     RB_Send_Receive_data();
   }
-  
     RB_Send_Receive_data();
 }
 
@@ -438,24 +437,6 @@ void Terminal_test_loop()
   //print_telemetry();
 
   write_telemetry_data_to_sd();
-
-  int n = 2;
-  
-  Serial.print("TESTING tlm_type: ");  
-  Serial.println(db[n].tlm_type);
-  Serial.print("TESTING bitsize: ");  
-  Serial.println(db[n].bitsize);
-  Serial.print("TESTING SD_Card_Title: ");  
-  Serial.println(db[n].SD_Card_Title);
-  Serial.print("TESTING Vehicle Mode TLM: "); 
-  Serial.println(*db[n].int_pointer);
-  Serial.print("TESTING Vehicle Mode TLM LONG NULL: "); 
-  Serial.println((long) *db[n].long_pointer);
-
-  Serial.print("Vehicle Mode TLM: "); 
-  Serial.println(parameters.vehicle_mode);
-
-  delay(1000);
 }
 
 
@@ -485,39 +466,39 @@ void initialize_database()
 {
   long temp_zero = 0;
   
-  db[1] = {"null",8,&null_int,&null_long,&null_float,"Header [-]",0,1};
-  db[2] = {"int",8,&parameters.vehicle_mode,&null_long,&null_float,"Veh Mode",0,1};
-  db[3] = {"int",8,&parameters.command_count,&null_long,&null_float,"Command Count",0,1};
-  db[4] = {"long",8,&null_int,(long int*) &thresholds.normal_transmit_period,&null_float,"Normal Trans Per [s]",1,1};
-  db[5] = {"long",8,&null_int,(long int*) &thresholds.load_shed_transmit_period,&null_float,"Loadshed Trans Per [s]",1,1};
-  db[6] = {"long",8,&null_int,(long int*) &thresholds.transit_transmit_period,&null_float,"Transit Trans Per [s]",1,1};
-  db[7] = {"long",8,&null_int,(long int*) &thresholds.emergency_transit_transmit_period,&null_float,"Emer Trans Per [s]",1,1};
-  db[8] = {"long",8,&null_int,(long int*) &thresholds.spare_transmit_period,&null_float,"Spare Trans Per [s]",1,1};
-  db[9] = {"long",8,&null_int,(long int*) &parameters.sd_card_write_period,&null_float,"SD Card Write Per [s]",1,1};
-  db[10] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_battery_1_temp_1,&null_float,"B 1 T 1 [C]",2,1};
-  db[11] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_battery_1_temp_2,&null_float,"B 1 T 2 [C]",2,1};
-  db[12] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_battery_2_temp_1,&null_float,"B 2 T 1 [C]",2,1};
-  db[13] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_battery_2_temp_2,&null_float,"B 2 T 2 [C]",2,1};
-  db[14] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_inner_external_temp,&null_float,"Inner Ext T [C]",2,1};
-  db[15] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_outter_external_temp,&null_float,"Outer Ext T [C]",2,1};
-  db[16] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_internal_temp,&null_float,"Int T [C]",2,1};
-  db[17] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_air_pressure,&null_float,"Air Pres [Pa]",3,1};
-  db[18] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_analog_VIN_voltage,&null_float,"VIN Voltage [V]",4,1};
-  db[19] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.battery_1_charge_current,"B 1 Charge Current [A]",0,1};
-  db[20] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.shuntvoltage_batt1,"B 2 Charge Current [A]",0,1};
-  db[21] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.busvoltage_batt1,"SA Current [A]",0,1};
-  db[22] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.loadvoltage_batt1,"Load Path Current [A]",0,1};
-  db[23] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.battery_2_charge_current,"B1_shunt_V        [V]",0,1};
-  db[24] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.shuntvoltage_batt2,"B1_Bus_V          [V]",0,1};
-  db[25] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.busvoltage_batt2,"B1_load_V         [V]",0,1};
-  db[26] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.loadvoltage_batt2,"B2_shunt_V        [V]",0,1};
-  db[27] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.sa_current,"B2_Bus_V          [V]",0,1};
-  db[28] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.shuntvoltage_sa,"B2_load_V         [V]",0,1};
-  db[29] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.busvoltage_sa,"SA_shuntV         [V]",0,1};
-  db[30] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.loadvoltage_sa,"SA_busV           [V]",0,1};
-  db[31] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.load_path_current,"SA_load_V         [V]",0,1};
-  db[32] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.shuntvoltage_load_path,"Loadpath_shunt_V  [V]",0,1};
-  db[33] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.busvoltage_load_path,"Loadpath_Bus_V    [V]",0,1};
+//  db[1] = {"null",8,&null_int,&null_long,&null_float,"Header [-]",0,1};
+//  db[2] = {"int",8,&parameters.vehicle_mode,&null_long,&null_float,"Veh Mode",0,1};
+//  db[3] = {"int",8,&parameters.command_count,&null_long,&null_float,"Command Count",0,1};
+//  db[4] = {"long",8,&null_int,(long int*) &thresholds.normal_transmit_period,&null_float,"Normal Trans Per [s]",1,1};
+//  db[5] = {"long",8,&null_int,(long int*) &thresholds.load_shed_transmit_period,&null_float,"Loadshed Trans Per [s]",1,1};
+//  db[6] = {"long",8,&null_int,(long int*) &thresholds.transit_transmit_period,&null_float,"Transit Trans Per [s]",1,1};
+//  db[7] = {"long",8,&null_int,(long int*) &thresholds.emergency_transit_transmit_period,&null_float,"Emer Trans Per [s]",1,1};
+//  db[8] = {"long",8,&null_int,(long int*) &thresholds.spare_transmit_period,&null_float,"Spare Trans Per [s]",1,1};
+//  db[9] = {"long",8,&null_int,(long int*) &parameters.sd_card_write_period,&null_float,"SD Card Write Per [s]",1,1};
+//  db[10] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_battery_1_temp_1,&null_float,"B 1 T 1 [C]",2,1};
+//  db[11] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_battery_1_temp_2,&null_float,"B 1 T 2 [C]",2,1};
+//  db[12] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_battery_2_temp_1,&null_float,"B 2 T 1 [C]",2,1};
+//  db[13] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_battery_2_temp_2,&null_float,"B 2 T 2 [C]",2,1};
+//  db[14] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_inner_external_temp,&null_float,"Inner Ext T [C]",2,1};
+//  db[15] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_outter_external_temp,&null_float,"Outer Ext T [C]",2,1};
+//  db[16] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_internal_temp,&null_float,"Int T [C]",2,1};
+//  db[17] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_air_pressure,&null_float,"Air Pres [Pa]",3,1};
+//  db[18] = {"long",12,&null_int,(long*) &raw_telemetry_data.raw_analog_VIN_voltage,&null_float,"VIN Voltage [V]",4,1};
+//  db[19] = {"float",32,&null_int,&null_long,&telemetry_data.battery_1_charge_current,"B 1 Charge Current [A]",0,1};
+//  db[20] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.shuntvoltage_batt1,"B 2 Charge Current [A]",0,1};
+//  db[21] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.busvoltage_batt1,"SA Current [A]",0,1};
+//  db[22] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.loadvoltage_batt1,"Load Path Current [A]",0,1};
+//  db[23] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.battery_2_charge_current,"B1_shunt_V        [V]",0,1};
+//  db[24] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.shuntvoltage_batt2,"B1_Bus_V          [V]",0,1};
+//  db[25] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.busvoltage_batt2,"B1_load_V         [V]",0,1};
+//  db[26] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.loadvoltage_batt2,"B2_shunt_V        [V]",0,1};
+//  db[27] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.sa_current,"B2_Bus_V          [V]",0,1};
+//  db[28] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.shuntvoltage_sa,"B2_load_V         [V]",0,1};
+//  db[29] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.busvoltage_sa,"SA_shuntV         [V]",0,1};
+//  db[30] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.loadvoltage_sa,"SA_busV           [V]",0,1};
+//  db[31] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.load_path_current,"SA_load_V         [V]",0,1};
+//  db[32] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.shuntvoltage_load_path,"Loadpath_shunt_V  [V]",0,1};
+//  db[33] = {"float",32,&null_int,&null_long,(float*)&telemetry_data.busvoltage_load_path,"Loadpath_Bus_V    [V]",0,1};
 //  db[34] = {"float",32,&null_int,&null_long,&telemetry_data.loadvoltage_load_path,"Loadpath_load_V   [V]",0,1};
 //  db[35] = {"long",8,&null_int,(long int*) &parameters.tlm_processing_period,&null_float,"Tel Proc Per [s]",1,1};
 //  db[36] = {"float",32,&null_int,&null_long,&gps_data.gps_processed_lat,"GPS Lat [deg]",0,1};
@@ -616,6 +597,143 @@ void initialize_database()
 //  db[129] = {"float",32,&null_int,&null_long,&alt.pressure,"Alt Pressure [?]",0,1};
 //  db[130] = {"int",8,&parameters.num_rb_words_recieved,&null_long,&null_float,"RB Words Recieved",0,1};
 //  db[131] = {"null",24,&null_int,&null_long,&null_float,"[n/a]",0,1};  
+}
+
+void initialize_database_2()
+{
+  long temp_zero = 0;
+  
+  db[1] = {"null",8,null_int,null_long,null_float,"Header [-]",0,1};
+  db[2] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1};
+  db[3] = {"int",8,parameters.command_count,null_long,null_float,"Command Count",0,1};
+  db[4] = {"long",8,null_int,thresholds.normal_transmit_period,null_float,"Normal Trans Per [s]",1,1};
+  db[5] = {"long",8,null_int,thresholds.load_shed_transmit_period,null_float,"Loadshed Trans Per [s]",1,1};
+  db[6] = {"long",8,null_int,thresholds.transit_transmit_period,null_float,"Transit Trans Per [s]",1,1};
+  db[7] = {"long",8,null_int,thresholds.emergency_transit_transmit_period,null_float,"Emer Trans Per [s]",1,1};
+  db[8] = {"long",8,null_int,thresholds.spare_transmit_period,null_float,"Spare Trans Per [s]",1,1};
+  db[9] = {"long",8,null_int,parameters.sd_card_write_period,null_float,"SD Card Write Per [s]",1,1};
+  db[10] = {"long",12,null_int,raw_telemetry_data.raw_battery_1_temp_1,null_float,"B 1 T 1 [C]",2,1};
+  db[11] = {"long",12,null_int,raw_telemetry_data.raw_battery_1_temp_2,null_float,"B 1 T 2 [C]",2,1};
+  db[12] = {"long",12,null_int,raw_telemetry_data.raw_battery_2_temp_1,null_float,"B 2 T 1 [C]",2,1};
+  db[13] = {"long",12,null_int,raw_telemetry_data.raw_battery_2_temp_2,null_float,"B 2 T 2 [C]",2,1};
+  db[14] = {"long",12,null_int,raw_telemetry_data.raw_inner_external_temp,null_float,"Inner Ext T [C]",2,1};
+  db[15] = {"long",12,null_int,raw_telemetry_data.raw_outter_external_temp,null_float,"Outer Ext T [C]",2,1};
+  db[16] = {"long",12,null_int,raw_telemetry_data.raw_internal_temp,null_float,"Int T [C]",2,1};
+  db[17] = {"long",12,null_int,raw_telemetry_data.raw_air_pressure,null_float,"Air Pres [Pa]",3,1};
+  db[18] = {"long",12,null_int,raw_telemetry_data.raw_analog_VIN_voltage,null_float,"VIN Voltage [V]",4,1};
+  db[19] = {"float",32,null_int,null_long,telemetry_data.battery_1_charge_current,"B 1 Charge Current [A]",0,1};
+  db[20] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_batt1,"B 2 Charge Current [A]",0,1};
+  db[21] = {"float",32,null_int,null_long,telemetry_data.busvoltage_batt1,"SA Current [A]",0,1};
+  db[22] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_batt1,"Load Path Current [A]",0,1};
+  db[23] = {"float",32,null_int,null_long,telemetry_data.battery_2_charge_current,"B1_shunt_V        [V]",0,1};
+  db[24] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_batt2,"B1_Bus_V          [V]",0,1};
+  db[25] = {"float",32,null_int,null_long,telemetry_data.busvoltage_batt2,"B1_load_V         [V]",0,1};
+  db[26] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_batt2,"B2_shunt_V        [V]",0,1};
+  db[27] = {"float",32,null_int,null_long,telemetry_data.sa_current,"B2_Bus_V          [V]",0,1};
+  db[28] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_sa,"B2_load_V         [V]",0,1};
+  db[29] = {"float",32,null_int,null_long,telemetry_data.busvoltage_sa,"SA_shuntV         [V]",0,1};
+  db[30] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_sa,"SA_busV           [V]",0,1};
+  db[31] = {"float",32,null_int,null_long,telemetry_data.load_path_current,"SA_load_V         [V]",0,1};
+  db[32] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_load_path,"Loadpath_shunt_V  [V]",0,1};
+  db[33] = {"float",32,null_int,null_long,telemetry_data.busvoltage_load_path,"Loadpath_Bus_V    [V]",0,1};
+  db[34] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_load_path,"Loadpath_load_V   [V]",0,1};
+  db[35] = {"long",8,null_int,parameters.tlm_processing_period,null_float,"Tel Proc Per [s]",1,1};
+  db[36] = {"float",32,null_int,null_long,gps_data.gps_processed_lat,"GPS Lat [deg]",0,1};
+  db[37] = {"float",32,null_int,null_long,gps_data.gps_processed_long,"GPS Long [deg]",0,1};
+  db[38] = {"float",32,null_int,null_long,gps_data.gps_altitude,"GPS Alt [m]",0,1}; 
+  db[39] = {"float",32,null_int,null_long,gps_data.gps_location_age,"GPS Loc Age [s]",0,1};
+  db[40] = {"float",32,null_int,null_long,gps_data.gps_altitude_age,"GPS Alt Age [s]",0,1};
+  db[41] = {"float",32,null_int,null_long,gps_data.gps_heading,"GPS Course [deg]",0,1};
+  db[42] = {"float",32,null_int,null_long,gps_data.gps_speed,"GPS Speed [km/h]",0,1}; 
+  db[43] = {"int",4,gps_data.gps_num_satellites,null_long,null_float,"GPS # of Sat [-]",0,1}; 
+  db[44] = {"long",32,null_int,gps_data.gps_date,null_float,"GPS Date [-]",0,1}; 
+  db[45] = {"long",32,null_int,gps_data.gps_time,null_float,"GPS Time [-]",0,1}; 
+  db[46] = {"int",32,gps_data.gps_hdop,null_long,null_float,"HDOP Value [?]",0,1};
+  db[47] = {"int",32,gps_data.gps_chars_processed,null_long,null_float,"GPS Chars Processed [-]",0,1};
+  db[48] = {"int",32,gps_data.gps_sentances_with_fix,null_long,null_float,"GPS Sentences with Fix [-]",0,1}; 
+  db[49] = {"int",32,gps_data.gps_failed_checksum,null_long,null_float,"GPS Failed Checksum [-]",0,1};
+  db[50] = {"int",1,gps_data.gps_location_valid,null_long,null_float,"GPS Location Isvalid [-]",0,1};
+  db[51] = {"int",1,gps_data.gps_altitude_valid,null_long,null_float,"GPS Altitude Isvalid [-]",0,1};
+  db[52] = {"int",1,gps_data.gps_heading_valid,null_long,null_float,"GPS Course Isvalid [-]",0,1};
+  db[53] = {"int",1,gps_data.gps_speed_valid,null_long,null_float,"GPS Speed Isvalid [-]",0,1};
+  db[54] = {"int",1,gps_data.gps_num_satellites_valid,null_long,null_float,"GPS Satellites Isvalid [-]",0,1};
+  db[55] = {"int",1,gps_data.gps_date_valid,null_long,null_float,"GPS Date Isvalid [-]",0,1};
+  db[56] = {"int",1,gps_data.gps_time_valid,null_long,null_float,"GPS Time Isvalid [-]",0,1};
+  db[57] = {"int",1,gps_data.gps_hdop_valid,null_long,null_float,"GPS HDOP Isvalid [-]",0,1};
+  db[58] = {"float",32,null_int,null_long,gyro.ax,"Acc X [g]",0,1};   
+  db[59] = {"float",32,null_int,null_long,null_float,"[n/a]",0,1}; 
+  db[60] = {"float",32,null_int,null_long,gyro.ay,"Acc Y [g]",0,1}; 
+  db[61] = {"float",32,null_int,null_long,null_float,"[n/a]",0,1};
+  db[62] = {"float",32,null_int,null_long,gyro.ax,"Acc X [g]",0,1};   
+  db[63] = {"float",32,null_int,null_long,null_float,"[n/a]",0,1}; 
+  db[64] = {"float",32,null_int,null_long,gyro.ay,"Acc Y [g]",0,1}; 
+  db[65] = {"float",32,null_int,null_long,null_float,"[n/a]",0,1};
+  db[66] = {"float",32,null_int,null_long,gyro.az,"Acc Z [g]",0,1};
+  db[67] = {"float",32,null_int,null_long,null_float,"[n/a]",0,1}; 
+  db[68] = {"float",32,null_int,null_long,gyro.mx,"Gyro mag X [G]",0,1}; 
+  db[69] = {"float",32,null_int,null_long,null_float,"[n/a]",0,1};
+  db[70] = {"float",32,null_int,null_long,gyro.my,"Gyro mag Y [G]",0,1}; 
+  db[71] = {"float",32,null_int,null_long,null_float,"[n/a]",0,1};
+  db[72] = {"float",32,null_int,null_long,gyro.mz,"Gyro mag Z [G]",0,1};  
+  db[73] = {"float",32,null_int,null_long,gyro.gx,"Gyro X [deg/s]",0,1};  
+  db[74] = {"float",32,null_int,null_long,gyro.gy,"Gyro Y [deg/s]",0,1}; 
+  db[75] = {"float",32,null_int,null_long,gyro.gz,"Gyro Z [deg/s]",0,1};
+  db[76] = {"float",32,null_int,null_long,gyro.gyro_temp,"Gyro T [C]",0,1};
+  db[77] = {"float",32,null_int,null_long,parameters.voltage_sanity_check_high,"Volt San Check High [V]",0,1};
+  db[78] = {"float",32,null_int,null_long,parameters.voltage_sanity_check_low,"Volt San Check Low [V]",0,1};
+  db[79] = {"float",32,null_int,null_long,parameters.charge_current_sanity_check_high,"Charge Cur Sanity High [A]",0,1};
+  db[80] = {"float",32,null_int,null_long,parameters.charge_current_sanity_check_low,"Charge Cur Sanity Low [A]",0,1};
+  db[81] = {"float",32,null_int,null_long,parameters.battery_1_recharge_ratio,"B 1 Recharge Ratio [-]",0,1};
+  db[82] = {"float",32,null_int,null_long,parameters.battery_1_amphrs_charging,"B 1 AH Charging [A]",0,1};
+  db[83] = {"float",32,null_int,null_long,parameters.battery_1_amphrs_discharging,"B 1 AH Discharging [A]",0,1};
+  db[84] = {"float",32,null_int,null_long,parameters.battery_1_amphrs_term_threshold,"B 1 Cap Lim High [A.h]",0,1};
+  db[85] = {"float",32,null_int,null_long,parameters.battery_1_amphrs_init_threshold,"B 1 Cap Lim Low [A.h]",0,1}; 
+  db[86] = {"float",32,null_int,null_long,parameters.battery_1_voltage_term_threshold,"B 1 Volt Term. Charge Limit [V]",0,1};
+  db[87] = {"float",32,null_int,null_long,parameters.battery_1_voltage_init_threshold,"B 1 Volt Init. Charge Limit [V]",0,1};
+  db[88] = {"float",32,null_int,null_long,parameters.battery_2_recharge_ratio,"B 2 Recharge Ratio [-]",0,1};
+  db[89] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_charging,"B 2 Amp Hours Charging [A]",0,1};
+  db[90] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_discharging,"B 2 Amp Hours Discharging [A]",0,1};
+  db[91] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_term_threshold,"B 2 Cap Limit High [A.h]",0,1};
+  db[92] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_init_threshold,"B 2 Cap Limit Low [A.h]",0,1};
+  db[93] = {"float",32,null_int,null_long,parameters.battery_2_voltage_term_threshold,"B 2 Volt Term. Charge Lim [V]",0,1};
+  db[94] = {"float",32,null_int,null_long,parameters.battery_2_voltage_init_threshold,"B 2 Volt Init. Charge Lim [V]",0,1};  
+  db[95] = {"int",16,parameters.battery_temperature_limit_high,null_long,null_float,"B Active T Lim High [C]",0,1};
+  db[96] = {"int",16,parameters.battery_temperature_limit_low,null_long,null_float,"B Active T Lim Low [C]",0,1}; 
+  db[97] = {"int",16,parameters.battery_temperature_sanity_check_high,null_long,null_float,"B T Sanity Check High [C]",0,1};
+  db[98] = {"int",16,thresholds.normal_battery_temperature_limit_high,null_long,null_float,"B Normal T Lim High [C]",0,1};
+  db[99] = {"int",16,thresholds.normal_battery_temperature_limit_low,null_long,null_float,"B Normal T Lim Low [C]",0,1};
+  db[100] = {"int",16,thresholds.survival_battery_temperature_limit_high,null_long,null_float,"B Surv T Lim High [C]",0,1};
+  db[101] = {"int",16,thresholds.survival_battery_temperature_limit_low,null_long,null_float,"B Surv T Lim Low [C]",0,1};         
+  db[102] = {"int",16,parameters.battery_temperature_sanity_check_low,null_long,null_float,"B T Sanity Check Low [C]",0,1};     
+  db[103] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_loadshed_entry,"Loadshed Entry Volt Lim [V]",0,1};      
+  db[104] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_auto_cutdown,"Auto Cutdown Volt Lim [V]",0,1};
+  db[105] = {"long",16,null_int,parameters.low_voltage_time_limit,null_float,"Low Volt Time until Cut-down [s]",0,1};
+  db[106] = {"int",16,parameters.altitude_limit_low,null_long,null_float,"Alt Limit Low [ft]",0,1};
+  db[107] = {"int",16,parameters.altitude_sanity_check_low,null_long,null_float,"Alt Sanity Check Low [ft]",0,1}; 
+  db[108] = {"long",12,null_int,parameters.cutdown_pulse_width,null_float,"Pyro Pulse Width [s]",0,1};
+  db[109] = {"long",12,null_int,parameters.camera_period,null_float,"Cam Per [s]",0,1};
+  db[110] = {"long",12,null_int,parameters.camera_on_time,null_float,"Cam On Time [s]",0,1};
+  db[111] = {"int",1,parameters.battery_1_charging_status,null_long,null_float,"B 1 Charg Status [-]",0,1};
+  db[112] = {"int",1,parameters.battery_2_charging_status,null_long,null_float,"B 2 Charg Status [-]",0,1};
+  db[113] = {"int",1,parameters.battery_bus_low_voltage_flag,null_long,null_float,"Battery Bus Low V Flag [-]",0,1};
+  db[114] = {"int",1,parameters.heater_state_1,null_long,null_float,"Heater State 1 [-]",0,1};
+  db[115] = {"int",1,parameters.heater_state_2,null_long,null_float,"Heater State 2 [-]",0,1};
+  db[116] = {"int",1,parameters.cutdown_enable_state,null_long,null_float,"Cut-down Enable [-]",0,1};
+  db[117] = {"int",1,parameters.cutdown_1_status,null_long,null_float,"Cut-down 1 Fire Status [-]",0,1};
+  db[118] = {"int",1,parameters.cutdown_2_status,null_long,null_float,"Cut-down 2 Fire Status [-]",0,1};
+  db[119] = {"int",1,parameters.altitude_valid_flag,null_long,null_float,"Alt Valid Flag [-]",0,1};
+  db[120] = {"int",1,parameters.camera_enabled,null_long,null_float,"Cam Enabled [-]",0,1};
+  db[121] = {"int",1,parameters.camera_status,null_long,null_float,"Cam Status [-]",0,1};
+  db[122] = {"int",1,parameters.battery_1_temp_tlm_valid_flag,null_long,null_float,"B 1 T TLM Val Flag [-]",0,1};         
+  db[123] = {"int",1,parameters.battery_2_temp_tlm_valid_flag,null_long,null_float,"B 2 T TLM Val Flag [-]",0,1}; 
+  db[124] = {"int",1,parameters.battery_voltage_tlm_valid_flag,null_long,null_float,"Bus V TLM Val Flag [-]",0,1};
+  db[125] = {"int",1,parameters.battery_1_current_tlm_valid_flag,null_long,null_float,"B 1 Cur TLM Val Flag [-]",0,1};
+  db[126] = {"int",1,parameters.battery_2_current_tlm_valid_flag,null_long,null_float,"B 2 Cur TLM Val Flag []",0,1};
+  db[127] = {"float",32,null_int,null_long,alt.altitude_in_feet,"Alt [ft]",0,1};
+  db[128] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1};
+  db[129] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1};
+  db[130] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recieved",0,1};
+  db[131] = {"null",24,null_int,null_long,null_float,"[n/a]",0,1};  
 }
 
 void Init_RB()

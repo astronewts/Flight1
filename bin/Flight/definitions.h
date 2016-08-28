@@ -152,18 +152,29 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         18 //131 // Size of the Database
+#define DB_SIZE                         131 //131 // Size of the Database
 
 typedef struct {
   String tlm_type;
   int bitsize;
-  int* int_pointer;
-  long int* long_pointer;
-  float* float_pointer;
+  int int_pointer;
+  long long_pointer;
+  float float_pointer;
   String SD_Card_Title;
   int calibration_type;
   bool RB_Flag;
 } database;
+
+//typedef struct {
+//  String tlm_type;
+//  int bitsize;
+//  int* int_pointer;
+//  long int* long_pointer;
+//  float* float_pointer;
+//  String SD_Card_Title;
+//  int calibration_type;
+//  bool RB_Flag;
+//} database;
 
 int null_int = 12345;
 long null_long = 12345;
