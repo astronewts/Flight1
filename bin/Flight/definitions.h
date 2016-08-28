@@ -52,7 +52,7 @@
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW    14
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH     150
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80
-#define DEFAULT_NORMAL_TRANSMIT_RATE               1800000 // TEST ONLY!!! (Once every half hour)
+#define DEFAULT_NORMAL_TRANSMIT_RATE               6000//1800000 // TEST ONLY!!! (Once every half hour)
 //#define DEFAULT_NORMAL_TRANSMIT_RATE             1200000 // FOR FLIGHT!!!
 #define DEFAULT_SPARE_TRANSMIT_RATE                60000
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              30000
@@ -151,27 +151,48 @@
 #define WAIT_TO_START                   1  // Wait for serial input in setup(), 1=true
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
-// GYRO CONSTANTS:
+// DB CONSTANTS
+#define DB_SIZE                         133 // Size of the Database
+
+typedef struct {
+  String tlm_type;
+  int bitsize;
+  int* int_pointer;
+  long int* long_pointer;
+  float* float_pointer;
+  String SD_Card_Title;
+  int calibration_type;
+  bool RB_Flag;
+} database;
+
+int null_int = 12345;
+long null_long = 12345;
+float null_float = 12345;
+
+struct database_struct
+{
+  database db;
+};
 
 struct alt_struct
 {
-  double altitude_in_feet;
-  double temperature;
-  double pressure;
+  float altitude_in_feet;
+  float temperature;
+  float pressure;
 };
 
 struct gyro_struct
 {
-  double gyro_temp;
-  double ax;
-  double ay;
-  double az;
-  double gx;
-  double gy;
-  double gz;
-  double mx;
-  double my;
-  double mz;
+  float gyro_temp;
+  float ax;
+  float ay;
+  float az;
+  float gx;
+  float gy;
+  float gz;
+  float mx;
+  float my;
+  float mz;
 };
 
 struct debug_struct
@@ -232,105 +253,50 @@ struct satellite_data_struct
   char* command;
 };
 
-struct rb_data_struct
+struct gps_data_struct
 {
-  unsigned int message_id : 7;
-  unsigned int delta_encoded : 1; // always 0 for this struct
-  unsigned int balloon_id : 8;
-  unsigned int vehicle_mode : 8;
-  unsigned int command_count : 8;
-  unsigned int normal_transmit_period : 8; // seconds?
-  unsigned int load_shed_transmit_period : 8;
-  unsigned int transit_transmit_period : 8;
-  unsigned int emergency_transit_transmit_period : 8;
-  unsigned int spare_transmit_period : 8;
-  unsigned int sd_card_write_period : 8;
-  unsigned int raw_battery_1_temp_1 : 12;
-  unsigned int raw_battery_1_temp_2 : 12;
-  unsigned int raw_battery_2_temp_1 : 12;
-  unsigned int raw_battery_2_temp_2 : 12;
-  unsigned int raw_inner_external_temp : 12;
-  unsigned int raw_outer_external_temp : 12;
-  unsigned int raw_internal_temp : 12;
-  unsigned int raw_air_pressure : 12;
-  unsigned int raw_analog_VIN_voltage : 12;
-  unsigned int battery_1_charge_current : 12; // milliamps? offset?
-  unsigned int battery_2_charge_current : 12; // milliamps? offset?
-  unsigned int sa_current : 12;
-  unsigned int load_path_current : 12;
-  unsigned int tlm_processing_period : 8;
-
-  unsigned int gps_processed_lat : 16;
-  unsigned int gps_processed_long : 16;
-  unsigned int gps_altitude : 16;
-  unsigned int gps_age : 8; // MAX(gps_alt_age, gps_pos_age) in seconds
-  unsigned int gps_heading : 8; // 0-255
-  unsigned int gps_speed : 8; // km/hr
-  unsigned int gps_time : 32;
-  unsigned int gps_valid : 1;
-
-  unsigned int gyro_temp : 8;
-
-  // What else do we really need from 40-89?
-  unsigned int battery_1_recharge_ratio : 8;
-  unsigned int battery_1_amphrs_charging : 16;
-  unsigned int battery_1_amphrs_discharging : 16;
-  unsigned int battery_2_recharge_ratio : 8;
-  unsigned int battery_2_amphrs_charging : 16;
-  unsigned int battery_2_amphrs_discharging : 16;
-
-  unsigned int battery_1_charging_status : 1;
-  unsigned int battery_2_charging_status : 1;
-  unsigned int battery_bus_low_voltage_flag : 1;
-  unsigned int heater_state_1 : 1;
-  unsigned int heater_state_2 : 1;
-  unsigned int cutdown_enable_state : 1;
-  unsigned int cutdown_1_status : 1;
-  unsigned int cutdown_2_status : 1;
-};
-
-struct rb_data_delta_struct
-{
-  unsigned int message_id : 7;
-  unsigned int delta_encoded : 1; // always 1 for this struct
-
-  unsigned int raw_battery_1_temp_1 : 8;
-  unsigned int raw_battery_1_temp_2 : 8;
-  unsigned int raw_battery_2_temp_1 : 8;
-  unsigned int raw_battery_2_temp_2 : 8;
-  unsigned int raw_inner_external_temp : 8;
-  unsigned int raw_outer_external_temp : 8;
-  unsigned int raw_internal_temp : 8;
-  unsigned int raw_air_pressure : 8;
-  unsigned int raw_analog_VIN_voltage : 8;
-  unsigned int battery_1_charge_current : 8; // milliamps? offset?
-  unsigned int battery_2_charge_current : 8; // milliamps? offset?
-  unsigned int sa_current : 8;
-  unsigned int load_path_current : 8;
-
-  unsigned int gps_processed_lat : 8;
-  unsigned int gps_processed_long : 8;
-  unsigned int gps_altitude : 8;
-  unsigned int gps_age : 8; // MAX(gps_alt_age, gps_pos_age) in seconds
-  unsigned int gps_heading : 8; // 0-255
-  unsigned int gps_speed : 8; // km/hr
-  unsigned int gps_time : 12;
-  unsigned int gyro_temp : 8;
+  
+  float gps_processed_lat;
+  float gps_processed_long;
+  float gps_location_age; // MAX(gps_alt_age, gps_pos_age) in seconds
+  float gps_altitude;
+  float gps_altitude_age;
+  float gps_heading; // 0-255
+  float gps_speed; // km/hr
+  long gps_date;
+  long gps_time;
+  
+  unsigned int gps_location_valid;
+  unsigned int gps_altitude_valid;
+  unsigned int gps_heading_valid;
+  unsigned int gps_speed_valid;
+  unsigned int gps_num_satellites_valid;
+  unsigned int gps_date_valid;
+  unsigned int gps_time_valid;
+  unsigned int gps_hdop_valid;
+  
+  unsigned int gps_num_satellites;
+  unsigned int gps_hdop;
+  unsigned int gps_chars_processed;
+  unsigned int gps_sentances_with_fix;
+  unsigned int gps_failed_checksum;
+  
+  unsigned int gyro_temp;
 };
 
 // Use this enum whenever you need to ensure that EVERY telemetry item is iterated through
 
 struct raw_telemetry_data_struct
 {
-  int raw_battery_1_temp_1 : 12;
-  int raw_battery_1_temp_2 : 12;
-  int raw_battery_2_temp_1 : 12;
-  int raw_battery_2_temp_2 : 12;
-  int raw_inner_external_temp : 12;
-  int raw_outter_external_temp : 12;
-  int raw_internal_temp : 12;
-  int raw_air_pressure : 12;
-  int raw_analog_VIN_voltage : 12;
+  int raw_battery_1_temp_1;
+  int raw_battery_1_temp_2;
+  int raw_battery_2_temp_1;
+  int raw_battery_2_temp_2;
+  int raw_inner_external_temp;
+  int raw_outter_external_temp;
+  int raw_internal_temp;
+  int raw_air_pressure;
+  int raw_analog_VIN_voltage;
 };
 
 struct parameter_struct
@@ -347,14 +313,14 @@ struct parameter_struct
   int battery_temperature_sanity_check_low;
   bool heater_state_1;
   bool heater_state_2;
-  double low_voltage_limit_for_loadshed_entry;
-  double low_voltage_limit_for_auto_cutdown;
+  float low_voltage_limit_for_loadshed_entry;
+  float low_voltage_limit_for_auto_cutdown;
   unsigned long low_voltage_time_limit;
   bool battery_bus_low_voltage_flag;
-  double voltage_sanity_check_high;
-  double voltage_sanity_check_low;
-  double charge_current_sanity_check_high;
-  double charge_current_sanity_check_low;
+  float voltage_sanity_check_high;
+  float voltage_sanity_check_low;
+  float charge_current_sanity_check_high;
+  float charge_current_sanity_check_low;
   unsigned long cutdown_pulse_width;
   bool cutdown_enable_state;
   bool cutdown_1_status;
@@ -381,21 +347,21 @@ struct parameter_struct
   int test_count;
   int prompt_from_user_makes_sense;
 
-  double battery_1_recharge_ratio;
-  double battery_1_amphrs_charging;
-  double battery_1_amphrs_discharging;
-  double battery_1_amphrs_term_threshold;
-  double battery_1_amphrs_init_threshold;
-  double battery_1_voltage_term_threshold;
-  double battery_1_voltage_init_threshold;
+  float battery_1_recharge_ratio;
+  float battery_1_amphrs_charging;
+  float battery_1_amphrs_discharging;
+  float battery_1_amphrs_term_threshold;
+  float battery_1_amphrs_init_threshold;
+  float battery_1_voltage_term_threshold;
+  float battery_1_voltage_init_threshold;
 
-  double battery_2_recharge_ratio;
-  double battery_2_amphrs_charging;
-  double battery_2_amphrs_discharging;
-  double battery_2_amphrs_term_threshold;
-  double battery_2_amphrs_init_threshold;
-  double battery_2_voltage_term_threshold;
-  double battery_2_voltage_init_threshold;
+  float battery_2_recharge_ratio;
+  float battery_2_amphrs_charging;
+  float battery_2_amphrs_discharging;
+  float battery_2_amphrs_term_threshold;
+  float battery_2_amphrs_init_threshold;
+  float battery_2_voltage_term_threshold;
+  float battery_2_voltage_init_threshold;
 
   elapsedMillis camera_period_elapsed_time;
   elapsedMillis camera_on_elapsed_time;
