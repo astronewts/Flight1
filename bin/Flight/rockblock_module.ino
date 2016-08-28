@@ -741,7 +741,7 @@ void write_output_telemetry_dataword()
 
     initialize_database_2();
 
-    for (int i=1; i<DB_SIZE+1; i++) {
+    for (int i=1; i<(DB_SIZE+1); i++) {
       Serial.print("Print line: ");
       Serial.print(i);
       Serial.print("  DATA TYPE: ");
@@ -766,19 +766,17 @@ void write_output_telemetry_dataword()
         Serial.print("  DATA: ");
         Serial.println(db[i].int_pointer);     
       }
-      else if ((db[i].tlm_type == "null")) 
+      else if ((db[i].tlm_type == "header")) 
       {
-        parameters.output_dataword = combine(db[i].bitsize, (long) 0, parameters.output_dataword); 
+        parameters.output_dataword = "10101010";
         Serial.print(db[i].tlm_type);
         Serial.print("  DATA: ");
-        Serial.println((long) 0);
+        Serial.println("10101010");
       }
     }
     Serial.println("");
     Serial.println(parameters.output_dataword);
     
-
-//    
 //    for (int i=1; i<DB_SIZE+1; i++) {
 //      Serial.print("Print line: ");
 //      Serial.println(i);

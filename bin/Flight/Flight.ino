@@ -603,15 +603,15 @@ void initialize_database_2()
 {
   long temp_zero = 0;
   
-  db[1] = {"null",8,null_int,null_long,null_float,"Header [-]",0,1};
+  db[1] = {"header",8,null_int,null_long,null_float,"Header [-]",0,1};
   db[2] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1};
   db[3] = {"int",8,parameters.command_count,null_long,null_float,"Command Count",0,1};
-  db[4] = {"long",8,null_int,thresholds.normal_transmit_period,null_float,"Normal Trans Per [s]",1,1};
-  db[5] = {"long",8,null_int,thresholds.load_shed_transmit_period,null_float,"Loadshed Trans Per [s]",1,1};
-  db[6] = {"long",8,null_int,thresholds.transit_transmit_period,null_float,"Transit Trans Per [s]",1,1};
-  db[7] = {"long",8,null_int,thresholds.emergency_transit_transmit_period,null_float,"Emer Trans Per [s]",1,1};
-  db[8] = {"long",8,null_int,thresholds.spare_transmit_period,null_float,"Spare Trans Per [s]",1,1};
-  db[9] = {"long",8,null_int,parameters.sd_card_write_period,null_float,"SD Card Write Per [s]",1,1};
+  db[4] = {"long",8,null_int,thresholds.normal_transmit_period/1000.0,null_float,"Normal Trans Per [s]",1,1};
+  db[5] = {"long",8,null_int,thresholds.load_shed_transmit_period/1000.0,null_float,"Loadshed Trans Per [s]",1,1};
+  db[6] = {"long",8,null_int,thresholds.transit_transmit_period/1000.0,null_float,"Transit Trans Per [s]",1,1};
+  db[7] = {"long",8,null_int,thresholds.emergency_transit_transmit_period/1000.0,null_float,"Emer Trans Per [s]",1,1};
+  db[8] = {"long",8,null_int,thresholds.spare_transmit_period/1000.0,null_float,"Spare Trans Per [s]",1,1};
+  db[9] = {"long",8,null_int,parameters.sd_card_write_period/1000.0,null_float,"SD Card Write Per [s]",1,1};
   db[10] = {"long",12,null_int,raw_telemetry_data.raw_battery_1_temp_1,null_float,"B 1 T 1 [C]",2,1};
   db[11] = {"long",12,null_int,raw_telemetry_data.raw_battery_1_temp_2,null_float,"B 1 T 2 [C]",2,1};
   db[12] = {"long",12,null_int,raw_telemetry_data.raw_battery_2_temp_1,null_float,"B 2 T 1 [C]",2,1};
