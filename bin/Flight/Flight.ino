@@ -214,7 +214,9 @@ void loop()
   // Terminal Test Mode Loop
   else if(parameters.vehicle_mode == TERMINAL_TEST_MODE)
   {
+    Serial.println("MADE IT TO TEST LOOP!!!");
     Terminal_test_loop();
+    
   }
   // Flight mode without RB
   else if(parameters.vehicle_mode == FLIGHT_MODE_WITHOUT_RB)
@@ -393,7 +395,7 @@ void Cutdown_test_loop()
     collect_alt_data();
     collect_analog_telemetry();
     collect_charge_current_data();
-    collect_low_rate_current_data();
+    //collect_low_rate_current_data();
     parameters.medium_rate_elapsed_time = 0;
   }
 
@@ -408,17 +410,23 @@ void Cutdown_test_loop()
 void Terminal_test_loop()
 {
   //Collect Analog & Current Telemetry
+  Serial.println("MADE IT TO TEST ANALONG TLM!!!");
   collect_analog_telemetry();
+  Serial.println("MADE IT TO TEST CHARGE CURRENT TLM!!!");
   collect_charge_current_data();
+  Serial.println("MADE IT TO TEST CHARGE CURRENT 2 TLM!!!");
   collect_low_rate_current_data();
 
+  Serial.println("MADE IT TO GPS!!!");
   // Collect GPS Data
   collect_gps_data(gps_data_new);
   //collect_gps_data();
-  
-  // Collect Altimiter Data
-  collect_alt_data();
 
+  Serial.println("MADE IT TO ALT!!!");
+  // Collect Altimiter Data
+  //collect_alt_data();
+
+  Serial.println("MADE IT TO GYRO!!!");
   //Collect gyro data
   collect_gyro_data();
 

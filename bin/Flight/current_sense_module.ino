@@ -33,7 +33,7 @@ void current_sense_setup(void)
   //Serial.println("Measuring voltage and current with INA219 ...");
 }
 
-void print_battery_charge_current_data(void) 
+void print_battery_charge_current_data() 
 {
   // Current Sensor #1
   Serial.println("");
@@ -51,7 +51,7 @@ void print_battery_charge_current_data(void)
   Serial.println("");
 }
 
-void print_low_rate_current_data(void) 
+void print_low_rate_current_data() 
 {
   // Current Sensor #3
   Serial.println("");
@@ -69,7 +69,7 @@ void print_low_rate_current_data(void)
   Serial.println("");  
 }
 
-void collect_charge_current_data(void) 
+void collect_charge_current_data() 
 {
   telemetry_data.shuntvoltage_batt1 = ina219_1.getShuntVoltage_mV();
   telemetry_data.busvoltage_batt1 = ina219_1.getBusVoltage_V();
@@ -82,16 +82,17 @@ void collect_charge_current_data(void)
   telemetry_data.loadvoltage_batt2 = telemetry_data.busvoltage_batt2 + (telemetry_data.shuntvoltage_batt2 / 1000);
 }
 
-void collect_low_rate_current_data(void) 
+void collect_low_rate_current_data() 
 {
-  telemetry_data.shuntvoltage_sa = ina219_3.getShuntVoltage_mV();
-  telemetry_data.busvoltage_sa = ina219_3.getBusVoltage_V();
-  telemetry_data.sa_current = ina219_3.getCurrent_mA();
-  telemetry_data.loadvoltage_sa = telemetry_data.busvoltage_sa + (telemetry_data.shuntvoltage_sa / 1000);
+  telemetry_data.shuntvoltage_sa = ina219_4.getShuntVoltage_mV();
+  telemetry_data.busvoltage_sa = ina219_4.getBusVoltage_V();
+  telemetry_data.sa_current = ina219_4.getCurrent_mA();
+  telemetry_data.loadvoltage_sa = telemetry_data.busvoltage_sa + (float)(telemetry_data.shuntvoltage_sa/1000);
 
   telemetry_data.shuntvoltage_load_path = ina219_4.getShuntVoltage_mV();
   telemetry_data.busvoltage_load_path = ina219_4.getBusVoltage_V();
   telemetry_data.load_path_current = ina219_4.getCurrent_mA();
-  telemetry_data.loadvoltage_load_path = telemetry_data.busvoltage_load_path + (telemetry_data.shuntvoltage_load_path / 1000);
+  telemetry_data.loadvoltage_load_path = telemetry_data.busvoltage_load_path + (float)(telemetry_data.shuntvoltage_load_path / 1000);
+
 }
 
