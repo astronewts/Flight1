@@ -743,24 +743,38 @@ void write_output_telemetry_dataword()
 
     for (int i=1; i<DB_SIZE+1; i++) {
       Serial.print("Print line: ");
-      Serial.println(i);
+      Serial.print(i);
+      Serial.print("  DATA TYPE: ");
       if (db[i].tlm_type == "float") 
       {
-        parameters.output_dataword = combine_float(db[i].bitsize, db[i].float_pointer, parameters.output_dataword); 
+        parameters.output_dataword = combine_float(db[i].bitsize, db[i].float_pointer, parameters.output_dataword);
+        Serial.print(db[i].tlm_type);
+        Serial.print("  DATA: ");
+        Serial.println(db[i].float_pointer);
       }
       else if (db[i].tlm_type == "long")
       {
-        parameters.output_dataword = combine(db[i].bitsize, db[i].long_pointer, parameters.output_dataword); 
+        parameters.output_dataword = combine(db[i].bitsize, db[i].long_pointer, parameters.output_dataword);
+        Serial.print(db[i].tlm_type);
+        Serial.print("  DATA: ");
+        Serial.println(db[i].long_pointer);
       }
       else if ((db[i].tlm_type == "int")) 
       {
-        parameters.output_dataword = combine(db[i].bitsize, db[i].int_pointer, parameters.output_dataword);     
+        parameters.output_dataword = combine(db[i].bitsize, db[i].int_pointer, parameters.output_dataword);
+        Serial.print(db[i].tlm_type);
+        Serial.print("  DATA: ");
+        Serial.println(db[i].int_pointer);     
       }
       else if ((db[i].tlm_type == "null")) 
       {
         parameters.output_dataword = combine(db[i].bitsize, (long) 0, parameters.output_dataword); 
+        Serial.print(db[i].tlm_type);
+        Serial.print("  DATA: ");
+        Serial.println((long) 0);
       }
     }
+    Serial.println("");
     Serial.println(parameters.output_dataword);
     
 

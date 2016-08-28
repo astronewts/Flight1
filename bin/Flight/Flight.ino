@@ -732,8 +732,7 @@ void initialize_database_2()
   db[127] = {"float",32,null_int,null_long,alt.altitude_in_feet,"Alt [ft]",0,1};
   db[128] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1};
   db[129] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1};
-  db[130] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recieved",0,1};
-  db[131] = {"null",24,null_int,null_long,null_float,"[n/a]",0,1};  
+  db[130] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recieved",0,1};  
 }
 
 void Init_RB()

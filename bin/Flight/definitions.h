@@ -152,7 +152,7 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         131 //131 // Size of the Database
+#define DB_SIZE                         130 //131 // Size of the Database
 
 typedef struct {
   String tlm_type;
