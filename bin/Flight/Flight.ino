@@ -214,7 +214,7 @@ void loop()
   // Terminal Test Mode Loop
   else if(parameters.vehicle_mode == TERMINAL_TEST_MODE)
   {
-    Serial.println("MADE IT TO TEST LOOP!!!");
+    //Serial.println("MADE IT TO TEST LOOP!!!");
     Terminal_test_loop();
     
   }
@@ -409,23 +409,17 @@ void Cutdown_test_loop()
 void Terminal_test_loop()
 {
   //Collect Analog & Current Telemetry
-  Serial.println("MADE IT TO TEST ANALONG TLM!!!");
   collect_analog_telemetry();
-  Serial.println("MADE IT TO TEST CHARGE CURRENT TLM!!!");
   collect_charge_current_data();
-  Serial.println("MADE IT TO TEST CHARGE CURRENT 2 TLM!!!");
   collect_low_rate_current_data();
 
-  Serial.println("MADE IT TO GPS!!!");
   // Collect GPS Data
   collect_gps_data(gps_data_new);
   //collect_gps_data();
 
-  Serial.println("MADE IT TO ALT!!!");
   // Collect Altimiter Data
   //collect_alt_data();
 
-  Serial.println("MADE IT TO GYRO!!!");
   //Collect gyro data
   collect_gyro_data();
 
@@ -436,22 +430,10 @@ void Terminal_test_loop()
   // Print All Collected TLM to the Terminal Window
   //print_telemetry();
 
-  int n = 2;
   initialize_database_2();
 
-  //temp_line = malloc(32);
-  //temp_line = db[n].SD_Card_Title;
-
-  Serial.print("Testing Vehicle State SD Title1: ");
-  Serial.println(db[n].SD_Card_Title);
-  Serial.print("Testing Vehicle State SD Title2: ");
-  Serial.println(String('example\0'));
-    Serial.print("Testing Vehicle State SD Title3: ");
-  Serial.println(String('example'));
-  Serial.print("Testing Vehicle State: ");
-  Serial.println(db[n].int_pointer);
-  
-  write_telemetry_data_to_sd();
+   write_telemetry_data_to_sd();
+   delay(1000);
 
 }
 
@@ -619,6 +601,7 @@ void initialize_database_2()
 {
   long temp_zero = 0;
   
+  db[0] = {"header",8,null_int,null_long,null_float,"Blank",0,0};
   db[1] = {"header",8,null_int,null_long,null_float,"Header [-]",0,1};
   db[2] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1};
   db[3] = {"int",8,parameters.command_count,null_long,null_float,"Command Count",0,1};
@@ -641,15 +624,15 @@ void initialize_database_2()
   db[20] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_batt1,"B 2 Charge Current [A]",0,1};
   db[21] = {"float",32,null_int,null_long,telemetry_data.busvoltage_batt1,"SA Current [A]",0,1};
   db[22] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_batt1,"Load Path Current [A]",0,1};
-  db[23] = {"float",32,null_int,null_long,telemetry_data.battery_2_charge_current,"B1_shunt_V        [V]",0,1};
-  db[24] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_batt2,"B1_Bus_V          [V]",0,1};
-  db[25] = {"float",32,null_int,null_long,telemetry_data.busvoltage_batt2,"B1_load_V         [V]",0,1};
-  db[26] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_batt2,"B2_shunt_V        [V]",0,1};
-  db[27] = {"float",32,null_int,null_long,telemetry_data.sa_current,"B2_Bus_V          [V]",0,1};
-  db[28] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_sa,"B2_load_V         [V]",0,1};
-  db[29] = {"float",32,null_int,null_long,telemetry_data.busvoltage_sa,"SA_shuntV         [V]",0,1};
-  db[30] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_sa,"SA_busV           [V]",0,1};
-  db[31] = {"float",32,null_int,null_long,telemetry_data.load_path_current,"SA_load_V         [V]",0,1};
+  db[23] = {"float",32,null_int,null_long,telemetry_data.battery_2_charge_current,"B1_shunt_V [V]",0,1};
+  db[24] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_batt2,"B1_Bus_V [V]",0,1};
+  db[25] = {"float",32,null_int,null_long,telemetry_data.busvoltage_batt2,"B1_load_V [V]",0,1};
+  db[26] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_batt2,"B2_shunt_V [V]",0,1};
+  db[27] = {"float",32,null_int,null_long,telemetry_data.sa_current,"B2_Bus_V [V]",0,1};
+  db[28] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_sa,"B2_load_V [V]",0,1};
+  db[29] = {"float",32,null_int,null_long,telemetry_data.busvoltage_sa,"SA_shuntV [V]",0,1};
+  db[30] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_sa,"SA_busV [V]",0,1};
+  db[31] = {"float",32,null_int,null_long,telemetry_data.load_path_current,"SA_load_V [V]",0,1};
   db[32] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_load_path,"Loadpath_shunt_V  [V]",0,1};
   db[33] = {"float",32,null_int,null_long,telemetry_data.busvoltage_load_path,"Loadpath_Bus_V    [V]",0,1};
   db[34] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_load_path,"Loadpath_load_V   [V]",0,1};

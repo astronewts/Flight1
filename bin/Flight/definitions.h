@@ -183,11 +183,6 @@ int null_int = 12345;
 long null_long = 12345;
 float null_float = 12345;
 
-struct database_struct
-{
-  database db;
-};
-
 struct alt_struct
 {
   float altitude_in_feet;

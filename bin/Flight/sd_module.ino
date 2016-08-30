@@ -17,7 +17,7 @@ int max_num_lines = 500000;
 ofstream logfile;
 ArduinoOutStream cout(Serial);
 // buffer to format data - makes it eaiser to echo to Serial
-char buf[2400];
+char buf[2500];
 
 //define parent monitor string for GPS Isvalid data
 String gps_isvalid_str;
@@ -60,6 +60,13 @@ ostream& operator << (ostream& os, DateTime& dt) {
   return os;
 }
 #endif  // USE_DS1307
+
+ostream& operator << (ostream& os, String& s) {
+  for (int i=0;i<s.length();i++){
+    os << s.charAt(i);
+  }
+  return os;
+}
 
 // ****************************************************************************
 
@@ -114,38 +121,15 @@ void sd_setup() {
 
   bout << pstr("millis");                                 
 
-  //initialize_database_2();
+  initialize_database_2();
   
   for (int i=1; i<(DB_SIZE); i++) 
   { 
     bout << ','; 
     bout << db[i].SD_Card_Title;
-    
-    Serial.print("Title #");
-    Serial.print(i);
-    Serial.print(": ");
-    Serial.println(db[i].SD_Card_Title);
   }
   
-
-//  for (int i=1; i<DB_SIZE; i++) 
-//  { 
-//    bout << ','; 
-//    bout << db[i].SD_Card_Title;
-//    //String temp_str = db[i].SD_Card_Title;
-//    //char charBuf[temp_str.length()];
-//    Serial.println(db[i].SD_Card_Title);
-//
-//    //char temp_char_array [20];
-//    //temp_char_array = temp_str.toCharArray(charBuf,temp_str.length());
-//    //bout << pstr(temp_char_array);
-//    //bout << pstr((const char)db[i].SD_Card_Title);
-//    //String temp_str = ",";
-//    //bout << pstr(temp_str.concat(db[i].SD_Card_Title));
-//    //bout << pstr(temp_str.concat("test");
-//    //bout << pstr('",' + db[i].SD_Card_Title + '"');
-//  }
-      
+   
 //#if USE_DS1307
 //  bout << pstr(",date,time");
 //#endif  // USE_DS1307
@@ -266,7 +250,6 @@ void sd_setup() {
 //  bout << pstr(",Alt Pressure [?]");                      //115
 //  bout << pstr(",RB Words Recieved");                     //116
 
-  bout << pstr(",The End");                               //117
   logfile << buf << endl << flush;
 }
 
@@ -322,20 +305,13 @@ void write_telemetry_data_to_sd()
 
   initialize_database_2();
   
-  for (int i=1; i<(DB_SIZE+1); i++) 
+  for (int i=1; i<(DB_SIZE); i++) 
   { 
     if (db[i].tlm_type == "float") { bout << ',' << db[i].float_pointer; }
     else if (db[i].tlm_type == "long") { bout << ',' << db[i].long_pointer; }
     else if (db[i].tlm_type == "int") { bout << ',' << db[i].int_pointer; }
+    else if (db[i].tlm_type == "header") { bout << ',' << "10101010"; }
   }
-
-//  for (int i=1; i<DB_SIZE+1; i++) 
-//  { 
-//    if (db[i].tlm_type == "float") { bout << ',' << *db[i].float_pointer; }
-//    else if (db[i].tlm_type == "long") { bout << ',' << *db[i].long_pointer; }
-//    else if ((db[i].tlm_type == "int") || (db[i].tlm_type == "null")) { bout << ',' << *db[i].int_pointer; }
-//  }
-  
  
 //  bout << ',' << Flag_RB.try_send_reveive;                             //1
 //  bout << ',' << parameters.vehicle_mode;                              //2
