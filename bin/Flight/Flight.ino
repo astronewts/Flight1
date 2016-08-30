@@ -231,7 +231,7 @@ void loop()
     Main_flight_loop();
     RB_Send_Receive_data();
   }
-    RB_Send_Receive_data();
+    //RB_Send_Receive_data();
 }
 
 void Main_flight_loop()
@@ -436,7 +436,23 @@ void Terminal_test_loop()
   // Print All Collected TLM to the Terminal Window
   //print_telemetry();
 
+  int n = 2;
+  initialize_database_2();
+
+  //temp_line = malloc(32);
+  //temp_line = db[n].SD_Card_Title;
+
+  Serial.print("Testing Vehicle State SD Title1: ");
+  Serial.println(db[n].SD_Card_Title);
+  Serial.print("Testing Vehicle State SD Title2: ");
+  Serial.println(String('example\0'));
+    Serial.print("Testing Vehicle State SD Title3: ");
+  Serial.println(String('example'));
+  Serial.print("Testing Vehicle State: ");
+  Serial.println(db[n].int_pointer);
+  
   write_telemetry_data_to_sd();
+
 }
 
 
