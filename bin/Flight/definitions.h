@@ -152,27 +152,40 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         133 // Size of the Database
+#define DB_SIZE                         132 //132 // Size of the Database
+#define MAX_TLM_TYPE_SIZE               6 //
+#define MAX_SD_TITLE_SIZE               32 //
+
+// DEFINE FORMATS
+#define FORMAT_1                        10
+#define FORMAT_2                        20
+
 
 typedef struct {
   String tlm_type;
   int bitsize;
-  int* int_pointer;
-  long int* long_pointer;
-  float* float_pointer;
+  int int_pointer;
+  long long_pointer;
+  float float_pointer;
   String SD_Card_Title;
   int calibration_type;
   bool RB_Flag;
 } database;
 
+//typedef struct {
+//  String tlm_type;
+//  int bitsize;
+//  int* int_pointer;
+//  long int* long_pointer;
+//  float* float_pointer;
+//  String SD_Card_Title;
+//  int calibration_type;
+//  bool RB_Flag;
+//} database;
+
 int null_int = 12345;
 long null_long = 12345;
 float null_float = 12345;
-
-struct database_struct
-{
-  database db;
-};
 
 struct alt_struct
 {
@@ -288,15 +301,15 @@ struct gps_data_struct
 
 struct raw_telemetry_data_struct
 {
-  int raw_battery_1_temp_1;
-  int raw_battery_1_temp_2;
-  int raw_battery_2_temp_1;
-  int raw_battery_2_temp_2;
-  int raw_inner_external_temp;
-  int raw_outter_external_temp;
-  int raw_internal_temp;
-  int raw_air_pressure;
-  int raw_analog_VIN_voltage;
+  unsigned long raw_battery_1_temp_1;
+  unsigned long raw_battery_1_temp_2;
+  unsigned long raw_battery_2_temp_1;
+  unsigned long raw_battery_2_temp_2;
+  unsigned long raw_inner_external_temp;
+  unsigned long raw_outter_external_temp;
+  unsigned long raw_internal_temp;
+  unsigned long raw_air_pressure;
+  unsigned long raw_analog_VIN_voltage;
 };
 
 struct parameter_struct
