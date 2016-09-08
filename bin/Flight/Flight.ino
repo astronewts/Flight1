@@ -605,8 +605,8 @@ void initialize_database_2()
   
   db[0] = {"header",8,null_int,null_long,null_float,"Blank",0,0,0};
   db[1] = {"header",8,null_int,null_long,null_float,"Header [-]",0,1,1};         // FIX
-  db[2] = {"header",8,null_int,null_long,null_float,"Format [-]",0,1,1};         // FIX
-  db[3] = {"header",32,null_int,null_long,null_float,"Elapsed Time [s]",0,1,1};  // FIX
+  db[2] = {"int",8,parameters.telemetry_format,null_long,null_float,"Format [-]",0,1,1};         // FIX
+  db[3] = {"int",32,parameters.time_since_start/1000,null_long,null_float,"Elapsed Time [s]",0,1,1};  // FIX
   db[4] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1,1};
   db[5] = {"int",8,parameters.command_count,null_long,null_float,"Command Count",0,1,0};
   db[6] = {"int",8,thresholds.normal_transmit_period,null_long,null_float/1000.0,"Normal Trans Per [s]",0,1,0};
