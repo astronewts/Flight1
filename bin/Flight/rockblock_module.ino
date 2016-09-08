@@ -307,6 +307,7 @@ void sendreceive_satellite_data()
       // If we are here, it means the send/receive was complete
       Flag_RB.try_send_reveive=1;
       write_telemetry_data_to_sd();
+      gyro.count_between_RB=0;
       Flag_RB.try_send_reveive=0;
 
       Serial.print("ELAPSED TIME: ");

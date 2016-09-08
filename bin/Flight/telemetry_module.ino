@@ -1,6 +1,7 @@
 
 double raw_val;
 double actual_val;
+float gyro_sum_ax;
 char buffer[128];
 int count_low_alt;
 
@@ -661,3 +662,16 @@ int decode_lat_long(double *lat, double *lng, unsigned int encLat, unsigned int 
   return 0;
 }
 
+
+
+
+void Post_process_gyro()
+{
+if (gyro.count_between_RB==0)
+  {
+  gyro_sum_ax=0;  
+  }  
+  gyro_sum_ax=gyro_sum_ax+gyro.ax;
+  gyro.count_between_RB=gyro.count_between_RB+1;
+  gyro.mean_ax=gyro_sum_ax/gyro.count_between_RB;
+}

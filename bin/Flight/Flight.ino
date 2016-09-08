@@ -248,6 +248,9 @@ void Main_flight_loop()
       print_gps_data();
     }
     collect_gyro_data();
+    Post_process_gyro();
+    Serial.println(gyro.count_between_RB);
+    Serial.println(gyro.mean_ax);
     if (debug.mode==1)
     {
       Serial.println("=> DEBUG: GYRO DATA");

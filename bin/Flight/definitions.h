@@ -207,6 +207,8 @@ struct gyro_struct
   float mx;
   float my;
   float mz;
+  int count_between_RB;
+  float mean_ax;
 };
 
 struct debug_struct
