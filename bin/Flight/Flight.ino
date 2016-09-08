@@ -609,12 +609,12 @@ void initialize_database_2()
   db[3] = {"header",32,null_int,null_long,null_float,"Elapsed Time [s]",0,1,1};  // FIX
   db[4] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1,1};
   db[5] = {"int",8,parameters.command_count,null_long,null_float,"Command Count",0,1,0};
-  db[6] = {"long",8,null_int,thresholds.normal_transmit_period,null_float/1000.0,"Normal Trans Per [s]",0,1,0};
-  db[7] = {"long",8,null_int,thresholds.load_shed_transmit_period,null_float/1000.0,"Loadshed Trans Per [s]",0,1,0};
-  db[8] = {"long",8,null_int,thresholds.transit_transmit_period,null_float/1000.0,"Transit Trans Per [s]",0,1,0};
-  db[9] = {"long",8,null_int,thresholds.emergency_transit_transmit_period/1000.0,null_float,"Emer Trans Per [s]",0,1,0};
-  db[10] = {"long",8,null_int,thresholds.spare_transmit_period,null_float/1000.0,"Spare Trans Per [s]",0,1,0};
-  db[11] = {"long",8,null_int,parameters.sd_card_write_period,null_float/1000.0,"SD Card Write Per [s]",0,1,0};
+  db[6] = {"int",8,thresholds.normal_transmit_period,null_long,null_float/1000.0,"Normal Trans Per [s]",0,1,0};
+  db[7] = {"int",8,thresholds.load_shed_transmit_period,null_long,null_float/1000.0,"Loadshed Trans Per [s]",0,1,0};
+  db[8] = {"int",8,thresholds.transit_transmit_period,null_long,null_float/1000.0,"Transit Trans Per [s]",0,1,0};
+  db[9] = {"int",8,thresholds.emergency_transit_transmit_period/1000.0,null_long,null_float,"Emer Trans Per [s]",0,1,0};
+  db[10] = {"int",8,thresholds.spare_transmit_period/1000,null_long,null_float,"Spare Trans Per [s]",0,1,0};
+  db[11] = {"long",8,null_int,parameters.sd_card_write_period/1000,null_float,"SD Card Write Per [s]",0,1,0};
   db[12] = {"long",12,null_int,raw_telemetry_data.raw_battery_1_temp_1,null_float,"B 1 T 1 [C]",2,1,1};
   db[13] = {"long",12,null_int,raw_telemetry_data.raw_battery_1_temp_2,null_float,"B 1 T 2 [C]",2,1,1};
   db[14] = {"long",12,null_int,raw_telemetry_data.raw_battery_2_temp_1,null_float,"B 2 T 1 [C]",2,1,1};
@@ -707,20 +707,15 @@ void initialize_database_2()
   db[101] = {"int",16,thresholds.normal_battery_temperature_limit_low,null_long,null_float,"B Normal T Lim Low [C]",0,1,0};
   db[102] = {"int",16,thresholds.survival_battery_temperature_limit_high,null_long,null_float,"B Surv T Lim High [C]",0,1,0};
   db[103] = {"int",16,thresholds.survival_battery_temperature_limit_low,null_long,null_float,"B Surv T Lim Low [C]",0,1,0};         
-  // 102 has an issue: 
   db[104] = {"int",16,parameters.battery_temperature_sanity_check_low,null_long,null_float,"B T Sanity Check Low [C]",0,1,0};     
   db[105] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_loadshed_entry,"Loadshed Entry Volt Lim [V]",0,1,0};      
   db[106] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_auto_cutdown,"Auto Cutdown Volt Lim [V]",0,1,0};
-  db[107] = {"long",16,null_int,parameters.low_voltage_time_limit,null_float,"Low Volt Time until Cut-down [s]",0,1,0};
+  db[107] = {"int",16,parameters.low_voltage_time_limit,null_long,null_float,"Low Volt Time until Cut-down [s]",0,1,0};
   db[108] = {"int",16,parameters.altitude_limit_low,null_long,null_float,"Alt Limit Low [ft]",0,1,0};
-  // 107 has an issue: 
   db[109] = {"int",16,parameters.altitude_sanity_check_low,null_long,null_float,"Alt Sanity Check Low [ft]",0,1,0}; 
-  // 108 has an issue: 
-  db[110] = {"long",12,null_int,parameters.cutdown_pulse_width,null_float,"Pyro Pulse Width [s]",0,1,0};
-  // marche pas 
-  db[111] = {"long",12,null_int,parameters.camera_period,null_float,"Cam Per [s]",0,1,0};
-  // marche pas:
-  db[112] = {"long",12,null_int,parameters.camera_on_time,null_float,"Cam On Time [s]",0,1,0};
+  db[110] = {"int",12,parameters.cutdown_pulse_width,null_long,null_float,"Pyro Pulse Width [s]",0,1,0};
+  db[111] = {"int",12,parameters.camera_period,null_long,null_float,"Cam Per [s]",0,1,0};
+  db[112] = {"int",12,parameters.camera_on_time,null_long,null_float,"Cam On Time [s]",0,1,0};
   db[113] = {"int",1,parameters.battery_1_charging_status,null_long,null_float,"B 1 Charg Status [-]",0,1,0};
   db[114] = {"int",1,parameters.battery_2_charging_status,null_long,null_float,"B 2 Charg Status [-]",0,1,0};
   db[115] = {"int",1,parameters.battery_bus_low_voltage_flag,null_long,null_float,"Battery Bus Low V Flag [-]",0,1,0};
@@ -740,7 +735,7 @@ void initialize_database_2()
   db[129] = {"float",32,null_int,null_long,alt.altitude_in_feet,"Alt [ft]",0,1,1};
   db[130] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
   db[131] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
-  db[132] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recieved",0,1,0};  
+  db[132] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recieved",0,1,0}; 
 }
 
 void Init_RB()
@@ -786,6 +781,7 @@ void set_defaults()
   telemetry_data.loadvoltage_load_path = 0.0;
 
   parameters.vehicle_mode = DEFAULT_MODE;
+  parameters.telemetry_format = FORMAT_1;
   parameters.command_count = 0.0;
   parameters.loop_sleep = DEFAULT_LOOP_SLEEP;
   parameters.low_voltage_limit_for_loadshed_entry = DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY;

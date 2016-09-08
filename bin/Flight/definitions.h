@@ -152,7 +152,7 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         132 //132 // Size of the Database
+#define DB_SIZE                         134 //132 // Size of the Database
 #define MAX_TLM_TYPE_SIZE               6 //
 #define MAX_SD_TITLE_SIZE               32 //
 
@@ -169,7 +169,8 @@ typedef struct {
   float float_pointer;
   String SD_Card_Title;
   int calibration_type;
-  bool RB_Flag;
+  bool format_1;
+  bool format_2;
 } database;
 
 //typedef struct {
@@ -319,6 +320,7 @@ struct parameter_struct
   unsigned long sd_card_write_period;
   unsigned long tlm_processing_period;
   int vehicle_mode;
+  int telemetry_format;
   int command_count;
   int battery_temperature_limit_high;
   int battery_temperature_limit_low;
@@ -328,20 +330,20 @@ struct parameter_struct
   bool heater_state_2;
   float low_voltage_limit_for_loadshed_entry;
   float low_voltage_limit_for_auto_cutdown;
-  unsigned long low_voltage_time_limit;
+  unsigned int low_voltage_time_limit;
   bool battery_bus_low_voltage_flag;
   float voltage_sanity_check_high;
   float voltage_sanity_check_low;
   float charge_current_sanity_check_high;
   float charge_current_sanity_check_low;
-  unsigned long cutdown_pulse_width;
+  unsigned int cutdown_pulse_width;
   bool cutdown_enable_state;
   bool cutdown_1_status;
   bool cutdown_2_status;
   bool camera_enabled;
   bool camera_status;
-  unsigned long camera_period;
-  unsigned long camera_on_time;
+  unsigned int camera_period;
+  unsigned int camera_on_time;
   bool battery_1_charging_status;
   bool battery_2_charging_status;
   bool battery_1_temp_tlm_valid_flag;
@@ -401,11 +403,11 @@ struct threshold_struct
   int normal_battery_temperature_limit_low;
   int survival_battery_temperature_limit_high;
   int survival_battery_temperature_limit_low;
-  unsigned long normal_transmit_period;
-  unsigned long spare_transmit_period;
-  unsigned long transit_transmit_period;
-  unsigned long emergency_transit_transmit_period;
-  unsigned long load_shed_transmit_period;
+  unsigned int normal_transmit_period;
+  unsigned int spare_transmit_period;
+  unsigned int transit_transmit_period;
+  unsigned int emergency_transit_transmit_period;
+  unsigned int load_shed_transmit_period;
 };
 
 #endif /* _FLIGHT_DEFINITIONS_ */
