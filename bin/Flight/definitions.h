@@ -156,6 +156,10 @@
 #define MAX_TLM_TYPE_SIZE               6 //
 #define MAX_SD_TITLE_SIZE               32 //
 
+// DEFINE FORMATS
+#define FORMAT_1                        10
+#define FORMAT_2                        20
+
 
 typedef struct {
   String tlm_type;
