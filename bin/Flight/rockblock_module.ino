@@ -506,16 +506,17 @@ int process_satellite_command()
         Serial.print("Mode has been changed to: ");
         Serial.println(CommandString.substring(14,15)); 
       }// This ends the section to command to change the Spacecraft Mode
+
       
       if (CommandString.substring(6,14) == "22330002") {
-        // This is a command to Change the EPS Charge State
-        if (CommandString.substring(14,15) == "f") {
-           // Disable Battery Charging 
-           digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
+        // This is a command to Change the Flight Telemetry Format
+         if (CommandString.substring(15,16) == "1") {
+           // Update the Flight Format to be Format #1
+           parameters.telemetry_format = FORMAT_1;
          }
-         if (CommandString.substring(14,15) == "0") {
-           // Enable Battery Charging 
-           digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
+         if (CommandString.substring(15,16) == "2") {
+           // Update the Flight Format to be Format #1
+           parameters.telemetry_format = FORMAT_2;
          }
       }
       

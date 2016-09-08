@@ -157,8 +157,8 @@
 #define MAX_SD_TITLE_SIZE               32 //
 
 // DEFINE FORMATS
-#define FORMAT_1                        10
-#define FORMAT_2                        20
+#define FORMAT_1                        1
+#define FORMAT_2                        2
 
 
 typedef struct {
@@ -380,6 +380,7 @@ struct parameter_struct
   float battery_2_voltage_term_threshold;
   float battery_2_voltage_init_threshold;
 
+  elapsedMillis time_since_start;
   elapsedMillis camera_period_elapsed_time;
   elapsedMillis camera_on_elapsed_time;
   elapsedMillis battery_low_voltage_elapsed_time;

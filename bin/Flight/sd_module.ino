@@ -296,7 +296,9 @@ void write_telemetry_data_to_sd()
 
 #if USE_DS1307
   DateTime now = RTC.now();
-  bout << ',' << now;                                                  //0
+  
+//  bout << ',' << now;                                                  //0
+    bout << ',' << parameters.time_since_start;   
 #endif  // USE_DS1307
 
   //#################################################
