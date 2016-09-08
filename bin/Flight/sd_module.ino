@@ -309,10 +309,12 @@ void write_telemetry_data_to_sd()
   
   for (int i=1; i<(DB_SIZE); i++) 
   { 
-    if (db[i].tlm_type == "float") { bout << ',' << db[i].float_pointer; }
-    else if (db[i].tlm_type == "long") { bout << ',' << db[i].long_pointer; }
-    else if (db[i].tlm_type == "int") { bout << ',' << db[i].int_pointer; }
-    else if (db[i].tlm_type == "header") { bout << ',' << "10101010"; }
+    if (db[i].format_1 == parameters.telemetry_format) {
+      if (db[i].tlm_type == "float") { bout << ',' << db[i].float_pointer; }
+      else if (db[i].tlm_type == "long") { bout << ',' << db[i].long_pointer; }
+      else if (db[i].tlm_type == "int") { bout << ',' << db[i].int_pointer; }
+      else if (db[i].tlm_type == "header") { bout << ',' << "10101010"; }
+    }
   }
  
 //  bout << ',' << Flag_RB.try_send_reveive;                             //1

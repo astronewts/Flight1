@@ -743,38 +743,41 @@ void write_output_telemetry_dataword()
     initialize_database_2();
 
     for (int i=1; i<(DB_SIZE+1); i++) {
-      Serial.print("Print line: ");
-      Serial.print(i);
-      Serial.print("  DATA TYPE: ");
-      if (db[i].tlm_type == "float") 
-      {
-        parameters.output_dataword = combine_float(db[i].bitsize, db[i].float_pointer, parameters.output_dataword);
-        Serial.print(db[i].tlm_type);
-        Serial.print("  DATA: ");
-        Serial.println(db[i].float_pointer);
-      }
-      else if (db[i].tlm_type == "long")
-      {
-        parameters.output_dataword = combine(db[i].bitsize, db[i].long_pointer, parameters.output_dataword);
-        Serial.print(db[i].tlm_type);
-        Serial.print("  DATA: ");
-        Serial.println(db[i].long_pointer);
-      }
-      else if ((db[i].tlm_type == "int")) 
-      {
-        parameters.output_dataword = combine(db[i].bitsize, db[i].int_pointer, parameters.output_dataword);
-        Serial.print(db[i].tlm_type);
-        Serial.print("  DATA: ");
-        Serial.println(db[i].int_pointer);     
-      }
-      else if ((db[i].tlm_type == "header")) 
-      {
-        parameters.output_dataword = "10101010";
-        Serial.print(db[i].tlm_type);
-        Serial.print("  DATA: ");
-        Serial.println("10101010");
+      if ((db[i].format_1 == parameters.telemetry_format) || (db[i].format_2 == parameters.telemetry_format)) {
+        //Serial.print("Print line: ");
+        //Serial.print(i);
+        //Serial.print("  DATA TYPE: ");
+        if (db[i].tlm_type == "float") 
+        {
+          parameters.output_dataword = combine_float(db[i].bitsize, db[i].float_pointer, parameters.output_dataword);
+          //Serial.print(db[i].tlm_type);
+          //Serial.print("  DATA: ");
+          //Serial.println(db[i].float_pointer);
+        }
+        else if (db[i].tlm_type == "long")
+        {
+          parameters.output_dataword = combine(db[i].bitsize, db[i].long_pointer, parameters.output_dataword);
+          //Serial.print(db[i].tlm_type);
+          //Serial.print("  DATA: ");
+          //Serial.println(db[i].long_pointer);
+        }
+        else if ((db[i].tlm_type == "int")) 
+        {
+          parameters.output_dataword = combine(db[i].bitsize, db[i].int_pointer, parameters.output_dataword);
+          //Serial.print(db[i].tlm_type);
+          //Serial.print("  DATA: ");
+          //Serial.println(db[i].int_pointer);     
+        }
+        else if ((db[i].tlm_type == "header")) 
+        {
+          parameters.output_dataword = "10101010";
+          //Serial.print(db[i].tlm_type);
+          //Serial.print("  DATA: ");
+          //Serial.println("10101010");
+        }
       }
     }
+    
     Serial.println("");
     Serial.println(parameters.output_dataword);
     
