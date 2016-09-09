@@ -304,7 +304,7 @@ void execute_thermal_control_check()
 }
 
 void process_charge_current_tlm()
-{
+{ 
   double tlm_value = 0.0;
   double tlm_check = 0.0;
   double battery_1_elapsed_time_factor = 0.0;
@@ -347,8 +347,9 @@ void process_charge_current_tlm()
       parameters.battery_1_charging_status = false;
 
       //Reset the charge counts
-      parameters.battery_1_amphrs_charging = 0.0;
-      parameters.battery_1_amphrs_discharging = 0.0;
+      //NOTE: DISABLING THIS RESET DUE TO PRESENT HW DESIGN (LC: 9/8/16)
+      //parameters.battery_1_amphrs_charging = 0.0;
+      //parameters.battery_1_amphrs_discharging = 0.0;
     }
   }
   // BATTERY 2 SECTION
@@ -393,11 +394,23 @@ void process_charge_current_tlm()
       parameters.battery_2_charging_status = false;
 
       //Reset the charge counts
-      parameters.battery_2_amphrs_charging = 0.0;
-      parameters.battery_2_amphrs_discharging = 0.0;
+      //NOTE: DISABLING THIS RESET DUE TO PRESENT HW DESIGN (LC: 9/8/16)
+      //parameters.battery_2_amphrs_charging = 0.0;
+      //parameters.battery_2_amphrs_discharging = 0.0;
     }
   }
-  //TODO: DUPLICATE TO ADD BATTERY 2 CODE !!!!
+  
+  // SA Current AMP HR Calculation
+  double sa_elapsed_time_factor = 0.0;
+  sa_elapsed_time_factor = MS_IN_SEC /  parameters.sa_current_read_elapsed_time;
+  parameters.sa_current_read_elapsed_time = 0;
+  parameters.sa_amphrs += (parameters.sa_amphrs / (sa_elapsed_time_factor * SECS_IN_HOUR));
+
+  // LOAD Current AMP HR Calculation
+  double load_elapsed_time_factor = 0.0;
+  load_elapsed_time_factor = MS_IN_SEC /  parameters.load_current_read_elapsed_time;
+  parameters.load_current_read_elapsed_time = 0;
+  parameters.load_amphrs += (parameters.load_amphrs / (load_elapsed_time_factor * SECS_IN_HOUR));
 }
 
 void execute_electrical_control_check()

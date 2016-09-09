@@ -83,16 +83,16 @@
 #define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          75000  // 101:for test in living room //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
 
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
-#define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           -0.1
-#define DEFAULT_B1_AMPHRS_INIT_THRESHOLD           -0.5
-#define DEFAULT_B1_VOLTAGE_TERM_THRESHOLD           12.5
-#define DEFAULT_B1_VOLTAGE_INIT_THRESHOLD           10.0
+#define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           1.0  //Prev:-0.1  Note: These are purposely set too high to trigger, due to HW perfoming this action
+#define DEFAULT_B1_AMPHRS_INIT_THRESHOLD           0.0  //Prev:-0.5  Note: These are purposely set too high to trigger, due to HW perfoming this action
+#define DEFAULT_B1_VOLTAGE_TERM_THRESHOLD          15.0 //Prev:12.5  Note: These are purposely set too high to trigger, due to HW perfoming this action
+#define DEFAULT_B1_VOLTAGE_INIT_THRESHOLD          14.0 //Prev:10.0  Note: These are purposely set too high to trigger, due to HW perfoming this action
 
-#define DEFAULT_B2_RECHARGE_RATIO                   1.1
-#define DEFAULT_B2_AMPHRS_TERM_THRESHOLD           -0.1
-#define DEFAULT_B2_AMPHRS_INIT_THRESHOLD           -0.5
-#define DEFAULT_B2_VOLTAGE_TERM_THRESHOLD           12.5
-#define DEFAULT_B2_VOLTAGE_INIT_THRESHOLD           10.0
+#define DEFAULT_B2_RECHARGE_RATIO                  1.1
+#define DEFAULT_B2_AMPHRS_TERM_THRESHOLD           1.0  //Prev:-0.1  Note: These are purposely set too high to trigger, due to HW perfoming this action
+#define DEFAULT_B2_AMPHRS_INIT_THRESHOLD           0.0  //Prev:-0.5  Note: These are purposely set too high to trigger, due to HW perfoming this action
+#define DEFAULT_B2_VOLTAGE_TERM_THRESHOLD          15.0 //Prev:12.5  Note: These are purposely set too high to trigger, due to HW perfoming this action
+#define DEFAULT_B2_VOLTAGE_INIT_THRESHOLD          14.0 //Prev:10.0  Note: These are purposely set too high to trigger, due to HW perfoming this action
 
 #define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW    3.0
 #define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH   -2.0
@@ -152,7 +152,7 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         134 //132 // Size of the Database
+#define DB_SIZE                         135 //132 // Size of the Database
 #define MAX_TLM_TYPE_SIZE               6 //
 #define MAX_SD_TITLE_SIZE               32 //
 
@@ -380,6 +380,9 @@ struct parameter_struct
   float battery_2_voltage_term_threshold;
   float battery_2_voltage_init_threshold;
 
+  float sa_amphrs;
+  float load_amphrs;
+
   elapsedMillis time_since_start;
   elapsedMillis camera_period_elapsed_time;
   elapsedMillis camera_on_elapsed_time;
@@ -393,6 +396,8 @@ struct parameter_struct
   elapsedMillis low_rate_elapsed_time;
   elapsedMillis battery_1_charge_current_read_elapsed_time;
   elapsedMillis battery_2_charge_current_read_elapsed_time;
+  elapsedMillis sa_current_read_elapsed_time;
+  elapsedMillis load_current_read_elapsed_time;
   elapsedMillis rb_reinitialize_time;
   elapsedMillis elasped_time_for_rb_quality_test;
 
