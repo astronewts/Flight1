@@ -905,6 +905,7 @@ void set_load_shed_mode()
   //Set Transmit Rate
   parameters.transmit_period = thresholds.load_shed_transmit_period;
   parameters.vehicle_mode = LOADSHED_MODE;
+  write_telemetry_data_to_sd();
 }
 
 void set_normal_mode()
@@ -919,6 +920,7 @@ void set_normal_mode()
   //Set Transmit Rate
   parameters.transmit_period = thresholds.normal_transmit_period;
   parameters.vehicle_mode = FLIGHT_MODE;
+  write_telemetry_data_to_sd();
 }
 
 void set_transit_mode()
@@ -933,6 +935,7 @@ void set_transit_mode()
   //Set Transmit Rate
   parameters.transmit_period = thresholds.transit_transmit_period;
   parameters.vehicle_mode = TRANSIT_MODE;
+  write_telemetry_data_to_sd();
 }
 
 void set_spare_mode()
@@ -947,6 +950,7 @@ void set_spare_mode()
   //Set Transmit Rate
   parameters.transmit_period = thresholds.spare_transmit_period;
   parameters.vehicle_mode = 5;
+  write_telemetry_data_to_sd();
 }
 
 void set_emergency_decent_mode()
@@ -964,6 +968,7 @@ void set_emergency_decent_mode()
   //Set Transmit Rate
   parameters.transmit_period = thresholds.emergency_transit_transmit_period;
   parameters.vehicle_mode = 4;
+  write_telemetry_data_to_sd();
   //Fire Pyro
   cutdown_fire();
   Serial.println("Pyro fire command initiated!");

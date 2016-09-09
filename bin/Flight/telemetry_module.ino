@@ -199,6 +199,8 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
     }
     else
     {
+      write_telemetry_data_to_sd();
+      
       if(TLM_ID == 1)
       {
         parameters.battery_1_temp_tlm_valid_flag = false;
@@ -229,36 +231,67 @@ void evaluate_heater_state(double val, int batt_ID)
   if(val < parameters.battery_temperature_limit_low * 1.0)
   {
     //Turn heating element on
-    if(batt_ID == 1)
+    if((batt_ID == 1) || (parameters.heater_state_1 == false))
     {
       digitalWrite(PIN_HEATER_CONTROL_1, HIGH);
       parameters.heater_state_1 = true;
+      write_telemetry_data_to_sd();
+      if(debug.mode == 1) {
+        Serial.print("Heating element #");
+        Serial.print(batt_ID);
+        Serial.print("turned on due to average battery temperature of ");
+        Serial.print(val);
+        Serial.print("going below threshhold of ");
+        Serial.println(parameters.battery_temperature_limit_low);
+      }
     }
-    else if(batt_ID == 2)
+    else if((batt_ID == 2) || (parameters.heater_state_2 == false))
     {
       digitalWrite(PIN_HEATER_CONTROL_2, HIGH);
       parameters.heater_state_2 = true;
+      write_telemetry_data_to_sd();
+      if(debug.mode == 1) {
+        Serial.print("Heating element #");
+        Serial.print(batt_ID);
+        Serial.print("turned on due to average battery temperature of ");
+        Serial.print(val);
+        Serial.print("going below threshhold of ");
+        Serial.println(parameters.battery_temperature_limit_low);
+       }
     }
-    sprintf(buffer, "Heating element #%d turned on due to average battery temperature of %f going below threshhold of %d,",
-            batt_ID, val, parameters.battery_temperature_limit_low);
-    Serial.println(buffer);
+    
   }
   else if(val > parameters.battery_temperature_limit_high * 1.0)
   {
     //Turn heating element off
-    if(batt_ID == 1)
+    if((batt_ID == 1) || (parameters.heater_state_1 == true))
     {
       digitalWrite(PIN_HEATER_CONTROL_1, LOW);
       parameters.heater_state_1 = false;
+      write_telemetry_data_to_sd();
+      if(debug.mode == 1) {
+        Serial.print("Heating element #");
+        Serial.print(batt_ID);
+        Serial.print("turned OFF due to average battery temperature of ");
+        Serial.print(val);
+        Serial.print("going above threshhold of ");
+        Serial.println(parameters.battery_temperature_limit_high);
+      }
     }
-    else if(batt_ID == 2)
+    else if((batt_ID == 2) || (parameters.heater_state_2 == true))
     {
       digitalWrite(PIN_HEATER_CONTROL_2, LOW);
       parameters.heater_state_2 = false;
-    }
-    sprintf(buffer, "Heating element #%d turned off due to average battery temperature of %f going above threshhold of %d,",
-            batt_ID, val, parameters.battery_temperature_limit_high);
-    Serial.println(buffer);
+      write_telemetry_data_to_sd();
+      if(debug.mode == 1) {
+        Serial.print("Heating element #");
+        Serial.print(batt_ID);
+        Serial.print("turned OFF due to average battery temperature of ");
+        Serial.print(val);
+        Serial.print("going above threshhold of ");
+        Serial.println(parameters.battery_temperature_limit_high);
+       }
+     }
   }
 }
 
@@ -281,9 +314,12 @@ void execute_thermal_control_check()
   }
   else
   {
-    sprintf(buffer, "Battery 1 Temperatures are invalid! TLM1: %f, TLM2: %f",
-            telemetry_data.battery_1_temp_1, telemetry_data.battery_1_temp_2);
-    Serial.println(buffer);
+    if(debug.mode == 1) {
+        Serial.print("Battery 1 Temperatures are invalid! TLM1:");
+        Serial.print(telemetry_data.battery_1_temp_1);
+        Serial.print(", TLM2: ");
+        Serial.println(telemetry_data.battery_1_temp_2); 
+    }        
   }
 
   // Battery 2
@@ -297,9 +333,12 @@ void execute_thermal_control_check()
   }
   else
   {
-    sprintf(buffer, "Battery 2 Temperatures are invalid! TLM1: %f, TLM2: %f",
-            telemetry_data.battery_2_temp_1, telemetry_data.battery_2_temp_2);
-    Serial.println(buffer);
+    if(debug.mode == 1) {
+        Serial.print("Battery 2 Temperatures are invalid! TLM1:");
+        Serial.print(telemetry_data.battery_2_temp_1);
+        Serial.print(", TLM2: ");
+        Serial.println(telemetry_data.battery_2_temp_2); 
+    }       
   }
 }
 
@@ -441,10 +480,15 @@ void execute_electrical_control_check()
          //Battery voltage is low - set flag and mark time
 	       parameters.battery_bus_low_voltage_flag = true;
          parameters.battery_low_voltage_elapsed_time = 0;
-         sprintf(buffer, "Battery voltage of %f is below threshhold of %f. Starting timer of maximum allowed low voltage time (%fs).  Goind into Load Shed Mode.",
-                 tlm_value, parameters.low_voltage_limit_for_loadshed_entry, parameters.low_voltage_time_limit);
-         Serial.println(buffer);
-
+         if(debug.mode == 1) {
+          Serial.print("Battery voltage of ");
+          Serial.print(tlm_value);
+          Serial.print("is below threshhold of ");
+          Serial.print(parameters.low_voltage_limit_for_loadshed_entry);
+          Serial.print(". Starting timer of maximum allowed low voltage time: ");
+          Serial.print(parameters.low_voltage_time_limit);
+          Serial.println(" sec");
+         }
          //Enter Load Shed Mode
          set_load_shed_mode();
        }
@@ -490,9 +534,16 @@ void execute_electrical_control_check()
     //the the low voltage time limit
     if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
     {
-	     sprintf(buffer, "Battery voltage (currently %f) has been below threshhold (%f) for low voltage time limit of %fs.  Going into Emergency Descent Mode.",
-               tlm_value, parameters.low_voltage_limit_for_loadshed_entry, parameters.low_voltage_time_limit);
-      Serial.println(buffer);
+	     write_telemetry_data_to_sd();
+	     if(debug.mode == 1) {
+	      Serial.print("Battery voltage (currently ");
+	      Serial.print(tlm_value);
+        Serial.print(") has been below threshhold (");
+        Serial.print(parameters.low_voltage_limit_for_loadshed_entry);
+        Serial.print(") for low voltage time limit of ");
+        Serial.print(parameters.low_voltage_time_limit);
+        Serial.println(" sec.  Going into Emergency Descent Mode.");
+	     }
 
       //Enter Emergency Descent Mode
       set_emergency_decent_mode();
@@ -514,19 +565,25 @@ void execute_electrical_control_check()
 
   if(parameters.altitude_valid_flag == true)  // we are now flying
   {
-    Serial.println("WE are floating !!! (test for altitude cutdow, line 419 in telemetry_module)");
-
+    if(debug.mode == 1) {
+      Serial.println("WE are floating !!! (test for altitude cutdow, line 419 in telemetry_module)");
+    }
     if(alt.altitude_in_feet < parameters.altitude_limit_low) // if we are too low then start counting ... to 3
     {
       count_low_alt = count_low_alt + 1;
+      write_telemetry_data_to_sd();
     }
 
     if(count_low_alt == 3 ) // we have been too low for a few counts => initiate cut down
     {
       //Enter Emergency Descent Mode
-      Serial.println("SHIT we are too low: initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
-      set_emergency_decent_mode();
       parameters.altitude_valid_flag = false;
+      write_telemetry_data_to_sd();
+      if(debug.mode == 1) {
+      Serial.println("SHIT we are too low: initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
+      }
+      set_emergency_decent_mode();
+      
     }
 
     // //The next section is commented as we will only rely on the altimeter for the critical altitude test.
