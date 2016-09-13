@@ -656,10 +656,10 @@ void initialize_database_2()
   db[47] = {"int",4,gps_data.gps_num_satellites,null_long,null_float,"GPS # of Sat [-]",0,1,0}; 
   db[48] = {"long",32,null_int,gps_data.gps_date,null_float,"GPS Date [-]",0,1,1}; 
   db[49] = {"long",32,null_int,gps_data.gps_time,null_float,"GPS Time [-]",0,1,1}; 
-  db[50] = {"int",32,gps_data.gps_hdop,null_long,null_float,"HDOP Value [?]",0,1,0};
-  db[51] = {"int",32,gps_data.gps_chars_processed,null_long,null_float,"GPS Chars Processed [-]",0,1,0};
-  db[52] = {"int",32,gps_data.gps_sentances_with_fix,null_long,null_float,"GPS Sentences with Fix [-]",0,1,0}; 
-  db[53] = {"int",32,gps_data.gps_failed_checksum,null_long,null_float,"GPS Failed Checksum [-]",0,1,0};
+  db[50] = {"int",12,gps_data.gps_hdop,null_long,null_float,"HDOP Value [?]",0,1,0};
+  db[51] = {"int",16,gps_data.gps_chars_processed,null_long,null_float,"GPS Chars Processed [-]",0,1,0};
+  db[52] = {"int",16,gps_data.gps_sentances_with_fix,null_long,null_float,"GPS Sentences with Fix [-]",0,1,0}; 
+  db[53] = {"int",16,gps_data.gps_failed_checksum,null_long,null_float,"GPS Failed Checksum [-]",0,1,0};             
   db[54] = {"int",1,gps_data.gps_location_valid,null_long,null_float,"GPS Location Isvalid [-]",0,1,0};
   db[55] = {"int",1,gps_data.gps_altitude_valid,null_long,null_float,"GPS Altitude Isvalid [-]",0,1,0};
   db[56] = {"int",1,gps_data.gps_heading_valid,null_long,null_float,"GPS Course Isvalid [-]",0,1,0};
@@ -694,10 +694,10 @@ void initialize_database_2()
   db[85] = {"float",32,null_int,null_long,parameters.voltage_sanity_check_low,"Volt San Check Low [V]",0,1,0};
   db[86] = {"float",32,null_int,null_long,parameters.charge_current_sanity_check_high,"Charge Cur Sanity High [A]",0,1,0};
   db[87] = {"float",32,null_int,null_long,parameters.charge_current_sanity_check_low,"Charge Cur Sanity Low [A]",0,1,0};
-  db[88] = {"float",32,null_int,null_long,parameters.battery_1_recharge_ratio,"B 1 Recharge Ratio [-]",0,1,0};
+  db[88] = {"float",32,null_int,null_long,parameters.battery_1_recharge_ratio,"B 1 Recharge Ratio [-]",0,0,0};
   db[89] = {"float",32,null_int,null_long,parameters.battery_1_amphrs_charging,"B 1 AH Charging [A]",0,1,0};
   db[90] = {"float",32,null_int,null_long,parameters.battery_1_amphrs_discharging,"B 1 AH Discharging [A]",0,1,0};
-  db[91] = {"float",32,null_int,null_long,parameters.battery_2_recharge_ratio,"B 2 Recharge Ratio [-]",0,1,0};
+  db[91] = {"float",32,null_int,null_long,parameters.battery_2_recharge_ratio,"B 2 Recharge Ratio [-]",0,0,0};
   db[92] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_charging,"B 2 Amp Hours Charging [A]",0,1,0};
   db[93] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_discharging,"B 2 Amp Hours Discharging [A]",0,1,0};
   db[94] = {"float",32,null_int,null_long,parameters.sa_amphrs,"SA Total Amp Hrs [A.h]",0,1,0};
