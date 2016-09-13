@@ -123,7 +123,7 @@ void sd_setup() {
 
   initialize_database();
   
-  for (int i=1; i<(DB_SIZE); i++) 
+  for (int i=0; i<(DB_SIZE); i++) 
   { 
     bout << ','; 
     bout << db[i].SD_Card_Title;
@@ -307,7 +307,7 @@ void write_telemetry_data_to_sd()
 
   initialize_database();
   
-  for (int i=1; i<(DB_SIZE); i++) 
+  for (int i=0; i<(DB_SIZE); i++) 
   { 
     if (db[i].format_1 == parameters.telemetry_format) {
       if (db[i].tlm_type == "float") { bout << ',' << db[i].float_pointer; }

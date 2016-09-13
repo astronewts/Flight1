@@ -511,7 +511,7 @@ void set_defaults()
   telemetry_data.loadvoltage_load_path = 0.0;
 
   parameters.vehicle_mode = DEFAULT_MODE;
-  parameters.telemetry_format = FORMAT_1;
+  parameters.telemetry_format = FORMAT_1;  //FORMAT_1;
   parameters.command_count = 0.0;
   parameters.loop_sleep = DEFAULT_LOOP_SLEEP;
   parameters.low_voltage_limit_for_loadshed_entry = DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY;
@@ -757,7 +757,7 @@ void calculate_RB_out_mssg_size()
    int size_of_fmt_1 = 0;
    int size_of_fmt_2 = 0;
    
-   for(int i=1; i<DB_SIZE; i++) {
+   for(int i=0; i<DB_SIZE; i++) {
       size_of_fmt_1 = size_of_fmt_1 +(db[i].format_1*db[i].bitsize);
       size_of_fmt_2 = size_of_fmt_2 +(db[i].format_2*db[i].bitsize);
    }
