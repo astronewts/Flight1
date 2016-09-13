@@ -121,7 +121,7 @@ void sd_setup() {
 
   bout << pstr("millis");                                 
 
-  initialize_database_2();
+  initialize_database();
   
   for (int i=1; i<(DB_SIZE); i++) 
   { 
@@ -305,7 +305,7 @@ void write_telemetry_data_to_sd()
   //############### ASTRONEWTS SD TLM ###############
   //#################################################
 
-  initialize_database_2();
+  initialize_database();
   
   for (int i=1; i<(DB_SIZE); i++) 
   { 

@@ -741,7 +741,7 @@ void write_output_telemetry_dataword()
     //parameters.output_dataword = "10101010";
     parameters.output_dataword = "";
 
-    initialize_database_2();
+    initialize_database();
 
     for (int i=1; i<(DB_SIZE+1); i++) {
       if ((db[i].format_1 == parameters.telemetry_format) || (db[i].format_2 == parameters.telemetry_format)) {
