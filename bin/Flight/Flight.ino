@@ -242,6 +242,7 @@ void Main_flight_loop()
   {
     debug_println("===> DEBUG: HIGH-RATE PROCESS");
     collect_gps_data(gps_data_new);
+    post_process_gps_alt();
     
     if (debug.mode==1)
     {
@@ -250,9 +251,6 @@ void Main_flight_loop()
     }
     collect_gyro_data();
     post_process_gyro();
-    
-    //Serial.println(gyro.count_between_RB);
-    //Serial.println(gyro.mean_ax);
     
     if (debug.mode==1)
     {
@@ -283,6 +281,8 @@ void Main_flight_loop()
 
     debug_println("collect_alt_data();");
     collect_alt_data();
+    post_process_alt_data();
+        
     debug_println("=> DEBUG: ALTIMETER DATA");
     if (debug.mode) {
       print_alt_data();
@@ -386,8 +386,11 @@ void Cutdown_test_loop()
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD_CUTDOWN)
   {
     collect_gyro_data();
+    post_process_gyro();
+    
     collect_gps_data(gps_data_new);
-    //collect_gps_data();
+    post_process_gps_alt();
+    
     // Process Camera
     // TODO: Figure out How to Write process_camera_function();
     write_telemetry_data_to_sd();
@@ -398,6 +401,7 @@ void Cutdown_test_loop()
   if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD_CUTDOWN)
   {
     collect_alt_data();
+    post_process_alt_data();
     collect_analog_telemetry();
     collect_charge_current_data();
     //collect_low_rate_current_data();
@@ -421,13 +425,15 @@ void Terminal_test_loop()
 
   // Collect GPS Data
   collect_gps_data(gps_data_new);
-  //collect_gps_data();
+  post_process_gps_alt();
 
   // Collect Altimiter Data
-  //collect_alt_data();
+  collect_alt_data();
+  post_process_alt_data();
 
   //Collect gyro data
   collect_gyro_data();
+  post_process_gyro();
 
   // Process All Software Data
 
@@ -440,7 +446,6 @@ void Terminal_test_loop()
 
    write_telemetry_data_to_sd();
    delay(1000);
-
 }
 
 
@@ -558,9 +563,9 @@ void set_defaults()
   parameters.rb_initialization_error_status = 0;
   parameters.num_rb_words_recieved = 0;
   
-  alt.count_between_RB==0;
-  gps_data.count_between_RB==0;
-  gyro.count_between_RB==0;  
+  alt.count_between_RB = 0;
+  gps_data.count_between_RB = 0;
+  gyro.count_between_RB = 0;  
 
   parameters.battery_1_recharge_ratio = DEFAULT_B1_RECHARGE_RATIO;
   parameters.battery_1_amphrs_charging = 0.0;
