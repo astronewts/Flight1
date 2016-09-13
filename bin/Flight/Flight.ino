@@ -557,6 +557,10 @@ void set_defaults()
   parameters.test_count = INITIAL_TEST_COUNT;
   parameters.rb_initialization_error_status = 0;
   parameters.num_rb_words_recieved = 0;
+  
+  alt.count_between_RB==0;
+  gps_data.count_between_RB==0;
+  gyro.count_between_RB==0;  
 
   parameters.battery_1_recharge_ratio = DEFAULT_B1_RECHARGE_RATIO;
   parameters.battery_1_amphrs_charging = 0.0;
@@ -658,8 +662,8 @@ void initialize_database()
   db[37] = {"float",32,null_int,null_long,gps_data.gps_processed_lat,"GPS Lat [deg]",0,1,1};
   db[38] = {"float",32,null_int,null_long,gps_data.gps_processed_long,"GPS Long [deg]",0,1,1};
   db[39] = {"float",32,null_int,null_long,gps_data.gps_altitude,"GPS Alt [m]",0,1,1};
-  db[40] = {"float",32,null_int,null_long,null_float,"Max GPS Alt [m]",0,1,0}; 
-  db[41] = {"float",32,null_int,null_long,null_float,"Min GPS Alt [m]",0,1,0};  
+  db[40] = {"float",32,null_int,null_long,gps_data.max_gps_altitude,"Max GPS Alt [m]",0,1,0}; 
+  db[41] = {"float",32,null_int,null_long,gps_data.min_gps_altitude,"Min GPS Alt [m]",0,1,0};  
   db[42] = {"float",32,null_int,null_long,gps_data.gps_location_age,"GPS Loc Age [s]",0,1,0};
   db[43] = {"float",32,null_int,null_long,gps_data.gps_altitude_age,"GPS Alt Age [s]",0,1,0};
   db[44] = {"float",32,null_int,null_long,gps_data.gps_heading,"GPS Course [deg]",0,1,0};
@@ -679,24 +683,24 @@ void initialize_database()
   db[58] = {"int",1,gps_data.gps_date_valid,null_long,null_float,"GPS Date Isvalid [-]",0,1,0};
   db[59] = {"int",1,gps_data.gps_time_valid,null_long,null_float,"GPS Time Isvalid [-]",0,1,0};
   db[60] = {"int",1,gps_data.gps_hdop_valid,null_long,null_float,"GPS HDOP Isvalid [-]",0,1,0};
-  db[61] = {"float",32,null_int,null_long,null_float,"Max Acc X [g]",0,1,0};   
-  db[62] = {"float",32,null_int,null_long,null_float,"Min Acc X [g]",0,1,0}; 
-  db[63] = {"float",32,null_int,null_long,null_float,"Mean Acc X [g]",0,1,0}; 
-  db[64] = {"float",32,null_int,null_long,null_float,"Max Acc Y [g]",0,1,0};   
-  db[65] = {"float",32,null_int,null_long,null_float,"Min Acc Y [g]",0,1,0}; 
-  db[66] = {"float",32,null_int,null_long,null_float,"Mean Acc Y [g]",0,1,0};
-  db[67] = {"float",32,null_int,null_long,null_float,"Max Acc Z [g]",0,1,0};   
-  db[68] = {"float",32,null_int,null_long,null_float,"Min Acc Z [g]",0,1,0}; 
-  db[69] = {"float",32,null_int,null_long,null_float,"Mean Acc z [g]",0,1,0};
-  db[70] = {"float",32,null_int,null_long,null_float,"Max Gyro X [deg/s]",0,1,0};   
-  db[71] = {"float",32,null_int,null_long,null_float,"Min Gyro X [deg/s]",0,1,0}; 
-  db[72] = {"float",32,null_int,null_long,null_float,"Mean Gyro X [deg/s]",0,1,0}; 
-  db[73] = {"float",32,null_int,null_long,null_float,"Max Gyro Y [deg/s]",0,1,0};   
-  db[74] = {"float",32,null_int,null_long,null_float,"Min Gyro Y [deg/s]",0,1,0}; 
-  db[75] = {"float",32,null_int,null_long,null_float,"Mean Gyro Y [deg/s]",0,1,0}; 
-  db[76] = {"float",32,null_int,null_long,null_float,"Max Gyro Z [deg/s]",0,1,0};   
-  db[77] = {"float",32,null_int,null_long,null_float,"Min Gyro Z [deg/s]",0,1,0}; 
-  db[78] = {"float",32,null_int,null_long,null_float,"Mean Gyro Z [deg/s]",0,1,0};     
+  db[61] = {"float",32,null_int,null_long,gyro.max_ax,"Max Acc X [g]",0,1,0};   
+  db[62] = {"float",32,null_int,null_long,gyro.min_ax,"Min Acc X [g]",0,1,0}; 
+  db[63] = {"float",32,null_int,null_long,gyro.mean_ax,"Mean Acc X [g]",0,1,0}; 
+  db[64] = {"float",32,null_int,null_long,gyro.max_ay,"Max Acc Y [g]",0,1,0};   
+  db[65] = {"float",32,null_int,null_long,gyro.min_ay,"Min Acc Y [g]",0,1,0}; 
+  db[66] = {"float",32,null_int,null_long,gyro.mean_ay,"Mean Acc Y [g]",0,1,0};
+  db[67] = {"float",32,null_int,null_long,gyro.max_az,"Max Acc Z [g]",0,1,0};   
+  db[68] = {"float",32,null_int,null_long,gyro.min_az,"Min Acc Z [g]",0,1,0}; 
+  db[69] = {"float",32,null_int,null_long,gyro.mean_az,"Mean Acc z [g]",0,1,0};
+  db[70] = {"float",32,null_int,null_long,gyro.max_gx,"Max Gyro X [deg/s]",0,1,0};   
+  db[71] = {"float",32,null_int,null_long,gyro.min_gx,"Min Gyro X [deg/s]",0,1,0}; 
+  db[72] = {"float",32,null_int,null_long,gyro.mean_gx,"Mean Gyro X [deg/s]",0,1,0}; 
+  db[73] = {"float",32,null_int,null_long,gyro.max_gy,"Max Gyro Y [deg/s]",0,1,0};   
+  db[74] = {"float",32,null_int,null_long,gyro.min_gy,"Min Gyro Y [deg/s]",0,1,0}; 
+  db[75] = {"float",32,null_int,null_long,gyro.mean_gy,"Mean Gyro Y [deg/s]",0,1,0}; 
+  db[76] = {"float",32,null_int,null_long,gyro.max_gz,"Max Gyro Z [deg/s]",0,1,0};   
+  db[77] = {"float",32,null_int,null_long,gyro.min_gz,"Min Gyro Z [deg/s]",0,1,0}; 
+  db[78] = {"float",32,null_int,null_long,gyro.mean_gz,"Mean Gyro Z [deg/s]",0,1,0};     
   db[79] = {"float",32,null_int,null_long,gyro.mx,"Gyro mag X [G]",0,1,0}; 
   db[80] = {"float",32,null_int,null_long,gyro.my,"Gyro mag Y [G]",0,1,0}; 
   db[81] = {"float",32,null_int,null_long,gyro.mz,"Gyro mag Z [G]",0,1,0};  
@@ -744,12 +748,12 @@ void initialize_database()
   db[123] = {"int",1,parameters.battery_1_current_tlm_valid_flag,null_long,null_float,"B 1 Cur TLM Val Flag [-]",0,1,0};
   db[124] = {"int",1,parameters.battery_2_current_tlm_valid_flag,null_long,null_float,"B 2 Cur TLM Val Flag []",0,1,0};
   db[125] = {"float",32,null_int,null_long,alt.altitude_in_feet,"Alt [ft]",0,1,1};
-  db[126] = {"float",32,null_int,null_long,null_float,"Max Alt [ft]",0,1,0}; 
-  db[127] = {"float",32,null_int,null_long,null_float,"Min Alt [ft]",0,1,0}; 
+  db[126] = {"float",32,null_int,null_long,alt.max_altitude_in_feet,"Max Alt [ft]",0,1,0}; 
+  db[127] = {"float",32,null_int,null_long,alt.min_altitude_in_feet,"Min Alt [ft]",0,1,0}; 
   db[128] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
   db[129] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
-  db[130] = {"float",32,null_int,null_long,null_float,"Max Pressure [?]",0,1,0}; 
-  db[131] = {"float",32,null_int,null_long,null_float,"Min Pressure [?]",0,1,0}; 
+  db[130] = {"float",32,null_int,null_long,alt.max_pressure,"Max Pressure [?]",0,1,0}; 
+  db[131] = {"float",32,null_int,null_long,alt.min_pressure,"Min Pressure [?]",0,1,0}; 
   db[132] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recieved",0,1,0}; 
 }
 void calculate_RB_out_mssg_size()

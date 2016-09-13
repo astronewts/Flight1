@@ -191,24 +191,53 @@ float null_float = 12345;
 struct alt_struct
 {
   float altitude_in_feet;
+  float max_altitude_in_feet;
+  float min_altitude_in_feet;
   float temperature;
   float pressure;
+  float max_pressure;
+  float min_pressure;
+
+  unsigned int count_between_RB;
 };
 
 struct gyro_struct
 {
   float gyro_temp;
   float ax;
+  float sum_ax;
+  float mean_ax;
+  float max_ax;
+  float min_ax;  
   float ay;
+  float sum_ay;
+  float mean_ay;
+  float max_ay;
+  float min_ay; 
   float az;
+  float sum_az;
+  float mean_az;
+  float max_az;
+  float min_az; 
   float gx;
+  float sum_gx;
+  float mean_gx;
+  float max_gx;
+  float min_gx; 
   float gy;
+  float sum_gy;
+  float mean_gy;
+  float max_gy;
+  float min_gy; 
   float gz;
+  float sum_gz;
+  float mean_gz;
+  float max_gz;
+  float min_gz; 
   float mx;
   float my;
   float mz;
   int count_between_RB;
-  float mean_ax;
 };
 
 struct debug_struct
@@ -276,12 +305,14 @@ struct gps_data_struct
   float gps_processed_long;
   float gps_location_age; // MAX(gps_alt_age, gps_pos_age) in seconds
   float gps_altitude;
+  float max_gps_altitude;
+  float min_gps_altitude;
   float gps_altitude_age;
   float gps_heading; // 0-255
   float gps_speed; // km/hr
   long gps_date;
   long gps_time;
-  
+
   unsigned int gps_location_valid;
   unsigned int gps_altitude_valid;
   unsigned int gps_heading_valid;
@@ -298,6 +329,8 @@ struct gps_data_struct
   unsigned int gps_failed_checksum;
   
   unsigned int gyro_temp;
+
+  unsigned int count_between_RB;
 };
 
 // Use this enum whenever you need to ensure that EVERY telemetry item is iterated through
