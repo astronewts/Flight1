@@ -731,18 +731,91 @@ int decode_lat_long(double *lat, double *lng, unsigned int encLat, unsigned int 
   return 0;
 }
 
-
-
-
 void post_process_gyro()
 {
   if (gyro.count_between_RB==0) { 
-    // gyro.sum_ax=0; 
-    // gyro.sum_ax=0; 
-    // gyro.sum_ax=0; 
+    gyro.sum_ax=0;
+    gyro.mean_ax=0;
+    gyro.max_ax=0;
+    gyro.min_ax=0;
+    gyro.sum_ay=0;
+    gyro.mean_ay=0;
+    gyro.max_ay=0;
+    gyro.min_ay=0;
+    gyro.sum_az=0;
+    gyro.mean_az=0;
+    gyro.max_az=0;
+    gyro.min_az=0;  
+    gyro.sum_gx=0;
+    gyro.mean_gx=0;
+    gyro.max_gx=0;
+    gyro.min_gx=0;  
+    gyro.sum_gy=0;
+    gyro.mean_gy=0;
+    gyro.max_gy=0;
+    gyro.min_gy=0;  
+    gyro.sum_gz=0;
+    gyro.mean_gz=0;
+    gyro.max_gz=0;
+    gyro.min_gz=0; 
   }  
-  //gyro_sum_ax=gyro_sum_ax+gyro.ax;
-  //gyro.count_between_RB=gyro.count_between_RB+1;
-  //gyro.mean_ax=gyro_sum_ax/gyro.count_between_RB;
+  gyro.count_between_RB=gyro.count_between_RB+1;
   
+  gyro.sum_ax=gyro.sum_ax+gyro.ax;
+  gyro.sum_ay=gyro.sum_ay+gyro.ay;
+  gyro.sum_az=gyro.sum_az+gyro.az;
+  gyro.sum_gx=gyro.sum_gx+gyro.gx;
+  gyro.sum_gy=gyro.sum_gy+gyro.gy;
+  gyro.sum_gz=gyro.sum_gz+gyro.gz;
+  
+  gyro.mean_ax=gyro.sum_ax/gyro.count_between_RB;
+  gyro.mean_ay=gyro.sum_ay/gyro.count_between_RB;
+  gyro.mean_az=gyro.sum_az/gyro.count_between_RB;
+  gyro.mean_gx=gyro.sum_gx/gyro.count_between_RB;
+  gyro.mean_gy=gyro.sum_gy/gyro.count_between_RB;
+  gyro.mean_gz=gyro.sum_gz/gyro.count_between_RB;
+
+  if(gyro.ax > gyro.max_ax) { gyro.max_ax = gyro.ax; } 
+  if(gyro.ay > gyro.max_ay) { gyro.max_ay = gyro.ay; } 
+  if(gyro.az > gyro.max_az) { gyro.max_az = gyro.az; } 
+  if(gyro.gx > gyro.max_gx) { gyro.max_gx = gyro.gx; } 
+  if(gyro.gy > gyro.max_gy) { gyro.max_gy = gyro.gy; } 
+  if(gyro.gz > gyro.max_gz) { gyro.max_gz = gyro.gz; } 
+  
+  if(gyro.ax < gyro.min_ax) { gyro.min_ax = gyro.ax; } 
+  if(gyro.ay < gyro.min_ay) { gyro.min_ay = gyro.ay; } 
+  if(gyro.az < gyro.min_az) { gyro.min_az = gyro.az; } 
+  if(gyro.gx < gyro.min_gx) { gyro.min_gx = gyro.gx; } 
+  if(gyro.gy < gyro.min_gy) { gyro.min_gy = gyro.gy; } 
+  if(gyro.gz < gyro.min_gz) { gyro.min_gz = gyro.gz; } 
+ 
 }
+
+void post_process_gps_alt()
+{
+  if (gps_data.count_between_RB==0) { 
+    gps_data.max_gps_altitude=0;
+    gps_data.min_gps_altitude=0;
+  }  
+  gps_data.count_between_RB=gps_data.count_between_RB+1;
+
+  if(gps_data.gps_altitude > gps_data.max_gps_altitude) { gps_data.max_gps_altitude = gps_data.gps_altitude; }
+  if(gps_data.gps_altitude < gps_data.min_gps_altitude) { gps_data.min_gps_altitude = gps_data.gps_altitude; }
+}
+
+void post_process_alt_data()
+{
+  if (alt.count_between_RB==0) { 
+    alt.max_altitude_in_feet=0;
+    alt.min_altitude_in_feet=0;
+    alt.max_pressure=0;
+    alt.min_pressure=0;
+  }  
+  alt.count_between_RB=alt.count_between_RB+1;
+
+  if(alt.altitude_in_feet > alt.max_altitude_in_feet) { alt.max_altitude_in_feet = alt.altitude_in_feet; } 
+  if(alt.altitude_in_feet < alt.min_altitude_in_feet) { alt.min_altitude_in_feet = alt.altitude_in_feet; } 
+  if(alt.pressure > alt.max_pressure) { alt.max_pressure = alt.pressure; }
+  if(alt.pressure < alt.min_pressure) { alt.min_pressure = alt.pressure; }
+}
+
