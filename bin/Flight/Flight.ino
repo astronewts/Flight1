@@ -885,7 +885,34 @@ void set_output_pins()
   pinMode(PIN_GYRO_POWER, OUTPUT);
 }
 
-void set_load_shed_mode()
+void calculate_RB_out_mssg_size()
+{
+   int size_of_fmt_1 = 0;
+   int size_of_fmt_2 = 0;
+   
+   for(int i=1; i<DB_SIZE; i++) {
+      size_of_fmt_1 = size_of_fmt_1 +(db[i].format_1*db[i].bitsize);
+      size_of_fmt_2 = size_of_fmt_2 +(db[i].format_2*db[i].bitsize);
+   }
+
+   if ((size_of_fmt_1 > 340))
+   {
+   Serial.println("************************** WARNING !!!!!!!!!!!!!!!!!*********************");
+   Serial.print("************************** RB mssg in Format1 is too long *****************");
+   Serial.println("************************** Mssg wont be sent ****************************");
+   Serial.println("************************** WARNING !!!!!!!!!!!!!!!!!*********************");
+   }
+    
+   if ((size_of_fmt_2 > 340))
+   {
+   Serial.println("************************** WARNING !!!!!!!!!!!!!!!!!*********************");
+   Serial.print("************************** RB mssg in Format2 is too long *****************");
+   Serial.println("************************** Mssg wont be sent ****************************");
+   Serial.println("************************** WARNING !!!!!!!!!!!!!!!!!*********************");
+   } 
+   
+} // end calculate_RB_out_mssg_size
+ void set_load_shed_mode()
 {
   //Turn Camera Off
   digitalWrite(PIN_CAMERA_SWITCH, LOW);
