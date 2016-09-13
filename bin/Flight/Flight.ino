@@ -511,7 +511,7 @@ void set_defaults()
   telemetry_data.loadvoltage_load_path = 0.0;
 
   parameters.vehicle_mode = DEFAULT_MODE;
-  parameters.telemetry_format = FORMAT_1;  //FORMAT_1;
+  parameters.telemetry_format = FORMAT_2;  //FORMAT_1;
   parameters.command_count = 0.0;
   parameters.loop_sleep = DEFAULT_LOOP_SLEEP;
   parameters.low_voltage_limit_for_loadshed_entry = DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY;

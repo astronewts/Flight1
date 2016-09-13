@@ -744,7 +744,7 @@ void write_output_telemetry_dataword()
     initialize_database();
 
     for (int i=0; i<(DB_SIZE+1); i++) {
-      if ((db[i].format_1 == parameters.telemetry_format) || (db[i].format_2 == parameters.telemetry_format)) {
+      if (((db[i].format_1 == 1) && (parameters.telemetry_format == FORMAT_1)) || ((db[i].format_2 == 1) && (parameters.telemetry_format == FORMAT_2))) {
         //Serial.print("Print line: ");
         //Serial.print(i);
         //Serial.print("  DATA TYPE: ");

@@ -169,8 +169,8 @@ typedef struct {
   float float_pointer;
   String SD_Card_Title;
   int calibration_type;
-  bool format_1;
-  bool format_2;
+  int format_1;
+  int format_2;
 } database;
 
 //typedef struct {
