@@ -471,8 +471,6 @@ void Init_components()
   Serial.println("");
 }
 
-
-
 void Init_RB()
 {
   Serial.println("------- INIT ROCKBLOCK -------");
@@ -549,6 +547,7 @@ void set_defaults()
   parameters.battery_voltage_tlm_valid_flag = false;
   parameters.battery_1_current_tlm_valid_flag = false;
   parameters.battery_2_current_tlm_valid_flag = false;
+  parameters.invalid_command_recieved_count = 0;
 
   parameters.camera_period = DEFAULT_CAMERA_PERIOD;
   parameters.camera_on_time = DEFAULT_CAMERA_ON_TIME;
@@ -679,7 +678,7 @@ void initialize_database()
   db[49] = {"int",12,gps_data.gps_hdop,null_long,null_float,"HDOP Value [?]",0,1,0};
   db[50] = {"int",16,gps_data.gps_chars_processed,null_long,null_float,"GPS Chars Processed [-]",0,1,0};
   db[51] = {"int",16,gps_data.gps_sentances_with_fix,null_long,null_float,"GPS Sentences with Fix [-]",0,1,0}; 
-  db[52] = {"int",16,gps_data.gps_failed_checksum,null_long,null_float,"GPS Failed Checksum [-]",0,1,0};             
+  db[52] = {"int",8,gps_data.gps_failed_checksum,null_long,null_float,"GPS Failed Checksum [-]",0,1,0};             
   db[53] = {"int",1,gps_data.gps_location_valid,null_long,null_float,"GPS Location Isvalid [-]",0,1,0};
   db[54] = {"int",1,gps_data.gps_altitude_valid,null_long,null_float,"GPS Altitude Isvalid [-]",0,1,0};
   db[55] = {"int",1,gps_data.gps_heading_valid,null_long,null_float,"GPS Course Isvalid [-]",0,1,0};
@@ -760,7 +759,9 @@ void initialize_database()
   db[130] = {"float",32,null_int,null_long,alt.max_pressure,"Max Pressure [?]",0,1,0}; 
   db[131] = {"float",32,null_int,null_long,alt.min_pressure,"Min Pressure [?]",0,1,0}; 
   db[132] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recieved",0,1,0}; 
+  db[133] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Recieved Flag []",0,0,0};
 }
+
 void calculate_RB_out_mssg_size()
 {
    int size_of_fmt_1 = 0;

@@ -152,7 +152,7 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         134 //132 // Size of the Database
+#define DB_SIZE                         135 // Size of the Database
 #define MAX_TLM_TYPE_SIZE               6 //
 #define MAX_SD_TITLE_SIZE               32 //
 
@@ -393,6 +393,7 @@ struct parameter_struct
 
   int rb_initialization_error_status;
   int num_rb_words_recieved;
+  int invalid_command_recieved_count;
 
   int test_count;
   int prompt_from_user_makes_sense;
