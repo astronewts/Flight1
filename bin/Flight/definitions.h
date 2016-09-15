@@ -152,7 +152,7 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         134 //132 // Size of the Database
+#define DB_SIZE                         135 // Size of the Database
 #define MAX_TLM_TYPE_SIZE               6 //
 #define MAX_SD_TITLE_SIZE               32 //
 
@@ -372,7 +372,7 @@ struct parameter_struct
   float charge_current_sanity_check_high;
   float charge_current_sanity_check_low;
   unsigned int cutdown_pulse_width;
-  bool cutdown_enable_state;
+  bool cutdown_event_flag;
   bool cutdown_1_status;
   bool cutdown_2_status;
   bool camera_enabled;
@@ -393,6 +393,7 @@ struct parameter_struct
 
   int rb_initialization_error_status;
   int num_rb_words_recieved;
+  int invalid_command_recieved_count;
 
   int test_count;
   int prompt_from_user_makes_sense;

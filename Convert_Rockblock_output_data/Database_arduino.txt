@@ -50,7 +50,7 @@
   db[49] = {"int",12,gps_data.gps_hdop,null_long,null_float,"HDOP Value [?]",0,1,0};
   db[50] = {"int",16,gps_data.gps_chars_processed,null_long,null_float,"GPS Chars Processed [-]",0,1,0};
   db[51] = {"int",16,gps_data.gps_sentances_with_fix,null_long,null_float,"GPS Sentences with Fix [-]",0,1,0}; 
-  db[52] = {"int",16,gps_data.gps_failed_checksum,null_long,null_float,"GPS Failed Checksum [-]",0,1,0};             
+  db[52] = {"int",8,gps_data.gps_failed_checksum,null_long,null_float,"GPS Failed Checksum [-]",0,1,0};             
   db[53] = {"int",1,gps_data.gps_location_valid,null_long,null_float,"GPS Location Isvalid [-]",0,1,0};
   db[54] = {"int",1,gps_data.gps_altitude_valid,null_long,null_float,"GPS Altitude Isvalid [-]",0,1,0};
   db[55] = {"int",1,gps_data.gps_heading_valid,null_long,null_float,"GPS Course Isvalid [-]",0,1,0};
@@ -112,7 +112,7 @@
   db[111] = {"int",1,parameters.battery_bus_low_voltage_flag,null_long,null_float,"Battery Bus Low V Flag [-]",0,1,0};
   db[112] = {"int",1,parameters.heater_state_1,null_long,null_float,"Heater State 1 [-]",0,1,0};
   db[113] = {"int",1,parameters.heater_state_2,null_long,null_float,"Heater State 2 [-]",0,1,0};
-  db[114] = {"int",1,parameters.cutdown_enable_state,null_long,null_float,"Cut-down Enable [-]",0,1,0};
+  db[114] = {"int",1,parameters.cutdown_event_flag,null_long,null_float,"Cut-down Enable [-]",0,1,0};
   db[115] = {"int",1,parameters.cutdown_1_status,null_long,null_float,"Cut-down 1 Fire Status [-]",0,1,0};
   db[116] = {"int",1,parameters.cutdown_2_status,null_long,null_float,"Cut-down 2 Fire Status [-]",0,1,0};
   db[117] = {"int",1,parameters.altitude_valid_flag,null_long,null_float,"Alt Valid Flag [-]",0,1,0};
@@ -131,3 +131,4 @@
   db[130] = {"float",32,null_int,null_long,alt.max_pressure,"Max Pressure [?]",0,1,0}; 
   db[131] = {"float",32,null_int,null_long,alt.min_pressure,"Min Pressure [?]",0,1,0}; 
   db[132] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recieved",0,1,0}; 
+  db[133] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Recieved Flag []",0,1,0};
