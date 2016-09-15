@@ -514,7 +514,7 @@ void set_defaults()
   telemetry_data.loadvoltage_load_path = 0.0;
 
   parameters.vehicle_mode = DEFAULT_MODE;
-  parameters.telemetry_format = FORMAT_2;  //FORMAT_1;
+  parameters.telemetry_format = FORMAT_1;  //FORMAT_1;
   parameters.command_count = 0.0;
   parameters.loop_sleep = DEFAULT_LOOP_SLEEP;
   parameters.low_voltage_limit_for_loadshed_entry = DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY;
@@ -759,7 +759,7 @@ void initialize_database()
   db[130] = {"float",32,null_int,null_long,alt.max_pressure,"Max Pressure [?]",0,1,0}; 
   db[131] = {"float",32,null_int,null_long,alt.min_pressure,"Min Pressure [?]",0,1,0}; 
   db[132] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recieved",0,1,0}; 
-  db[133] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Recieved Flag []",0,0,0};
+  db[133] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Recieved Flag []",0,1,0};
 }
 
 void calculate_RB_out_mssg_size()
