@@ -372,7 +372,7 @@ struct parameter_struct
   float charge_current_sanity_check_high;
   float charge_current_sanity_check_low;
   unsigned int cutdown_pulse_width;
-  bool cutdown_enable_state;
+  bool cutdown_event_flag;
   bool cutdown_1_status;
   bool cutdown_2_status;
   bool camera_enabled;

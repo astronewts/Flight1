@@ -535,7 +535,7 @@ void set_defaults()
   parameters.sd_card_write_period = DEFAULT_SD_CARD_WRITE_PERIOD;
   parameters.tlm_processing_period = DEFAULT_TLM_PROCESSING_PERIOD;
   parameters.cutdown_pulse_width = DEFAULT_PYRO_PULSE_WIDTH;
-  parameters.cutdown_enable_state = false;
+  parameters.cutdown_event_flag = false;
   parameters.cutdown_1_status = false;
   parameters.cutdown_2_status = false;
   parameters.camera_enabled = true;
@@ -626,9 +626,9 @@ void initialize_database()
   
   //{Type,Bitsize,int,long,float,SD_Title,Calibration,Format1,Format2}
   
-  db[0] = {"header",8,null_int,null_long,null_float,"Header [-]",0,1,1};         // FIX
-  db[1] = {"int",8,parameters.telemetry_format,null_long,null_float,"Format [-]",0,1,1};         // FIX
-  db[2] = {"int",32,parameters.time_since_start/1000,null_long,null_float,"Elapsed Time [s]",0,1,1};  // FIX
+  db[0] = {"header",8,null_int,null_long,null_float,"Header [-]",0,1,1};        
+  db[1] = {"int",8,parameters.telemetry_format,null_long,null_float,"Format [-]",0,1,1};             
+  db[2] = {"int",32,parameters.time_since_start/1000,null_long,null_float,"Elapsed Time [s]",0,1,1};  // FIX?
   db[3] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1,1};
   db[4] = {"int",8,parameters.command_count,null_long,null_float,"Command Count",0,1,0};
   db[5] = {"int",8,thresholds.normal_transmit_period,null_long,null_float/1000.0,"Normal Trans Per [s]",0,1,0};
@@ -740,7 +740,7 @@ void initialize_database()
   db[111] = {"int",1,parameters.battery_bus_low_voltage_flag,null_long,null_float,"Battery Bus Low V Flag [-]",0,1,0};
   db[112] = {"int",1,parameters.heater_state_1,null_long,null_float,"Heater State 1 [-]",0,1,0};
   db[113] = {"int",1,parameters.heater_state_2,null_long,null_float,"Heater State 2 [-]",0,1,0};
-  db[114] = {"int",1,parameters.cutdown_enable_state,null_long,null_float,"Cut-down Enable [-]",0,1,0};
+  db[114] = {"int",1,parameters.cutdown_event_flag,null_long,null_float,"Cut-down Event Flag[-]",0,1,0};
   db[115] = {"int",1,parameters.cutdown_1_status,null_long,null_float,"Cut-down 1 Fire Status [-]",0,1,0};
   db[116] = {"int",1,parameters.cutdown_2_status,null_long,null_float,"Cut-down 2 Fire Status [-]",0,1,0};
   db[117] = {"int",1,parameters.altitude_valid_flag,null_long,null_float,"Alt Valid Flag [-]",0,1,0};
@@ -881,8 +881,8 @@ void set_emergency_decent_mode()
 void cutdown_fire()
 {
   //Enable Pyro pin
-  digitalWrite(PIN_CUTDOWN_ENABLE, HIGH);
-  parameters.cutdown_enable_state = true;
+  //digitalWrite(PIN_CUTDOWN_ENABLE, HIGH);
+  //parameters.cutdown_enable_state = true;
 
   //Set primary pin to high
   digitalWrite(PIN_CUTDOWN_1_FIRE, HIGH);

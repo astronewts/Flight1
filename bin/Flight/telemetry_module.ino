@@ -111,8 +111,11 @@ void cutdown_check()
       parameters.cutdown_2_status = false;
 
       //Disable the Cutdown Pin
-      digitalWrite(PIN_CUTDOWN_ENABLE, LOW);
-      parameters.cutdown_enable_state = false;
+      //digitalWrite(PIN_CUTDOWN_ENABLE, LOW);
+      //parameters.cutdown_enable_state = false;
+
+      //Throw Flag to verify Cut-down sequence is complete
+      parameters.cutdown_event_flag = true;
     }
   }
 }
@@ -674,8 +677,8 @@ void print_cutdown_telemetry()
   Serial.println(" ");
   Serial.print("test_count: ");
   Serial.println(parameters.test_count);
-  Serial.print("cutdown_enable_state: ");
-  Serial.println(parameters.cutdown_enable_state);
+  Serial.print("cutdown_event_flag: ");
+  Serial.println(parameters.cutdown_event_flag);
   Serial.print("cutdown_1_status: ");
   Serial.println(parameters.cutdown_1_status);
   Serial.print("cutdown_2_status: ");
