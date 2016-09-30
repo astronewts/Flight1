@@ -131,9 +131,8 @@ void sendreceive_satellite_data()
     {
       // TIC MARK!!!
       Serial.println(" ");
-      Serial.print("TIC: ");
-      // TODO: USE A BETTER TIMER HERE
-      Serial.println(parameters.cutdown_initiation_elapsed_time);
+      Serial.print("TIC (time since start): ");
+      Serial.println(parameters.time_since_start);
       Serial.println(" ");
   
       Serial.println(" ");
@@ -212,7 +211,7 @@ void sendreceive_satellite_data()
         Serial.println("SignalQuality failed: error ");
         Serial.println(sig_qual_err);
          Serial.print("Time: ");
-         Serial.println(parameters.transmit_elapsed_time);
+         Serial.println(parameters.time_since_start);
       }
 
       Serial.print("Error: ");
@@ -272,7 +271,7 @@ void sendreceive_satellite_data()
          Serial.print("Error: ");
          Serial.println(send_receive_err);
          Serial.print("Time: ");
-         Serial.println(parameters.transmit_elapsed_time);
+         Serial.println(parameters.time_since_start);
         
         if(debug.mode == 1)
         {
@@ -294,7 +293,7 @@ void sendreceive_satellite_data()
           
           Serial.println(" ");
           Serial.print("TOC: ");
-          Serial.println(parameters.cutdown_initiation_elapsed_time);
+          Serial.println(parameters.time_since_start);
           Serial.println(" ");
           
           //Serial.println(send_receive_err);
@@ -322,6 +321,7 @@ void sendreceive_satellite_data()
             Serial.println(" ");
             Serial.print("TIME SINCE START: ");
             Serial.println(parameters.time_since_start);
+
             Serial.println(" ");
         
             // ================ Print inbound message ================================= //

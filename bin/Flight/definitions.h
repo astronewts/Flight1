@@ -55,7 +55,7 @@
 #define DEFAULT_NORMAL_TRANSMIT_RATE               6000 //1800000 // TEST ONLY!!! (Once every half hour)
 //#define DEFAULT_NORMAL_TRANSMIT_RATE             1200000 // FOR FLIGHT!!!
 #define DEFAULT_SPARE_TRANSMIT_RATE                60000
-#define DEFAULT_TRANSIT_TRANSMIT_RATE              6000  //30000
+#define DEFAULT_TRANSIT_TRANSMIT_RATE              6000 // 6000: for test 30000:for normal operation
 #define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45000
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
 
