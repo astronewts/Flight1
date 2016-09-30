@@ -114,6 +114,10 @@ void sd_setup() {
     break;
   }
   
+  int temp = name[3] + name[4] + name[5];
+  parameters.sd_card_num = (int)temp;
+  //parameters.sd_card_num = ((int)temp).toInt();
+  
   if (!logfile.is_open()) error("file.open");
 
   // format header in buffer
