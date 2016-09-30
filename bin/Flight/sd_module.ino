@@ -111,11 +111,10 @@ void sd_setup() {
     if (sd.exists(name)) continue;
     logfile.open(name);
     cout << name << endl;
+    parameters.sd_card_num = (int)i;
     break;
   }
-  
-  int temp = name[3] + name[4] + name[5];
-  parameters.sd_card_num = (int)temp;
+ 
   //parameters.sd_card_num = ((int)temp).toInt();
   
   if (!logfile.is_open()) error("file.open");

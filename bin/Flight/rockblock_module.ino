@@ -82,6 +82,21 @@ void initialize_rb()
          Serial.println("msec\n");
       }
     }
+    if(debug.mode == 1)
+    { 
+      Serial.print("###########################  isbd.adjustATTimeout(");
+      Serial.print(DEFAULT_RB_AT_BUS_TIMEOUT);
+      Serial.println(") ###########################");     
+      Serial.println(" ");   
+      Serial.print("###########################  isbd.adjustSendReceiveTimeout(");
+      Serial.print(DEFAULT_RB_SEND_RECIEVE_TIMEOUT);
+      Serial.println(") ###########################");     
+      Serial.println(" ");    
+      Serial.print("###########################  isbd.setPowerProfile(");
+      Serial.print(DEFAULT_RB_POWER_MODE);   
+      Serial.println(")  ###########################");   
+      Serial.println(" ");
+    }
 }
 
 void sendreceive_satellite_data()
@@ -97,7 +112,8 @@ void sendreceive_satellite_data()
     size_t size_mssg = parameters.output_dataword.length();
     if(debug.mode == 1)
     {
-       Serial.println("length of output dataword:");
+       Serial.println("About to Start Sending a Dataword:");
+       Serial.print("Length of output dataword: ");
        Serial.println(parameters.output_dataword.length());
     }
 
@@ -106,7 +122,7 @@ void sendreceive_satellite_data()
     tx_bufferSize += size_mssg % 8 ? 1 : 0;
     if(debug.mode == 1)
     {
-       Serial.println("numb of bytes in mssg:");
+       Serial.print("Numb of bytes in message: ");
        Serial.println(tx_bufferSize);
     }
     // create unsigned integer array for input to Iridium send/receive function
@@ -129,30 +145,10 @@ void sendreceive_satellite_data()
 
     if(debug.mode == 1)
     {
-      // TIC MARK!!!
       Serial.println(" ");
-      Serial.print("TIC (time since start): ");
+      Serial.print("Time Since Start: ");
       Serial.println(parameters.time_since_start);
-      Serial.println(" ");
-  
-      Serial.println(" ");
-      Serial.print("###########################  isbd.adjustATTimeout(");
-      Serial.print(DEFAULT_RB_AT_BUS_TIMEOUT);
-      Serial.println(") is commanded! ###########################");     
-      Serial.println(" ");   
-  
-      Serial.println(" ");
-      Serial.print("###########################  isbd.adjustSendReceiveTimeout(");
-      Serial.print(DEFAULT_RB_SEND_RECIEVE_TIMEOUT);
-      Serial.println(") is commanded! ###########################");     
-      Serial.println(" ");    
-      
-      Serial.println(" ");
-      Serial.print("###########################  isbd.setPowerProfile(");
-      Serial.print(DEFAULT_RB_POWER_MODE);   
-      Serial.println(") is commanded! ###########################");   
-      Serial.println(" "); 
-      
+     
       Serial.println(" ");
       Serial.print("Sleep Status (#1):");
       Serial.println(isbd.isAsleep());   
@@ -211,7 +207,7 @@ void sendreceive_satellite_data()
         Serial.println("SignalQuality failed: error ");
         Serial.println(sig_qual_err);
          Serial.print("Time: ");
-         Serial.println(parameters.time_since_start);
+         Serial.println(parameters.transmit_elapsed_time);
       }
 
       Serial.print("Error: ");
@@ -271,7 +267,7 @@ void sendreceive_satellite_data()
          Serial.print("Error: ");
          Serial.println(send_receive_err);
          Serial.print("Time: ");
-         Serial.println(parameters.time_since_start);
+         Serial.println(parameters.transmit_elapsed_time);
         
         if(debug.mode == 1)
         {
@@ -293,7 +289,7 @@ void sendreceive_satellite_data()
           
           Serial.println(" ");
           Serial.print("TOC: ");
-          Serial.println(parameters.time_since_start);
+          Serial.println(parameters.cutdown_initiation_elapsed_time);
           Serial.println(" ");
           
           //Serial.println(send_receive_err);
@@ -321,7 +317,6 @@ void sendreceive_satellite_data()
             Serial.println(" ");
             Serial.print("TIME SINCE START: ");
             Serial.println(parameters.time_since_start);
-
             Serial.println(" ");
         
             // ================ Print inbound message ================================= //
@@ -741,7 +736,6 @@ void write_output_telemetry_dataword()
   // Process the Normal OPS Transmit Format
   //if (parameters.vehicle_mode < 6) {
 
-
      // Create intial word (+ header) to send to the ground
     String valid_str;
     valid_str = "0";
@@ -787,10 +781,12 @@ void write_output_telemetry_dataword()
       }
     }
     
-    if(debug.mode == 1) {
-      Serial.println("");
-      Serial.println(parameters.output_dataword);
-    }
+   //if(debug.mode == 1) 
+   //{
+   //   Serial.println("The following is the Output TLM word: ");
+   //   Serial.println(parameters.output_dataword);
+   //   Serial.println(" ");
+   // }
     
 }
 

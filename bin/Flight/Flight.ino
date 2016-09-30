@@ -807,11 +807,6 @@ void calculate_RB_out_mssg_size()
   parameters.battery_temperature_limit_high = thresholds.survival_battery_temperature_limit_high;
   parameters.battery_temperature_limit_low = thresholds.survival_battery_temperature_limit_low;
 
-  //Turn Power On
-  digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
-  digitalWrite(PIN_BATTERY_2_CHARGE_CUTOFF, LOW);
-  parameters.battery_1_charging_status = true;
-
   //Set Transmit Rate
   parameters.transmit_period = thresholds.load_shed_transmit_period;
   parameters.vehicle_mode = LOADSHED_MODE;
