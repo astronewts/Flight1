@@ -122,7 +122,7 @@ void sd_setup() {
   // format header in buffer
   obufstream bout(buf, sizeof(buf));
 
-  bout << pstr("millis");                                 
+  bout << pstr("Elapsed Time [ms]");                                 
 
   initialize_database();
   

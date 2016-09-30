@@ -14,8 +14,11 @@ TEMP_CONSTANT_2_4=  -0.000719311;
 TEMP_CONSTANT_2_5=  3.65125E-06;
 TEMP_CONSTANT_2_6=  -7.29058E-09;
 %
-if (counts > TEMP_BREAK_COUNT)   
-    T_in_C = TEMP_CONSTANT_1_1+TEMP_CONSTANT_1_2*(counts)+TEMP_CONSTANT_1_3*counts^2+TEMP_CONSTANT_1_4*counts^3+TEMP_CONSTANT_1_5*counts^4+TEMP_CONSTANT_1_6*counts^5;    
-else
-    T_in_C = TEMP_CONSTANT_2_1+TEMP_CONSTANT_2_2*(counts)+TEMP_CONSTANT_2_3*counts^2+TEMP_CONSTANT_2_4*counts^3+TEMP_CONSTANT_2_5*counts^4+TEMP_CONSTANT_2_6*counts^5;
+for c=1:size(counts,1)
+    count=counts(c,1);
+    if (count > TEMP_BREAK_COUNT)
+        T_in_C = TEMP_CONSTANT_1_1+TEMP_CONSTANT_1_2*(count)+TEMP_CONSTANT_1_3*count^2+TEMP_CONSTANT_1_4*count^3+TEMP_CONSTANT_1_5*count^4+TEMP_CONSTANT_1_6*count^5;
+    else
+        T_in_C = TEMP_CONSTANT_2_1+TEMP_CONSTANT_2_2*(count)+TEMP_CONSTANT_2_3*count^2+TEMP_CONSTANT_2_4*count^3+TEMP_CONSTANT_2_5*count^4+TEMP_CONSTANT_2_6*count^5;
+    end
 end
