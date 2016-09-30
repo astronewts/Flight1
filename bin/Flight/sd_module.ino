@@ -114,6 +114,10 @@ void sd_setup() {
     break;
   }
   
+  int temp = name[3] + name[4] + name[5];
+  parameters.sd_card_num = (int)temp;
+  //parameters.sd_card_num = ((int)temp).toInt();
+  
   if (!logfile.is_open()) error("file.open");
 
   // format header in buffer
@@ -309,12 +313,10 @@ void write_telemetry_data_to_sd()
   
   for (int i=0; i<(DB_SIZE); i++) 
   { 
-    if (db[i].format_1 == parameters.telemetry_format) {
       if (db[i].tlm_type == "float") { bout << ',' << db[i].float_pointer; }
       else if (db[i].tlm_type == "long") { bout << ',' << db[i].long_pointer; }
       else if (db[i].tlm_type == "int") { bout << ',' << db[i].int_pointer; }
       else if (db[i].tlm_type == "header") { bout << ',' << "10101010"; }
-    }
   }
  
 //  bout << ',' << Flag_RB.try_send_reveive;                             //1
