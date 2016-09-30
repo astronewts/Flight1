@@ -214,11 +214,9 @@ void sendreceive_satellite_data()
          Serial.print("Time: ");
          Serial.println(parameters.transmit_elapsed_time);
       }
-      //if(sig_qual_err == 7)
-      //{
-      //   Serial.println("!!!!! ERROR: Signal Quality Error = 7 !!!!!");
-         Serial.print("Error: ");
-         Serial.println(sig_qual_err);
+
+      Serial.print("Error: ");
+      Serial.println(sig_qual_err);
      
       // TODO: WRITE THIS TO THE SD BUFFER
       //
@@ -310,20 +308,20 @@ void sendreceive_satellite_data()
       gyro.count_between_RB=0;
       Flag_RB.try_send_reveive=0;
 
-      Serial.print("ELAPSED TIME: ");
+      Serial.print("ELAPSED TIME SINCE LAST TRANSMIT: ");
       Serial.println(parameters.transmit_elapsed_time);
       Serial.println("**Satellite transmit/receive complete!**");
 
-      if(debug.mode == 1)
-        {
+      //if(debug.mode == 1)
+      //  {
             Serial.println("");
             Serial.println("**This is output.dataword**");
             Serial.println(parameters.output_dataword);
 
             // TOC MARK!!!
             Serial.println(" ");
-            Serial.print("TOC: ");
-            Serial.println(parameters.cutdown_initiation_elapsed_time);
+            Serial.print("TIME SINCE START: ");
+            Serial.println(parameters.time_since_start);
             Serial.println(" ");
         
             // ================ Print inbound message ================================= //
@@ -331,8 +329,7 @@ void sendreceive_satellite_data()
             Serial.print("Inbound buffer size is ");
             Serial.println(rx_bufferSize);
 
-
-          Serial.println("**This is rx buffer in RAW*");
+            Serial.println("**This is rx buffer in RAW*");
             for (int i=0; i<rx_bufferSize; ++i)
             {
               // Serial.write(rx_buffer[i]);
@@ -358,7 +355,8 @@ void sendreceive_satellite_data()
               //  Description:   Returns the number of waiting messages on the Iridium servers.
               //  Returns:            The number of messages waiting.
                 Serial.println(isbd.getWaitingMessageCount());
-         } // end debug section
+        
+       //  } // end debug section
          
       if (rx_bufferSize == 0)
         break; // all done with do-while loop to Send/Receive until Iridium queue is cleared
@@ -449,6 +447,13 @@ int process_satellite_command()
     }
     else {  
       parameters.num_rb_words_recieved = 1;
+    }
+  
+    if(debug.mode == 1)
+    {
+      Serial.println("");
+      Serial.println("COMMAND STRING OUTPUT: ");
+      Serial.println(CommandString);
     }
   
   // Allow the Commands through if it matches the intended vehicle and code version

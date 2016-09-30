@@ -230,7 +230,9 @@ void loop()
     // EXECUTE FLIGHT CODE //
     /////////////////////////
     Main_flight_loop();
+    debug.mode = 1;
     RB_Send_Receive_data();
+
   }
     //RB_Send_Receive_data();
 }
@@ -238,6 +240,7 @@ void loop()
 void Main_flight_loop()
 {
   debug.mode = 0;
+  
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
     debug_println("===> DEBUG: HIGH-RATE PROCESS");
@@ -514,7 +517,7 @@ void set_defaults()
   telemetry_data.loadvoltage_load_path = 0.0;
 
   parameters.vehicle_mode = DEFAULT_MODE;
-  parameters.telemetry_format = FORMAT_1;  //FORMAT_1;
+  parameters.telemetry_format = FORMAT_2;  //FORMAT_1;
   parameters.command_count = 0.0;
   parameters.loop_sleep = DEFAULT_LOOP_SLEEP;
   parameters.low_voltage_limit_for_loadshed_entry = DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY;
@@ -602,6 +605,7 @@ void set_defaults()
   // Change the analog read resolution to 12 bits
   analogReadResolution(RESOLUTION_PRESSURE_SENSOR);
 
+  debug.mode = 0;
 }
 
 void set_output_pins()
