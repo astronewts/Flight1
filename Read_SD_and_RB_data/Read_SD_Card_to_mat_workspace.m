@@ -7,7 +7,7 @@ addpath('..\Convert_Rockblock_output_data\')
 %
 Read_Database_from_Arduino;
 %
-[FileName,PathName,FilterIndex]=uigetfile('*.csv');
+[FileName,PathName,FilterIndex]=uigetfile('*.csv','SELECT A CSV FILE');
 [Data,Txt]=xlsread(strcat(PathName,filesep,FileName));
 %% 2- Read the csv file header
 for c=1:min(size(Txt,2),size(Data,2))
@@ -42,5 +42,5 @@ Value_processed=Value_raw;
 end
 %
 Name_variable_SD=strcat(Name_variable_mod,'_SD');
-assignin('base',Name_variable_mod,Value_processed);
+assignin('base',Name_variable_SD,Value_processed);
 end

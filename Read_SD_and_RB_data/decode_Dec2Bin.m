@@ -1,138 +1,19 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Script to convert rockblock message from web interface into understandable data
-%
-% 1) load data from rockblock spreadsheet
-% 2) convert the data into the original binary word
-% 3) use TLM order to convert bin into data
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 clear all
 close all
 clc
-format long
-
-% define print path for output file:
-%path_results = strcat(pwd,'/data/');
-path_results = pwd;
-%path_results='/Users/kevinmacko/Library/Mobile Documents/com~apple~CloudDocs/Documents/Astronewts/code/Flight1/Convert_Rockblock_output_data/';
-%path_results='/Users/gnlacaz/PERSO/Balloon_project/Arduino/Flight1/Convert_Rockblock_output_data/';
-% name of output file:
-name_file_result='/data_from_balloon.txt';
-
-%%%%%%%%%%%%%%%%% import data: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Note: to get the word sent by the balloon do the following:
-% 1) go on webpage for our rock block: https://core.rock7.com/Operations
-% log ad: astronewts
-
-cd ./
-filename = 'Test_RB.txt';
-
-fileID = fopen(filename);
+%
+[filename,PathName,FilterIndex]=uigetfile ({'*.txt','txt-files';'*.xls','xls-files'});
+%
+if strfind(filename,'xls')
+[Data,txt]=xlsread(strcat(PathName,filename));
+mssg_rockblock=txt(5:size(txt,1),4);
+end
+if strfind(filename,'txt')
+fileID = fopen(strcat(PathName,filename));
 mssg_rockblock = textscan(fileID,'%s');
 fclose(fileID);
-
+end
+%
 nb_words=ndims(mssg_rockblock);
-
-
-%%%%%%%%%%%%%%%%% END import data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% loop on words:
-%for lw = 1:nb_words
-for lw = 1:1 % just the first word for testing
-    %%%%%%%%%%%%%%%%% Create bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    mssg = mssg_rockblock{1}{lw};
-    length_words = length(mssg)
-    nb_hex_words= length_words/2 ;
-    
-    tot_word_bin='';
-    tot_word_dec=0;
-    for m = 0:nb_hex_words-1
-        word_hex=strcat(mssg(2*m+1),mssg(2*m+2));
-        word_dec=hex2dec(word_hex);
-        
-        tot_word_dec = [tot_word_dec;word_dec];
-        
-        word_bin=dec2bin(word_dec,8);
-        tot_word_bin = strcat(tot_word_bin,word_bin);
-    end
-    % print the binary word:
-    tot_word_dec
-    
-    %%%%%%%%%%%%%%%%% END Create bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    %%%%%%%%%%%%%%%%% Decode bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    size_bin_word=size(tot_word_bin);
-    size_bin_word=size_bin_word(2)
-    
-    Read_Database_from_Arduino;
-    
-    %%%%%%%%%%%%%%%%% prepare for output %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % print results to this file
-    path_name_output=strcat(path_results,name_file_result);
-    delete(path_name_output);
-    file_result_ID = fopen(path_name_output,'w');
-    %
-    Format_type=bin2dec(tot_word_bin(9:16));
-    %
-    index=1; % initialization
-    vector_out = 0.; % prepare for output
-    for n = 1:nb_var
-        
-        if ((Format_type==1 & var_format1(n)==1)  || (Format_type==2 & var_format2(n)==1))
-            
-            variable='';
-            for i=index:index+var_length(n)-1
-                variable = strcat(variable,tot_word_bin(i));
-            end
-            index=index+var_length(n);
-            %
-            % formating of the output file:
-            var_out_type_head='%2d %12s';
-            var_out_type_tail=' %s \n';
-            %
-            if strcmp(var_type{n},'null')
-                var_out_type_core=' %-17d';
-                var(n) = str2num(variable);
-            elseif strcmp(var_type{n},'header')
-                var_out_type_core=' %-17f';
-                temp1=str2num(variable);
-            elseif strcmp(var_type{n},'unsigned')
-                var_out_type_core=' %-17d';
-                var(n) = bin2dec(variable);
-            elseif strcmp(var_type{n},'float')
-                var_out_type_core=' %-17f';
-                var(n) = typecast(uint32(bin2dec(variable)),'single');
-            elseif strcmp(var_type{n},'float temp')
-                var_out_type_core=' %-17f';
-                temp1=bin2dec(variable);
-                var(n) = Ctemp1val*(bin2dec(variable)-Ctemp2val);
-            elseif strcmp(var_type{n},'int')
-                var_out_type_core=' %-17d';
-                var(n) = bin2dec(variable);
-            elseif strcmp(var_type{n},'long')
-                var_out_type_core=' %-17d';
-                var(n) = bin2dec(variable);
-            end
-            %
-            var_processed(n)=convert_raw_data(var(n),var_calib(n));
-            %
-            assignin('base',strcat('n',char(var_ind_list(n)),'_',var_name{n}),var_processed(n));
-            
-            % finalize the formating of the output data:
-            %    var_out_type=strcat(var_out_type_head,var_out_type_core,var_out_type_tail);
-            
-            %Print output data to file:
-            %     fprintf(file_result_ID,var_out_type,n-1,var_name{n},var(n));
-        end
-    end
-    
-    % output check
-    %var(1)
-    end_message=strcat('result printed in ./',name_file_result);
-    %disp('result printed')
-    disp(end_message)
-    
-    %%%%%%%%%%%%%%%%% END Decode bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-end % end of loop on the words of the input file
-
-fclose(file_result_ID);
+%
+Read_RB_mssg_to_mat_workspace
