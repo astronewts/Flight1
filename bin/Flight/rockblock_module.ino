@@ -498,10 +498,10 @@ int process_satellite_command()
            // Set the Mode to Descent Mode
            set_emergency_decent_mode();
          }
-         if (CommandString.substring(14,15) == "5") {
-           // Set the Mode to Spare Mode
-           set_spare_mode();
-         }
+         //GL//if (CommandString.substring(14,15) == "5") {
+         //GL//  // Set the Mode to Spare Mode
+         //GL//  set_spare_mode();
+         //GL//}
 
         Serial.print("Mode has been changed to: ");
         Serial.println(CommandString.substring(14,15)); 
