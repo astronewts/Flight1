@@ -904,4 +904,7 @@ void cutdown_fire()
 
   //Mark time that pyro was initiated
   parameters.cutdown_initiation_elapsed_time = 0;
+
+  //Set the mode to Transit
+  set_transit_mode();
 }
