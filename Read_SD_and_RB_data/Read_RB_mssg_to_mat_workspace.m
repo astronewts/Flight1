@@ -1,44 +1,5 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Script to convert rockblock message from web interface into understandable data
-%
-% 1) load data from rockblock spreadsheet
-% 2) convert the data into the original binary word
-% 3) use TLM order to convert bin into data
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-clear all
-close all
-clc
-format long
-
-% define print path for output file:
-%path_results = strcat(pwd,'/data/');
-path_results = pwd;
-%path_results='/Users/kevinmacko/Library/Mobile Documents/com~apple~CloudDocs/Documents/Astronewts/code/Flight1/Convert_Rockblock_output_data/';
-%path_results='/Users/gnlacaz/PERSO/Balloon_project/Arduino/Flight1/Convert_Rockblock_output_data/';
-% name of output file:
-name_file_result='/data_from_balloon.txt';
-
-%%%%%%%%%%%%%%%%% import data: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Note: to get the word sent by the balloon do the following:
-% 1) go on webpage for our rock block: https://core.rock7.com/Operations
-% log ad: astronewts
-
-cd ./
-filename = 'Test_RB.txt';
-
-fileID = fopen(filename);
-mssg_rockblock = textscan(fileID,'%s');
-fclose(fileID);
-
-nb_words=ndims(mssg_rockblock);
-
-
-%%%%%%%%%%%%%%%%% END import data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% loop on words:
-%for lw = 1:nb_words
-for lw = 1:1 % just the first word for testing
+for lw = 1:size(mssg_rockblock{1,1},1)
+    lw% just the first word for testing
     %%%%%%%%%%%%%%%%% Create bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     mssg = mssg_rockblock{1}{lw};
     length_words = length(mssg)
@@ -68,9 +29,9 @@ for lw = 1:1 % just the first word for testing
     
     %%%%%%%%%%%%%%%%% prepare for output %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % print results to this file
-    path_name_output=strcat(path_results,name_file_result);
-    delete(path_name_output);
-    file_result_ID = fopen(path_name_output,'w');
+%     path_name_output=strcat(path_results,name_file_result);
+%     delete(path_name_output);
+%     file_result_ID = fopen(path_name_output,'w');
     %
     Format_type=bin2dec(tot_word_bin(9:16));
     %
@@ -128,11 +89,9 @@ for lw = 1:1 % just the first word for testing
     
     % output check
     %var(1)
-    end_message=strcat('result printed in ./',name_file_result);
+%    end_message=strcat('result printed in ./',name_file_result);
     %disp('result printed')
-    disp(end_message)
+    %disp(end_message)
     
     %%%%%%%%%%%%%%%%% END Decode bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end % end of loop on the words of the input file
-
-fclose(file_result_ID);
