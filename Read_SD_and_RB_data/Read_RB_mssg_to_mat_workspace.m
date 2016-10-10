@@ -1,7 +1,7 @@
-for lw = 1:size(mssg_rockblock{1,1},1)
+for lw = 1:size(mssg_rockblock,1)
     lw% just the first word for testing
     %%%%%%%%%%%%%%%%% Create bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    mssg = mssg_rockblock{1}{lw};
+    mssg = char(mssg_rockblock{lw,1})
     length_words = length(mssg)
     nb_hex_words= length_words/2 ;
     
@@ -77,14 +77,17 @@ for lw = 1:size(mssg_rockblock{1,1},1)
             %
             var_processed(n)=convert_raw_data(var(n),var_calib(n));
             %
-            assignin('base',strcat('n',char(var_ind_list(n)),'_',var_name{n}),var_processed(n));
+            Big_matrix(lw,n)=var_processed(n);
+            %
             
             % finalize the formating of the output data:
             %    var_out_type=strcat(var_out_type_head,var_out_type_core,var_out_type_tail);
             
             %Print output data to file:
             %     fprintf(file_result_ID,var_out_type,n-1,var_name{n},var(n));
+                    assignin('base',strcat(var_name{n},'_RB'),Big_matrix(:,n));
         end
+
     end
     
     % output check
