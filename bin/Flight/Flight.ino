@@ -518,7 +518,7 @@ void set_defaults()
 
   parameters.vehicle_mode = DEFAULT_MODE;
   parameters.sd_card_num = 0;
-  parameters.telemetry_format = FORMAT_2;  //FORMAT_1;
+  parameters.telemetry_format = FORMAT_1;  //FORMAT_1;
   parameters.command_count = 0.0;
   parameters.loop_sleep = DEFAULT_LOOP_SLEEP;
   parameters.low_voltage_limit_for_loadshed_entry = DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY;
@@ -637,7 +637,7 @@ void initialize_database()
   db[3] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1,1};
   db[4] = {"int",8,parameters.command_count,null_long,null_float,"CMD Count",0,1,0};            
   db[5] = {"int",32,parameters.time_since_start/1000,null_long,null_float,"Elapsed Time [s]",0,1,1};  // FIX?
-  db[6] = {"int",8,parameters.transmit_period,null_long,null_float/1000.0,"Active Trans Per [s]",0,1,0};
+  db[6] = {"int",8,parameters.transmit_period/1000,null_long,null_float,"Active Trans Per [s]",0,1,0};
   db[7] = {"int",8,thresholds.normal_transmit_period,null_long,null_float/1000.0,"Normal Trans Per [s]",0,1,0};
   db[8] = {"int",8,thresholds.load_shed_transmit_period,null_long,null_float/1000.0,"Loadshed Trans Per [s]",0,1,0};
   db[9] = {"int",8,thresholds.transit_transmit_period,null_long,null_float/1000.0,"Transit Trans Per [s]",0,1,0};
