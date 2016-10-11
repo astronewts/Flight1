@@ -2,9 +2,9 @@ clear all
 close all
 clc
 %
-Read_SD_Card_to_mat_workspace
-decode_Dec2Bin
-%clearvars -except _RB* _SD*
+Read_SD_Card_to_mat_workspace;
+decode_Dec2Bin;
+clearvars -except *_RB *_SD
 %%
 figure(1)
 line(Elapsed_Time_ms_SD/1000,Veh_Mode_SD)
@@ -18,7 +18,7 @@ line(Elapsed_Time_s_RB,Cam_Status_RB,'Color',[1 0 0],'Marker','+','LineStyle','n
 figure(3)
 line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_High_C_SD)
 line(Elapsed_Time_s_RB,B_Active_T_Lim_High_C_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
-
+%%
 figure(4)
 line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_Low_C_SD)
 line(Elapsed_Time_s_RB,B_Active_T_Lim_Low_C_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
@@ -27,3 +27,38 @@ line(Elapsed_Time_s_RB,B_Active_T_Lim_Low_C_RB,'Color',[1 0 0],'Marker','+','Lin
 figure(5)
 %line(Elapsed_Time_ms_SD/1000,Active_Trans_Per_s_SD)
 line(Elapsed_Time_s_RB,Active_Trans_Per_s_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+%%
+figure(6)
+line(Elapsed_Time_ms_SD/1000,Alt_ft_SD)
+line(Elapsed_Time_s_RB,Alt_ft_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+%
+%%
+figure(7)
+line(Elapsed_Time_ms_SD/1000,Pyro_Pulse_Width_s_SD)
+line(Elapsed_Time_s_RB,Pyro_Pulse_Width_s_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+%%
+Read_Database_from_Arduino
+clearvars -except *_RB *_SD *var_name
+%%
+for v=101:120%size(var_name,2)
+    try
+Y_SD=evalin('base',strcat(char(var_name(1,v)),'_SD'));
+    end
+    try
+Y_RB=evalin('base',strcat(char(var_name(1,v)),'_RB'));
+    end
+%
+if (exist('Y_SD')==1 && exist('Y_RB')==1) 
+h=figure(v);
+set(gcf,'Visible','on')
+line(Elapsed_Time_ms_SD/1000,Y_SD)
+line(Elapsed_Time_s_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+xlabel('Time [s]')
+ylabel(strrep(char(var_name(1,v)),'_','-'))
+grid on
+pause(2)
+clear Y_RB Y_SD
+else
+display(strcat(char(var_name(1,v)),'=> DOES NOT EXIST'))    
+end
+end
