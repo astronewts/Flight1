@@ -270,6 +270,7 @@ void Main_flight_loop()
     process_charge_current_tlm();
 
     write_telemetry_data_to_sd();
+    
     parameters.high_rate_elapsed_time = 0;
   }
 

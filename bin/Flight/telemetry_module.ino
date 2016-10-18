@@ -192,38 +192,34 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
       tlm_out = TLM1;
     }
   }
-  else
+  else if((TLM2 <= high_thresh) && (TLM2 >= low_thresh))
   {
-    if((TLM2 <= high_thresh) &&
-       (TLM2 >= low_thresh))
+    tlm_out = TLM2;
+  }
+  else
+  {   
+    if(TLM_ID == 1)
     {
-      tlm_out = TLM2;
+      parameters.battery_1_temp_tlm_valid_flag = false;
     }
-    else
+    else if(TLM_ID == 2)
     {
-      write_telemetry_data_to_sd();
-      
-      if(TLM_ID == 1)
-      {
-        parameters.battery_1_temp_tlm_valid_flag = false;
-      }
-      else if(TLM_ID == 2)
-      {
-        parameters.battery_2_temp_tlm_valid_flag = false;
-      }
-      else if(TLM_ID == 3)
-      {
-        parameters.battery_voltage_tlm_valid_flag = false;
-      }
-      else if(TLM_ID == 4)
-      {
-        parameters.battery_1_current_tlm_valid_flag = false;
-      }
-      else if(TLM_ID == 5)
-      {
-        parameters.battery_2_current_tlm_valid_flag = false;
-      }
+      parameters.battery_2_temp_tlm_valid_flag = false;
     }
+    else if(TLM_ID == 3)
+    {
+      parameters.battery_voltage_tlm_valid_flag = false;
+    }
+    else if(TLM_ID == 4)
+    {
+      parameters.battery_1_current_tlm_valid_flag = false;
+    }
+    else if(TLM_ID == 5)
+    {
+      parameters.battery_2_current_tlm_valid_flag = false;
+    }
+
+    write_telemetry_data_to_sd();
   }
   return tlm_out;
 }
