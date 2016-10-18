@@ -548,7 +548,7 @@ int process_satellite_command()
         // This is a command set Pyro Fire Pulse Width
         // Defined in msec
         //parameters.cutdown_pulse_width = CommandString.substring(14,18).toInt();
-        parameters.cutdown_pulse_width = hexstring_to_int(CommandString,14,18);
+        parameters.cutdown_pulse_width = hexstring_to_int(CommandString,14,18) * 1000;
   
        }
        if (CommandString.substring(6,14) == "44330020") {
@@ -671,6 +671,7 @@ int process_satellite_command()
         // Recharge Ratio  = CommandString.substring(14,15)
         //parameters.battery_1_recharge_ratio = CommandString.substring(14,16).toInt() / 100;
         parameters.battery_1_recharge_ratio = hexstring_to_int(CommandString,14,16) / 100;
+        parameters.battery_2_recharge_ratio = hexstring_to_int(CommandString,14,16) / 100;
         }
         
        if (CommandString.substring(6,14) == "48331000") {
