@@ -759,9 +759,9 @@ void initialize_database()
   db[124] = {"int",1,parameters.battery_voltage_tlm_valid_flag,null_long,null_float,"Bus V TLM Val Flag",0,1,0};
   db[125] = {"int",1,parameters.battery_1_current_tlm_valid_flag,null_long,null_float,"B1 Cur TLM Val Flag",0,1,0};
   db[126] = {"int",1,parameters.battery_2_current_tlm_valid_flag,null_long,null_float,"B2 Cur TLM Val Flag",0,1,0};
-  db[127] = {"float",32,null_int,null_long,alt.altitude_in_feet,"Alt [ft]",0,1,1};
-  db[128] = {"float",32,null_int,null_long,alt.max_altitude_in_feet,"Max Alt [ft]",0,1,0}; 
-  db[129] = {"float",32,null_int,null_long,alt.min_altitude_in_feet,"Min Alt [ft]",0,1,0}; 
+  db[127] = {"float",32,null_int,null_long,alt.altitude_in_meters,"Alt [ft]",0,1,1};
+  db[128] = {"float",32,null_int,null_long,alt.max_altitude_in_meters,"Max Alt [ft]",0,1,0}; 
+  db[129] = {"float",32,null_int,null_long,alt.min_altitude_in_meters,"Min Alt [ft]",0,1,0}; 
   db[130] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
   db[131] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
   db[132] = {"float",32,null_int,null_long,alt.max_pressure,"Max Pressure [?]",0,1,0}; 

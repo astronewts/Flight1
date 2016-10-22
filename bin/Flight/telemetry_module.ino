@@ -555,7 +555,7 @@ void execute_electrical_control_check()
   //                 2) cut down if the payload goes below a low alt A2   A1>A2
   //                 A1 = altitude_sanity_check_low and A2 = altitude_limit_low
 
-  if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
+  if(alt.altitude_in_meters >= parameters.altitude_sanity_check_low)
   {
     parameters.altitude_valid_flag = true;
     count_low_alt = 0 ; // counter: if counts 3 times below altitude thershold then cutdow
@@ -566,7 +566,7 @@ void execute_electrical_control_check()
     if(debug.mode == 1) {
       Serial.println("WE are floating !!! (test for altitude cutdow, line 419 in telemetry_module)");
     }
-    if(alt.altitude_in_feet < parameters.altitude_limit_low) // if we are too low then start counting ... to 3
+    if(alt.altitude_in_meters < parameters.altitude_limit_low) // if we are too low then start counting ... to 3
     {
       count_low_alt = count_low_alt + 1;
       write_telemetry_data_to_sd();
@@ -597,9 +597,9 @@ void execute_electrical_control_check()
     //           }
     //        }
     //      }
-    //      if(alt.altitude_in_feet >= parameters.altitude_sanity_check_low)
+    //      if(alt.altitude_in_meters >= parameters.altitude_sanity_check_low)
     //       {
-    //         if(alt.altitude_in_feet < parameters.altitude_limit_low)
+    //         if(alt.altitude_in_meters < parameters.altitude_limit_low)
     //           {
     //             //Enter Emergency Descent Mode
     //             set_emergency_decent_mode();
@@ -805,15 +805,15 @@ void post_process_gps_alt()
 void post_process_alt_data()
 {
   if (alt.count_between_RB==0) { 
-    alt.max_altitude_in_feet=0;
-    alt.min_altitude_in_feet=0;
+    alt.max_altitude_in_meters=0;
+    alt.min_altitude_in_meters=0;
     alt.max_pressure=0;
     alt.min_pressure=0;
   }  
   alt.count_between_RB=alt.count_between_RB+1;
 
-  if(alt.altitude_in_feet > alt.max_altitude_in_feet) { alt.max_altitude_in_feet = alt.altitude_in_feet; } 
-  if(alt.altitude_in_feet < alt.min_altitude_in_feet) { alt.min_altitude_in_feet = alt.altitude_in_feet; } 
+  if(alt.altitude_in_meters > alt.max_altitude_in_meters) { alt.max_altitude_in_meters = alt.altitude_in_meters; } 
+  if(alt.altitude_in_meters < alt.min_altitude_in_meters) { alt.min_altitude_in_meters = alt.altitude_in_meters; } 
   if(alt.pressure > alt.max_pressure) { alt.max_pressure = alt.pressure; }
   if(alt.pressure < alt.min_pressure) { alt.min_pressure = alt.pressure; }
 }

@@ -548,47 +548,40 @@ int process_satellite_command()
         // This is a command set Pyro Fire Pulse Width
         // Defined in msec
         //parameters.cutdown_pulse_width = CommandString.substring(14,18).toInt();
-        parameters.cutdown_pulse_width = hexstring_to_int(CommandString,14,18) * 1000;
+        parameters.cutdown_pulse_width = hexstring_to_int(CommandString,14,18) * 1000.0;
   
        }
        if (CommandString.substring(6,14) == "44330020") {
         // This is a command set the SD Card Write Period
         // Converted from sec to msec
         //parameters.sd_card_write_period = CommandString.substring(14,18).toInt() * 1000;
-        parameters.sd_card_write_period = hexstring_to_int(CommandString,14,18) * 1000;
+        parameters.sd_card_write_period = hexstring_to_int(CommandString,14,18) * 1000.0;
         }
         
        if (CommandString.substring(6,14) == "45330040") {
         // This is a command set the Camera Write Period & Camera On Time
         // Converted from sec to msec
-        //parameters.camera_period = CommandString.substring(14,18).toInt() * 1000;
-        //parameters.camera_on_time = CommandString.substring(18,22).toInt() * 1000;
-        parameters.camera_period = hexstring_to_int(CommandString,14,18) * 1000;
-        parameters.camera_on_time = hexstring_to_int(CommandString,18,22) * 1000;
+        parameters.camera_period = hexstring_to_int(CommandString,14,18) * 1000.0;
+        parameters.camera_on_time = hexstring_to_int(CommandString,18,22) * 1000.0;
         }
        if (CommandString.substring(6,14) == "47330080") {
         // This is a command to set the Transmit Rates Permode
         // Converted from min to msec
         
         // Normal Ops Transmit Rate = CommandString.substring(14,17)
-        //thresholds.normal_transmit_period = CommandString.substring(14,18).toInt() * 3600 * 1000;
-        thresholds.normal_transmit_period = hexstring_to_int(CommandString,14,18) * 60 * 1000;
+        thresholds.normal_transmit_period = hexstring_to_int(CommandString,14,18) * 60 * 1000.0;
         
         // Loadshed Transmit Rate = CommandString.substring(18,21)
-        //thresholds.load_shed_transmit_period = CommandString.substring(18,22).toInt() * 3600 * 1000;
-        thresholds.load_shed_transmit_period = hexstring_to_int(CommandString,18,22) * 60 * 1000;
+        thresholds.load_shed_transmit_period = hexstring_to_int(CommandString,18,22) * 60 * 1000.0;
         
         // Transit Transmit Rate = CommandString.substring(22,25)
-        //thresholds.transit_transmit_period = CommandString.substring(22,26).toInt() * 3600 * 1000;
-        thresholds.transit_transmit_period = hexstring_to_int(CommandString,22,26) * 60 * 1000;
+        thresholds.transit_transmit_period = hexstring_to_int(CommandString,22,26) * 60 * 1000.0;
         
         // Emergency Transit Transmit Rate = CommandString.substring(26,29)
-        //thresholds.emergency_transit_transmit_period =  CommandString.substring(26,30).toInt() * 3600 * 1000;
-        thresholds.emergency_transit_transmit_period =  hexstring_to_int(CommandString,26,30) * 60 * 1000;
+        thresholds.emergency_transit_transmit_period =  hexstring_to_int(CommandString,26,30) * 60 * 1000.0;
         
         // Spare Transmit Rate = CommandString.substring(30,33)
-        //thresholds.spare_transmit_period = CommandString.substring(30,34).toInt() * 3600 * 1000;
-        thresholds.spare_transmit_period = hexstring_to_int(CommandString,30,34) * 60 * 1000;
+        thresholds.spare_transmit_period = hexstring_to_int(CommandString,30,34) * 60 * 1000.0;
         
         }
         
@@ -598,80 +591,53 @@ int process_satellite_command()
         // Converted from Kelvin to Celsius
         
         // Sanity Check High Temp Threshold  = CommandString.substring(14,15)
-        //parameters.battery_temperature_sanity_check_high = CommandString.substring(14,18).toInt() - 273;
         parameters.battery_temperature_sanity_check_high = hexstring_to_int(CommandString,14,18) - 273;
         
         // Normal OPS High Temp Threshold  = CommandString.substring(16,17)
-        //thresholds.normal_battery_temperature_limit_high = CommandString.substring(18,22).toInt() - 273;
         thresholds.normal_battery_temperature_limit_high = hexstring_to_int(CommandString,18,22) - 273;
         
         // Normal OPS Low Temp Threshold  = CommandString.substring(18,19)
-        //thresholds.normal_battery_temperature_limit_low = CommandString.substring(22,26).toInt() - 273;
         thresholds.normal_battery_temperature_limit_low = hexstring_to_int(CommandString,22,26) - 273;
         
         // Loadshed High Temp Threshold = CommandString.substring(20,21)
-        //thresholds.survival_battery_temperature_limit_high = CommandString.substring(26,30).toInt() - 273;
         thresholds.survival_battery_temperature_limit_high = hexstring_to_int(CommandString,26,30) - 273;
         
         // Loadshed High Temp Threshold = CommandString.substring(22,23)
-        //thresholds.survival_battery_temperature_limit_low = CommandString.substring(30,34).toInt() - 273;
         thresholds.survival_battery_temperature_limit_low = hexstring_to_int(CommandString,30,34) - 273;
         
         // Sanity Check Low Temp Threshold  = CommandString.substring(24,25)
-        //parameters.battery_temperature_sanity_check_low = CommandString.substring(34,38).toInt() - 273;
         parameters.battery_temperature_sanity_check_low = hexstring_to_int(CommandString,34,38) - 273;
         }
         
        if (CommandString.substring(6,14) == "42330200") {
-        // This is a command to set the Voltage Setpoints
-        // Converted from dVolts to Volts
+        // This is a command to set the Voltage Sanity Check Setpoints
+        // Converted from millivolts to Volts
         
-        // Sanity Check High Voltage Threshold  = CommandString.substring(14,15)
-        //parameters.voltage_sanity_check_high = CommandString.substring(14,16).toInt() / 10;
-        parameters.voltage_sanity_check_high = hexstring_to_int(CommandString,14,16) / 10;
+        // Sanity Check High Voltage Threshold  = CommandString.substring(14,18)
+        parameters.voltage_sanity_check_high = hexstring_to_int(CommandString,14,18) / 1000.0;
         
-        // Charge Termination Voltage Threshold  = CommandString.substring(16,17)
-        //parameters.battery_1_voltage_term_threshold = CommandString.substring(16,18).toInt() / 10;
-        parameters.battery_1_voltage_term_threshold = hexstring_to_int(CommandString,16,18) / 10;
+        // Sanity Check Low Voltage Threshold  = CommandString.substring(18,22)
+        parameters.voltage_sanity_check_low = hexstring_to_int(CommandString,18,22) / 1000.0;
         
-        // Charge Inialization Voltage Threshold  = CommandString.substring(18,19)
-        //parameters.battery_1_voltage_init_threshold = CommandString.substring(18,20).toInt() / 10;
-        parameters.battery_1_voltage_init_threshold = hexstring_to_int(CommandString,18,20) / 10;
-        
-        // Sanity Check Low Temp Threshold  = CommandString.substring(20,21)
-        //parameters.voltage_sanity_check_low = CommandString.substring(20,22).toInt() / 10;
-        parameters.voltage_sanity_check_low = hexstring_to_int(CommandString,20,22) / 10;
         }
         
        if (CommandString.substring(6,14) == "42330400") {
-        // This is a command to set the Amp-Hour Setpoints
+        // This is a command to set the Amp-Hour Sanity Check Setpoints
         // Conversion from mAmp-Hrs to Amp-Hrs
+
+        // Sanity Check High Current Threshold  = CommandString.substring(14,18)
+        parameters.charge_current_sanity_check_high = hexstring_to_int(CommandString,14,18) / 1000.0;
         
-        // Charge Termination Amp-Hour Threshold  = CommandString.substring(14,17)
-        //parameters.battery_1_amphrs_term_threshold = CommandString.substring(14,17).toInt() / 1000;
-        parameters.battery_1_amphrs_term_threshold = hexstring_to_int(CommandString,14,17) / 1000;
-        
-        // Charge Inialization Amp-Hour Threshold  = CommandString.substring(18,21)
-        //parameters.battery_1_amphrs_init_threshold = CommandString.substring(17,20).toInt() / 1000;
-        parameters.battery_1_amphrs_init_threshold = hexstring_to_int(CommandString,17,20) / 1000;
-        
-        // Conversion from cAmp to Amp
-        // Sanity Check High Current Threshold  = CommandString.substring(22,25)
-        //parameters.charge_current_sanity_check_high = CommandString.substring(20,24).toInt() / 100;
-        parameters.charge_current_sanity_check_high = hexstring_to_int(CommandString,20,24) / 100;
-        
-        // Sanity Check Low Current Threshold  = CommandString.substring(26,29)
-        //parameters.charge_current_sanity_check_low = CommandString.substring(24,28).toInt() * -1 / 100;
-        parameters.charge_current_sanity_check_low = hexstring_to_int(CommandString,24,28) * -1 / 100;
+        // Sanity Check Low Current Threshold  = CommandString.substring(18,22)
+        parameters.charge_current_sanity_check_low = hexstring_to_int(CommandString,18,22) * -1 / 1000.0;
        }
        
        if (CommandString.substring(6,14) == "42330800") {
         // This is a command to set the Recharge Ratio
         // Convert percentage to scale multiplication factor
         // Recharge Ratio  = CommandString.substring(14,15)
-        //parameters.battery_1_recharge_ratio = CommandString.substring(14,16).toInt() / 100;
-        parameters.battery_1_recharge_ratio = hexstring_to_int(CommandString,14,16) / 100;
-        parameters.battery_2_recharge_ratio = hexstring_to_int(CommandString,14,16) / 100;
+        parameters.battery_1_recharge_ratio = hexstring_to_int(CommandString,14,16) / 100.0;
+        parameters.battery_2_recharge_ratio = hexstring_to_int(CommandString,16,20) / 100.0;
         }
         
        if (CommandString.substring(6,14) == "48331000") {
@@ -679,29 +645,25 @@ int process_satellite_command()
         // Defined in meters
         
         // Altitude Descent Trigger  = CommandString.substring(14,17)
-        //parameters.altitude_limit_low = CommandString.substring(14,18).toInt();
         parameters.altitude_limit_low = hexstring_to_int(CommandString,14,18);
         
         // Low Sanity Check Altitude  = CommandString.substring(18,21)
-        //parameters.altitude_sanity_check_low = CommandString.substring(18,22).toInt();
         parameters.altitude_sanity_check_low = hexstring_to_int(CommandString,18,22);
         }
         
        if (CommandString.substring(6,14) == "48332000") {
         // This is a command to set the Voltage Descent Trigger
         // Voltage Descent Trigger  = CommandString.substring(14,15)
-        // Converted from dVolts to Volts
+        // Converted from milivolts to Volts
         
-        //parameters.low_voltage_limit_for_auto_cutdown = CommandString.substring(14,16).toInt() / 10;
-        parameters.low_voltage_limit_for_auto_cutdown = hexstring_to_int(CommandString,14,16) / 10;
+        parameters.low_voltage_limit_for_auto_cutdown = hexstring_to_int(CommandString,14,18) / 1000.0;
         }
      
        if (CommandString.substring(6,14) == "48338000") {
         // This is a command to set the Length of time in Loadshed Mode until we trigger Emergency Descent
         // Time in Loadshed Trigger  = CommandString.substring(14,21)
         // Convert seconds to milliseconds
-         //parameters.low_voltage_time_limit = CommandString.substring(14,18).toInt() * 1000;
-         parameters.low_voltage_time_limit = hexstring_to_int(CommandString,14,18) * 1000;
+         parameters.low_voltage_time_limit = hexstring_to_int(CommandString,14,18) * 1000.0;
        }
  
        // ****************************************************************
