@@ -740,8 +740,8 @@ void initialize_database()
   db[105] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_loadshed_entry,"Loadshed Entry Volt Lim [V]",0,1,0};      
   db[106] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_auto_cutdown,"Auto Cutdown Volt Lim [V]",0,1,0};
   db[107] = {"int",16,parameters.low_voltage_time_limit/1000,null_long,null_float,"Low Volt Time until Cutdown [s]",0,1,0};
-  db[108] = {"int",16,parameters.altitude_limit_low,null_long,null_float,"Alt Limit Low [ft]",0,1,0};
-  db[109] = {"int",16,parameters.altitude_sanity_check_low/1000,null_long,null_float,"Alt Sanity Check Low [kft]",0,1,0}; 
+  db[108] = {"int",16,parameters.altitude_limit_low,null_long,null_float,"Alt Limit Low [m]",0,1,0};
+  db[109] = {"int",16,parameters.altitude_sanity_check_low,null_long,null_float,"Alt Sanity Check Low [m]",0,1,0}; 
   db[110] = {"int",8,parameters.cutdown_pulse_width/1000,null_long,null_float,"Pyro Pulse Width [s]",0,1,0};
   db[111] = {"int",12,parameters.camera_period/1000,null_long,null_float,"Cam Per [s]",0,1,0};
   db[112] = {"int",12,parameters.camera_on_time/1000,null_long,null_float,"Cam On Time [s]",0,1,0};
@@ -759,9 +759,9 @@ void initialize_database()
   db[124] = {"int",1,parameters.battery_voltage_tlm_valid_flag,null_long,null_float,"Bus V TLM Val Flag",0,1,0};
   db[125] = {"int",1,parameters.battery_1_current_tlm_valid_flag,null_long,null_float,"B1 Cur TLM Val Flag",0,1,0};
   db[126] = {"int",1,parameters.battery_2_current_tlm_valid_flag,null_long,null_float,"B2 Cur TLM Val Flag",0,1,0};
-  db[127] = {"float",32,null_int,null_long,alt.altitude_in_meters,"Alt [ft]",0,1,1};
-  db[128] = {"float",32,null_int,null_long,alt.max_altitude_in_meters,"Max Alt [ft]",0,1,0}; 
-  db[129] = {"float",32,null_int,null_long,alt.min_altitude_in_meters,"Min Alt [ft]",0,1,0}; 
+  db[127] = {"float",32,null_int,null_long,alt.altitude_in_meters,"Alt [m]",0,1,1};
+  db[128] = {"float",32,null_int,null_long,alt.max_altitude_in_meters,"Max Alt [m]",0,1,0}; 
+  db[129] = {"float",32,null_int,null_long,alt.min_altitude_in_meters,"Min Alt [m]",0,1,0}; 
   db[130] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
   db[131] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
   db[132] = {"float",32,null_int,null_long,alt.max_pressure,"Max Pressure [?]",0,1,0}; 

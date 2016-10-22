@@ -79,8 +79,8 @@
 #define MEDIUM_RATE_PERIOD_CUTDOWN                 10000 // ms
 #define LOW_RATE_PERIOD_CUTDOWN                    10000 // ms
 
-#define DEFAULT_ALTITUDE_LIMIT_LOW                 20000  // 33:for test in living room  //  A2 ft
-#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          40000  // XX:for test in living room //  A1 ft // for the new code (line 400ish in telemetry_module) A1 > A2
+#define DEFAULT_ALTITUDE_LIMIT_LOW                 20000  // 33:for test in living room  //  A2 m
+#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          40000  // XX:for test in living room //  A1 m // for the new code (line 400ish in telemetry_module) A1 > A2
 
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           1.0  //Prev:-0.1  Note: These are purposely set too high to trigger, due to HW perfoming this action
