@@ -10,5 +10,5 @@ if Calib_type==4
     Value_processed=convert_voltage(Value_raw);
 end
 if Calib_type==5
-    Value_processed=convert_temperatures(Value_raw)+273.0;
+    Value_processed=Value_raw-273;
 end
