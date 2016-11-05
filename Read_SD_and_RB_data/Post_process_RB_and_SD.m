@@ -2,7 +2,9 @@ clear all
 close all
 clc
 %
+display('1/ CHOOSE A SD CARD FILE')
 Read_SD_Card_to_mat_workspace;
+display('2/ CHOOSE A RB CARD FILE')
 decode_Dec2Bin;
 clearvars -except *_RB *_SD
 %%
@@ -23,24 +25,24 @@ figure(4)
 line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_Low_C_SD)
 line(Elapsed_Time_s_RB,B_Active_T_Lim_Low_C_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
 %
-%%
-figure(5)
-%line(Elapsed_Time_ms_SD/1000,Active_Trans_Per_s_SD)
-line(Elapsed_Time_s_RB,Active_Trans_Per_s_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
-%%
-figure(6)
-line(Elapsed_Time_ms_SD/1000,Alt_ft_SD)
-line(Elapsed_Time_s_RB,Alt_ft_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
-%
-%%
-figure(7)
-line(Elapsed_Time_ms_SD/1000,Pyro_Pulse_Width_s_SD)
-line(Elapsed_Time_s_RB,Pyro_Pulse_Width_s_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
-%%
+% %%
+% figure(5)
+% %line(Elapsed_Time_ms_SD/1000,Active_Trans_Per_s_SD)
+% line(Elapsed_Time_s_RB,Active_Trans_Per_s_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+% %%
+% % figure(6)
+% % line(Elapsed_Time_ms_SD/1000,Alt_ft_SD)
+% % line(Elapsed_Time_s_RB,Alt_ft_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+% %
+% %%
+% figure(7)
+% line(Elapsed_Time_ms_SD/1000,Pyro_Pulse_Width_s_SD)
+% line(Elapsed_Time_s_RB,Pyro_Pulse_Width_s_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+% %%
 Read_Database_from_Arduino
 clearvars -except *_RB *_SD *var_name
 %%
-for v=101:120%size(var_name,2)
+for v=112:112%size(var_name,2)
     try
 Y_SD=evalin('base',strcat(char(var_name(1,v)),'_SD'));
     end
