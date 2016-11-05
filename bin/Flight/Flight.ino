@@ -240,6 +240,21 @@ void loop()
 void Main_flight_loop()
 {
   debug.mode = 0;
+
+// set default values for the mode we are in (flight or loadshed or transit or emergency)
+// by default set parameters to normal mode (like flight) otherwise change set points
+
+  set_normal_mode();
+  
+  if(parameters.vehicle_mode == LOADSHED_MODE){
+    set_load_shed_mode();  
+  }
+  if(parameters.vehicle_mode == TRANSIT_MODE){
+    set_transit_mode();  
+  }
+  if(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE){
+    set_emergency_decent_mode();  
+  }  
   
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
@@ -255,11 +270,11 @@ void Main_flight_loop()
     collect_gyro_data();
     post_process_gyro();
     
-    if (debug.mode==1)
-    {
-      Serial.println("=> DEBUG: GYRO DATA");
-      print_gyro_data();
-    }
+//    if (debug.mode==1)
+//    {
+//      Serial.println("=> DEBUG: GYRO DATA");
+//      print_gyro_data();
+//    }
     collect_charge_current_data();
     collect_low_rate_current_data();
     if (debug.mode==1)
@@ -282,6 +297,56 @@ void Main_flight_loop()
 
     debug_println("collect_analog_telemetry();");
     collect_analog_telemetry();
+
+//// only for hearter test:
+//    debug.mode=1;
+//    if (debug.mode==1)
+//    {
+//
+//      Serial.println("=========================================");
+//       
+//      Serial.print("Heater state1: ");
+//        Serial.println(parameters.heater_state_1);
+//      Serial.print("Heater state2: ");
+//        Serial.println(parameters.heater_state_2);
+//
+//      Serial.print("mean Battery1 Temp [C]: ");
+//        Serial.println(0.5*(telemetry_data.battery_1_temp_1+telemetry_data.battery_1_temp_2));
+//
+//      Serial.print("mean Battery2 Temp [C]: ");
+//        Serial.println(0.5*(telemetry_data.battery_2_temp_1+telemetry_data.battery_2_temp_2));
+//
+//      Serial.println(" ");
+//        
+//      Serial.print("battery_temperature_limit_low ACTIVE    [C]: ");
+//        Serial.println(parameters.battery_temperature_limit_low);
+//        
+//      Serial.print("battery_temperature_limit_high ACTIVE   [C]: ");
+//        Serial.println(parameters.battery_temperature_limit_high);  
+//
+//      Serial.print("normal_battery_temperature_limit_low    [C]: ");
+//        Serial.println(thresholds.normal_battery_temperature_limit_low);
+//        
+//      Serial.print("normal_battery_temperature_limit_high   [C]: ");
+//        Serial.println(thresholds.normal_battery_temperature_limit_high); 
+//        
+//      Serial.print("survival_battery_temperature_limit_low  [C]: ");
+//        Serial.println(thresholds.survival_battery_temperature_limit_low);
+//        
+//      Serial.print("survival_battery_temperature_limit_high [C]: ");
+//        Serial.println(thresholds.survival_battery_temperature_limit_high);      
+//        
+//      Serial.print("battery_temperature_sanity_check_low    [C]: ");
+//        Serial.println(parameters.battery_temperature_sanity_check_low);
+//        
+//      Serial.print("battery_temperature_sanity_check_high   [C]: ");
+//        Serial.println(parameters.battery_temperature_sanity_check_high); 
+//        
+//      Serial.println("=========================================");
+//    }
+//    debug.mode=0;
+//// END only for hearter test
+
 
     debug_println("collect_alt_data();");
     collect_alt_data();
@@ -823,7 +888,7 @@ void set_normal_mode()
   //Set Camera flag to true
   parameters.camera_status = true;
 
-  //Set Heater Threshols to Survival settings
+  //Set Heater Threshols to Normal settings
   parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
   parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
 
