@@ -15,7 +15,7 @@ TEMP_CONSTANT_2_5=  3.65125E-06;
 TEMP_CONSTANT_2_6=  -7.29058E-09;
 %
 for c=1:size(counts,1)
-    count=counts(c,1);
+    count=counts(c,1)-273;
  if count~=0
     if (count > TEMP_BREAK_COUNT)
         T_in_C(c,1) = TEMP_CONSTANT_1_1+TEMP_CONSTANT_1_2*(count)+TEMP_CONSTANT_1_3*count^2+TEMP_CONSTANT_1_4*count^3+TEMP_CONSTANT_1_5*count^4+TEMP_CONSTANT_1_6*count^5;
