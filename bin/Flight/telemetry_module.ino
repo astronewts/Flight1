@@ -229,7 +229,8 @@ void evaluate_heater_state(double val, int batt_ID)
   if(val < parameters.battery_temperature_limit_low * 1.0)
   {
     //Turn heating element on
-    if((batt_ID == 1) || (parameters.heater_state_1 == false))
+    //if((batt_ID == 1) || (parameters.heater_state_1 == false))
+    if(batt_ID == 1)
     {
       digitalWrite(PIN_HEATER_CONTROL_1, HIGH);
       parameters.heater_state_1 = true;
@@ -243,7 +244,8 @@ void evaluate_heater_state(double val, int batt_ID)
         Serial.println(parameters.battery_temperature_limit_low);
       }
     }
-    else if((batt_ID == 2) || (parameters.heater_state_2 == false))
+    //else if((batt_ID == 2) || (parameters.heater_state_2 == false))
+    else if(batt_ID == 2) 
     {
       digitalWrite(PIN_HEATER_CONTROL_2, HIGH);
       parameters.heater_state_2 = true;
@@ -262,7 +264,8 @@ void evaluate_heater_state(double val, int batt_ID)
   else if(val > parameters.battery_temperature_limit_high * 1.0)
   {
     //Turn heating element off
-    if((batt_ID == 1) || (parameters.heater_state_1 == true))
+    //if((batt_ID == 1) || (parameters.heater_state_1 == true))
+    if(batt_ID == 1) 
     {
       digitalWrite(PIN_HEATER_CONTROL_1, LOW);
       parameters.heater_state_1 = false;
@@ -276,7 +279,8 @@ void evaluate_heater_state(double val, int batt_ID)
         Serial.println(parameters.battery_temperature_limit_high);
       }
     }
-    else if((batt_ID == 2) || (parameters.heater_state_2 == true))
+    //else if((batt_ID == 2) || (parameters.heater_state_2 == true))
+    else if(batt_ID == 2) 
     {
       digitalWrite(PIN_HEATER_CONTROL_2, LOW);
       parameters.heater_state_2 = false;
