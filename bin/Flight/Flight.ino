@@ -240,6 +240,21 @@ void loop()
 void Main_flight_loop()
 {
   debug.mode = 0;
+
+// set default values for the mode we are in (flight or loadshed or transit or emergency)
+// by default set parameters to normal mode (like flight) otherwise change set points
+
+  set_normal_mode();
+  
+  if(parameters.vehicle_mode == LOADSHED_MODE){
+    set_load_shed_mode();  
+  }
+  if(parameters.vehicle_mode == TRANSIT_MODE){
+    set_transit_mode();  
+  }
+  if(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE){
+    set_emergency_decent_mode();  
+  }  
   
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
@@ -255,11 +270,11 @@ void Main_flight_loop()
     collect_gyro_data();
     post_process_gyro();
     
-    if (debug.mode==1)
-    {
-      Serial.println("=> DEBUG: GYRO DATA");
-      print_gyro_data();
-    }
+//    if (debug.mode==1)
+//    {
+//      Serial.println("=> DEBUG: GYRO DATA");
+//      print_gyro_data();
+//    }
     collect_charge_current_data();
     collect_low_rate_current_data();
     if (debug.mode==1)
@@ -282,6 +297,65 @@ void Main_flight_loop()
 
     debug_println("collect_analog_telemetry();");
     collect_analog_telemetry();
+
+// only for heater test:
+// XXXXXX 
+    debug.mode=1;
+    if (debug.mode==1)
+    {
+
+      Serial.println("=========================================");
+       
+      Serial.print("Heater state1: ");
+        Serial.println(parameters.heater_state_1);
+      Serial.print("Heater state2: ");
+        Serial.println(parameters.heater_state_2);
+
+      Serial.print("mean Battery1 Temp                      [C]: ");
+        Serial.println(0.5*(telemetry_data.battery_1_temp_1+telemetry_data.battery_1_temp_2));
+      Serial.print("Battery1 Temp1              [C]: ");
+        Serial.println(telemetry_data.battery_1_temp_1);
+      Serial.print("Battery1 Temp2              [C]: ");
+        Serial.println(telemetry_data.battery_1_temp_2);
+
+      Serial.print("mean Battery2 Temp                      [C]: ");
+        Serial.println(0.5*(telemetry_data.battery_2_temp_1+telemetry_data.battery_2_temp_2));
+      Serial.print("Battery2 Temp1              [C]: ");
+        Serial.println(telemetry_data.battery_2_temp_1);
+      Serial.print("Battery2 Temp2              [C]: ");
+        Serial.println(telemetry_data.battery_2_temp_2);
+
+      Serial.println(" ");
+        
+      Serial.print("battery_temperature_limit_low ACTIVE    [C]: ");
+        Serial.println(parameters.battery_temperature_limit_low);
+        
+      Serial.print("battery_temperature_limit_high ACTIVE   [C]: ");
+        Serial.println(parameters.battery_temperature_limit_high);  
+
+      Serial.print("normal_battery_temperature_limit_low    [C]: ");
+        Serial.println(thresholds.normal_battery_temperature_limit_low);
+        
+      Serial.print("normal_battery_temperature_limit_high   [C]: ");
+        Serial.println(thresholds.normal_battery_temperature_limit_high); 
+        
+      Serial.print("survival_battery_temperature_limit_low  [C]: ");
+        Serial.println(thresholds.survival_battery_temperature_limit_low);
+        
+      Serial.print("survival_battery_temperature_limit_high [C]: ");
+        Serial.println(thresholds.survival_battery_temperature_limit_high);      
+        
+      Serial.print("battery_temperature_sanity_check_low    [C]: ");
+        Serial.println(parameters.battery_temperature_sanity_check_low);
+        
+      Serial.print("battery_temperature_sanity_check_high   [C]: ");
+        Serial.println(parameters.battery_temperature_sanity_check_high); 
+        
+      Serial.println("=========================================");
+    }
+    debug.mode=0;
+// END only for hearter test
+
 
     debug_println("collect_alt_data();");
     collect_alt_data();
@@ -729,22 +803,22 @@ void initialize_database()
   db[94] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_discharging,"B 2 Amp Hours Discharging [A]",0,1,0};
   db[95] = {"float",32,null_int,null_long,parameters.sa_amphrs,"SA Total Amp Hrs [A.h]",0,1,0};
   db[96] = {"float",32,null_int,null_long,parameters.load_amphrs,"Load Total Amp Hrs [A.h]",0,1,0};
-  db[97] = {"int",16,parameters.battery_temperature_limit_high,null_long,null_float,"B Active T Lim High [C]",0,1,0};
-  db[98] = {"int",16,parameters.battery_temperature_limit_low,null_long,null_float,"B Active T Lim Low [C]",0,1,0}; 
-  db[99] = {"int",16,parameters.battery_temperature_sanity_check_high,null_long,null_float,"B T Sanity Check High [C]",0,1,0};
-  db[100] = {"int",16,thresholds.normal_battery_temperature_limit_high,null_long,null_float,"B Norm T Lim High [C]",0,1,0};
-  db[101] = {"int",16,thresholds.normal_battery_temperature_limit_low,null_long,null_float,"B Norm T Lim Low [C]",0,1,0};
-  db[102] = {"int",16,thresholds.survival_battery_temperature_limit_high,null_long,null_float,"B Surv T Lim High [C]",0,1,0};
-  db[103] = {"int",16,thresholds.survival_battery_temperature_limit_low,null_long,null_float,"B Surv T Lim Low [C]",0,1,0};         
-  db[104] = {"int",16,parameters.battery_temperature_sanity_check_low,null_long,null_float,"B T Sanity Check Low [C]",0,1,0};     
+  db[97] = {"int",16,parameters.battery_temperature_limit_high+273,null_long,null_float,"B Active T Lim High [K]",5,1,0};
+  db[98] = {"int",16,parameters.battery_temperature_limit_low+273,null_long,null_float,"B Active T Lim Low [K]",5,1,0}; 
+  db[99] = {"int",16,parameters.battery_temperature_sanity_check_high+273,null_long,null_float,"B T Sanity Check High [K]",5,1,0};
+  db[100] = {"int",16,thresholds.normal_battery_temperature_limit_high+273,null_long,null_float,"B Norm T Lim High [K]",5,1,0};
+  db[101] = {"int",16,thresholds.normal_battery_temperature_limit_low+273,null_long,null_float,"B Norm T Lim Low [K]",5,1,0};
+  db[102] = {"int",16,thresholds.survival_battery_temperature_limit_high+273,null_long,null_float,"B Surv T Lim High [K]",5,1,0};
+  db[103] = {"int",16,thresholds.survival_battery_temperature_limit_low+273,null_long,null_float,"B Surv T Lim Low [K]",5,1,0};         
+  db[104] = {"int",16,parameters.battery_temperature_sanity_check_low+273,null_long,null_float,"B T Sanity Check Low [K]",5,1,0};     
   db[105] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_loadshed_entry,"Loadshed Entry Volt Lim [V]",0,1,0};      
   db[106] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_auto_cutdown,"Auto Cutdown Volt Lim [V]",0,1,0};
   db[107] = {"int",16,parameters.low_voltage_time_limit/1000,null_long,null_float,"Low Volt Time until Cutdown [s]",0,1,0};
   db[108] = {"int",16,parameters.altitude_limit_low,null_long,null_float,"Alt Limit Low [m]",0,1,0};
   db[109] = {"int",16,parameters.altitude_sanity_check_low,null_long,null_float,"Alt Sanity Check Low [m]",0,1,0}; 
   db[110] = {"int",8,parameters.cutdown_pulse_width/1000,null_long,null_float,"Pyro Pulse Width [s]",0,1,0};
-  db[111] = {"int",12,parameters.camera_period/1000,null_long,null_float,"Cam Per [s]",0,1,0};
-  db[112] = {"int",12,parameters.camera_on_time/1000,null_long,null_float,"Cam On Time [s]",0,1,0};
+  db[111] = {"int",16,parameters.camera_period/1000,null_long,null_float,"Cam Per [s]",0,1,0};
+  db[112] = {"int",16,parameters.camera_on_time/1000,null_long,null_float,"Cam On Time [s]",0,1,0};
   db[113] = {"int",1,parameters.battery_bus_low_voltage_flag,null_long,null_float,"Batt Bus Low V Flag",0,1,0};
   db[114] = {"int",1,parameters.heater_state_1,null_long,null_float,"Heater State 1",0,1,0};
   db[115] = {"int",1,parameters.heater_state_2,null_long,null_float,"Heater State 2",0,1,0};
@@ -823,7 +897,7 @@ void set_normal_mode()
   //Set Camera flag to true
   parameters.camera_status = true;
 
-  //Set Heater Threshols to Survival settings
+  //Set Heater Threshols to Normal settings
   parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
   parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
 
