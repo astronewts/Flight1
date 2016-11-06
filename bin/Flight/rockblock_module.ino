@@ -637,7 +637,7 @@ int process_satellite_command()
         // Convert percentage to scale multiplication factor
         // Recharge Ratio  = CommandString.substring(14,15)
         parameters.battery_1_recharge_ratio = hexstring_to_int(CommandString,14,16) / 100.0;
-        parameters.battery_2_recharge_ratio = hexstring_to_int(CommandString,16,20) / 100.0;
+        parameters.battery_2_recharge_ratio = hexstring_to_int(CommandString,16,18) / 100.0;
         }
         
        if (CommandString.substring(6,14) == "48331000") {
