@@ -2,20 +2,21 @@ clear all
 close all
 clc
 %
-display('1/ CHOOSE A SD CARD FILE')
+answer=input('Choose what you want to post process=> SD card [s], Rockblock [r] or Both [b] : ','s')  
+%
+if (strcmp(answer,'b')==1  
+display('IMPORTING DATA FROM A SD CARD')
 Read_SD_Card_to_mat_workspace;
 display('2/ CHOOSE A RB CARD FILE')
 decode_Dec2Bin;
 clearvars -except *_RB *_SD
 %%
 figure(1)
-line(Elapsed_Time_ms_SD/1000,B_1_T_1_K_SD-273,'Color',[1 0 0])
-line(Elapsed_Time_ms_SD/1000,B_1_T_2_K_SD-273,'Color',[1 0.5 0])
-line(Elapsed_Time_ms_SD/1000,B_2_T_1_K_SD-273,'Color',[0 0.5 0])
-line(Elapsed_Time_ms_SD/1000,B_2_T_2_K_SD-273,'Color',[0 1 0])
-%line(Elapsed_Time_ms_SD/1000,Heater_State_1_SD*30,'Color',[0.5 0 0])
-line(Elapsed_Time_ms_SD/1000,Heater_State_2_SD*30,'Color',[0 0.2 0])
-ylim([-1 30])
+line(Elapsed_Time_ms_SD/1000,Heater_State_1_SD*30,'Color',[0 0 1])
+line(Elapsed_Time_ms_SD/1000,Heater_State_2_SD*28,'Color',[0 0 0])
+line(Elapsed_Time_ms_SD/1000,(B_1_T_1_C_SD+B_1_T_2_C_SD)/2,'Color',[1 0 0])
+line(Elapsed_Time_ms_SD/1000,(B_2_T_1_C_SD+B_2_T_2_C_SD)/2,'Color',[0 0.5 0])
+ylim([20 32])
 %%
 
 % figure(1)
