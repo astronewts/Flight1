@@ -21,7 +21,7 @@ for c=1:min(size(Txt,2),size(Data,2))
     Value_raw=Data(:,c);
     Name_variable=char(Txt(1,c));
     %
-    display(char(Name_variable));
+   % display(char(Name_variable));
     %
     if c==1
         Name_variable='Elapsed Time [ms]';
