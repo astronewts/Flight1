@@ -298,54 +298,63 @@ void Main_flight_loop()
     debug_println("collect_analog_telemetry();");
     collect_analog_telemetry();
 
-//// only for hearter test:
-//    debug.mode=1;
-//    if (debug.mode==1)
-//    {
-//
-//      Serial.println("=========================================");
-//       
-//      Serial.print("Heater state1: ");
-//        Serial.println(parameters.heater_state_1);
-//      Serial.print("Heater state2: ");
-//        Serial.println(parameters.heater_state_2);
-//
-//      Serial.print("mean Battery1 Temp [C]: ");
-//        Serial.println(0.5*(telemetry_data.battery_1_temp_1+telemetry_data.battery_1_temp_2));
-//
-//      Serial.print("mean Battery2 Temp [C]: ");
-//        Serial.println(0.5*(telemetry_data.battery_2_temp_1+telemetry_data.battery_2_temp_2));
-//
-//      Serial.println(" ");
-//        
-//      Serial.print("battery_temperature_limit_low ACTIVE    [C]: ");
-//        Serial.println(parameters.battery_temperature_limit_low);
-//        
-//      Serial.print("battery_temperature_limit_high ACTIVE   [C]: ");
-//        Serial.println(parameters.battery_temperature_limit_high);  
-//
-//      Serial.print("normal_battery_temperature_limit_low    [C]: ");
-//        Serial.println(thresholds.normal_battery_temperature_limit_low);
-//        
-//      Serial.print("normal_battery_temperature_limit_high   [C]: ");
-//        Serial.println(thresholds.normal_battery_temperature_limit_high); 
-//        
-//      Serial.print("survival_battery_temperature_limit_low  [C]: ");
-//        Serial.println(thresholds.survival_battery_temperature_limit_low);
-//        
-//      Serial.print("survival_battery_temperature_limit_high [C]: ");
-//        Serial.println(thresholds.survival_battery_temperature_limit_high);      
-//        
-//      Serial.print("battery_temperature_sanity_check_low    [C]: ");
-//        Serial.println(parameters.battery_temperature_sanity_check_low);
-//        
-//      Serial.print("battery_temperature_sanity_check_high   [C]: ");
-//        Serial.println(parameters.battery_temperature_sanity_check_high); 
-//        
-//      Serial.println("=========================================");
-//    }
-//    debug.mode=0;
-//// END only for hearter test
+// only for heater test:
+// XXXXXX 
+    debug.mode=1;
+    if (debug.mode==1)
+    {
+
+      Serial.println("=========================================");
+       
+      Serial.print("Heater state1: ");
+        Serial.println(parameters.heater_state_1);
+      Serial.print("Heater state2: ");
+        Serial.println(parameters.heater_state_2);
+
+      Serial.print("mean Battery1 Temp                      [C]: ");
+        Serial.println(0.5*(telemetry_data.battery_1_temp_1+telemetry_data.battery_1_temp_2));
+      Serial.print("Battery1 Temp1              [C]: ");
+        Serial.println(telemetry_data.battery_1_temp_1);
+      Serial.print("Battery1 Temp2              [C]: ");
+        Serial.println(telemetry_data.battery_1_temp_2);
+
+      Serial.print("mean Battery2 Temp                      [C]: ");
+        Serial.println(0.5*(telemetry_data.battery_2_temp_1+telemetry_data.battery_2_temp_2));
+      Serial.print("Battery2 Temp1              [C]: ");
+        Serial.println(telemetry_data.battery_2_temp_1);
+      Serial.print("Battery2 Temp2              [C]: ");
+        Serial.println(telemetry_data.battery_2_temp_2);
+
+      Serial.println(" ");
+        
+      Serial.print("battery_temperature_limit_low ACTIVE    [C]: ");
+        Serial.println(parameters.battery_temperature_limit_low);
+        
+      Serial.print("battery_temperature_limit_high ACTIVE   [C]: ");
+        Serial.println(parameters.battery_temperature_limit_high);  
+
+      Serial.print("normal_battery_temperature_limit_low    [C]: ");
+        Serial.println(thresholds.normal_battery_temperature_limit_low);
+        
+      Serial.print("normal_battery_temperature_limit_high   [C]: ");
+        Serial.println(thresholds.normal_battery_temperature_limit_high); 
+        
+      Serial.print("survival_battery_temperature_limit_low  [C]: ");
+        Serial.println(thresholds.survival_battery_temperature_limit_low);
+        
+      Serial.print("survival_battery_temperature_limit_high [C]: ");
+        Serial.println(thresholds.survival_battery_temperature_limit_high);      
+        
+      Serial.print("battery_temperature_sanity_check_low    [C]: ");
+        Serial.println(parameters.battery_temperature_sanity_check_low);
+        
+      Serial.print("battery_temperature_sanity_check_high   [C]: ");
+        Serial.println(parameters.battery_temperature_sanity_check_high); 
+        
+      Serial.println("=========================================");
+    }
+    debug.mode=0;
+// END only for hearter test
 
 
     debug_println("collect_alt_data();");
