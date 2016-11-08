@@ -9,7 +9,7 @@ if (strcmp(answer,'b'))==1
     Read_SD_Card_to_mat_workspace;
     Read_RB_mssg_to_mat_workspace;
     if mean(SD_Num_RB)~=mean(mean(SD_Num_SD))
-        display(' = = = WARNING: SOME DATA FROM THE RB DO NO CORRESPOND TO THIS SD FILE');
+        display(' = = = WARNING: SOME DATA FROM THE RB DO NOT CORRESPOND TO THIS SD FILE');
     end
 end
 %

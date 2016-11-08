@@ -36,10 +36,9 @@
 % % figure(7)
 % % line(Elapsed_Time_ms_SD/1000,Pyro_Pulse_Width_s_SD)
 % % line(Elapsed_Time_s_RB,Pyro_Pulse_Width_s_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
-% % %%
+% %%
 % Read_Database_from_Arduino
 % clearvars -except *_RB *_SD *var_name
-% %%
 % for v=112:112%size(var_name,2)
 %     try
 % Y_SD=evalin('base',strcat(char(var_name(1,v)),'_SD'));
