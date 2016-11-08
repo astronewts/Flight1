@@ -270,11 +270,11 @@ void Main_flight_loop()
     collect_gyro_data();
     post_process_gyro();
     
-//    if (debug.mode==1)
-//    {
-//      Serial.println("=> DEBUG: GYRO DATA");
-//      print_gyro_data();
-//    }
+    if (debug.mode==1)
+    {
+      Serial.println("=> DEBUG: GYRO DATA");
+      print_gyro_data();
+    }
     collect_charge_current_data();
     collect_low_rate_current_data();
     if (debug.mode==1)
@@ -303,7 +303,6 @@ void Main_flight_loop()
     debug.mode=1;
     if (debug.mode==1)
     {
-
       Serial.println("=========================================");
        
       Serial.print("Heater state1: ");
@@ -355,7 +354,6 @@ void Main_flight_loop()
     }
     debug.mode=0;
 // END only for hearter test
-
 
     debug_println("collect_alt_data();");
     collect_alt_data();
@@ -518,7 +516,7 @@ void Terminal_test_loop()
   // TODO: DETERMINE WHAT FUNCTIONS WE WANT TO RUN IN TERMINAL TEST MODE
 
   // Print All Collected TLM to the Terminal Window
-  //print_telemetry();
+  print_telemetry();
 
   initialize_database();
 

@@ -503,26 +503,24 @@ void execute_electrical_control_check()
       }
     }
 
-    //TODO: THE FOLLOWING CODE WILL CHANGE WHEN WE HAVE ONLY ONE MONITOR PER BATTERY
-
     // Battery Voltage Charge Control
-    if(tlm_value < parameters.battery_1_voltage_init_threshold)
-    {
-      //Turn the power on
-      digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
-      parameters.battery_1_charging_status = true;
-    }
+//    if(tlm_value < parameters.battery_1_voltage_init_threshold)
+//    {
+//      //Turn the power on
+//      digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
+//      parameters.battery_1_charging_status = true;
+//    }
 
-    if(tlm_value > parameters.battery_1_voltage_term_threshold)
-    {
-      //Turn the power off
-      digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
-      parameters.battery_1_charging_status = false;
-
-      //Reset the charge counts
-      parameters.battery_1_amphrs_charging = 0.0;
-      parameters.battery_1_amphrs_discharging = 0.0;
-    }
+//    if(tlm_value > parameters.battery_1_voltage_term_threshold)
+//    {
+//      //Turn the power off
+//      digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
+//      parameters.battery_1_charging_status = false;
+//
+//      //Reset the charge counts
+//      parameters.battery_1_amphrs_charging = 0.0;
+//      parameters.battery_1_amphrs_discharging = 0.0;
+//    }
     //TODO: DUPLICATE TO ADD BATTERY 2 CODE!!!!
   }
 
@@ -553,7 +551,6 @@ void execute_electrical_control_check()
   }
 
   // Check Altitude.
-  // TODO: ADD CODE THAT IMPLEMENTS THE AUTOMATIC CUTDOWN IF THE BATTERY IS TOO LOW !
 
   // other strategy: 1) we enable the test if the paypload pass a resonnable altitude thershold A1
   //                 2) cut down if the payload goes below a low alt A2   A1>A2
