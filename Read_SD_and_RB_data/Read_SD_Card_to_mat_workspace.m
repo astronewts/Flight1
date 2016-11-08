@@ -1,4 +1,5 @@
 %% 1-Choose the file
+display('**********************************************************');
 display('1-Please choose a SD card file')
 try
     [FileName,PathName,FilterIndex]=uigetfile('*.csv','SELECT A CSV FILE');
@@ -55,5 +56,4 @@ for c=1:min(size(Txt,2),size(Data,2))
     Name_variable_SD=strcat(Name_variable_mod,'_SD');
     assignin('base',Name_variable_SD,Value_processed);
 end
-display(strcat('**** Data import from ',{' '},FileName,' is now DONE ****'));
-clearvars -except *_SD
+display(char(strcat('=> Data import from ',{' '},FileName,' is now DONE')));
