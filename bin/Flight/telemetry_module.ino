@@ -132,6 +132,8 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
   // Battery Voltages = 3
   // Battery 1 Currents = 4
   // Battery 2 Currents = 5
+  // GPS Altitude = 6
+  // Alt Altitude = 7
 
   if(TLM_ID == 1)
   {
@@ -162,6 +164,18 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
     parameters.battery_2_current_tlm_valid_flag = true;
     high_thresh = parameters.charge_current_sanity_check_high;
     low_thresh = parameters.charge_current_sanity_check_low;
+  }
+  else if(TLM_ID == 6)
+  {
+    parameters.gps_alt_valid_flag = true;
+    high_thresh = parameters.altitude_sanity_check_high;
+    low_thresh = parameters.altitude_sanity_check_low;
+  }
+  else if(TLM_ID == 7)
+  {
+    parameters.altitude_valid_flag = true;
+    high_thresh = parameters.altitude_sanity_check_high;
+    low_thresh = parameters.altitude_sanity_check_low;
   }
 
   //bool valid_data = true;
@@ -218,7 +232,15 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
     {
       parameters.battery_2_current_tlm_valid_flag = false;
     }
-
+    else if(TLM_ID == 6)
+    {
+      parameters.gps_alt_valid_flag = false;
+    }
+    else if(TLM_ID == 7)
+    {
+      parameters.altitude_valid_flag = false;
+    }
+    
     write_telemetry_data_to_sd();
   }
   return tlm_out;
@@ -348,7 +370,7 @@ void process_charge_current_tlm()
 { 
   double tlm_value = 0.0;
   double tlm_check = 0.0;
-  double battery_1_elapsed_time_factor = 0.0;
+  float battery_1_elapsed_time_factor = 0.0;
   // NOTE: MIGHT WANT TO THINK ABOUT A ROLLING AVERAGE HERE IN THE FUTURE
 
   // Charge Current
@@ -374,6 +396,8 @@ void process_charge_current_tlm()
 
     tlm_check = parameters.battery_1_amphrs_charging - parameters.battery_1_amphrs_discharging;
 
+    // NOTE: THIS FUNCTION IS EFFECTIVELY DISABLED
+    // DISABLING THIS RESET DUE TO PRESENT HW DESIGN (LC: 9/8/16)
     if(tlm_check < parameters.battery_1_amphrs_init_threshold)
     {
       //Turn the power ON
@@ -381,6 +405,8 @@ void process_charge_current_tlm()
       parameters.battery_1_charging_status = true;
     }
 
+    // NOTE: THIS FUNCTION IS EFFECTIVELY DISABLED
+    // DISABLING THIS RESET DUE TO PRESENT HW DESIGN (LC: 9/8/16)
     if(tlm_check > parameters.battery_1_amphrs_term_threshold)
     {
       //Turn the power Off
@@ -388,15 +414,15 @@ void process_charge_current_tlm()
       parameters.battery_1_charging_status = false;
 
       //Reset the charge counts
-      //NOTE: DISABLING THIS RESET DUE TO PRESENT HW DESIGN (LC: 9/8/16)
       //parameters.battery_1_amphrs_charging = 0.0;
       //parameters.battery_1_amphrs_discharging = 0.0;
     }
   }
+  
   // BATTERY 2 SECTION
   tlm_value = 0.0;
   tlm_check = 0.0;
-  double battery_2_elapsed_time_factor = 0.0;
+  float battery_2_elapsed_time_factor = 0.0;
 
   // Charge Current
   // Sanity Check
@@ -421,6 +447,8 @@ void process_charge_current_tlm()
 
     tlm_check = parameters.battery_2_amphrs_charging - parameters.battery_2_amphrs_discharging;
 
+    // NOTE: THIS FUNCTION IS EFFECTIVELY DISABLED
+    // DISABLING THIS RESET DUE TO PRESENT HW DESIGN (LC: 9/8/16)
     if(tlm_check < parameters.battery_2_amphrs_init_threshold)
     {
       //Turn the power ON
@@ -428,6 +456,8 @@ void process_charge_current_tlm()
       parameters.battery_2_charging_status = true;
     }
 
+    // NOTE: THIS FUNCTION IS EFFECTIVELY DISABLED
+    // DISABLING THIS RESET DUE TO PRESENT HW DESIGN (LC: 9/8/16)
     if(tlm_check > parameters.battery_2_amphrs_term_threshold)
     {
       //Turn the power Off
@@ -435,7 +465,6 @@ void process_charge_current_tlm()
       parameters.battery_2_charging_status = false;
 
       //Reset the charge counts
-      //NOTE: DISABLING THIS RESET DUE TO PRESENT HW DESIGN (LC: 9/8/16)
       //parameters.battery_2_amphrs_charging = 0.0;
       //parameters.battery_2_amphrs_discharging = 0.0;
     }
@@ -466,9 +495,9 @@ void execute_electrical_control_check()
   ////////////////////////////// BATTERY BUS VOLTAGE CHECK ////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////////
 
-  //Check Battery Voltage
-  //Get the highest voltage
-  //Sanity Check
+  // Check Battery Voltage
+  // Get the highest voltage
+  // Sanity Check
 
   tlm_value = sanity_processing(telemetry_data.busvoltage_batt1, telemetry_data.busvoltage_batt2, 3);
 
@@ -481,7 +510,7 @@ void execute_electrical_control_check()
        {
          //Battery voltage is low - set flag and mark time
 	       parameters.battery_bus_low_voltage_flag = true;
-         parameters.battery_low_voltage_elapsed_time = 0;
+         parameters.battery_low_voltage_elapsed_time = 0.0;
          if(debug.mode == 1) {
           Serial.print("Battery voltage of ");
           Serial.print(tlm_value);
@@ -502,29 +531,7 @@ void execute_electrical_control_check()
         parameters.battery_bus_low_voltage_flag = false;
       }
     }
-
-    // Battery Voltage Charge Control
-//    if(tlm_value < parameters.battery_1_voltage_init_threshold)
-//    {
-//      //Turn the power on
-//      digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, LOW);
-//      parameters.battery_1_charging_status = true;
-//    }
-
-//    if(tlm_value > parameters.battery_1_voltage_term_threshold)
-//    {
-//      //Turn the power off
-//      digitalWrite(PIN_BATTERY_1_CHARGE_CUTOFF, HIGH);
-//      parameters.battery_1_charging_status = false;
-//
-//      //Reset the charge counts
-//      parameters.battery_1_amphrs_charging = 0.0;
-//      parameters.battery_1_amphrs_discharging = 0.0;
-//    }
-    //TODO: DUPLICATE TO ADD BATTERY 2 CODE!!!!
   }
-
-  //TODO: NEEDS TO BE CODE THAT SEPARATES LOADSHED ENTRY FROM AUTO-CUTDOWN
 
   // Battery Failure Checking
   // Check if voltage flag is already set
@@ -550,65 +557,67 @@ void execute_electrical_control_check()
     }
   }
 
-  // Check Altitude.
 
-  // other strategy: 1) we enable the test if the paypload pass a resonnable altitude thershold A1
-  //                 2) cut down if the payload goes below a low alt A2   A1>A2
-  //                 A1 = altitude_sanity_check_low and A2 = altitude_limit_low
+  /////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////// ALTITUDE CHECK //////////////??????//////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////
 
-  if(alt.altitude_in_meters >= parameters.altitude_sanity_check_low)
+  // Check Altitude and Cutdown if we are too low
+
+  int tlm_value_1 = sanity_processing(gps_data.gps_altitude, gps_data.gps_altitude, 6);
+  int tlm_value_2 = sanity_processing(alt.altitude_in_meters, alt.altitude_in_meters, 7);
+  
+  if(!(parameters.vehicle_mode == TRANSIT_MODE) && !(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE))
   {
-    parameters.altitude_valid_flag = true;
-    count_low_alt = 0 ; // counter: if counts 3 times below altitude thershold then cutdow
-  }
-
-  if(parameters.altitude_valid_flag == true)  // we are now flying
-  {
-    if(debug.mode == 1) {
-      Serial.println("WE are floating !!! (test for altitude cutdow, line 419 in telemetry_module)");
-    }
-    if(alt.altitude_in_meters < parameters.altitude_limit_low) // if we are too low then start counting ... to 3
+    if((parameters.gps_alt_valid_flag == true) && (gps_data.gps_altitude_valid == 1))
     {
-      count_low_alt = count_low_alt + 1;
-      write_telemetry_data_to_sd();
-    }
-
-    if(count_low_alt == 3 ) // we have been too low for a few counts => initiate cut down
-    {
-      //Enter Emergency Descent Mode
-      parameters.altitude_valid_flag = false;
-      write_telemetry_data_to_sd();
       if(debug.mode == 1) {
-      Serial.println("SHIT we are too low: initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
+        Serial.println("WE are floating !!! Also - GPS Alt is good.  (test for altitude cutdown, line 419 in telemetry_module)");
       }
-      set_emergency_decent_mode();
-      
+      if(gps_data.gps_altitude < parameters.altitude_limit_low)
+      {
+        count_low_alt = count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
+        write_telemetry_data_to_sd();
+        
+        if(count_low_alt > 3) // we have been too low for a few counts => initiate cut down
+        {
+          if(debug.mode == 1) {
+            Serial.println("SHIT we are too low (GPS): initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
+          }
+          //Enter Emergency Descent Mode
+          set_emergency_decent_mode();
+        }
+      }
+      else
+      {
+        count_low_alt = 0;
+      }
+    }  
+    else if (parameters.altitude_valid_flag == true)
+    {
+      if(debug.mode == 1) {
+        Serial.println("WE are floating !!! Also - GPS Alt is NOT good, but Altimeter is okay. (test for altitude cutdown, line 419 in telemetry_module)");
+      }
+      if(alt.altitude_in_meters < parameters.altitude_limit_low)
+      {
+        count_low_alt = count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
+        write_telemetry_data_to_sd();
+        
+        if(count_low_alt > 3) // we have been too low for a few counts => initiate cut down
+        {
+          if(debug.mode == 1) {
+            Serial.println("SHIT we are too low (Alt): Initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
+          }
+          //Enter Emergency Descent Mode
+          set_emergency_decent_mode();
+        }
+      }
+      else
+      {
+        count_low_alt = 0;
+      }
     }
-
-    // //The next section is commented as we will only rely on the altimeter for the critical altitude test.
-    //     if(gps.altitude.isValid())
-    //     {
-    //        if(gps.altitude.meters() >= parameters.altitude_sanity_check_low)
-    //        {
-    //           if(gps.altitude.meters() < parameters.altitude_limit_low)
-    //           {
-    //              //Enter Emergency Descent Mode
-    //             set_emergency_decent_mode();
-    //             parameters.altitude_valid_flag = false;
-    //           }
-    //        }
-    //      }
-    //      if(alt.altitude_in_meters >= parameters.altitude_sanity_check_low)
-    //       {
-    //         if(alt.altitude_in_meters < parameters.altitude_limit_low)
-    //           {
-    //             //Enter Emergency Descent Mode
-    //             set_emergency_decent_mode();
-    //             parameters.altitude_valid_flag = false;
-    //           }
-    //       }
   } // end of test on altitude
-
 } // end of process telemetry
 
 /////////////////////////////////////////////////////////////////////////
@@ -801,6 +810,7 @@ void post_process_gps_alt()
 
   if(gps_data.gps_altitude > gps_data.max_gps_altitude) { gps_data.max_gps_altitude = gps_data.gps_altitude; }
   if(gps_data.gps_altitude < gps_data.min_gps_altitude) { gps_data.min_gps_altitude = gps_data.gps_altitude; }
+  gps_data.avg_gps_altitude = (gps_data.avg_gps_altitude*(gps_data.count_between_RB-1)+gps_data.avg_gps_altitude)/gps_data.count_between_RB;
 }
 
 void post_process_alt_data()

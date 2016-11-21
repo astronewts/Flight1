@@ -79,8 +79,9 @@
 #define MEDIUM_RATE_PERIOD_CUTDOWN                 10000 // ms
 #define LOW_RATE_PERIOD_CUTDOWN                    10000 // ms
 
-#define DEFAULT_ALTITUDE_LIMIT_LOW                 20000  // 33:for test in living room  //  A2 m
-#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          40000  // XX:for test in living room //  A1 m // for the new code (line 400ish in telemetry_module) A1 > A2
+#define DEFAULT_ALTITUDE_LIMIT_LOW                 23000 // meters (75000 ft)
+#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          3000 // meters (10000 ft)
+#define DEFAULT_ALTITUDE_SANITY_CHECK_HIGH         40000 // meters (130000 ft)
 
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           1.0  //Prev:-0.1  Note: These are purposely set too high to trigger, due to HW perfoming this action
@@ -152,14 +153,13 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         137 // Size of the Database
+#define DB_SIZE                         140 // Size of the Database
 #define MAX_TLM_TYPE_SIZE               6 //
 #define MAX_SD_TITLE_SIZE               32 //
 
 // DEFINE FORMATS
 #define FORMAT_1                        1
 #define FORMAT_2                        2
-
 
 typedef struct {
   String tlm_type;
@@ -306,6 +306,7 @@ struct gps_data_struct
   float gps_location_age; // MAX(gps_alt_age, gps_pos_age) in seconds
   float gps_altitude;
   float max_gps_altitude;
+  float avg_gps_altitude;
   float min_gps_altitude;
   float gps_altitude_age;
   float gps_heading; // 0-255
@@ -388,9 +389,12 @@ struct parameter_struct
   bool battery_1_current_tlm_valid_flag;
   bool battery_2_current_tlm_valid_flag;
 
+  bool gps_alt_valid_flag;
   bool altitude_valid_flag;
+    
   int altitude_limit_low;
   int altitude_sanity_check_low;
+  int altitude_sanity_check_high;
 
   int rb_initialization_error_status;
   int num_rb_words_recieved;
