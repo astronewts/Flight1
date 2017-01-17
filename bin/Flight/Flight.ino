@@ -351,6 +351,73 @@ void Main_flight_loop()
         Serial.println(parameters.battery_temperature_sanity_check_high); 
         
       Serial.println("=========================================");
+<<<<<<< HEAD
+=======
+      Serial.println("=========================================");
+
+      Serial.print("Vehicle Mode                          []: ");
+        Serial.println(parameters.vehicle_mode);
+      
+      Serial.print("Battery 1 Voltage                    [V]: ");
+        Serial.println(telemetry_data.busvoltage_batt1);
+        
+      Serial.print("Battery 2 Voltage                    [V]: ");
+        Serial.println(telemetry_data.busvoltage_batt2);
+      
+      Serial.print("Battery Voltage Tlm Valid Flag        []: ");
+        Serial.println(parameters.battery_voltage_tlm_valid_flag);
+
+      Serial.print("Battery Bus Low Voltage Flag          []: ");
+        Serial.println(parameters.battery_bus_low_voltage_flag);
+
+      Serial.print("GPS Altitude (gps_data)              [m]: ");
+        Serial.println(gps_data.gps_altitude);
+
+      Serial.print("GPS Alt Valid Flag (gps_data)         []: ");
+        Serial.println(gps_data.gps_altitude_valid);
+
+      Serial.print("Altimeter Altitude                   [m]: ");
+        Serial.println(alt.altitude_in_meters);
+
+      Serial.print("Altitude Valid Flag                   []: ");
+        Serial.println(parameters.altitude_valid_flag);
+
+      Serial.print("Battery Low Voltage Elapsed Time     [s]: ");
+        Serial.println(parameters.battery_low_voltage_elapsed_time/1000);
+
+      Serial.print("Cutdown Initiation Elapsed Time      [s]: ");
+        Serial.println(parameters.cutdown_initiation_elapsed_time/1000);
+  
+      Serial.print("Cutdown Event Flag                    []: ");
+        Serial.println(parameters.cutdown_event_flag);
+      
+      Serial.println("");
+      Serial.println("CONSTANTS: ");
+      
+      Serial.print("Low Voltage Limit for Loadshed Entry [V]: ");
+        Serial.println(parameters.low_voltage_limit_for_loadshed_entry);
+
+      Serial.print("Low Voltage Limit for Autocutdown    [V]: ");
+        Serial.println(parameters.low_voltage_limit_for_auto_cutdown);
+
+      Serial.print("Low Voltage Time Limit               [s]: ");
+        Serial.println(parameters.low_voltage_time_limit/1000);
+
+      Serial.print("Battery Voltage Sanity Check Low     [V]: ");
+        Serial.println(parameters.voltage_sanity_check_low);
+    
+      Serial.print("Battery Voltage Sanity Check High    [V]: ");
+        Serial.println(parameters.voltage_sanity_check_high); 
+
+      Serial.print("Altitude Limit Low                   [m]: ");
+        Serial.println(parameters.altitude_limit_low);
+
+      Serial.print("Altitude Sanity Check Low            [m]: ");
+        Serial.println(parameters.altitude_sanity_check_low);
+      Serial.print("Altitude Sanity Check High           [m]: ");
+        Serial.println(parameters.altitude_sanity_check_high);  
+      Serial.println("=========================================");      
+>>>>>>> new_master
     }
     debug.mode=0;
 // END only for hearter test
