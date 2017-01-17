@@ -414,10 +414,8 @@ void Main_flight_loop()
 
       Serial.print("Altitude Sanity Check Low            [m]: ");
         Serial.println(parameters.altitude_sanity_check_low);
-    
       Serial.print("Altitude Sanity Check High           [m]: ");
         Serial.println(parameters.altitude_sanity_check_high);  
-
       Serial.println("=========================================");      
     }
     debug.mode=0;
