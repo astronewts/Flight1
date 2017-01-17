@@ -1,6 +1,6 @@
 void collect_alt_data()
 {
-   alt.altitude_in_meters = baro.getHeightCentiMeters() / 100.0;
+   alt.altitude_in_meters = (baro.getHeightCentiMeters() / 100.0)+60; // NOTE: +60 is a TEST OFFSET ONLY REMOVE FOR FLIGHT (maybe)
    alt.temperature = baro.getTemperatureCentigrade() / 100.0;
    alt.pressure = baro.getAvgNormPressurePascals();
 }

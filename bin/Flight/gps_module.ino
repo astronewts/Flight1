@@ -20,42 +20,44 @@ void collect_gps_data(struct gps_data_struct data)
     Serial.println(F("No GPS data received: check wiring"));
   }
 
-  data.gps_location_valid = gps.location.isValid();
+  gps_data.gps_location_valid = gps.location.isValid();
   if (gps.location.isValid()) {
     unsigned int lat, lng;
     //encode_lat_long(gps.location.lat(), gps.location.lng(), &lat, &lng);
     //data.gps_processed_lat = lat;
     //data.gps_processed_long = lng;
-    data.gps_processed_lat = gps.location.lat();
-    data.gps_processed_long = gps.location.lng();
+    gps_data.gps_processed_lat = gps.location.lat();
+    gps_data.gps_processed_long = gps.location.lng();
     //data.gps_location_age = constrain(gps.location.age() / 1000, 0, 255);
-    data.gps_location_age = gps.location.age();
+    gps_data.gps_location_age = gps.location.age();
     //data.gps_altitude = constrain(gps.altitude.meters(), 0, (1<<16)-1);
-    data.gps_altitude = gps.altitude.meters();
-    data.gps_altitude_age = gps.altitude.age();
+    gps_data.gps_altitude = gps.altitude.meters();
+
+    gps_data.gps_altitude = gps.altitude.meters();
+    
+    gps_data.gps_altitude_age = gps.altitude.age();
     //data.gps_heading = constrain(gps.course.deg() * 360 / 256, 0, 255);
-    data.gps_heading = gps.course.deg();
+    gps_data.gps_heading = gps.course.deg();
     //data.gps_speed = constrain(gps.speed.kmph(), 0, 255);
-    data.gps_speed = gps.speed.kmph();
+    gps_data.gps_speed = gps.speed.kmph();
     
-    data.gps_date = gps.date.value();
-    data.gps_time = gps.time.value();
-    data.gps_hdop = gps.hdop.value();
-    data.gps_chars_processed = gps.charsProcessed();
-    data.gps_sentances_with_fix = gps.sentencesWithFix();
-    data.gps_failed_checksum = gps.failedChecksum();
+    gps_data.gps_date = gps.date.value();
+    gps_data.gps_time = gps.time.value();
+    gps_data.gps_hdop = gps.hdop.value();
+    gps_data.gps_chars_processed = gps.charsProcessed();
+    gps_data.gps_sentances_with_fix = gps.sentencesWithFix();
+    gps_data.gps_failed_checksum = gps.failedChecksum();
     
-    data.gps_location_valid = gps.location.isValid();
-    data.gps_altitude_valid = gps.altitude.isValid();
-    data.gps_heading_valid = gps.course.isValid();
-    data.gps_speed_valid = gps.speed.isValid();
-    data.gps_num_satellites_valid = gps.satellites.isValid();
-    data.gps_date_valid = gps.date.isValid();
-    data.gps_time_valid = gps.time.isValid();
-    data.gps_hdop_valid = gps.hdop.isValid();
+    gps_data.gps_location_valid = gps.location.isValid();
+    gps_data.gps_altitude_valid = gps.altitude.isValid();
+    gps_data.gps_heading_valid = gps.course.isValid();
+    gps_data.gps_speed_valid = gps.speed.isValid();
+    gps_data.gps_num_satellites_valid = gps.satellites.isValid();
+    gps_data.gps_date_valid = gps.date.isValid();
+    gps_data.gps_time_valid = gps.time.isValid();
+    gps_data.gps_hdop_valid = gps.hdop.isValid();
  
-    data.gps_num_satellites = gps.satellites.value();
-    
+    gps_data.gps_num_satellites = gps.satellites.value(); 
   }
 }
 

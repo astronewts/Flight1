@@ -43,7 +43,7 @@
 #define DEFAULT_LOOP_SLEEP                         3000
 #define DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY   8.5
 #define DEFAULT_VOLTAGE_LOW_LIMIT_CUTDOWN_ENTRY    8.0
-#define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             1800
+#define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             300000  //1080000 FLIGHT
 #define DEFAULT_VOLTAGE_SANITY_CHECK_HIGH          18
 #define DEFAULT_VOLTAGE_SANITY_CHECK_LOW           6
 #define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_HIGH     20
@@ -52,10 +52,10 @@
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW    14
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH     150
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80
-#define DEFAULT_NORMAL_TRANSMIT_RATE               6000 //1800000 // TEST ONLY!!! (Once every half hour)
+#define DEFAULT_NORMAL_TRANSMIT_RATE               6000    // 1800000 // TEST ONLY!!! (Once every half hour)
 //#define DEFAULT_NORMAL_TRANSMIT_RATE             1200000 // FOR FLIGHT!!!
 #define DEFAULT_SPARE_TRANSMIT_RATE                60000
-#define DEFAULT_TRANSIT_TRANSMIT_RATE              6000  //30000
+#define DEFAULT_TRANSIT_TRANSMIT_RATE              6000    // 30000
 #define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45000
 #define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
 
@@ -79,9 +79,9 @@
 #define MEDIUM_RATE_PERIOD_CUTDOWN                 10000 // ms
 #define LOW_RATE_PERIOD_CUTDOWN                    10000 // ms
 
-#define DEFAULT_ALTITUDE_LIMIT_LOW                 23000 // meters (75000 ft)
-#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          3000 // meters (10000 ft)
-#define DEFAULT_ALTITUDE_SANITY_CHECK_HIGH         40000 // meters (130000 ft)
+#define DEFAULT_ALTITUDE_LIMIT_LOW                 23000.0 // meters (75000 ft)
+#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          1 // 3000.0 // meters (10000 ft)
+#define DEFAULT_ALTITUDE_SANITY_CHECK_HIGH         40000.0 // meters (130000 ft)
 
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           1.0  //Prev:-0.1  Note: These are purposely set too high to trigger, due to HW perfoming this action

@@ -179,7 +179,7 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
   }
 
   //bool valid_data = true;
-
+  
   if((TLM1 <= high_thresh) && (TLM1 >= low_thresh))
   {
     if((TLM2 <= high_thresh) && (TLM2 >= low_thresh))
@@ -194,7 +194,6 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
         {
           tlm_out = TLM2;
         }
-
       }
       else
       {
@@ -557,15 +556,14 @@ void execute_electrical_control_check()
     }
   }
 
-
   /////////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////// ALTITUDE CHECK //////////////??????//////////////////
   /////////////////////////////////////////////////////////////////////////////////////////
 
   // Check Altitude and Cutdown if we are too low
 
-  int tlm_value_1 = sanity_processing(gps_data.gps_altitude, gps_data.gps_altitude, 6);
-  int tlm_value_2 = sanity_processing(alt.altitude_in_meters, alt.altitude_in_meters, 7);
+  double tlm_value_1 = sanity_processing(gps_data.gps_altitude, gps_data.gps_altitude, 6);
+  double tlm_value_2 = sanity_processing(alt.altitude_in_meters, alt.altitude_in_meters, 7);
   
   if(!(parameters.vehicle_mode == TRANSIT_MODE) && !(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE))
   {

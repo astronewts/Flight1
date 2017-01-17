@@ -12,14 +12,7 @@ bool ISBDCallback()
 {
 if (Flag_RB.loop_started==1)
   {
-    if (parameters.vehicle_mode==FLIGHT_MODE_WITH_DEBUG)
-    {
     Main_flight_loop();
-    }
-    if (parameters.vehicle_mode==FLIGHT_MODE)
-    {
-    Main_flight_loop();
-    }
   }
 return true;
 }
@@ -205,7 +198,7 @@ void sendreceive_satellite_data()
       if(debug.mode == 1)
       {
         Serial.println("SignalQuality failed: error ");
-        Serial.println(sig_qual_err);
+         Serial.println(sig_qual_err);
          Serial.print("Time: ");
          Serial.println(parameters.transmit_elapsed_time);
       }

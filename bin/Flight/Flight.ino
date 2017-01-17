@@ -140,6 +140,7 @@ void setup()
     Serial.println("Then we are in Flight Mode without RB");
     parameters.vehicle_mode=FLIGHT_MODE_WITHOUT_RB;
     Init_components();
+    Init_RB();
   }
 
   if (user_input =='s') {
@@ -237,6 +238,7 @@ void loop()
     //RB_Send_Receive_data();
 }
 
+
 void Main_flight_loop()
 {
   debug.mode = 0;
@@ -244,18 +246,17 @@ void Main_flight_loop()
 // set default values for the mode we are in (flight or loadshed or transit or emergency)
 // by default set parameters to normal mode (like flight) otherwise change set points
 
-  set_normal_mode();
-  
-  if(parameters.vehicle_mode == LOADSHED_MODE){
-    set_load_shed_mode();  
-  }
-  if(parameters.vehicle_mode == TRANSIT_MODE){
-    set_transit_mode();  
-  }
-  if(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE){
-    set_emergency_decent_mode();  
-  }  
-  
+//  TODO: DELETE THIS CODE?!?!?!?!?!   
+//  if(parameters.vehicle_mode == LOADSHED_MODE){
+//    set_load_shed_mode();  
+//  }
+//  if(parameters.vehicle_mode == TRANSIT_MODE){
+//    set_transit_mode();  
+//  }
+//  if(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE){
+//    set_emergency_decent_mode();  
+//  }  
+
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
     debug_println("===> DEBUG: HIGH-RATE PROCESS");
@@ -298,8 +299,9 @@ void Main_flight_loop()
     debug_println("collect_analog_telemetry();");
     collect_analog_telemetry();
 
-// only for heater test:
-// XXXXXX 
+    // only for heater test & autonomous cutdown test:
+    // XXXXXX
+     
     debug.mode=1;
     if (debug.mode==1)
     {
@@ -351,9 +353,75 @@ void Main_flight_loop()
         Serial.println(parameters.battery_temperature_sanity_check_high); 
         
       Serial.println("=========================================");
+      Serial.println("=========================================");
+
+      Serial.print("Vehicle Mode                          []: ");
+        Serial.println(parameters.vehicle_mode);
+      
+      Serial.print("Battery 1 Voltage                    [V]: ");
+        Serial.println(telemetry_data.busvoltage_batt1);
+        
+      Serial.print("Battery 2 Voltage                    [V]: ");
+        Serial.println(telemetry_data.busvoltage_batt2);
+      
+      Serial.print("Battery Voltage Tlm Valid Flag        []: ");
+        Serial.println(parameters.battery_voltage_tlm_valid_flag);
+
+      Serial.print("Battery Bus Low Voltage Flag          []: ");
+        Serial.println(parameters.battery_bus_low_voltage_flag);
+
+      Serial.print("GPS Altitude (gps_data)              [m]: ");
+        Serial.println(gps_data.gps_altitude);
+
+      Serial.print("GPS Alt Valid Flag (gps_data)         []: ");
+        Serial.println(gps_data.gps_altitude_valid);
+
+      Serial.print("Altimeter Altitude                   [m]: ");
+        Serial.println(alt.altitude_in_meters);
+
+      Serial.print("Altitude Valid Flag                   []: ");
+        Serial.println(parameters.altitude_valid_flag);
+
+      Serial.print("Battery Low Voltage Elapsed Time     [s]: ");
+        Serial.println(parameters.battery_low_voltage_elapsed_time/1000);
+
+      Serial.print("Cutdown Initiation Elapsed Time      [s]: ");
+        Serial.println(parameters.cutdown_initiation_elapsed_time/1000);
+  
+      Serial.print("Cutdown Event Flag                    []: ");
+        Serial.println(parameters.cutdown_event_flag);
+      
+      Serial.println("");
+      Serial.println("CONSTANTS: ");
+      
+      Serial.print("Low Voltage Limit for Loadshed Entry [V]: ");
+        Serial.println(parameters.low_voltage_limit_for_loadshed_entry);
+
+      Serial.print("Low Voltage Limit for Autocutdown    [V]: ");
+        Serial.println(parameters.low_voltage_limit_for_auto_cutdown);
+
+      Serial.print("Low Voltage Time Limit               [s]: ");
+        Serial.println(parameters.low_voltage_time_limit/1000);
+
+      Serial.print("Battery Voltage Sanity Check Low     [V]: ");
+        Serial.println(parameters.voltage_sanity_check_low);
+    
+      Serial.print("Battery Voltage Sanity Check High    [V]: ");
+        Serial.println(parameters.voltage_sanity_check_high); 
+
+      Serial.print("Altitude Limit Low                   [m]: ");
+        Serial.println(parameters.altitude_limit_low);
+
+      Serial.print("Altitude Sanity Check Low            [m]: ");
+        Serial.println(parameters.altitude_sanity_check_low);
+    
+      Serial.print("Altitude Sanity Check High           [m]: ");
+        Serial.println(parameters.altitude_sanity_check_high);  
+
+      Serial.println("=========================================");      
     }
     debug.mode=0;
-// END only for hearter test
+// END only for heater test
 
     debug_println("collect_alt_data();");
     collect_alt_data();
@@ -631,9 +699,7 @@ void set_defaults()
   parameters.altitude_valid_flag = false;
   parameters.altitude_limit_low = DEFAULT_ALTITUDE_LIMIT_LOW;
   parameters.altitude_sanity_check_low = DEFAULT_ALTITUDE_SANITY_CHECK_LOW;
-
-  parameters.voltage_sanity_check_high = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH;
-  parameters.voltage_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
+  parameters.altitude_sanity_check_high = DEFAULT_ALTITUDE_SANITY_CHECK_HIGH;
 
   parameters.test_count = INITIAL_TEST_COUNT;
   parameters.rb_initialization_error_status = 0;
@@ -981,6 +1047,7 @@ void cutdown_fire()
   //Mark time that pyro was initiated
   parameters.cutdown_initiation_elapsed_time = 0;
 
-  //Set the mode to Transit
-  set_transit_mode();
+  //Set the mode to Transit (if its not in Emergency Descent Mode)
+  if(!(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE)) { set_transit_mode(); }
+
 }
