@@ -140,7 +140,6 @@ void setup()
     Serial.println("Then we are in Flight Mode without RB");
     parameters.vehicle_mode=FLIGHT_MODE_WITHOUT_RB;
     Init_components();
-    Init_RB();
   }
 
   if (user_input =='s') {
@@ -238,7 +237,6 @@ void loop()
     //RB_Send_Receive_data();
 }
 
-
 void Main_flight_loop()
 {
   debug.mode = 0;
@@ -246,17 +244,18 @@ void Main_flight_loop()
 // set default values for the mode we are in (flight or loadshed or transit or emergency)
 // by default set parameters to normal mode (like flight) otherwise change set points
 
-//  TODO: DELETE THIS CODE?!?!?!?!?!   
-//  if(parameters.vehicle_mode == LOADSHED_MODE){
-//    set_load_shed_mode();  
-//  }
-//  if(parameters.vehicle_mode == TRANSIT_MODE){
-//    set_transit_mode();  
-//  }
-//  if(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE){
-//    set_emergency_decent_mode();  
-//  }  
-
+  set_normal_mode();
+  
+  if(parameters.vehicle_mode == LOADSHED_MODE){
+    set_load_shed_mode();  
+  }
+  if(parameters.vehicle_mode == TRANSIT_MODE){
+    set_transit_mode();  
+  }
+  if(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE){
+    set_emergency_decent_mode();  
+  }  
+  
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
     debug_println("===> DEBUG: HIGH-RATE PROCESS");
@@ -299,9 +298,8 @@ void Main_flight_loop()
     debug_println("collect_analog_telemetry();");
     collect_analog_telemetry();
 
-    // only for heater test & autonomous cutdown test:
-    // XXXXXX
-     
+// only for heater test:
+// XXXXXX 
     debug.mode=1;
     if (debug.mode==1)
     {
@@ -353,75 +351,9 @@ void Main_flight_loop()
         Serial.println(parameters.battery_temperature_sanity_check_high); 
         
       Serial.println("=========================================");
-      Serial.println("=========================================");
-
-      Serial.print("Vehicle Mode                          []: ");
-        Serial.println(parameters.vehicle_mode);
-      
-      Serial.print("Battery 1 Voltage                    [V]: ");
-        Serial.println(telemetry_data.busvoltage_batt1);
-        
-      Serial.print("Battery 2 Voltage                    [V]: ");
-        Serial.println(telemetry_data.busvoltage_batt2);
-      
-      Serial.print("Battery Voltage Tlm Valid Flag        []: ");
-        Serial.println(parameters.battery_voltage_tlm_valid_flag);
-
-      Serial.print("Battery Bus Low Voltage Flag          []: ");
-        Serial.println(parameters.battery_bus_low_voltage_flag);
-
-      Serial.print("GPS Altitude (gps_data)              [m]: ");
-        Serial.println(gps_data.gps_altitude);
-
-      Serial.print("GPS Alt Valid Flag (gps_data)         []: ");
-        Serial.println(gps_data.gps_altitude_valid);
-
-      Serial.print("Altimeter Altitude                   [m]: ");
-        Serial.println(alt.altitude_in_meters);
-
-      Serial.print("Altitude Valid Flag                   []: ");
-        Serial.println(parameters.altitude_valid_flag);
-
-      Serial.print("Battery Low Voltage Elapsed Time     [s]: ");
-        Serial.println(parameters.battery_low_voltage_elapsed_time/1000);
-
-      Serial.print("Cutdown Initiation Elapsed Time      [s]: ");
-        Serial.println(parameters.cutdown_initiation_elapsed_time/1000);
-  
-      Serial.print("Cutdown Event Flag                    []: ");
-        Serial.println(parameters.cutdown_event_flag);
-      
-      Serial.println("");
-      Serial.println("CONSTANTS: ");
-      
-      Serial.print("Low Voltage Limit for Loadshed Entry [V]: ");
-        Serial.println(parameters.low_voltage_limit_for_loadshed_entry);
-
-      Serial.print("Low Voltage Limit for Autocutdown    [V]: ");
-        Serial.println(parameters.low_voltage_limit_for_auto_cutdown);
-
-      Serial.print("Low Voltage Time Limit               [s]: ");
-        Serial.println(parameters.low_voltage_time_limit/1000);
-
-      Serial.print("Battery Voltage Sanity Check Low     [V]: ");
-        Serial.println(parameters.voltage_sanity_check_low);
-    
-      Serial.print("Battery Voltage Sanity Check High    [V]: ");
-        Serial.println(parameters.voltage_sanity_check_high); 
-
-      Serial.print("Altitude Limit Low                   [m]: ");
-        Serial.println(parameters.altitude_limit_low);
-
-      Serial.print("Altitude Sanity Check Low            [m]: ");
-        Serial.println(parameters.altitude_sanity_check_low);
-    
-      Serial.print("Altitude Sanity Check High           [m]: ");
-        Serial.println(parameters.altitude_sanity_check_high);  
-
-      Serial.println("=========================================");      
     }
     debug.mode=0;
-// END only for heater test
+// END only for hearter test
 
     debug_println("collect_alt_data();");
     collect_alt_data();
@@ -699,7 +631,9 @@ void set_defaults()
   parameters.altitude_valid_flag = false;
   parameters.altitude_limit_low = DEFAULT_ALTITUDE_LIMIT_LOW;
   parameters.altitude_sanity_check_low = DEFAULT_ALTITUDE_SANITY_CHECK_LOW;
-  parameters.altitude_sanity_check_high = DEFAULT_ALTITUDE_SANITY_CHECK_HIGH;
+
+  parameters.voltage_sanity_check_high = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH;
+  parameters.voltage_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
 
   parameters.test_count = INITIAL_TEST_COUNT;
   parameters.rb_initialization_error_status = 0;
@@ -776,17 +710,17 @@ void initialize_database()
   db[3] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1,1};
   db[4] = {"int",8,parameters.command_count,null_long,null_float,"CMD Count",0,1,0};            
   db[5] = {"int",32,parameters.time_since_start/1000,null_long,null_float,"Elapsed Time [s]",0,1,1};  // FIX?
-  db[6] = {"int",8,parameters.transmit_period/(1000*60),null_long,null_float,"Active Trans Per [min]",0,1,0};
-  db[7] = {"int",8,thresholds.normal_transmit_period/(1000*60),null_long,null_float,"Normal Trans Per [min]",0,1,0};
-  db[8] = {"int",8,thresholds.load_shed_transmit_period/(1000*60),null_long,null_float,"Loadshed Trans Per [min]",0,1,0};
-  db[9] = {"int",8,thresholds.transit_transmit_period/(1000*60),null_long,null_float,"Transit Trans Per [min]",0,1,0};
-  db[10] = {"int",8,thresholds.emergency_transit_transmit_period/(1000*60),null_long,null_float,"Emer Trans Per [min]",0,1,0};
-  db[11] = {"int",8,thresholds.spare_transmit_period/(1000*60),null_long,null_float,"Spare Trans Per [min]",0,1,0};
+  db[6] = {"int",8,parameters.transmit_period/(1000*60),null_long,null_float,"Active Period [min]",0,1,0};
+  db[7] = {"int",8,thresholds.normal_transmit_period/(1000*60),null_long,null_float,"Normal Period [min]",0,1,0};
+  db[8] = {"int",8,thresholds.load_shed_transmit_period/(1000*60),null_long,null_float,"Loadshed Period [min]",0,1,0};
+  db[9] = {"int",8,thresholds.transit_transmit_period/(1000*60),null_long,null_float,"Transit Period [min]",0,1,0};
+  db[10] = {"int",8,thresholds.emergency_transit_transmit_period/(1000*60),null_long,null_float,"Emer Period [min]",0,1,0};
+  db[11] = {"int",8,thresholds.spare_transmit_period/(1000*60),null_long,null_float,"Spare Period [min]",0,1,0};
   db[12] = {"long",8,null_int,parameters.sd_card_write_period/1000,null_float,"SD Card Write Per [s]",0,1,0};
-  db[13] = {"long",12,null_int,raw_telemetry_data.raw_battery_1_temp_1,null_float,"B 1 T 1 [C]",2,1,1};
-  db[14] = {"long",12,null_int,raw_telemetry_data.raw_battery_1_temp_2,null_float,"B 1 T 2 [C]",2,1,1};
-  db[15] = {"long",12,null_int,raw_telemetry_data.raw_battery_2_temp_1,null_float,"B 2 T 1 [C]",2,1,1};
-  db[16] = {"long",12,null_int,raw_telemetry_data.raw_battery_2_temp_2,null_float,"B 2 T 2 [C]",2,1,1};
+  db[13] = {"long",12,null_int,raw_telemetry_data.raw_battery_1_temp_1,null_float,"B1 T 1 [C]",2,1,1};
+  db[14] = {"long",12,null_int,raw_telemetry_data.raw_battery_1_temp_2,null_float,"B1 T 2 [C]",2,1,1};
+  db[15] = {"long",12,null_int,raw_telemetry_data.raw_battery_2_temp_1,null_float,"B2 T 1 [C]",2,1,1};
+  db[16] = {"long",12,null_int,raw_telemetry_data.raw_battery_2_temp_2,null_float,"B2 T 2 [C]",2,1,1};
   db[17] = {"long",12,null_int,raw_telemetry_data.raw_inner_external_temp,null_float,"Inner Ext T [C]",2,1,0};
   db[18] = {"long",12,null_int,raw_telemetry_data.raw_outter_external_temp,null_float,"Outer Ext T [C]",2,1,0};
   db[19] = {"long",12,null_int,raw_telemetry_data.raw_internal_temp,null_float,"Int T [C]",2,1,1};
@@ -804,7 +738,7 @@ void initialize_database()
   db[31] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_sa,"SA Shunt V [V]",0,0,0};
   db[32] = {"float",32,null_int,null_long,telemetry_data.busvoltage_sa,"SA Bus V [V]",0,1,0};
   db[33] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_sa,"SA Load V [V]",0,1,0};
-  db[34] = {"float",32,null_int,null_long,telemetry_data.load_path_current,"Loadpath Current [V]",0,1,0};
+  db[34] = {"float",32,null_int,null_long,telemetry_data.load_path_current,"Loadpath Current [A]",0,1,0};
   db[35] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_load_path,"Loadpath Shunt V [V]",0,0,0};
   db[36] = {"float",32,null_int,null_long,telemetry_data.busvoltage_load_path,"Loadpath Bus V [V]",0,1,0};
   db[37] = {"float",32,null_int,null_long,telemetry_data.loadvoltage_load_path,"Loadpath Load V [V]",0,1,0};
@@ -823,7 +757,7 @@ void initialize_database()
   db[50] = {"long",32,null_int,gps_data.gps_date,null_float,"GPS Date [-]",0,1,1}; 
   db[51] = {"long",32,null_int,gps_data.gps_time,null_float,"GPS Time [-]",0,1,1}; 
   db[52] = {"int",12,gps_data.gps_hdop,null_long,null_float,"HDOP Value [?]",0,1,0};
-  db[53] = {"int",16,gps_data.gps_chars_processed,null_long,null_float,"GPS Chars Processed [-]",0,1,0};
+  db[53] = {"int",32,gps_data.gps_chars_processed,null_long,null_float,"GPS Chars Proc. [-]",0,0,0};
   db[54] = {"int",16,gps_data.gps_sentances_with_fix,null_long,null_float,"GPS Sentences with Fix [-]",0,1,0}; 
   db[55] = {"int",8,gps_data.gps_failed_checksum,null_long,null_float,"GPS Failed Checksum [-]",0,1,0};             
   db[56] = {"int",1,gps_data.gps_location_valid,null_long,null_float,"GPS Location Isvalid [-]",0,1,0};
@@ -852,20 +786,20 @@ void initialize_database()
   db[79] = {"float",32,null_int,null_long,gyro.max_gz,"Max Gyro Z [deg/s]",0,1,0};   
   db[80] = {"float",32,null_int,null_long,gyro.min_gz,"Min Gyro Z [deg/s]",0,1,0}; 
   db[81] = {"float",32,null_int,null_long,gyro.mean_gz,"Mean Gyro Z [deg/s]",0,1,0};     
-  db[82] = {"float",32,null_int,null_long,gyro.mx,"Gyro mag X [G]",0,1,0}; 
-  db[83] = {"float",32,null_int,null_long,gyro.my,"Gyro mag Y [G]",0,1,0}; 
-  db[84] = {"float",32,null_int,null_long,gyro.mz,"Gyro mag Z [G]",0,1,0};  
+  db[82] = {"float",32,null_int,null_long,gyro.mx,"mag X [G]",0,1,0}; 
+  db[83] = {"float",32,null_int,null_long,gyro.my,"mag Y [G]",0,1,0}; 
+  db[84] = {"float",32,null_int,null_long,gyro.mz,"mag Z [G]",0,1,0};  
   db[85] = {"float",32,null_int,null_long,gyro.gyro_temp,"Gyro T [C]",0,1,0};
   db[86] = {"float",32,null_int,null_long,parameters.voltage_sanity_check_high,"Volt San Check High [V]",0,1,0};
   db[87] = {"float",32,null_int,null_long,parameters.voltage_sanity_check_low,"Volt San Check Low [V]",0,1,0};
   db[88] = {"float",32,null_int,null_long,parameters.charge_current_sanity_check_high,"Charge Cur Sanity High [A]",0,1,0};
   db[89] = {"float",32,null_int,null_long,parameters.charge_current_sanity_check_low,"Charge Cur Sanity Low [A]",0,1,0};
-  db[90] = {"float",32,null_int,null_long,parameters.battery_1_recharge_ratio,"B 1 Recharge Ratio [-]",0,0,0};
-  db[91] = {"float",32,null_int,null_long,parameters.battery_1_amphrs_charging,"B 1 AH Charging [A]",0,1,0};
-  db[92] = {"float",32,null_int,null_long,parameters.battery_1_amphrs_discharging,"B 1 AH Discharging [A]",0,1,0};
-  db[93] = {"float",32,null_int,null_long,parameters.battery_2_recharge_ratio,"B 2 Recharge Ratio [-]",0,0,0};
-  db[94] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_charging,"B 2 Amp Hours Charging [A]",0,1,0};
-  db[95] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_discharging,"B 2 Amp Hours Discharging [A]",0,1,0};
+  db[90] = {"float",32,null_int,null_long,parameters.battery_1_recharge_ratio,"B1 Recharge Ratio [-]",0,0,0};
+  db[91] = {"float",32,null_int,null_long,parameters.battery_1_amphrs_charging,"B1 AH Charging [A]",0,1,0};
+  db[92] = {"float",32,null_int,null_long,parameters.battery_1_amphrs_discharging,"B1 AH Discharging [A]",0,1,0};
+  db[93] = {"float",32,null_int,null_long,parameters.battery_2_recharge_ratio,"B2 Recharge Ratio [-]",0,0,0};
+  db[94] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_charging,"B2 Amp Hours Charging [A]",0,1,0};
+  db[95] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_discharging,"B2 Amp Hours Discharging [A]",0,1,0};
   db[96] = {"float",32,null_int,null_long,parameters.sa_amphrs,"SA Total Amp Hrs [A.h]",0,1,0};
   db[97] = {"float",32,null_int,null_long,parameters.load_amphrs,"Load Total Amp Hrs [A.h]",0,1,0};
   db[98] = {"int",16,parameters.battery_temperature_limit_high+273,null_long,null_float,"B Active T Lim High [K]",5,1,0};
@@ -875,22 +809,22 @@ void initialize_database()
   db[102] = {"int",16,thresholds.normal_battery_temperature_limit_low+273,null_long,null_float,"B Norm T Lim Low [K]",5,1,0};
   db[103] = {"int",16,thresholds.survival_battery_temperature_limit_high+273,null_long,null_float,"B Surv T Lim High [K]",5,1,0};
   db[104] = {"int",16,thresholds.survival_battery_temperature_limit_low+273,null_long,null_float,"B Surv T Lim Low [K]",5,1,0};         
-  db[105] = {"int",16,parameters.battery_temperature_sanity_check_low+273,null_long,null_float,"B T Sanity Check Low [K]",5,1,0};     
+  db[105] = {"int",16,parameters.battery_temperature_sanity_check_low+273,null_long,null_float,"B T San Check Low [K]",5,1,0};     
   db[106] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_loadshed_entry,"Loadshed Entry Volt Lim [V]",0,1,0};      
-  db[107] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_auto_cutdown,"Auto Cutdown Volt Lim [V]",0,1,0};
-  db[108] = {"int",16,parameters.low_voltage_time_limit/1000,null_long,null_float,"Low Volt Time until Cutdown [s]",0,1,0};
+  db[107] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_auto_cutdown,"Auto Cut Volt Lim [V]",0,1,0};
+  db[108] = {"int",16,parameters.low_voltage_time_limit/1000,null_long,null_float,"Low Volt Time until Cut [s]",0,1,0};
   db[109] = {"int",16,parameters.altitude_limit_low,null_long,null_float,"Alt Limit Low [m]",0,1,0};
-  db[110] = {"int",16,parameters.altitude_sanity_check_low,null_long,null_float,"Alt Sanity Check Low [m]",0,1,0}; 
-  db[111] = {"int",16,parameters.altitude_sanity_check_high,null_long,null_float,"Alt Sanity Check High [m]",0,1,0};
+  db[110] = {"int",16,parameters.altitude_sanity_check_low,null_long,null_float,"Alt San Check Low [m]",0,1,0}; 
+  db[111] = {"int",16,parameters.altitude_sanity_check_high,null_long,null_float,"Alt San Check High [m]",0,1,0};
   db[112] = {"int",8,parameters.cutdown_pulse_width/1000,null_long,null_float,"Pyro Pulse Width [s]",0,1,0};
   db[113] = {"int",16,parameters.camera_period/1000,null_long,null_float,"Cam Per [s]",0,1,0};
   db[114] = {"int",16,parameters.camera_on_time/1000,null_long,null_float,"Cam On Time [s]",0,1,0};
   db[115] = {"int",1,parameters.battery_bus_low_voltage_flag,null_long,null_float,"Batt Bus Low V Flag",0,1,0};
-  db[116] = {"int",1,parameters.heater_state_1,null_long,null_float,"Heater State 1",0,1,0};
-  db[117] = {"int",1,parameters.heater_state_2,null_long,null_float,"Heater State 2",0,1,0};
-  db[118] = {"int",1,parameters.cutdown_event_flag,null_long,null_float,"Cutdown Event Flag",0,1,0};
-  db[119] = {"int",1,parameters.cutdown_1_status,null_long,null_float,"Cutdown 1 Fire Status",0,1,0};
-  db[120] = {"int",1,parameters.cutdown_2_status,null_long,null_float,"Cutdown 2 Fire Status",0,1,0};
+  db[116] = {"int",1,parameters.heater_state_1,null_long,null_float,"Heat State 1",0,1,0};
+  db[117] = {"int",1,parameters.heater_state_2,null_long,null_float,"Heat State 2",0,1,0};
+  db[118] = {"int",1,parameters.cutdown_event_flag,null_long,null_float,"Cut Event Flag",0,1,0};
+  db[119] = {"int",1,parameters.cutdown_1_status,null_long,null_float,"Cut 1 Fire Status",0,1,0};
+  db[120] = {"int",1,parameters.cutdown_2_status,null_long,null_float,"Cut 2 Fire Status",0,1,0};
   db[121] = {"int",1,parameters.gps_alt_valid_flag,null_long,null_float,"Alt Valid Flag",0,1,0};
   db[122] = {"int",1,parameters.altitude_valid_flag,null_long,null_float,"Alt Valid Flag",0,1,0};  
   db[123] = {"int",1,parameters.camera_enabled,null_long,null_float,"Cam Enabled",0,1,0};
@@ -905,10 +839,10 @@ void initialize_database()
   db[132] = {"float",32,null_int,null_long,alt.min_altitude_in_meters,"Min Alt [m]",0,1,0}; 
   db[133] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
   db[134] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
-  db[135] = {"float",32,null_int,null_long,alt.max_pressure,"Max Pressure [?]",0,1,0}; 
-  db[136] = {"float",32,null_int,null_long,alt.min_pressure,"Min Pressure [?]",0,1,0}; 
-  db[137] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recieved",0,1,0}; 
-  db[138] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Recieved Flag",0,1,0};
+  db[135] = {"float",32,null_int,null_long,alt.max_pressure,"Max Press [?]",0,1,0}; 
+  db[136] = {"float",32,null_int,null_long,alt.min_pressure,"Min Press [?]",0,1,0}; 
+  db[137] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Received",0,1,0}; 
+  db[138] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Received Flag",0,1,0};
 }
 
 void calculate_RB_out_mssg_size()
@@ -1047,7 +981,6 @@ void cutdown_fire()
   //Mark time that pyro was initiated
   parameters.cutdown_initiation_elapsed_time = 0;
 
-  //Set the mode to Transit (if its not in Emergency Descent Mode)
-  if(!(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE)) { set_transit_mode(); }
-
+  //Set the mode to Transit
+  set_transit_mode();
 }
