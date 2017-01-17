@@ -351,9 +351,6 @@ void Main_flight_loop()
         Serial.println(parameters.battery_temperature_sanity_check_high); 
         
       Serial.println("=========================================");
-<<<<<<< HEAD
-=======
-      Serial.println("=========================================");
 
       Serial.print("Vehicle Mode                          []: ");
         Serial.println(parameters.vehicle_mode);
@@ -417,7 +414,6 @@ void Main_flight_loop()
       Serial.print("Altitude Sanity Check High           [m]: ");
         Serial.println(parameters.altitude_sanity_check_high);  
       Serial.println("=========================================");      
->>>>>>> new_master
     }
     debug.mode=0;
 // END only for hearter test

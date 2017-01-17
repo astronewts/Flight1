@@ -351,7 +351,7 @@ void execute_thermal_control_check()
 
   if(parameters.battery_2_temp_tlm_valid_flag == true)
   {
-    // Second parameter specifies Battery 2
+ // Second parameter specifies Battery 2
     evaluate_heater_state(tlm_value,2);
   }
   else
