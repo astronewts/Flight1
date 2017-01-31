@@ -695,9 +695,6 @@ void set_defaults()
   parameters.altitude_limit_low = DEFAULT_ALTITUDE_LIMIT_LOW;
   parameters.altitude_sanity_check_low = DEFAULT_ALTITUDE_SANITY_CHECK_LOW;
 
-  parameters.voltage_sanity_check_high = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH;
-  parameters.voltage_sanity_check_low = DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW;
-
   parameters.test_count = INITIAL_TEST_COUNT;
   parameters.rb_initialization_error_status = 0;
   parameters.num_rb_words_recieved = 0;
