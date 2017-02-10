@@ -741,46 +741,33 @@ int decode_lat_long(double *lat, double *lng, unsigned int encLat, unsigned int 
 void post_process_gyro()
 {
   if (gyro.count_between_RB==0) { 
-    gyro.sum_ax=0;
     gyro.mean_ax=0;
     gyro.max_ax=0;
     gyro.min_ax=0;
-    gyro.sum_ay=0;
     gyro.mean_ay=0;
     gyro.max_ay=0;
     gyro.min_ay=0;
-    gyro.sum_az=0;
     gyro.mean_az=0;
     gyro.max_az=0;
     gyro.min_az=0;  
-    gyro.sum_gx=0;
     gyro.mean_gx=0;
     gyro.max_gx=0;
     gyro.min_gx=0;  
-    gyro.sum_gy=0;
     gyro.mean_gy=0;
     gyro.max_gy=0;
     gyro.min_gy=0;  
-    gyro.sum_gz=0;
     gyro.mean_gz=0;
     gyro.max_gz=0;
     gyro.min_gz=0; 
   }  
   gyro.count_between_RB=gyro.count_between_RB+1;
   
-  gyro.sum_ax=gyro.sum_ax+gyro.ax;
-  gyro.sum_ay=gyro.sum_ay+gyro.ay;
-  gyro.sum_az=gyro.sum_az+gyro.az;
-  gyro.sum_gx=gyro.sum_gx+gyro.gx;
-  gyro.sum_gy=gyro.sum_gy+gyro.gy;
-  gyro.sum_gz=gyro.sum_gz+gyro.gz;
-  
-  gyro.mean_ax=gyro.sum_ax/gyro.count_between_RB;
-  gyro.mean_ay=gyro.sum_ay/gyro.count_between_RB;
-  gyro.mean_az=gyro.sum_az/gyro.count_between_RB;
-  gyro.mean_gx=gyro.sum_gx/gyro.count_between_RB;
-  gyro.mean_gy=gyro.sum_gy/gyro.count_between_RB;
-  gyro.mean_gz=gyro.sum_gz/gyro.count_between_RB;
+  gyro.mean_ax=gyro.mean_ax*(gyro.count_between_RB-1)/gyro.count_between_RB+gyro.ax/gyro.count_between_RB;
+  gyro.mean_ay=gyro.mean_ay*(gyro.count_between_RB-1)/gyro.count_between_RB+gyro.ay/gyro.count_between_RB;
+  gyro.mean_az=gyro.mean_az*(gyro.count_between_RB-1)/gyro.count_between_RB+gyro.az/gyro.count_between_RB;
+  gyro.mean_gx=gyro.mean_gx*(gyro.count_between_RB-1)/gyro.count_between_RB+gyro.gx/gyro.count_between_RB;
+  gyro.mean_gy=gyro.mean_gy*(gyro.count_between_RB-1)/gyro.count_between_RB+gyro.gy/gyro.count_between_RB;
+  gyro.mean_gz=gyro.mean_gz*(gyro.count_between_RB-1)/gyro.count_between_RB+gyro.gz/gyro.count_between_RB;
 
   if(gyro.ax > gyro.max_ax) { gyro.max_ax = gyro.ax; } 
   if(gyro.ay > gyro.max_ay) { gyro.max_ay = gyro.ay; } 
@@ -803,12 +790,14 @@ void post_process_gps_alt()
   if (gps_data.count_between_RB==0) { 
     gps_data.max_gps_altitude=0;
     gps_data.min_gps_altitude=0;
+    gps_data.mean_gps_altitude=0;
   }  
   gps_data.count_between_RB=gps_data.count_between_RB+1;
 
   if(gps_data.gps_altitude > gps_data.max_gps_altitude) { gps_data.max_gps_altitude = gps_data.gps_altitude; }
   if(gps_data.gps_altitude < gps_data.min_gps_altitude) { gps_data.min_gps_altitude = gps_data.gps_altitude; }
-  gps_data.avg_gps_altitude = (gps_data.avg_gps_altitude*(gps_data.count_between_RB-1)+gps_data.avg_gps_altitude)/gps_data.count_between_RB;
+  
+  gps_data.mean_gps_altitude =gps_data.mean_gps_altitude*(gps_data.count_between_RB-1)/gps_data.count_between_RB+gps_data.gps_altitude/gps_data.count_between_RB;
 }
 
 void post_process_alt_data()
@@ -816,6 +805,7 @@ void post_process_alt_data()
   if (alt.count_between_RB==0) { 
     alt.max_altitude_in_meters=0;
     alt.min_altitude_in_meters=0;
+    alt.mean_altitude_in_meters=0;
     alt.max_pressure=0;
     alt.min_pressure=0;
   }  
@@ -825,5 +815,8 @@ void post_process_alt_data()
   if(alt.altitude_in_meters < alt.min_altitude_in_meters) { alt.min_altitude_in_meters = alt.altitude_in_meters; } 
   if(alt.pressure > alt.max_pressure) { alt.max_pressure = alt.pressure; }
   if(alt.pressure < alt.min_pressure) { alt.min_pressure = alt.pressure; }
+
+  alt.mean_altitude_in_meters =alt.mean_altitude_in_meters*(alt.count_between_RB-1)/alt.count_between_RB+alt.altitude_in_meters/alt.count_between_RB;
+
 }
 

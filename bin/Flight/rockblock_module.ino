@@ -294,6 +294,8 @@ void sendreceive_satellite_data()
       Flag_RB.try_send_reveive=1;
       write_telemetry_data_to_sd();
       gyro.count_between_RB=0;
+      alt.count_between_RB=0;
+      gps_data.count_between_RB=0;
       Flag_RB.try_send_reveive=0;
 
       Serial.print("ELAPSED TIME SINCE LAST TRANSMIT: ");

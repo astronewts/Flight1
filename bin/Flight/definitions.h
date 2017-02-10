@@ -193,6 +193,7 @@ struct alt_struct
   float altitude_in_meters;
   float max_altitude_in_meters;
   float min_altitude_in_meters;
+  float mean_altitude_in_meters;
   float temperature;
   float pressure;
   float max_pressure;
@@ -306,7 +307,7 @@ struct gps_data_struct
   float gps_location_age; // MAX(gps_alt_age, gps_pos_age) in seconds
   float gps_altitude;
   float max_gps_altitude;
-  float avg_gps_altitude;
+  float mean_gps_altitude;
   float min_gps_altitude;
   float gps_altitude_age;
   float gps_heading; // 0-255
