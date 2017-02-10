@@ -200,7 +200,8 @@ private:
             pressAccum += pressConv;
         }
         
-        const int32_t pressAvg = pressAccum / nSamples;      
+        // ORI: const int32_t pressAvg = pressAccum / nSamples;      
+        const int32_t pressAvg = pressAccum / max(nSamples,1);      
         const int32_t AltCm = PascalToCentimeter(pressAvg);
         
         return AltCm;   

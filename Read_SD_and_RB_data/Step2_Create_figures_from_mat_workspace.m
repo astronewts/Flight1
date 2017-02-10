@@ -33,31 +33,34 @@
 % % % line(Elapsed_Time_s_RB,Alt_ft_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
 % % %
 % % %%
-% % figure(7)
-% % line(Elapsed_Time_ms_SD/1000,Pyro_Pulse_Width_s_SD)
-% % line(Elapsed_Time_s_RB,Pyro_Pulse_Width_s_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+figure(1)
+line(Elapsed_Time_ms_SD/1000,Acc)
+line(Elapsed_Time_s_RB,Max_GPS_Alt_m_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+line(Elapsed_Time_s_RB,Min_GPS_Alt_m_RB,'Color',[0 0.5 0],'Marker','+','LineStyle','none')
+line(Elapsed_Time_s_RB,Mean_GPS_Alt_m_RB,'Color',[0 0 0],'Marker','v','LineStyle','none')
 % %%
-Read_Database_from_Arduino
-clearvars -except *_RB *_SD *var_name
-for v=4:15%size(var_name,2)
-    try
-Y_SD=evalin('base',strcat(char(var_name(1,v)),'_SD'));
-    end
-    try
-Y_RB=evalin('base',strcat(char(var_name(1,v)),'_RB'));
-    end
-%
-if (exist('Y_SD')==1 && exist('Y_RB')==1) 
-h=figure(v);
-set(gcf,'Visible','on')
-line(Elapsed_Time_ms_SD/1000,Y_SD)
-line(Elapsed_Time_s_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
-xlabel('Time [s]')
-ylabel(strrep(char(var_name(1,v)),'_','-'))
-grid on
-pause(2)
-clear Y_RB Y_SD
-else
-display(strcat(char(var_name(1,v)),'=> DOES NOT EXIST'))    
-end
-end
+% close all
+% Read_Database_from_Arduino
+% clearvars -except *_RB *_SD *var_name
+% for v=131:140%size(var_name,2)
+%     try
+% Y_SD=evalin('base',strcat(char(var_name(1,v)),'_SD'));
+%     end
+%     try
+% Y_RB=evalin('base',strcat(char(var_name(1,v)),'_RB'));
+%     end
+% %
+% if (exist('Y_SD')==1 && exist('Y_RB')==1) 
+% h=figure(v);
+% set(gcf,'Visible','on')
+% line(Elapsed_Time_ms_SD/1000,Y_SD)
+% line(Elapsed_Time_s_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+% xlabel('Time [s]')
+% ylabel(strrep(char(var_name(1,v)),'_','-'))
+% grid on
+% pause(2)
+% clear Y_RB Y_SD
+% else
+% display(strcat(char(var_name(1,v)),'=> DOES NOT EXIST'))    
+% end
+%end
