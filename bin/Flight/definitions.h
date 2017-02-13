@@ -98,6 +98,8 @@
 #define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW    3.0
 #define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH   -2.0
 
+#define ALTIMETER_CALIBRATION_CONSTANT              1013.25
+
 //Test Variables
 #define INITIAL_TEST_COUNT                          0
 #define CUTDOWN_TEST_TIME                           (15 * 60) // 30000 // Put here a number +20. Exemple 50 will correspond to a cut-down time of 30sec
@@ -139,6 +141,10 @@
 #define PIN_HEATER_CONTROL_1            8 // 5 // was 22: correct pin num
 #define PIN_HEATER_CONTROL_2            5 // 8 // was 23
 #define PIN_GYRO_POWER                  28
+#define BMP_SCK                         38
+#define BMP_MISO                        36
+#define BMP_MOSI                        34 
+#define BMP_CS                          32
 
 
 #define RESOLUTION_PRESSURE_SENSOR      12

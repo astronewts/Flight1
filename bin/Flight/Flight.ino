@@ -28,6 +28,7 @@
 #include "definitions.h"
 #include <TinyGPS++.h>
 #include <Wire.h>
+#include <SPI.h>
 #include "I2Cdev.h"
 #include "MPU9150Lib.h"
 #include "CalLib.h"
@@ -42,6 +43,8 @@
 #include <IridiumSBD.h>
 #include "IntersemaBaro.h"
 #include <Adafruit_INA219.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BMP280.h>
 
 struct telemetry_data_struct telemetry_data;
 struct raw_telemetry_data_struct raw_telemetry_data;
@@ -64,11 +67,12 @@ String output_dataword;
 uint8_t rx_buffer[MAX_RX_BUFFER_SIZE]; // max size of a received packet is 270 bytes
 
 IridiumSBD isbd(Serial3, 50);
-Intersema::BaroPressure_MS5607 baro;
 Adafruit_INA219 ina219_1; // Battery 1 Current Sense default (0x40)
 Adafruit_INA219 ina219_2(0x41); // Battery 2 Current Sense
 Adafruit_INA219 ina219_3(0x44); // Solar Array Current Sense
 Adafruit_INA219 ina219_4(0x45); // Load Path Current Sense
+Adafruit_BMP280 bme(BMP_CS, BMP_MOSI, BMP_MISO,  BMP_SCK);
+Intersema::BaroPressure_MS5607 baro; // DELETE THIS
 
 char get_user_input()
 {
@@ -608,6 +612,8 @@ void Init_components()
   gyro_setup();
   Serial.println("===> gyro setup done ");
   Serial.println("");
+
+  
 }
 
 void Init_RB()
