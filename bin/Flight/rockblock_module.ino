@@ -524,11 +524,11 @@ int process_satellite_command()
         // This is a command change the Camera Enable Status
          if (CommandString.substring(14,15) == "f") {
          // Enable the Camera
-         parameters.camera_status == true;
+         parameters.camera_status = true;
          }
          if (CommandString.substring(14,15) == "0") {
          // Disable the Camera
-         parameters.camera_status == false;
+         parameters.camera_status = false;
          }
       }     
        if (CommandString.substring(6,14) == "23330008") {

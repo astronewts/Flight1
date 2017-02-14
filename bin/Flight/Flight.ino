@@ -245,21 +245,30 @@ void Main_flight_loop()
 {
   debug.mode = 0;
 
-// set default values for the mode we are in (flight or loadshed or transit or emergency)
-// by default set parameters to normal mode (like flight) otherwise change set points
-
-  // set_normal_mode();
-  
-  if(parameters.vehicle_mode == LOADSHED_MODE){
-    set_load_shed_mode();  
+  // Set active temperatures and transmit rate corresponding to normal mode 
+  parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
+  parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
+  parameters.transmit_period = thresholds.normal_transmit_period;
+  //
+  if(parameters.vehicle_mode == LOADSHED_MODE)
+  {
+  parameters.battery_temperature_limit_high = thresholds.survival_battery_temperature_limit_high;
+  parameters.battery_temperature_limit_low = thresholds.survival_battery_temperature_limit_low;
+  parameters.transmit_period = thresholds.load_shed_transmit_period;
   }
-  if(parameters.vehicle_mode == TRANSIT_MODE){
-    set_transit_mode();  
+  if(parameters.vehicle_mode == TRANSIT_MODE)
+  {
+  parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
+  parameters.battery_temperature_limit_low = thresholds.normal_battery_temperature_limit_low;
+  parameters.transmit_period = thresholds.transit_transmit_period;
   }
-  if(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE){
-    set_emergency_decent_mode();  
+  if(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE)
+  {
+  parameters.battery_temperature_limit_high = thresholds.survival_battery_temperature_limit_high;
+  parameters.battery_temperature_limit_low = thresholds.survival_battery_temperature_limit_low;
+  parameters.transmit_period = thresholds.emergency_transit_transmit_period;
   }  
-  
+
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
     debug_println("===> DEBUG: HIGH-RATE PROCESS");
