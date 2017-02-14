@@ -10,10 +10,13 @@ elapsedMillis time_initialization_rb;
 /* Periodic callback, do housekeeping here. */
 bool ISBDCallback()
 {
-if (Flag_RB.loop_started==1)
+if(parameters.vehicle_mode != SIGNAL_TEST_MODE)
+{
+  if (Flag_RB.loop_started==1)
   {
     Main_flight_loop();
   }
+}
 return true;
 }
 

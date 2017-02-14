@@ -248,7 +248,7 @@ void Main_flight_loop()
 // set default values for the mode we are in (flight or loadshed or transit or emergency)
 // by default set parameters to normal mode (like flight) otherwise change set points
 
-  set_normal_mode();
+  // set_normal_mode();
   
   if(parameters.vehicle_mode == LOADSHED_MODE){
     set_load_shed_mode();  
