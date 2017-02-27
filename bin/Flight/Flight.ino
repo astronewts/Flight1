@@ -57,6 +57,7 @@ struct Flag_RB_struct Flag_RB;
 struct debug_struct debug;
 static struct gps_data_struct gps_data;
 struct gps_data_struct gps_data_new = gps_data;
+
 #define debug_println(...) if(debug.mode){Serial.println(__VA_ARGS__);}
 
   database db[DB_SIZE];
@@ -71,8 +72,9 @@ Adafruit_INA219 ina219_1; // Battery 1 Current Sense default (0x40)
 Adafruit_INA219 ina219_2(0x41); // Battery 2 Current Sense
 Adafruit_INA219 ina219_3(0x44); // Solar Array Current Sense
 Adafruit_INA219 ina219_4(0x45); // Load Path Current Sense
+
 Adafruit_BMP280 bme(BMP_CS, BMP_MOSI, BMP_MISO,  BMP_SCK);
-Intersema::BaroPressure_MS5607 baro; // DELETE THIS
+//Intersema::BaroPressure_MS5607 baro; // DELETE THIS
 
 char get_user_input()
 {
@@ -596,18 +598,14 @@ void Terminal_test_loop()
 
   initialize_database();
 
-   write_telemetry_data_to_sd();
-   delay(1000);
+  write_telemetry_data_to_sd();
+  delay(1000);
 }
 
 
 void Init_components()
 {
   Serial.println("------- INIT COMPONENTS (NO RB) -------");
-  Serial.println("");
-  Serial.println("**** Initialize baro");
-  baro.init();
-  Serial.println("===> Initialize baro done!");
   Serial.println("");
   Serial.print("**** sd setup");
   sd_setup();
@@ -621,8 +619,6 @@ void Init_components()
   gyro_setup();
   Serial.println("===> gyro setup done ");
   Serial.println("");
-
-  
 }
 
 void Init_RB()

@@ -28,7 +28,10 @@ void current_sense_setup(void)
   // To use a slightly lower 32V, 1A range (higher precision on amps):
   //ina219.setCalibration_32V_1A();
   // Or to use a lower 16V, 400mA range (higher precision on volts and amps):
-  //ina219.setCalibration_16V_400mA();
+  //ina219_1.setCalibration_16V_400mA();
+  //ina219_2.setCalibration_16V_400mA();
+  //ina219_3.setCalibration_16V_400mA();
+  //ina219_4.setCalibration_16V_400mA();
 
   //Serial.println("Measuring voltage and current with INA219 ...");
 }

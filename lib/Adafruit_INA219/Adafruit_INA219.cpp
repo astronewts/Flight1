@@ -35,17 +35,17 @@
 /**************************************************************************/
 void Adafruit_INA219::wireWriteRegister (uint8_t reg, uint16_t value)
 {
-  Wire1.beginTransmission(ina219_i2caddr);
+  Wire.beginTransmission(ina219_i2caddr);
   #if ARDUINO >= 100
-    Wire1.write(reg);                       // Register
-    Wire1.write((value >> 8) & 0xFF);       // Upper 8-bits
-    Wire1.write(value & 0xFF);              // Lower 8-bits
+    Wire.write(reg);                       // Register
+    Wire.write((value >> 8) & 0xFF);       // Upper 8-bits
+    Wire.write(value & 0xFF);              // Lower 8-bits
   #else
-    Wire1.send(reg);                        // Register
-    Wire1.send(value >> 8);                 // Upper 8-bits
-    Wire1.send(value & 0xFF);               // Lower 8-bits
+    Wire.send(reg);                        // Register
+    Wire.send(value >> 8);                 // Upper 8-bits
+    Wire.send(value & 0xFF);               // Lower 8-bits
   #endif
-  Wire1.endTransmission();
+  Wire.endTransmission();
 }
 
 /**************************************************************************/
@@ -56,23 +56,23 @@ void Adafruit_INA219::wireWriteRegister (uint8_t reg, uint16_t value)
 void Adafruit_INA219::wireReadRegister(uint8_t reg, uint16_t *value)
 {
 
-  Wire1.beginTransmission(ina219_i2caddr);
+  Wire.beginTransmission(ina219_i2caddr);
   #if ARDUINO >= 100
-    Wire1.write(reg);                       // Register
+    Wire.write(reg);                       // Register
   #else
-    Wire1.send(reg);                        // Register
+    Wire.send(reg);                        // Register
   #endif
-  Wire1.endTransmission();
+  Wire.endTransmission();
   
   delay(1); // Max 12-bit conversion time is 586us per sample
 
-  Wire1.requestFrom(ina219_i2caddr, (uint8_t)2);  
+  Wire.requestFrom(ina219_i2caddr, (uint8_t)2);  
   #if ARDUINO >= 100
     // Shift values to create properly formed integer
-    *value = ((Wire1.read() << 8) | Wire1.read());
+    *value = ((Wire.read() << 8) | Wire.read());
   #else
     // Shift values to create properly formed integer
-    *value = ((Wire1.receive() << 8) | Wire1.receive());
+    *value = ((Wire.receive() << 8) | Wire.receive());
   #endif
 }
 
@@ -366,7 +366,7 @@ void Adafruit_INA219::begin(uint8_t addr) {
 }
 
 void Adafruit_INA219::begin(void) {
-  Wire1.begin();    
+  Wire.begin();    
   // Set chip to large range config values to start
   setCalibration_32V_2A();
 }
