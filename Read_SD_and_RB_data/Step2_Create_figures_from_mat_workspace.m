@@ -1,11 +1,19 @@
 %% Create figures
-% figure(1)
-% line(Elapsed_Time_ms_SD/1000,Heater_State_1_SD*30,'Color',[0 0 1])
-% line(Elapsed_Time_ms_SD/1000,Heater_State_2_SD*28,'Color',[0 0 0])
-% line(Elapsed_Time_ms_SD/1000,(B_1_T_1_C_SD+B_1_T_2_C_SD)/2,'Color',[1 0 0])
-% line(Elapsed_Time_ms_SD/1000,(B_2_T_1_C_SD+B_2_T_2_C_SD)/2,'Color',[0 0.5 0])
-% ylim([20 32])
+figure(1)
+line(Elapsed_Time_ms_SD/1000,Heat_State_1_SD*30,'Color',[0 0 0])
+line(Elapsed_Time_ms_SD/1000,(B1_T_1_C_SD+B1_T_2_C_SD)/2,'Color',[0 0.5 0])
+line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_Low_K_SD,'Color',[1 0 0])
+line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_High_K_SD,'Color',[1 0.8 0])
+line(Elapsed_Time_ms_SD/1000,10+Veh_Mode_SD,'Color',[0 0 0.5])
+ylim([10 32])
 %
+figure(2)
+line(Elapsed_Time_ms_SD/1000,Heat_State_2_SD*30,'Color',[0 0 0])
+line(Elapsed_Time_ms_SD/1000,(B2_T_1_C_SD+B2_T_2_C_SD)/2,'Color',[0 0.5 0])
+line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_Low_K_SD,'Color',[1 0 0])
+line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_High_K_SD,'Color',[1 0.8 0])
+line(Elapsed_Time_ms_SD/1000,10+Veh_Mode_SD,'Color',[0 0 0.5])
+ylim([10 32])
 % figure(1)
 % line(Elapsed_Time_ms_SD/1000,Veh_Mode_SD)
 % line(Elapsed_Time_s_RB,Veh_Mode_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
@@ -33,12 +41,12 @@
 % % % line(Elapsed_Time_s_RB,Alt_ft_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
 % % %
 % % %%
-figure(1)
-line(Elapsed_Time_ms_SD/1000,Acc)
-line(Elapsed_Time_s_RB,Max_GPS_Alt_m_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
-line(Elapsed_Time_s_RB,Min_GPS_Alt_m_RB,'Color',[0 0.5 0],'Marker','+','LineStyle','none')
-line(Elapsed_Time_s_RB,Mean_GPS_Alt_m_RB,'Color',[0 0 0],'Marker','v','LineStyle','none')
-% %%
+% figure(1)
+% line(Elapsed_Time_ms_SD/1000,Acc)
+% line(Elapsed_Time_s_RB,Max_GPS_Alt_m_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+% line(Elapsed_Time_s_RB,Min_GPS_Alt_m_RB,'Color',[0 0.5 0],'Marker','+','LineStyle','none')
+% line(Elapsed_Time_s_RB,Mean_GPS_Alt_m_RB,'Color',[0 0 0],'Marker','v','LineStyle','none')
+% % %%
 % close all
 % Read_Database_from_Arduino
 % clearvars -except *_RB *_SD *var_name
