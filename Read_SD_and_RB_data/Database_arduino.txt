@@ -1,4 +1,4 @@
-  db[0] = {"header",8,null_int,null_long,null_float,"Header",0,1,1};        
+ db[0] = {"header",8,null_int,null_long,null_float,"Header",0,1,1};        
   db[1] = {"int",8,parameters.telemetry_format,null_long,null_float,"Format",0,1,1};
   db[2] = {"int",8,parameters.sd_card_num,null_long,null_float,"SD_Num",0,1,1}; 
   db[3] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1,1};
@@ -41,7 +41,7 @@
   db[40] = {"float",32,null_int,null_long,gps_data.gps_processed_long,"GPS Long [deg]",0,1,1};
   db[41] = {"float",32,null_int,null_long,gps_data.gps_altitude,"GPS Alt [m]",0,1,1};
   db[42] = {"float",32,null_int,null_long,gps_data.max_gps_altitude,"Max GPS Alt [m]",0,1,0};
-  db[43] = {"float",32,null_int,null_long,gps_data.avg_gps_altitude,"Avg GPS Alt [m]",0,1,0};
+  db[43] = {"float",32,null_int,null_long,gps_data.mean_gps_altitude,"Mean GPS Alt [m]",0,1,0};
   db[44] = {"float",32,null_int,null_long,gps_data.min_gps_altitude,"Min GPS Alt [m]",0,1,0};  
   db[45] = {"float",32,null_int,null_long,gps_data.gps_location_age,"GPS Loc Age [s]",0,1,0};
   db[46] = {"float",32,null_int,null_long,gps_data.gps_altitude_age,"GPS Alt Age [s]",0,1,0};
@@ -131,9 +131,10 @@
   db[130] = {"float",32,null_int,null_long,alt.altitude_in_meters,"Alt [m]",0,1,1};
   db[131] = {"float",32,null_int,null_long,alt.max_altitude_in_meters,"Max Alt [m]",0,1,0}; 
   db[132] = {"float",32,null_int,null_long,alt.min_altitude_in_meters,"Min Alt [m]",0,1,0}; 
-  db[133] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
-  db[134] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
-  db[135] = {"float",32,null_int,null_long,alt.max_pressure,"Max Press [?]",0,1,0}; 
-  db[136] = {"float",32,null_int,null_long,alt.min_pressure,"Min Press [?]",0,1,0}; 
-  db[137] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Received",0,1,0}; 
-  db[138] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Received Flag",0,1,0};
+  db[133] = {"float",32,null_int,null_long,alt.mean_altitude_in_meters,"Mean Alt [m]",0,1,0}; 
+  db[134] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
+  db[135] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
+  db[136] = {"float",32,null_int,null_long,alt.max_pressure,"Max Press [?]",0,1,0}; 
+  db[137] = {"float",32,null_int,null_long,alt.min_pressure,"Min Press [?]",0,1,0}; 
+  db[138] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Received",0,1,0}; 
+  db[139] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Received Flag",0,1,0};
