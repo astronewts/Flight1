@@ -395,10 +395,12 @@ void Main_flight_loop()
         Serial.println(parameters.altitude_valid_flag);
 
       Serial.print("Battery Low Voltage Elapsed Time     [s]: ");
-        Serial.println(parameters.battery_low_voltage_elapsed_time/1000);
+        Serial.print(parameters.battery_low_voltage_elapsed_time/1000);
+        Serial.println("  (active when Battery Bus Low Voltage Flag=1)");
 
       Serial.print("Cutdown Initiation Elapsed Time      [s]: ");
-        Serial.println(parameters.cutdown_initiation_elapsed_time/1000);
+        Serial.print(parameters.cutdown_initiation_elapsed_time/1000);
+        Serial.println("  (active when cutdown has been commanded)");
   
       Serial.print("Cutdown Event Flag                    []: ");
         Serial.println(parameters.cutdown_event_flag);
@@ -705,7 +707,10 @@ void set_defaults()
   parameters.altitude_valid_flag = false;
   parameters.altitude_limit_low = DEFAULT_ALTITUDE_LIMIT_LOW;
   parameters.altitude_sanity_check_low = DEFAULT_ALTITUDE_SANITY_CHECK_LOW;
-
+  parameters.altitude_sanity_check_high = DEFAULT_ALTITUDE_SANITY_CHECK_HIGH;
+  parameters.count_low_alt = 0;
+  parameters.count_low_voltage = 0;
+  
   parameters.test_count = INITIAL_TEST_COUNT;
   parameters.rb_initialization_error_status = 0;
   parameters.num_rb_words_recieved = 0;

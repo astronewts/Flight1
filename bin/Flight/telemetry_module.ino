@@ -2,7 +2,7 @@
 double raw_val;
 double actual_val;
 char buffer[128];
-int count_low_alt;
+
 
 //Collect All Analog TLM
 void collect_analog_telemetry()
@@ -502,32 +502,42 @@ void execute_electrical_control_check()
 
   if(parameters.battery_voltage_tlm_valid_flag == true)
   {
+    Serial.println(" 505:parameters.battery_voltage_tlm_valid_flag == tru");
     //Compare voltage to loadshed entry threshold
     if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
     {
-	     if(parameters.battery_bus_low_voltage_flag == false)
+           Serial.println(" 509:tlm_value < parameters.low_voltage_limit_for_loadshed_entry");
+       parameters.count_low_voltage = parameters.count_low_voltage + 1;
+       if (parameters.count_low_voltage > 3) 
        {
-         //Battery voltage is low - set flag and mark time
-	       parameters.battery_bus_low_voltage_flag = true;
-         parameters.battery_low_voltage_elapsed_time = 0.0;
-         if(debug.mode == 1) {
-          Serial.print("Battery voltage of ");
-          Serial.print(tlm_value);
-          Serial.print("is below threshhold of ");
-          Serial.print(parameters.low_voltage_limit_for_loadshed_entry);
-          Serial.print(". Starting timer of maximum allowed low voltage time: ");
-          Serial.print(parameters.low_voltage_time_limit);
-          Serial.println(" sec");
+  	     if(parameters.battery_bus_low_voltage_flag == false)
+         {
+           Serial.println(" 515:parameters.battery_bus_low_voltage_flag == false");
+           //Battery voltage is low - set flag and mark time
+  	       parameters.battery_bus_low_voltage_flag = true;
+           parameters.battery_low_voltage_elapsed_time = 0.0;
+           if(debug.mode == 1) {
+            Serial.print("Battery voltage of ");
+            Serial.print(tlm_value);
+            Serial.print("is below threshhold of ");
+            Serial.print(parameters.low_voltage_limit_for_loadshed_entry);
+            Serial.print(". Starting timer of maximum allowed low voltage time: ");
+            Serial.print(parameters.low_voltage_time_limit);
+            Serial.println(" sec");
+           }
+           //Enter Load Shed Mode
+           set_load_shed_mode();
          }
-         //Enter Load Shed Mode
-         set_load_shed_mode();
        }
     }
     else
     {
+      Serial.println(" 535:else of tlm_value < parameters.low_voltage_limit_for_loadshed_entry");
       if(parameters.battery_bus_low_voltage_flag == true)
       {
+        Serial.println(" 538:parameters.battery_bus_low_voltage_flag == true");
         parameters.battery_bus_low_voltage_flag = false;
+        parameters.count_low_voltage = 0;
       }
     }
   }
@@ -536,10 +546,14 @@ void execute_electrical_control_check()
   // Check if voltage flag is already set
   if(parameters.battery_bus_low_voltage_flag == true)
   {
+    Serial.println(" 549:parameters.battery_bus_low_voltage_flag == true");
     //Check if the timer has reached
     //the the low voltage time limit
     if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
     {
+      Serial.println(" 554:parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit");
+	    if (!(parameters.vehicle_mode == TRANSIT_MODE)) 
+      { 
 	     write_telemetry_data_to_sd();
 	     if(debug.mode == 1) {
 	      Serial.print("Battery voltage (currently ");
@@ -550,9 +564,9 @@ void execute_electrical_control_check()
         Serial.print(parameters.low_voltage_time_limit);
         Serial.println(" sec.  Going into Emergency Descent Mode.");
 	     }
-
       //Enter Emergency Descent Mode
       set_emergency_decent_mode();
+      }
     }
   }
 
@@ -574,10 +588,10 @@ void execute_electrical_control_check()
       }
       if(gps_data.gps_altitude < parameters.altitude_limit_low)
       {
-        count_low_alt = count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
+        parameters.count_low_alt = parameters.count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
         write_telemetry_data_to_sd();
         
-        if(count_low_alt > 3) // we have been too low for a few counts => initiate cut down
+        if(parameters.count_low_alt > 3) // we have been too low for a few counts => initiate cut down
         {
           if(debug.mode == 1) {
             Serial.println("SHIT we are too low (GPS): initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
@@ -588,7 +602,7 @@ void execute_electrical_control_check()
       }
       else
       {
-        count_low_alt = 0;
+        parameters.count_low_alt = 0;
       }
     }  
     else if (parameters.altitude_valid_flag == true)
@@ -598,10 +612,10 @@ void execute_electrical_control_check()
       }
       if(alt.altitude_in_meters < parameters.altitude_limit_low)
       {
-        count_low_alt = count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
+        parameters.count_low_alt = parameters.count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
         write_telemetry_data_to_sd();
         
-        if(count_low_alt > 3) // we have been too low for a few counts => initiate cut down
+        if(parameters.count_low_alt > 3) // we have been too low for a few counts => initiate cut down
         {
           if(debug.mode == 1) {
             Serial.println("SHIT we are too low (Alt): Initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
@@ -612,7 +626,7 @@ void execute_electrical_control_check()
       }
       else
       {
-        count_low_alt = 0;
+        parameters.count_low_alt = 0;
       }
     }
   } // end of test on altitude

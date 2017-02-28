@@ -43,9 +43,9 @@
 #define DEFAULT_LOOP_SLEEP                         3000
 #define DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY   8.5
 #define DEFAULT_VOLTAGE_LOW_LIMIT_CUTDOWN_ENTRY    8.0
-#define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             300000  //1080000 FLIGHT
+#define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             120000 // GL 100000 is for TEST //300000  //1080000 FLIGHT
 #define DEFAULT_VOLTAGE_SANITY_CHECK_HIGH          18
-#define DEFAULT_VOLTAGE_SANITY_CHECK_LOW           6
+#define DEFAULT_VOLTAGE_SANITY_CHECK_LOW           -1 // GL -1 is for TEST //6
 #define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_HIGH     20
 #define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_LOW      18
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_HIGH   16
@@ -79,7 +79,7 @@
 #define MEDIUM_RATE_PERIOD_CUTDOWN                 10000 // ms
 #define LOW_RATE_PERIOD_CUTDOWN                    10000 // ms
 
-#define DEFAULT_ALTITUDE_LIMIT_LOW                 23000.0 // meters (75000 ft)
+#define DEFAULT_ALTITUDE_LIMIT_LOW                 2// GL: 2 is for TEST // 23000.0 // meters (75000 ft)
 #define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          1 // 3000.0 // meters (10000 ft)
 #define DEFAULT_ALTITUDE_SANITY_CHECK_HIGH         40000.0 // meters (130000 ft)
 
@@ -402,6 +402,8 @@ struct parameter_struct
   int altitude_limit_low;
   int altitude_sanity_check_low;
   int altitude_sanity_check_high;
+  int count_low_alt;
+  int count_low_voltage;
 
   int rb_initialization_error_status;
   int num_rb_words_recieved;
