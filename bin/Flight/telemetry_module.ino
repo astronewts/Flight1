@@ -500,11 +500,31 @@ void execute_electrical_control_check()
 
   tlm_value = sanity_processing(telemetry_data.busvoltage_batt1, telemetry_data.busvoltage_batt2, 3);
 
-  if(parameters.battery_voltage_tlm_valid_flag == true)
+  if((parameters.battery_voltage_tlm_valid_flag == true) && (parameters.cutdown_event_flag == false))
   {
-    Serial.println(" 505:parameters.battery_voltage_tlm_valid_flag == tru");
+    Serial.println(" 505:parameters.battery_voltage_tlm_valid_flag == true");
     //Compare voltage to loadshed entry threshold
-    if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
+
+    // Set Loadshed if We Pass Through the Lower Voltage Threshold
+    if (tlm_value < parameters.low_voltage_limit_for_auto_cutdown)
+    {
+       parameters.count_low_voltage = parameters.count_low_voltage + 1;
+       if (parameters.count_low_voltage > 6) 
+       {
+          if(debug.mode == 1) {
+            Serial.println("Battery Voltage is waaaay too low.  Need to cutdown before we loose location TLM.");
+            Serial.print("Battery voltage (currently ");
+            Serial.print(tlm_value);
+            Serial.print(") has been below threshhold (");
+            Serial.print(parameters.low_voltage_limit_for_auto_cutdown);
+            Serial.println(". Going into Emergency Descent Mode.");
+          }                                    
+        //Enter Emergency Descent Mode
+        set_emergency_decent_mode(); 
+       }
+    }
+    // Set Loadshed if We Pass Through the Higher Voltage Threshold
+    else if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
     {
            Serial.println(" 509:tlm_value < parameters.low_voltage_limit_for_loadshed_entry");
        parameters.count_low_voltage = parameters.count_low_voltage + 1;
@@ -544,7 +564,7 @@ void execute_electrical_control_check()
 
   // Battery Failure Checking
   // Check if voltage flag is already set
-  if(parameters.battery_bus_low_voltage_flag == true)
+  if((parameters.battery_bus_low_voltage_flag == true) && (parameters.cutdown_event_flag == false))
   {
     Serial.println(" 549:parameters.battery_bus_low_voltage_flag == true");
     //Check if the timer has reached
@@ -571,14 +591,17 @@ void execute_electrical_control_check()
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////// ALTITUDE CHECK //////////////??????//////////////////
+  /////////////////////////////////// ALTITUDE CHECK //////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////////
+
+  parameters.low_voltage_limit_for_auto_cutdown
 
   // Check Altitude and Cutdown if we are too low
 
   double tlm_value_1 = sanity_processing(gps_data.gps_altitude, gps_data.gps_altitude, 6);
   double tlm_value_2 = sanity_processing(alt.altitude_in_meters, alt.altitude_in_meters, 7);
-  
+
+  // TODO: Add an override here for Ground Command ???
   if(!(parameters.vehicle_mode == TRANSIT_MODE) && !(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE))
   {
     if((parameters.gps_alt_valid_flag == true) && (gps_data.gps_altitude_valid == 1))
