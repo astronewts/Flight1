@@ -375,6 +375,9 @@ void Main_flight_loop()
         
       Serial.print("Battery 2 Voltage                    [V]: ");
         Serial.println(telemetry_data.busvoltage_batt2);
+
+      Serial.print("V-In Voltage                         [V]: ");
+        Serial.println(telemetry_data.analog_VIN_voltage);  
       
       Serial.print("Battery Voltage Tlm Valid Flag        []: ");
         Serial.println(parameters.battery_voltage_tlm_valid_flag);
