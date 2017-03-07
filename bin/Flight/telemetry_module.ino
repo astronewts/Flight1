@@ -500,101 +500,103 @@ void execute_electrical_control_check()
 
   tlm_value = sanity_processing(telemetry_data.busvoltage_batt1, telemetry_data.busvoltage_batt2, 3);
 
-  if((parameters.battery_voltage_tlm_valid_flag == true) && (parameters.cutdown_event_flag == false))
+  if(!(parameters.vehicle_mode == TRANSIT_MODE) && !(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE))
   {
-    Serial.println(" telem 505:battery voltage is a valid value and no cutdown event yet");
-    //Compare voltage to loadshed entry threshold
-
-    // Set Loadshed if We Pass Through the Lower Voltage Threshold
-    if (tlm_value < parameters.low_voltage_limit_for_auto_cutdown)
+    if((parameters.battery_voltage_tlm_valid_flag == true) && (parameters.cutdown_event_flag == false))
     {
-       Serial.print(" telem 511: count_low_voltage is incrementing");
-       Serial.println(parameters.count_low_voltage);
-       parameters.count_low_voltage = parameters.count_low_voltage + 1;
-       if (parameters.count_low_voltage > 6) 
-       {
-          if(debug.mode == 1) {
-            Serial.println("Battery Voltage is waaaay too low.  Need to cutdown before we loose location TLM.");
-            Serial.print("Battery voltage (currently ");
-            Serial.print(tlm_value);
-            Serial.print(") has been below threshhold (");
-            Serial.print(parameters.low_voltage_limit_for_auto_cutdown);
-            Serial.println(". Going into Emergency Descent Mode.");
-          }                                    
-        //Enter Emergency Descent Mode
-        set_emergency_decent_mode(); 
-       }
-    }
-    // Set Loadshed if We Pass Through the Higher Voltage Threshold
-    else if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
-    {
-       Serial.print(" telem 530: count_low_voltage is incrementing, and is now");
-       Serial.println(parameters.count_low_voltage);
-       parameters.count_low_voltage = parameters.count_low_voltage + 1;
-       if (parameters.count_low_voltage > 3) 
-       {
-  	     if(parameters.battery_bus_low_voltage_flag == false)
-         {
-           Serial.println(" telem 533:Battery V is low and we enter loadshed but not low enough to trigger cutdown");
-           //Battery voltage is low - set flag and mark time
-  	       parameters.battery_bus_low_voltage_flag = true;
-           parameters.battery_low_voltage_elapsed_time = 0.0;
-           if(debug.mode == 1) 
-           {
-            Serial.print("Battery voltage of ");
-            Serial.print(tlm_value);
-            Serial.print("is below threshhold of ");
-            Serial.print(parameters.low_voltage_limit_for_loadshed_entry);
-            Serial.print(". Starting timer of maximum allowed low voltage time: ");
-            Serial.print(parameters.low_voltage_time_limit);
-            Serial.println(" sec");
-           }
-           //Enter Load Shed Mode
-           set_load_shed_mode();
-         }
-       }
-    }
-    else  // V batt > set points for voltage = normal mode
-    {
-      Serial.println(" telem 555: V batt is above thresholds: normal operation conditions");
-      parameters.count_low_voltage = 0;
-      if(parameters.battery_bus_low_voltage_flag == true)
+      Serial.println(" telem 507:battery voltage is a valid value and no cutdown event yet");
+      //Compare voltage to loadshed entry threshold
+  
+      // Set Loadshed if We Pass Through the Lower Voltage Threshold
+      if (tlm_value < parameters.low_voltage_limit_for_auto_cutdown)
       {
-        Serial.println(" telem 558: low voltage flag was true but is reset to false here as we are back to normal voltage");
-        Serial.println(" telem 559: mode is still LOADSHED: ground-controle needs to manually reset to NORMAL mode");
-        parameters.battery_bus_low_voltage_flag = false;
-
+         Serial.print(" telem 513: count_low_voltage is incrementing, and is now: ");
+         Serial.println(parameters.count_low_voltage);
+         parameters.count_low_voltage = parameters.count_low_voltage + 1;
+         if (parameters.count_low_voltage > 6) 
+         {
+            if(debug.mode == 1) {
+              Serial.println("Battery Voltage is waaaay too low.  Need to cutdown before we loose location TLM.");
+              Serial.print("Battery voltage (currently ");
+              Serial.print(tlm_value);
+              Serial.print(") has been below threshhold (");
+              Serial.print(parameters.low_voltage_limit_for_auto_cutdown);
+              Serial.println(". Going into Emergency Descent Mode.");
+            }                                    
+          //Enter Emergency Descent Mode
+          set_emergency_decent_mode(); 
+         }
+      }
+      // Set Loadshed if We Pass Through the Higher Voltage Threshold
+      else if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
+      {
+         Serial.print(" telem 533: count_low_voltage is incrementing, and is now: ");
+         Serial.println(parameters.count_low_voltage);
+         parameters.count_low_voltage = parameters.count_low_voltage + 1;
+         if (parameters.count_low_voltage > 3) 
+         {
+    	     if(parameters.battery_bus_low_voltage_flag == false)
+           {
+             Serial.println(" telem 540:Battery V is low and we enter loadshed but not low enough to trigger cutdown");
+             //Battery voltage is low - set flag and mark time
+    	       parameters.battery_bus_low_voltage_flag = true;
+             parameters.battery_low_voltage_elapsed_time = 0.0;
+             if(debug.mode == 1) 
+             {
+              Serial.print("Battery voltage of ");
+              Serial.print(tlm_value);
+              Serial.print("is below threshhold of ");
+              Serial.print(parameters.low_voltage_limit_for_loadshed_entry);
+              Serial.print(". Starting timer of maximum allowed low voltage time: ");
+              Serial.print(parameters.low_voltage_time_limit);
+              Serial.println(" sec");
+             }
+             //Enter Load Shed Mode
+             set_load_shed_mode();
+           }
+         }
+      }
+      else  // V batt > set points for voltage = normal mode
+      {
+        Serial.println(" telem 561: V batt is above thresholds: normal operation conditions");
+        parameters.count_low_voltage = 0;
+        if(parameters.battery_bus_low_voltage_flag == true)
+        {
+          Serial.println(" telem 565: low voltage flag was true but is reset to false here as we are back to normal voltage");
+          Serial.println(" telem 566: mode is still LOADSHED: ground-controle needs to manually reset to NORMAL mode");
+          parameters.battery_bus_low_voltage_flag = false;
+  
+        }
       }
     }
-  }
-
-  // Battery Failure Checking
-  // Check if voltage flag is already set
-  if((parameters.battery_bus_low_voltage_flag == true) && (parameters.cutdown_event_flag == false))
-  {
-    //Check if the timer has reached
-    //the the low voltage time limit
-    if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
+  
+    // Battery Failure Checking
+    // Check if voltage flag is already set
+    if((parameters.battery_bus_low_voltage_flag == true) && (parameters.cutdown_event_flag == false))
     {
-      Serial.println(" telem 574:if V batt has been low for too long we initiate cutdown");
-	    if (!(parameters.vehicle_mode == TRANSIT_MODE)) 
-      { 
-	     write_telemetry_data_to_sd();
-	     if(debug.mode == 1) {
-	      Serial.print("Battery voltage (currently ");
-	      Serial.print(tlm_value);
-        Serial.print(") has been below threshhold (");
-        Serial.print(parameters.low_voltage_limit_for_loadshed_entry);
-        Serial.print(") for low voltage time limit of ");
-        Serial.print(parameters.low_voltage_time_limit);
-        Serial.println(" sec.  Going into Emergency Descent Mode.");
-	     }
-      //Enter Emergency Descent Mode
-      set_emergency_decent_mode();
+      //Check if the timer has reached
+      //the the low voltage time limit
+      if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
+      {
+        Serial.println(" telem 581:if V batt has been low for too long we initiate cutdown");
+  	    if (!(parameters.vehicle_mode == TRANSIT_MODE)) 
+        { 
+  	     write_telemetry_data_to_sd();
+  	     if(debug.mode == 1) {
+  	      Serial.print("Battery voltage (currently ");
+  	      Serial.print(tlm_value);
+          Serial.print(") has been below threshhold (");
+          Serial.print(parameters.low_voltage_limit_for_loadshed_entry);
+          Serial.print(") for low voltage time limit of ");
+          Serial.print(parameters.low_voltage_time_limit);
+          Serial.println(" sec.  Going into Emergency Descent Mode.");
+  	     }
+        //Enter Emergency Descent Mode
+        set_emergency_decent_mode();
+        }
       }
     }
   }
-
   /////////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////// ALTITUDE CHECK //////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////////
