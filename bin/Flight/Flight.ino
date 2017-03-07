@@ -145,6 +145,7 @@ void setup()
     parameters.prompt_from_user_makes_sense=1;
     Serial.println("Then we are in Flight Mode without RB");
     parameters.vehicle_mode=FLIGHT_MODE_WITHOUT_RB;
+    debug.mode=1;
     Init_components();
   }
 
