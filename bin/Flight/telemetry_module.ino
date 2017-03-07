@@ -526,13 +526,13 @@ void execute_electrical_control_check()
     // Set Loadshed if We Pass Through the Higher Voltage Threshold
     else if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
     {
-           Serial.println(" 509:tlm_value < parameters.low_voltage_limit_for_loadshed_entry");
+           Serial.println(" 529:tlm_value < parameters.low_voltage_limit_for_loadshed_entry");
        parameters.count_low_voltage = parameters.count_low_voltage + 1;
        if (parameters.count_low_voltage > 3) 
        {
   	     if(parameters.battery_bus_low_voltage_flag == false)
          {
-           Serial.println(" 515:parameters.battery_bus_low_voltage_flag == false");
+           Serial.println(" 535:parameters.battery_bus_low_voltage_flag == false");
            //Battery voltage is low - set flag and mark time
   	       parameters.battery_bus_low_voltage_flag = true;
            parameters.battery_low_voltage_elapsed_time = 0.0;
@@ -552,10 +552,10 @@ void execute_electrical_control_check()
     }
     else
     {
-      Serial.println(" 535:else of tlm_value < parameters.low_voltage_limit_for_loadshed_entry");
+      Serial.println(" 555: tlm_value > parameters.low_voltage_limit_for_loadshed_entry");
       if(parameters.battery_bus_low_voltage_flag == true)
       {
-        Serial.println(" 538:parameters.battery_bus_low_voltage_flag == true");
+        Serial.println(" 558:parameters.battery_bus_low_voltage_flag == true");
         parameters.battery_bus_low_voltage_flag = false;
         parameters.count_low_voltage = 0;
       }
@@ -566,12 +566,12 @@ void execute_electrical_control_check()
   // Check if voltage flag is already set
   if((parameters.battery_bus_low_voltage_flag == true) && (parameters.cutdown_event_flag == false))
   {
-    Serial.println(" 549:parameters.battery_bus_low_voltage_flag == true");
+    Serial.println(" 569:parameters.battery_bus_low_voltage_flag == true");
     //Check if the timer has reached
     //the the low voltage time limit
     if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
     {
-      Serial.println(" 554:parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit");
+      Serial.println(" 574:parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit");
 	    if (!(parameters.vehicle_mode == TRANSIT_MODE)) 
       { 
 	     write_telemetry_data_to_sd();
