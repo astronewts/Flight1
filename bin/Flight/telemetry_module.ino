@@ -502,7 +502,7 @@ void execute_electrical_control_check()
 
   if((parameters.battery_voltage_tlm_valid_flag == true) && (parameters.cutdown_event_flag == false))
   {
-    Serial.println(" 505:parameters.battery_voltage_tlm_valid_flag == true");
+    Serial.println(" telem 505:battery voltage is a valid value and no cutdown event yet");
     //Compare voltage to loadshed entry threshold
 
     // Set Loadshed if We Pass Through the Lower Voltage Threshold
@@ -526,17 +526,17 @@ void execute_electrical_control_check()
     // Set Loadshed if We Pass Through the Higher Voltage Threshold
     else if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
     {
-           Serial.println(" 529:tlm_value < parameters.low_voltage_limit_for_loadshed_entry");
        parameters.count_low_voltage = parameters.count_low_voltage + 1;
        if (parameters.count_low_voltage > 3) 
        {
   	     if(parameters.battery_bus_low_voltage_flag == false)
          {
-           Serial.println(" 535:parameters.battery_bus_low_voltage_flag == false");
+           Serial.println(" telem 533:Battery V is low and we enter loadshed but not low enough to trigger cutdown");
            //Battery voltage is low - set flag and mark time
   	       parameters.battery_bus_low_voltage_flag = true;
            parameters.battery_low_voltage_elapsed_time = 0.0;
-           if(debug.mode == 1) {
+           if(debug.mode == 1) 
+           {
             Serial.print("Battery voltage of ");
             Serial.print(tlm_value);
             Serial.print("is below threshhold of ");
@@ -550,12 +550,12 @@ void execute_electrical_control_check()
          }
        }
     }
-    else
+    else  // V batt > set points for voltage = normal mode
     {
-      Serial.println(" 555: tlm_value > parameters.low_voltage_limit_for_loadshed_entry");
+      Serial.println(" telem 555: V batt is above thresholds: normal operation conditions, reset low_voltage_flag to false");
       if(parameters.battery_bus_low_voltage_flag == true)
       {
-        Serial.println(" 558:parameters.battery_bus_low_voltage_flag == true");
+        Serial.println(" telem 558: low voltage flag was true but is reset to false here");
         parameters.battery_bus_low_voltage_flag = false;
         parameters.count_low_voltage = 0;
       }
@@ -566,12 +566,11 @@ void execute_electrical_control_check()
   // Check if voltage flag is already set
   if((parameters.battery_bus_low_voltage_flag == true) && (parameters.cutdown_event_flag == false))
   {
-    Serial.println(" 569:parameters.battery_bus_low_voltage_flag == true");
     //Check if the timer has reached
     //the the low voltage time limit
     if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
     {
-      Serial.println(" 574:parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit");
+      Serial.println(" telem 574:if V batt has been low for too long we initiate cutdown");
 	    if (!(parameters.vehicle_mode == TRANSIT_MODE)) 
       { 
 	     write_telemetry_data_to_sd();
