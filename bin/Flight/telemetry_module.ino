@@ -508,6 +508,8 @@ void execute_electrical_control_check()
     // Set Loadshed if We Pass Through the Lower Voltage Threshold
     if (tlm_value < parameters.low_voltage_limit_for_auto_cutdown)
     {
+       Serial.print(" telem 511: count_low_voltage is incrementing");
+       Serial.println(parameters.count_low_voltage);
        parameters.count_low_voltage = parameters.count_low_voltage + 1;
        if (parameters.count_low_voltage > 6) 
        {
@@ -526,6 +528,8 @@ void execute_electrical_control_check()
     // Set Loadshed if We Pass Through the Higher Voltage Threshold
     else if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
     {
+       Serial.print(" telem 530: count_low_voltage is incrementing, and is now");
+       Serial.println(parameters.count_low_voltage);
        parameters.count_low_voltage = parameters.count_low_voltage + 1;
        if (parameters.count_low_voltage > 3) 
        {
