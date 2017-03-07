@@ -594,8 +594,6 @@ void execute_electrical_control_check()
   /////////////////////////////////// ALTITUDE CHECK //////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////////
 
-  parameters.low_voltage_limit_for_auto_cutdown
-
   // Check Altitude and Cutdown if we are too low
 
   double tlm_value_1 = sanity_processing(gps_data.gps_altitude, gps_data.gps_altitude, 6);
