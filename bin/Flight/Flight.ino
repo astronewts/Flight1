@@ -462,7 +462,9 @@ void Main_flight_loop()
     debug_println("===> DEBUG: RUN FLIGHT HOUSEKEEPING CODE");
     // RUN FLIGHT HOUSEKEEPING CODE
     execute_thermal_control_check();
+    debug.mode=1;
     execute_electrical_control_check();
+    debug.mode=0;
 
     // Process Camera
     // TODO: Figure out How to Write process_camera_function();
