@@ -553,12 +553,13 @@ void execute_electrical_control_check()
     else  // V batt > set points for voltage = normal mode
     {
       Serial.println(" telem 555: V batt is above thresholds: normal operation conditions");
+      parameters.count_low_voltage = 0;
       if(parameters.battery_bus_low_voltage_flag == true)
       {
         Serial.println(" telem 558: low voltage flag was true but is reset to false here as we are back to normal voltage");
         Serial.println(" telem 559: mode is still LOADSHED: ground-controle needs to manually reset to NORMAL mode");
         parameters.battery_bus_low_voltage_flag = false;
-        parameters.count_low_voltage = 0;
+
       }
     }
   }
