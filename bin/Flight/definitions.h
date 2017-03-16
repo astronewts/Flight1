@@ -45,7 +45,7 @@
 #define DEFAULT_VOLTAGE_LOW_LIMIT_CUTDOWN_ENTRY    8.0
 #define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             120000 // GL 100000 is for TEST //300000  //1080000 FLIGHT
 #define DEFAULT_VOLTAGE_SANITY_CHECK_HIGH          18
-#define DEFAULT_VOLTAGE_SANITY_CHECK_LOW           -1 // GL -1 is for TEST //6
+#define DEFAULT_VOLTAGE_SANITY_CHECK_LOW           6
 #define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_HIGH     20
 #define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_LOW      18
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_HIGH   16
@@ -397,7 +397,7 @@ struct parameter_struct
   bool battery_2_current_tlm_valid_flag;
 
   bool gps_alt_valid_flag;
-  bool altitude_valid_flag;
+  bool altimeter_altitude_valid_flag;
     
   int altitude_limit_low;
   int altitude_sanity_check_low;

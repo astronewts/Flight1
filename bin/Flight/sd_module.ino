@@ -316,7 +316,7 @@ void write_telemetry_data_to_sd()
 //  bout << ',' << parameters.cutdown_enable_state;                      //102
 //  bout << ',' << parameters.cutdown_1_status;                          //103
 //  bout << ',' << parameters.cutdown_2_status;                          //104
-//  bout << ',' << parameters.altitude_valid_flag;                       //105
+//  bout << ',' << parameters.altimeter_altitude_valid_flag;             //105
 //  bout << ',' << parameters.camera_enabled;                            //106
 //  bout << ',' << parameters.camera_status;                             //107
 //  bout << ',' << parameters.battery_1_temp_tlm_valid_flag;             //108

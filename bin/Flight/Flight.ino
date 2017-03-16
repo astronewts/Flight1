@@ -315,126 +315,10 @@ void Main_flight_loop()
     collect_analog_telemetry();
 
 // only for heater test:
-// XXXXXX 
     debug.mode=1;
     if (debug.mode==1)
     {
-      Serial.println("=========================================");
-       
-      Serial.print("Heater state1: ");
-        Serial.println(parameters.heater_state_1);
-      Serial.print("Heater state2: ");
-        Serial.println(parameters.heater_state_2);
-
-      Serial.print("mean Battery1 Temp                      [C]: ");
-        Serial.println(0.5*(telemetry_data.battery_1_temp_1+telemetry_data.battery_1_temp_2));
-      Serial.print("Battery1 Temp1              [C]: ");
-        Serial.println(telemetry_data.battery_1_temp_1);
-      Serial.print("Battery1 Temp2              [C]: ");
-        Serial.println(telemetry_data.battery_1_temp_2);
-
-      Serial.print("mean Battery2 Temp                      [C]: ");
-        Serial.println(0.5*(telemetry_data.battery_2_temp_1+telemetry_data.battery_2_temp_2));
-      Serial.print("Battery2 Temp1              [C]: ");
-        Serial.println(telemetry_data.battery_2_temp_1);
-      Serial.print("Battery2 Temp2              [C]: ");
-        Serial.println(telemetry_data.battery_2_temp_2);
-
-      Serial.println(" ");
-        
-      Serial.print("battery_temperature_limit_low ACTIVE    [C]: ");
-        Serial.println(parameters.battery_temperature_limit_low);
-        
-      Serial.print("battery_temperature_limit_high ACTIVE   [C]: ");
-        Serial.println(parameters.battery_temperature_limit_high);  
-
-      Serial.print("normal_battery_temperature_limit_low    [C]: ");
-        Serial.println(thresholds.normal_battery_temperature_limit_low);
-        
-      Serial.print("normal_battery_temperature_limit_high   [C]: ");
-        Serial.println(thresholds.normal_battery_temperature_limit_high); 
-        
-      Serial.print("survival_battery_temperature_limit_low  [C]: ");
-        Serial.println(thresholds.survival_battery_temperature_limit_low);
-        
-      Serial.print("survival_battery_temperature_limit_high [C]: ");
-        Serial.println(thresholds.survival_battery_temperature_limit_high);      
-        
-      Serial.print("battery_temperature_sanity_check_low    [C]: ");
-        Serial.println(parameters.battery_temperature_sanity_check_low);
-        
-      Serial.print("battery_temperature_sanity_check_high   [C]: ");
-        Serial.println(parameters.battery_temperature_sanity_check_high); 
-        
-      Serial.println("=========================================");
-
-      Serial.print("Vehicle Mode                          []: ");
-        Serial.println(parameters.vehicle_mode);
-      
-      Serial.print("Battery 1 Voltage                    [V]: ");
-        Serial.println(telemetry_data.busvoltage_batt1);
-        
-      Serial.print("Battery 2 Voltage                    [V]: ");
-        Serial.println(telemetry_data.busvoltage_batt2);
-
-      Serial.print("V-In Voltage                         [V]: ");
-        Serial.println(telemetry_data.analog_VIN_voltage);  
-      
-      Serial.print("Battery Voltage Tlm Valid Flag        []: ");
-        Serial.println(parameters.battery_voltage_tlm_valid_flag);
-
-      Serial.print("Battery Bus Low Voltage Flag          []: ");
-        Serial.println(parameters.battery_bus_low_voltage_flag);
-
-      Serial.print("GPS Altitude (gps_data)              [m]: ");
-        Serial.println(gps_data.gps_altitude);
-
-      Serial.print("GPS Alt Valid Flag (gps_data)         []: ");
-        Serial.println(gps_data.gps_altitude_valid);
-
-      Serial.print("Altimeter Altitude                   [m]: ");
-        Serial.println(alt.altitude_in_meters);
-
-      Serial.print("Altitude Valid Flag                   []: ");
-        Serial.println(parameters.altitude_valid_flag);
-
-      Serial.print("Battery Low Voltage Elapsed Time     [s]: ");
-        Serial.print(parameters.battery_low_voltage_elapsed_time/1000);
-        Serial.println("  (active when Battery Bus Low Voltage Flag=1)");
-
-      Serial.print("Cutdown Initiation Elapsed Time      [s]: ");
-        Serial.print(parameters.cutdown_initiation_elapsed_time/1000);
-        Serial.println("  (active when cutdown has been commanded)");
-  
-      Serial.print("Cutdown Event Flag                    []: ");
-        Serial.println(parameters.cutdown_event_flag);
-      
-      Serial.println("");
-      Serial.println("CONSTANTS: ");
-      
-      Serial.print("Low Voltage Limit for Loadshed Entry [V]: ");
-        Serial.println(parameters.low_voltage_limit_for_loadshed_entry);
-
-      Serial.print("Low Voltage Limit for Autocutdown    [V]: ");
-        Serial.println(parameters.low_voltage_limit_for_auto_cutdown);
-
-      Serial.print("Low Voltage Time Limit               [s]: ");
-        Serial.println(parameters.low_voltage_time_limit/1000);
-
-      Serial.print("Battery Voltage Sanity Check Low     [V]: ");
-        Serial.println(parameters.voltage_sanity_check_low);
-    
-      Serial.print("Battery Voltage Sanity Check High    [V]: ");
-        Serial.println(parameters.voltage_sanity_check_high); 
-
-      Serial.print("Altitude Limit Low                   [m]: ");
-        Serial.println(parameters.altitude_limit_low);
-
-      Serial.print("Altitude Sanity Check Low            [m]: ");
-        Serial.println(parameters.altitude_sanity_check_low);
-      Serial.print("Altitude Sanity Check High           [m]: ");
-        Serial.println(parameters.altitude_sanity_check_high);  
-      Serial.println("=========================================");      
+    print_heater_test_autocutdown_test();
     }
     debug.mode=0;
 // END only for hearter test
@@ -442,6 +326,7 @@ void Main_flight_loop()
     debug_println("collect_alt_data();");
     collect_alt_data();
     post_process_alt_data();
+    execute_altitude_control_check();
         
     debug_println("=> DEBUG: ALTIMETER DATA");
     if (debug.mode) {
@@ -710,7 +595,7 @@ void set_defaults()
 
   parameters.camera_period = DEFAULT_CAMERA_PERIOD;
   parameters.camera_on_time = DEFAULT_CAMERA_ON_TIME;
-  parameters.altitude_valid_flag = false;
+  parameters.altimeter_altitude_valid_flag = false;
   parameters.altitude_limit_low = DEFAULT_ALTITUDE_LIMIT_LOW;
   parameters.altitude_sanity_check_low = DEFAULT_ALTITUDE_SANITY_CHECK_LOW;
   parameters.altitude_sanity_check_high = DEFAULT_ALTITUDE_SANITY_CHECK_HIGH;
@@ -907,8 +792,8 @@ void initialize_database()
   db[118] = {"int",1,parameters.cutdown_event_flag,null_long,null_float,"Cut Event Flag",0,1,0};
   db[119] = {"int",1,parameters.cutdown_1_status,null_long,null_float,"Cut 1 Fire Status",0,1,0};
   db[120] = {"int",1,parameters.cutdown_2_status,null_long,null_float,"Cut 2 Fire Status",0,1,0};
-  db[121] = {"int",1,parameters.gps_alt_valid_flag,null_long,null_float,"Alt Valid Flag",0,1,0};
-  db[122] = {"int",1,parameters.altitude_valid_flag,null_long,null_float,"Alt Valid Flag",0,1,0};  
+  db[121] = {"int",1,parameters.gps_alt_valid_flag,null_long,null_float,"GPS Alt Valid",0,1,0};
+  db[122] = {"int",1,parameters.altimeter_altitude_valid_flag,null_long,null_float,"ALT Alt Valid",0,1,0};  
   db[123] = {"int",1,parameters.camera_enabled,null_long,null_float,"Cam Enabled",0,1,0};
   db[124] = {"int",1,parameters.camera_status,null_long,null_float,"Cam Status",0,1,0};
   db[125] = {"int",1,parameters.battery_1_temp_tlm_valid_flag,null_long,null_float,"B1 T TLM Val Flag",0,1,0};         

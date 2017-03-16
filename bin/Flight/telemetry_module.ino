@@ -120,11 +120,12 @@ void cutdown_check()
   }
 }
 
-double sanity_processing(int TLM1, int TLM2, int TLM_ID)
+float sanity_processing(float TLM1, float TLM2, int TLM_ID)  //WAS: double sanity_processing(int TLM1, int TLM2, int TLM_ID)
+
 {
-  int tlm_out = 767;
-  int high_thresh;
-  int low_thresh;
+  float tlm_out = 767.;
+  float high_thresh;
+  float low_thresh;
 
   // Telemetry ID Decoder:
   // Battery Temp 1 = 1
@@ -173,7 +174,7 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
   }
   else if(TLM_ID == 7)
   {
-    parameters.altitude_valid_flag = true;
+    parameters.altimeter_altitude_valid_flag = true;
     high_thresh = parameters.altitude_sanity_check_high;
     low_thresh = parameters.altitude_sanity_check_low;
   }
@@ -237,7 +238,7 @@ double sanity_processing(int TLM1, int TLM2, int TLM_ID)
     }
     else if(TLM_ID == 7)
     {
-      parameters.altitude_valid_flag = false;
+      parameters.altimeter_altitude_valid_flag = false;
     }
     
     write_telemetry_data_to_sd();
@@ -324,7 +325,7 @@ void execute_thermal_control_check()
   ///////////////////////////// THERMAL CONTROL OF BATTERY HEATERS ///////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////
 
-  double tlm_value = 0.0;
+  float tlm_value = 0.0;
 
   // Battery 1
   // Sanity Check: third input specifies Battery 1 TLM ID
@@ -367,8 +368,8 @@ void execute_thermal_control_check()
 
 void process_charge_current_tlm()
 { 
-  double tlm_value = 0.0;
-  double tlm_check = 0.0;
+  float tlm_value = 0.0;
+  float tlm_check = 0.0;
   float battery_1_elapsed_time_factor = 0.0;
   // NOTE: MIGHT WANT TO THINK ABOUT A ROLLING AVERAGE HERE IN THE FUTURE
 
@@ -485,7 +486,7 @@ void process_charge_current_tlm()
 void execute_electrical_control_check()
 {
   int valid_data = true;
-  double tlm_value = 0.0;
+  float tlm_value = 0.0;
 
   // Check if the Cut-Down Process has been initiated, and continue if so.
   cutdown_check();
@@ -499,19 +500,20 @@ void execute_electrical_control_check()
   // Sanity Check
 
   tlm_value = sanity_processing(telemetry_data.busvoltage_batt1, telemetry_data.busvoltage_batt2, 3);
-
+  //Serial.print(" telem 502: tlm_value: ");
+  //Serial.println(tlm_value);
   if(!(parameters.vehicle_mode == TRANSIT_MODE) && !(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE))
   {
     if((parameters.battery_voltage_tlm_valid_flag == true) && (parameters.cutdown_event_flag == false))
     {
-      Serial.println(" telem 507:battery voltage is a valid value and no cutdown event yet");
+      //Serial.println(" telem 508:battery voltage is a valid value and no cutdown event yet");
       //Compare voltage to loadshed entry threshold
   
       // Set Loadshed if We Pass Through the Lower Voltage Threshold
       if (tlm_value < parameters.low_voltage_limit_for_auto_cutdown)
       {
-         Serial.print(" telem 513: count_low_voltage is incrementing, and is now: ");
-         Serial.println(parameters.count_low_voltage);
+         //Serial.print(" telem 514: count_low_voltage is incrementing, and is now: ");
+         //Serial.println(parameters.count_low_voltage);
          parameters.count_low_voltage = parameters.count_low_voltage + 1;
          if (parameters.count_low_voltage > 6) 
          {
@@ -530,14 +532,14 @@ void execute_electrical_control_check()
       // Set Loadshed if We Pass Through the Higher Voltage Threshold
       else if(tlm_value < parameters.low_voltage_limit_for_loadshed_entry)
       {
-         Serial.print(" telem 533: count_low_voltage is incrementing, and is now: ");
+         //Serial.print(" telem 534: count_low_voltage is incrementing, and is now: ");
          Serial.println(parameters.count_low_voltage);
          parameters.count_low_voltage = parameters.count_low_voltage + 1;
          if (parameters.count_low_voltage > 3) 
          {
     	     if(parameters.battery_bus_low_voltage_flag == false)
            {
-             Serial.println(" telem 540:Battery V is low and we enter loadshed but not low enough to trigger cutdown");
+             //Serial.println(" telem 541:Battery V is low and we enter loadshed but not low enough to trigger cutdown");
              //Battery voltage is low - set flag and mark time
     	       parameters.battery_bus_low_voltage_flag = true;
              parameters.battery_low_voltage_elapsed_time = 0.0;
@@ -558,12 +560,12 @@ void execute_electrical_control_check()
       }
       else  // V batt > set points for voltage = normal mode
       {
-        Serial.println(" telem 561: V batt is above thresholds: normal operation conditions");
+        // Serial.println(" telem 562: V batt is above thresholds: normal operation conditions");
         parameters.count_low_voltage = 0;
         if(parameters.battery_bus_low_voltage_flag == true)
         {
-          Serial.println(" telem 565: low voltage flag was true but is reset to false here as we are back to normal voltage");
-          Serial.println(" telem 566: mode is still LOADSHED: ground-controle needs to manually reset to NORMAL mode");
+          //Serial.println(" telem 566: low voltage flag was true but is reset to false here as we are back to normal voltage");
+          //Serial.println(" telem 565: mode is still LOADSHED: ground-control needs to manually reset to NORMAL mode");
           parameters.battery_bus_low_voltage_flag = false;
   
         }
@@ -578,7 +580,7 @@ void execute_electrical_control_check()
       //the the low voltage time limit
       if (parameters.battery_low_voltage_elapsed_time >= parameters.low_voltage_time_limit)
       {
-        Serial.println(" telem 581:if V batt has been low for too long we initiate cutdown");
+        //Serial.println(" telem 582:if V batt has been low for too long we initiate cutdown");
   	    if (!(parameters.vehicle_mode == TRANSIT_MODE)) 
         { 
   	     write_telemetry_data_to_sd();
@@ -597,14 +599,25 @@ void execute_electrical_control_check()
       }
     }
   }
+}
+
+void execute_altitude_control_check()
+{
   /////////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////// ALTITUDE CHECK //////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////////
 
+  int valid_data = true;
+  float tlm_value = 0.0;
+
+  // Check if the Cut-Down Process has been initiated, and continue if so.
+  cutdown_check();
+
+
   // Check Altitude and Cutdown if we are too low
 
-  double tlm_value_1 = sanity_processing(gps_data.gps_altitude, gps_data.gps_altitude, 6);
-  double tlm_value_2 = sanity_processing(alt.altitude_in_meters, alt.altitude_in_meters, 7);
+  float tlm_value_1 = sanity_processing(gps_data.gps_altitude, gps_data.gps_altitude, 6);
+  float tlm_value_2 = sanity_processing(alt.altitude_in_meters, alt.altitude_in_meters, 7);
 
   // TODO: Add an override here for Ground Command ???
   if(!(parameters.vehicle_mode == TRANSIT_MODE) && !(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE))
@@ -633,7 +646,7 @@ void execute_electrical_control_check()
         parameters.count_low_alt = 0;
       }
     }  
-    else if (parameters.altitude_valid_flag == true)
+    else if (parameters.altimeter_altitude_valid_flag == true)
     {
       if(debug.mode == 1) {
         Serial.println("WE are floating !!! Also - GPS Alt is NOT good, but Altimeter is okay. (test for altitude cutdown, line 419 in telemetry_module)");
@@ -655,6 +668,13 @@ void execute_electrical_control_check()
       else
       {
         parameters.count_low_alt = 0;
+      }
+    }
+    else // if GPS and altimeters are dead or out of bounds
+    {
+      parameters.count_low_alt = 0;
+      if(debug.mode == 1) {
+            Serial.println(" telem 677: SHIT SHIT GPS and altimeters are dead or out of bounds");
       }
     }
   } // end of test on altitude
@@ -716,6 +736,126 @@ void print_telemetry()
   Serial.println("");
 }
 
+
+void print_heater_test_autocutdown_test()
+{
+        Serial.println("=========================================");
+       
+      Serial.print("Heater state1: ");
+        Serial.println(parameters.heater_state_1);
+      Serial.print("Heater state2: ");
+        Serial.println(parameters.heater_state_2);
+
+      Serial.print("mean Battery1 Temp                      [C]: ");
+        Serial.println(0.5*(telemetry_data.battery_1_temp_1+telemetry_data.battery_1_temp_2));
+      Serial.print("Battery1 Temp1              [C]: ");
+        Serial.println(telemetry_data.battery_1_temp_1);
+      Serial.print("Battery1 Temp2              [C]: ");
+        Serial.println(telemetry_data.battery_1_temp_2);
+
+      Serial.print("mean Battery2 Temp                      [C]: ");
+        Serial.println(0.5*(telemetry_data.battery_2_temp_1+telemetry_data.battery_2_temp_2));
+      Serial.print("Battery2 Temp1              [C]: ");
+        Serial.println(telemetry_data.battery_2_temp_1);
+      Serial.print("Battery2 Temp2              [C]: ");
+        Serial.println(telemetry_data.battery_2_temp_2);
+
+      Serial.println(" ");
+        
+      Serial.print("battery_temperature_limit_low ACTIVE    [C]: ");
+        Serial.println(parameters.battery_temperature_limit_low);
+        
+      Serial.print("battery_temperature_limit_high ACTIVE   [C]: ");
+        Serial.println(parameters.battery_temperature_limit_high);  
+
+      Serial.print("normal_battery_temperature_limit_low    [C]: ");
+        Serial.println(thresholds.normal_battery_temperature_limit_low);
+        
+      Serial.print("normal_battery_temperature_limit_high   [C]: ");
+        Serial.println(thresholds.normal_battery_temperature_limit_high); 
+        
+      Serial.print("survival_battery_temperature_limit_low  [C]: ");
+        Serial.println(thresholds.survival_battery_temperature_limit_low);
+        
+      Serial.print("survival_battery_temperature_limit_high [C]: ");
+        Serial.println(thresholds.survival_battery_temperature_limit_high);      
+        
+      Serial.print("battery_temperature_sanity_check_low    [C]: ");
+        Serial.println(parameters.battery_temperature_sanity_check_low);
+        
+      Serial.print("battery_temperature_sanity_check_high   [C]: ");
+        Serial.println(parameters.battery_temperature_sanity_check_high); 
+        
+      Serial.println("=========================================");
+
+      Serial.print("Vehicle Mode                          []: ");
+        Serial.println(parameters.vehicle_mode);
+      
+      Serial.print("Battery 1 Voltage                    [V]: ");
+        Serial.println(telemetry_data.busvoltage_batt1);
+        
+      Serial.print("Battery 2 Voltage                    [V]: ");
+        Serial.println(telemetry_data.busvoltage_batt2);
+
+      Serial.print("V-In Voltage                         [V]: ");
+        Serial.println(telemetry_data.analog_VIN_voltage);  
+      
+      Serial.print("Battery Voltage Tlm Valid Flag        []: ");
+        Serial.println(parameters.battery_voltage_tlm_valid_flag);
+
+      Serial.print("Battery Bus Low Voltage Flag          []: ");
+        Serial.println(parameters.battery_bus_low_voltage_flag);
+
+      Serial.print("GPS Altitude (gps_data)              [m]: ");
+        Serial.println(gps_data.gps_altitude);
+
+      Serial.print("GPS Alt Valid Flag (gps_data)         []: ");
+        Serial.println(gps_data.gps_altitude_valid);
+
+      Serial.print("Altimeter Altitude                   [m]: ");
+        Serial.println(alt.altitude_in_meters);
+
+      Serial.print("Altitude Valid Flag                   []: ");
+        Serial.println(parameters.altimeter_altitude_valid_flag);
+
+      Serial.print("Battery Low Voltage Elapsed Time     [s]: ");
+        Serial.print(parameters.battery_low_voltage_elapsed_time/1000);
+        Serial.println("  (active when Battery Bus Low Voltage Flag=1)");
+
+      Serial.print("Cutdown Initiation Elapsed Time      [s]: ");
+        Serial.print(parameters.cutdown_initiation_elapsed_time/1000);
+        Serial.println("  (active when cutdown has been commanded)");
+  
+      Serial.print("Cutdown Event Flag                    []: ");
+        Serial.println(parameters.cutdown_event_flag);
+      
+      Serial.println("");
+      Serial.println("CONSTANTS: ");
+      
+      Serial.print("Low Voltage Limit for Loadshed Entry [V]: ");
+        Serial.println(parameters.low_voltage_limit_for_loadshed_entry);
+
+      Serial.print("Low Voltage Limit for Autocutdown    [V]: ");
+        Serial.println(parameters.low_voltage_limit_for_auto_cutdown);
+
+      Serial.print("Low Voltage Time Limit               [s]: ");
+        Serial.println(parameters.low_voltage_time_limit/1000);
+
+      Serial.print("Battery Voltage Sanity Check Low     [V]: ");
+        Serial.println(parameters.voltage_sanity_check_low);
+    
+      Serial.print("Battery Voltage Sanity Check High    [V]: ");
+        Serial.println(parameters.voltage_sanity_check_high); 
+
+      Serial.print("Altitude Limit Low                   [m]: ");
+        Serial.println(parameters.altitude_limit_low);
+
+      Serial.print("Altitude Sanity Check Low            [m]: ");
+        Serial.println(parameters.altitude_sanity_check_low);
+      Serial.print("Altitude Sanity Check High           [m]: ");
+        Serial.println(parameters.altitude_sanity_check_high);  
+      Serial.println("=========================================");
+}
 
 void print_cutdown_telemetry()
 {
