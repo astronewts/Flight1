@@ -1,4 +1,4 @@
- db[0] = {"header",8,null_int,null_long,null_float,"Header",0,1,1};        
+db[0] = {"header",8,null_int,null_long,null_float,"Header",0,1,1};        
   db[1] = {"int",8,parameters.telemetry_format,null_long,null_float,"Format",0,1,1};
   db[2] = {"int",8,parameters.sd_card_num,null_long,null_float,"SD_Num",0,1,1}; 
   db[3] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1,1};
@@ -119,8 +119,8 @@
   db[118] = {"int",1,parameters.cutdown_event_flag,null_long,null_float,"Cut Event Flag",0,1,0};
   db[119] = {"int",1,parameters.cutdown_1_status,null_long,null_float,"Cut 1 Fire Status",0,1,0};
   db[120] = {"int",1,parameters.cutdown_2_status,null_long,null_float,"Cut 2 Fire Status",0,1,0};
-  db[121] = {"int",1,parameters.gps_alt_valid_flag,null_long,null_float,"Alt Valid Flag",0,1,0};
-  db[122] = {"int",1,parameters.altitude_valid_flag,null_long,null_float,"Alt Valid Flag",0,1,0};  
+  db[121] = {"int",1,parameters.gps_alt_valid_flag,null_long,null_float,"GPS Alt Valid",0,1,0};
+  db[122] = {"int",1,parameters.altimeter_altitude_valid_flag,null_long,null_float,"ALT Alt Valid",0,1,0};  
   db[123] = {"int",1,parameters.camera_enabled,null_long,null_float,"Cam Enabled",0,1,0};
   db[124] = {"int",1,parameters.camera_status,null_long,null_float,"Cam Status",0,1,0};
   db[125] = {"int",1,parameters.battery_1_temp_tlm_valid_flag,null_long,null_float,"B1 T TLM Val Flag",0,1,0};         
