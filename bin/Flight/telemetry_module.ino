@@ -627,11 +627,14 @@ void execute_altitude_control_check()
       if(debug.mode == 1) {
         Serial.println("WE are floating !!! Also - GPS Alt is good.  (test for altitude cutdown, line 419 in telemetry_module)");
       }
+      Serial.print(" telem 630: gps_data.gps_altitude is being checked and is now: ");
+      Serial.println(gps_data.gps_altitude);
       if(gps_data.gps_altitude < parameters.gps_altitude_limit_low)
       {
         parameters.count_low_alt = parameters.count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
         write_telemetry_data_to_sd();
-        
+        Serial.print(" telem 634: count_low_alt is incrementing, and is now: ");
+         Serial.println(parameters.count_low_alt);
         if(parameters.count_low_alt > 3) // we have been too low for a few counts => initiate cut down
         {
           if(debug.mode == 1) {
@@ -651,6 +654,8 @@ void execute_altitude_control_check()
       if(debug.mode == 1) {
         Serial.println("WE are floating !!! Also - GPS Alt is NOT good, but Altimeter is okay. (test for altitude cutdown, line 419 in telemetry_module)");
       }
+      Serial.print(" telem 655: alt.altitude_in_meters is being checked and is now: ");
+      Serial.println(alt.altitude_in_meters);
       if(alt.altitude_in_meters < parameters.alt_altitude_limit_low)
       {
         parameters.count_low_alt = parameters.count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
@@ -658,6 +663,8 @@ void execute_altitude_control_check()
         
         if(parameters.count_low_alt > 3) // we have been too low for a few counts => initiate cut down
         {
+          Serial.print(" telem 662: count_low_alt is incrementing, and is now: ");
+          Serial.println(parameters.count_low_alt);
           if(debug.mode == 1) {
             Serial.println("SHIT we are too low (Alt): Initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
           }
@@ -673,6 +680,7 @@ void execute_altitude_control_check()
     else // if GPS and altimeters are dead or out of bounds
     {
       parameters.count_low_alt = 0;
+      Serial.print(" telem 681: count_low_alt is back to zero");
       if(debug.mode == 1) {
             Serial.println(" telem 677: SHIT SHIT GPS and altimeters are dead or out of bounds");
       }
