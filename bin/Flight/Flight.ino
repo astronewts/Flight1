@@ -145,6 +145,7 @@ void setup()
     parameters.prompt_from_user_makes_sense=1;
     Serial.println("Then we are in Flight Mode without RB");
     parameters.vehicle_mode=FLIGHT_MODE_WITHOUT_RB;
+    
     debug.mode=1;
     Init_components();
   }
@@ -742,23 +743,23 @@ void initialize_database()
   db[61] = {"int",1,gps_data.gps_date_valid,null_long,null_float,"GPS Date Isvalid [-]",0,1,0};
   db[62] = {"int",1,gps_data.gps_time_valid,null_long,null_float,"GPS Time Isvalid [-]",0,1,0};
   db[63] = {"int",1,gps_data.gps_hdop_valid,null_long,null_float,"GPS HDOP Isvalid [-]",0,1,0};
-  db[64] = {"float",32,null_int,null_long,gyro.max_ax,"Max Acc X [g]",0,1,0};   
-  db[65] = {"float",32,null_int,null_long,gyro.min_ax,"Min Acc X [g]",0,1,0}; 
+  db[64] = {"float",32,null_int,null_long,gyro.max_ax,"Max Acc X [g]",0,0,0};   
+  db[65] = {"float",32,null_int,null_long,gyro.min_ax,"Min Acc X [g]",0,0,0}; 
   db[66] = {"float",32,null_int,null_long,gyro.mean_ax,"Mean Acc X [g]",0,1,0}; 
-  db[67] = {"float",32,null_int,null_long,gyro.max_ay,"Max Acc Y [g]",0,1,0};   
-  db[68] = {"float",32,null_int,null_long,gyro.min_ay,"Min Acc Y [g]",0,1,0}; 
+  db[67] = {"float",32,null_int,null_long,gyro.max_ay,"Max Acc Y [g]",0,0,0};   
+  db[68] = {"float",32,null_int,null_long,gyro.min_ay,"Min Acc Y [g]",0,0,0}; 
   db[69] = {"float",32,null_int,null_long,gyro.mean_ay,"Mean Acc Y [g]",0,1,0};
-  db[70] = {"float",32,null_int,null_long,gyro.max_az,"Max Acc Z [g]",0,1,0};   
-  db[71] = {"float",32,null_int,null_long,gyro.min_az,"Min Acc Z [g]",0,1,0}; 
+  db[70] = {"float",32,null_int,null_long,gyro.max_az,"Max Acc Z [g]",0,0,0};   
+  db[71] = {"float",32,null_int,null_long,gyro.min_az,"Min Acc Z [g]",0,0,0}; 
   db[72] = {"float",32,null_int,null_long,gyro.mean_az,"Mean Acc z [g]",0,1,0};
-  db[73] = {"float",32,null_int,null_long,gyro.max_gx,"Max Gyro X [deg/s]",0,1,0};   
-  db[74] = {"float",32,null_int,null_long,gyro.min_gx,"Min Gyro X [deg/s]",0,1,0}; 
+  db[73] = {"float",32,null_int,null_long,gyro.max_gx,"Max Gyro X [deg/s]",0,0,0};   
+  db[74] = {"float",32,null_int,null_long,gyro.min_gx,"Min Gyro X [deg/s]",0,0,0}; 
   db[75] = {"float",32,null_int,null_long,gyro.mean_gx,"Mean Gyro X [deg/s]",0,1,0}; 
-  db[76] = {"float",32,null_int,null_long,gyro.max_gy,"Max Gyro Y [deg/s]",0,1,0};   
-  db[77] = {"float",32,null_int,null_long,gyro.min_gy,"Min Gyro Y [deg/s]",0,1,0}; 
+  db[76] = {"float",32,null_int,null_long,gyro.max_gy,"Max Gyro Y [deg/s]",0,0,0};   
+  db[77] = {"float",32,null_int,null_long,gyro.min_gy,"Min Gyro Y [deg/s]",0,0,0}; 
   db[78] = {"float",32,null_int,null_long,gyro.mean_gy,"Mean Gyro Y [deg/s]",0,1,0}; 
-  db[79] = {"float",32,null_int,null_long,gyro.max_gz,"Max Gyro Z [deg/s]",0,1,0};   
-  db[80] = {"float",32,null_int,null_long,gyro.min_gz,"Min Gyro Z [deg/s]",0,1,0}; 
+  db[79] = {"float",32,null_int,null_long,gyro.max_gz,"Max Gyro Z [deg/s]",0,0,0};   
+  db[80] = {"float",32,null_int,null_long,gyro.min_gz,"Min Gyro Z [deg/s]",0,0,0}; 
   db[81] = {"float",32,null_int,null_long,gyro.mean_gz,"Mean Gyro Z [deg/s]",0,1,0};     
   db[82] = {"float",32,null_int,null_long,gyro.mx,"mag X [G]",0,1,0}; 
   db[83] = {"float",32,null_int,null_long,gyro.my,"mag Y [G]",0,1,0}; 
@@ -958,7 +959,4 @@ void cutdown_fire()
 
   //Mark time that pyro was initiated
   parameters.cutdown_initiation_elapsed_time = 0;
-
-  //Set the mode to Transit
-  set_transit_mode();
 }

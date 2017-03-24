@@ -79,13 +79,13 @@
 #define MEDIUM_RATE_PERIOD_CUTDOWN                 10000 // ms
 #define LOW_RATE_PERIOD_CUTDOWN                    10000 // ms
 
-#define DEFAULT_ALT_ALTITUDE_LIMIT_LOW                 2// GL: 2 is for TEST // 23000.0 // meters (75000 ft)
-#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_LOW          40.0 // 3000.0 // meters (10000 ft)
-#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_HIGH         60.0 // meters (130000 ft)
+#define DEFAULT_ALT_ALTITUDE_LIMIT_LOW                 2.0 // GL: 2 is for TEST // 23000.0 // meters (75000 ft)
+#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_LOW          1.0 // 3000.0 // meters (10000 ft)
+#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_HIGH         400.0 // meters (130000 ft)
 
-#define DEFAULT_GPS_ALTITUDE_LIMIT_LOW                 2// GL: 2 is for TEST // 23000.0 // meters (75000 ft)
-#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_LOW          40.0 // 3000.0 // meters (10000 ft)
-#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_HIGH         60.0 // meters (130000 ft)
+#define DEFAULT_GPS_ALTITUDE_LIMIT_LOW                 90.0 // GL: 2 is for TEST // 23000.0 // meters (75000 ft)
+#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_LOW          50.0 // 3000.0 // meters (10000 ft)
+#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_HIGH         400.0 // meters (130000 ft)
 
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           1.0  //Prev:-0.1  Note: These are purposely set too high to trigger, due to HW perfoming this action
@@ -163,7 +163,7 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         140 // Size of the Database
+#define DB_SIZE                         147 // Size of the Database
 #define MAX_TLM_TYPE_SIZE               6 //
 #define MAX_SD_TITLE_SIZE               32 //
 

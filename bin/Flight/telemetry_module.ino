@@ -621,7 +621,6 @@ void execute_altitude_control_check()
   // TODO: Add an override here for Ground Command ???
   if(!(parameters.vehicle_mode == TRANSIT_MODE) && !(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE))
   {
-    Serial.print(" telem 624: count_low_voltage is incrementing, and is now: ");
     if((parameters.gps_alt_valid_flag == true) && (gps_data.gps_altitude_valid == 1))
     {
       if(debug.mode == 1) {
@@ -635,7 +634,7 @@ void execute_altitude_control_check()
         write_telemetry_data_to_sd();
         Serial.print(" telem 634: count_low_alt is incrementing, and is now: ");
          Serial.println(parameters.count_low_alt);
-        if(parameters.count_low_alt > 3) // we have been too low for a few counts => initiate cut down
+        if(parameters.count_low_alt > 5) // we have been too low for a few counts => initiate cut down
         {
           if(debug.mode == 1) {
             Serial.println("SHIT we are too low (GPS): initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
@@ -660,11 +659,12 @@ void execute_altitude_control_check()
       {
         parameters.count_low_alt = parameters.count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
         write_telemetry_data_to_sd();
+
+        Serial.print(" telem 663: count_low_alt is incrementing, and is now: ");
+        Serial.println(parameters.count_low_alt);
         
-        if(parameters.count_low_alt > 3) // we have been too low for a few counts => initiate cut down
+        if(parameters.count_low_alt > 5) // we have been too low for a few counts => initiate cut down
         {
-          Serial.print(" telem 662: count_low_alt is incrementing, and is now: ");
-          Serial.println(parameters.count_low_alt);
           if(debug.mode == 1) {
             Serial.println("SHIT we are too low (Alt): Initiate cutdown (test for altitude cutdown, line 423 in telemetry_module)");
           }
