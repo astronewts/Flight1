@@ -595,10 +595,17 @@ void set_defaults()
 
   parameters.camera_period = DEFAULT_CAMERA_PERIOD;
   parameters.camera_on_time = DEFAULT_CAMERA_ON_TIME;
+  
   parameters.altimeter_altitude_valid_flag = false;
-  parameters.altitude_limit_low = DEFAULT_ALTITUDE_LIMIT_LOW;
-  parameters.altitude_sanity_check_low = DEFAULT_ALTITUDE_SANITY_CHECK_LOW;
-  parameters.altitude_sanity_check_high = DEFAULT_ALTITUDE_SANITY_CHECK_HIGH;
+  parameters.gps_alt_valid_flag = false;
+  
+  parameters.alt_altitude_limit_low = DEFAULT_ALT_ALTITUDE_LIMIT_LOW;
+  parameters.alt_altitude_sanity_check_low = DEFAULT_ALT_ALTITUDE_SANITY_CHECK_LOW;
+  parameters.alt_altitude_sanity_check_high = DEFAULT_ALT_ALTITUDE_SANITY_CHECK_HIGH;
+  parameters.gps_altitude_limit_low = DEFAULT_GPS_ALTITUDE_LIMIT_LOW;
+  parameters.gps_altitude_sanity_check_low = DEFAULT_GPS_ALTITUDE_SANITY_CHECK_LOW;
+  parameters.gps_altitude_sanity_check_high = DEFAULT_GPS_ALTITUDE_SANITY_CHECK_HIGH;
+
   parameters.count_low_alt = 0;
   parameters.count_low_voltage = 0;
   
@@ -780,37 +787,40 @@ void initialize_database()
   db[106] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_loadshed_entry,"Loadshed Entry Volt Lim [V]",0,1,0};      
   db[107] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_auto_cutdown,"Auto Cut Volt Lim [V]",0,1,0};
   db[108] = {"int",16,parameters.low_voltage_time_limit/1000,null_long,null_float,"Low Volt Time until Cut [s]",0,1,0};
-  db[109] = {"int",16,parameters.altitude_limit_low,null_long,null_float,"Alt Limit Low [m]",0,1,0};
-  db[110] = {"int",16,parameters.altitude_sanity_check_low,null_long,null_float,"Alt San Check Low [m]",0,1,0}; 
-  db[111] = {"int",16,parameters.altitude_sanity_check_high,null_long,null_float,"Alt San Check High [m]",0,1,0};
-  db[112] = {"int",8,parameters.cutdown_pulse_width/1000,null_long,null_float,"Pyro Pulse Width [s]",0,1,0};
-  db[113] = {"int",16,parameters.camera_period/1000,null_long,null_float,"Cam Per [s]",0,1,0};
-  db[114] = {"int",16,parameters.camera_on_time/1000,null_long,null_float,"Cam On Time [s]",0,1,0};
-  db[115] = {"int",1,parameters.battery_bus_low_voltage_flag,null_long,null_float,"Batt Bus Low V Flag",0,1,0};
-  db[116] = {"int",1,parameters.heater_state_1,null_long,null_float,"Heat State 1",0,1,0};
-  db[117] = {"int",1,parameters.heater_state_2,null_long,null_float,"Heat State 2",0,1,0};
-  db[118] = {"int",1,parameters.cutdown_event_flag,null_long,null_float,"Cut Event Flag",0,1,0};
-  db[119] = {"int",1,parameters.cutdown_1_status,null_long,null_float,"Cut 1 Fire Status",0,1,0};
-  db[120] = {"int",1,parameters.cutdown_2_status,null_long,null_float,"Cut 2 Fire Status",0,1,0};
-  db[121] = {"int",1,parameters.gps_alt_valid_flag,null_long,null_float,"GPS Alt Valid",0,1,0};
-  db[122] = {"int",1,parameters.altimeter_altitude_valid_flag,null_long,null_float,"ALT Alt Valid",0,1,0};  
-  db[123] = {"int",1,parameters.camera_enabled,null_long,null_float,"Cam Enabled",0,1,0};
-  db[124] = {"int",1,parameters.camera_status,null_long,null_float,"Cam Status",0,1,0};
-  db[125] = {"int",1,parameters.battery_1_temp_tlm_valid_flag,null_long,null_float,"B1 T TLM Val Flag",0,1,0};         
-  db[126] = {"int",1,parameters.battery_2_temp_tlm_valid_flag,null_long,null_float,"B2 T TLM Val Flag",0,1,0}; 
-  db[127] = {"int",1,parameters.battery_voltage_tlm_valid_flag,null_long,null_float,"Bus V TLM Val Flag",0,1,0};
-  db[128] = {"int",1,parameters.battery_1_current_tlm_valid_flag,null_long,null_float,"B1 Cur TLM Val Flag",0,1,0};
-  db[129] = {"int",1,parameters.battery_2_current_tlm_valid_flag,null_long,null_float,"B2 Cur TLM Val Flag",0,1,0};
-  db[130] = {"float",32,null_int,null_long,alt.altitude_in_meters,"Alt [m]",0,1,1};
-  db[131] = {"float",32,null_int,null_long,alt.max_altitude_in_meters,"Max Alt [m]",0,1,0}; 
-  db[132] = {"float",32,null_int,null_long,alt.min_altitude_in_meters,"Min Alt [m]",0,1,0}; 
-  db[133] = {"float",32,null_int,null_long,alt.mean_altitude_in_meters,"Mean Alt [m]",0,1,0}; 
-  db[134] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
-  db[135] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
-  db[136] = {"float",32,null_int,null_long,alt.max_pressure,"Max Press [?]",0,1,0}; 
-  db[137] = {"float",32,null_int,null_long,alt.min_pressure,"Min Press [?]",0,1,0}; 
-  db[138] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Received",0,1,0}; 
-  db[139] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Received Flag",0,1,0};
+  db[109] = {"int",16,parameters.gps_altitude_limit_low,null_long,null_float,"GPS Alt Limit Low [m]",0,1,0};
+  db[110] = {"int",16,parameters.gps_altitude_sanity_check_low,null_long,null_float,"GPS Alt San Check Low [m]",0,1,0}; 
+  db[111] = {"int",16,parameters.gps_altitude_sanity_check_high,null_long,null_float,"GPS Alt San Check High [m]",0,1,0};
+  db[112] = {"int",16,parameters.alt_altitude_limit_low,null_long,null_float,"ALT Alt Limit Low [m]",0,1,0};
+  db[113] = {"int",16,parameters.alt_altitude_sanity_check_low,null_long,null_float,"ALT Alt San Check Low [m]",0,1,0}; 
+  db[114] = {"int",16,parameters.alt_altitude_sanity_check_high,null_long,null_float,"ALT Alt San Check High [m]",0,1,0};
+  db[115] = {"int",8,parameters.cutdown_pulse_width/1000,null_long,null_float,"Pyro Pulse Width [s]",0,1,0};
+  db[116] = {"int",16,parameters.camera_period/1000,null_long,null_float,"Cam Per [s]",0,1,0};
+  db[117] = {"int",16,parameters.camera_on_time/1000,null_long,null_float,"Cam On Time [s]",0,1,0};
+  db[118] = {"int",1,parameters.battery_bus_low_voltage_flag,null_long,null_float,"Batt Bus Low V Flag",0,1,0};
+  db[119] = {"int",1,parameters.heater_state_1,null_long,null_float,"Heat State 1",0,1,0};
+  db[120] = {"int",1,parameters.heater_state_2,null_long,null_float,"Heat State 2",0,1,0};
+  db[121] = {"int",1,parameters.cutdown_event_flag,null_long,null_float,"Cut Event Flag",0,1,0};
+  db[122] = {"int",1,parameters.cutdown_1_status,null_long,null_float,"Cut 1 Fire Status",0,1,0};
+  db[123] = {"int",1,parameters.cutdown_2_status,null_long,null_float,"Cut 2 Fire Status",0,1,0};
+  db[124] = {"int",1,parameters.gps_alt_valid_flag,null_long,null_float,"GPS Alt Valid",0,1,0};
+  db[125] = {"int",1,parameters.altimeter_altitude_valid_flag,null_long,null_float,"ALT Alt Valid",0,1,0};  
+  db[126] = {"int",1,parameters.camera_enabled,null_long,null_float,"Cam Enabled",0,1,0};
+  db[127] = {"int",1,parameters.camera_status,null_long,null_float,"Cam Status",0,1,0};
+  db[128] = {"int",1,parameters.battery_1_temp_tlm_valid_flag,null_long,null_float,"B1 T TLM Val Flag",0,1,0};         
+  db[129] = {"int",1,parameters.battery_2_temp_tlm_valid_flag,null_long,null_float,"B2 T TLM Val Flag",0,1,0}; 
+  db[130] = {"int",1,parameters.battery_voltage_tlm_valid_flag,null_long,null_float,"Bus V TLM Val Flag",0,1,0};
+  db[131] = {"int",1,parameters.battery_1_current_tlm_valid_flag,null_long,null_float,"B1 Cur TLM Val Flag",0,1,0};
+  db[132] = {"int",1,parameters.battery_2_current_tlm_valid_flag,null_long,null_float,"B2 Cur TLM Val Flag",0,1,0};
+  db[133] = {"float",32,null_int,null_long,alt.altitude_in_meters,"Alt [m]",0,1,1};
+  db[134] = {"float",32,null_int,null_long,alt.max_altitude_in_meters,"Max Alt [m]",0,1,0}; 
+  db[135] = {"float",32,null_int,null_long,alt.min_altitude_in_meters,"Min Alt [m]",0,1,0}; 
+  db[136] = {"float",32,null_int,null_long,alt.mean_altitude_in_meters,"Mean Alt [m]",0,1,0}; 
+  db[137] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
+  db[138] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
+  db[139] = {"float",32,null_int,null_long,alt.max_pressure,"Max Press [?]",0,1,0}; 
+  db[140] = {"float",32,null_int,null_long,alt.min_pressure,"Min Press [?]",0,1,0}; 
+  db[141] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Received",0,1,0}; 
+  db[142] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Received Flag",0,1,0};
 }
 
 void calculate_RB_out_mssg_size()

@@ -642,11 +642,23 @@ int process_satellite_command()
         // This is a command to set the Altitude Descent Trigger
         // Defined in meters
         
-        // Altitude Descent Trigger  = CommandString.substring(14,17)
-        parameters.altitude_limit_low = hexstring_to_int(CommandString,14,18);
+        // GPS Altitude Descent Trigger  = CommandString.substring()
+        parameters.gps_altitude_limit_low = hexstring_to_int(CommandString,14,18);
         
-        // Low Sanity Check Altitude  = CommandString.substring(18,21)
-        parameters.altitude_sanity_check_low = hexstring_to_int(CommandString,18,22);
+        // GPS Low Sanity Check Altitude  = CommandString.substring()
+        parameters.gps_altitude_sanity_check_low = hexstring_to_int(CommandString,18,22);
+
+        // GPS HIGH Sanity Check Altitude  = CommandString.substring()
+        parameters.gps_altitude_sanity_check_high = hexstring_to_int(CommandString,22,26);
+
+        // ALT Altitude Descent Trigger  = CommandString.substring()
+        parameters.alt_altitude_limit_low = hexstring_to_int(CommandString,26,30);
+        
+        // ALT Low Sanity Check Altitude  = CommandString.substring()
+        parameters.alt_altitude_sanity_check_low = hexstring_to_int(CommandString,30,34);
+
+        // ALT HIGH Sanity Check Altitude  = CommandString.substring()
+        parameters.alt_altitude_sanity_check_high = hexstring_to_int(CommandString,34,38);
         }
         
        if (CommandString.substring(6,14) == "48332000") {

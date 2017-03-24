@@ -169,14 +169,14 @@ float sanity_processing(float TLM1, float TLM2, int TLM_ID)  //WAS: double sanit
   else if(TLM_ID == 6)
   {
     parameters.gps_alt_valid_flag = true;
-    high_thresh = parameters.altitude_sanity_check_high;
-    low_thresh = parameters.altitude_sanity_check_low;
+    high_thresh = parameters.gps_altitude_sanity_check_high;
+    low_thresh = parameters.gps_altitude_sanity_check_low;
   }
   else if(TLM_ID == 7)
   {
     parameters.altimeter_altitude_valid_flag = true;
-    high_thresh = parameters.altitude_sanity_check_high;
-    low_thresh = parameters.altitude_sanity_check_low;
+    high_thresh = parameters.alt_altitude_sanity_check_high;
+    low_thresh = parameters.alt_altitude_sanity_check_low;
   }
 
   //bool valid_data = true;
@@ -613,7 +613,6 @@ void execute_altitude_control_check()
   // Check if the Cut-Down Process has been initiated, and continue if so.
   cutdown_check();
 
-
   // Check Altitude and Cutdown if we are too low
 
   float tlm_value_1 = sanity_processing(gps_data.gps_altitude, gps_data.gps_altitude, 6);
@@ -622,12 +621,13 @@ void execute_altitude_control_check()
   // TODO: Add an override here for Ground Command ???
   if(!(parameters.vehicle_mode == TRANSIT_MODE) && !(parameters.vehicle_mode == EMERGENCY_DESCENT_MODE))
   {
+    Serial.print(" telem 624: count_low_voltage is incrementing, and is now: ");
     if((parameters.gps_alt_valid_flag == true) && (gps_data.gps_altitude_valid == 1))
     {
       if(debug.mode == 1) {
         Serial.println("WE are floating !!! Also - GPS Alt is good.  (test for altitude cutdown, line 419 in telemetry_module)");
       }
-      if(gps_data.gps_altitude < parameters.altitude_limit_low)
+      if(gps_data.gps_altitude < parameters.gps_altitude_limit_low)
       {
         parameters.count_low_alt = parameters.count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
         write_telemetry_data_to_sd();
@@ -651,7 +651,7 @@ void execute_altitude_control_check()
       if(debug.mode == 1) {
         Serial.println("WE are floating !!! Also - GPS Alt is NOT good, but Altimeter is okay. (test for altitude cutdown, line 419 in telemetry_module)");
       }
-      if(alt.altitude_in_meters < parameters.altitude_limit_low)
+      if(alt.altitude_in_meters < parameters.alt_altitude_limit_low)
       {
         parameters.count_low_alt = parameters.count_low_alt + 1; // counter: if counts 4 times below altitude thershold then cutdown
         write_telemetry_data_to_sd();
@@ -812,6 +812,9 @@ void print_heater_test_autocutdown_test()
       Serial.print("GPS Alt Valid Flag (gps_data)         []: ");
         Serial.println(gps_data.gps_altitude_valid);
 
+      Serial.print("GPS Alt Valid Flag (non-gps_data)     []: ");
+        Serial.println(parameters.gps_alt_valid_flag);  
+
       Serial.print("Altimeter Altitude                   [m]: ");
         Serial.println(alt.altitude_in_meters);
 
@@ -847,13 +850,19 @@ void print_heater_test_autocutdown_test()
       Serial.print("Battery Voltage Sanity Check High    [V]: ");
         Serial.println(parameters.voltage_sanity_check_high); 
 
-      Serial.print("Altitude Limit Low                   [m]: ");
-        Serial.println(parameters.altitude_limit_low);
-
-      Serial.print("Altitude Sanity Check Low            [m]: ");
-        Serial.println(parameters.altitude_sanity_check_low);
-      Serial.print("Altitude Sanity Check High           [m]: ");
-        Serial.println(parameters.altitude_sanity_check_high);  
+      Serial.print("GPS Altitude Limit Low                   [m]: ");
+        Serial.println(parameters.gps_altitude_limit_low);
+      Serial.print("GPS Altitude Sanity Check Low            [m]: ");
+        Serial.println(parameters.gps_altitude_sanity_check_low);
+      Serial.print("GPS Altitude Sanity Check High           [m]: ");
+        Serial.println(parameters.gps_altitude_sanity_check_high);  
+        
+      Serial.print("ALT Altitude Limit Low                   [m]: ");
+        Serial.println(parameters.alt_altitude_limit_low);  
+      Serial.print("ALT Altitude Sanity Check Low            [m]: ");
+        Serial.println(parameters.alt_altitude_sanity_check_low);
+      Serial.print("ALT Altitude Sanity Check High           [m]: ");
+        Serial.println(parameters.alt_altitude_sanity_check_high);  
       Serial.println("=========================================");
 }
 

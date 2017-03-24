@@ -79,9 +79,13 @@
 #define MEDIUM_RATE_PERIOD_CUTDOWN                 10000 // ms
 #define LOW_RATE_PERIOD_CUTDOWN                    10000 // ms
 
-#define DEFAULT_ALTITUDE_LIMIT_LOW                 2// GL: 2 is for TEST // 23000.0 // meters (75000 ft)
-#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          1 // 3000.0 // meters (10000 ft)
-#define DEFAULT_ALTITUDE_SANITY_CHECK_HIGH         40000.0 // meters (130000 ft)
+#define DEFAULT_ALT_ALTITUDE_LIMIT_LOW                 2// GL: 2 is for TEST // 23000.0 // meters (75000 ft)
+#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_LOW          40.0 // 3000.0 // meters (10000 ft)
+#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_HIGH         60.0 // meters (130000 ft)
+
+#define DEFAULT_GPS_ALTITUDE_LIMIT_LOW                 2// GL: 2 is for TEST // 23000.0 // meters (75000 ft)
+#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_LOW          40.0 // 3000.0 // meters (10000 ft)
+#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_HIGH         60.0 // meters (130000 ft)
 
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           1.0  //Prev:-0.1  Note: These are purposely set too high to trigger, due to HW perfoming this action
@@ -399,9 +403,13 @@ struct parameter_struct
   bool gps_alt_valid_flag;
   bool altimeter_altitude_valid_flag;
     
-  int altitude_limit_low;
-  int altitude_sanity_check_low;
-  int altitude_sanity_check_high;
+  int alt_altitude_limit_low;
+  int alt_altitude_sanity_check_low;
+  int alt_altitude_sanity_check_high;
+  int gps_altitude_limit_low;
+  int gps_altitude_sanity_check_low;
+  int gps_altitude_sanity_check_high;
+  
   int count_low_alt;
   int count_low_voltage;
 
