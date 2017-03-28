@@ -163,7 +163,7 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         147 // Size of the Database
+#define DB_SIZE                         148 // Size of the Database
 #define MAX_TLM_TYPE_SIZE               6 //
 #define MAX_SD_TITLE_SIZE               32 //
 
@@ -419,6 +419,7 @@ struct parameter_struct
 
   int test_count;
   int prompt_from_user_makes_sense;
+  int edm_flag_type;
 
   float battery_1_recharge_ratio;
   float battery_1_amphrs_charging;

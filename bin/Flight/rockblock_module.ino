@@ -495,6 +495,7 @@ int process_satellite_command()
          if (CommandString.substring(14,15) == "4") {
            // Set the Mode to Descent Mode
            set_emergency_decent_mode();
+           parameters.edm_flag_type = 5;
          }
          //GL//if (CommandString.substring(14,15) == "5") {
          //GL//  // Set the Mode to Spare Mode

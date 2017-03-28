@@ -613,6 +613,7 @@ void set_defaults()
   parameters.test_count = INITIAL_TEST_COUNT;
   parameters.rb_initialization_error_status = 0;
   parameters.num_rb_words_recieved = 0;
+  parameters.edm_flag_type = 0;
   
   alt.count_between_RB = 0;
   gps_data.count_between_RB = 0;
@@ -819,9 +820,10 @@ void initialize_database()
   db[137] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
   db[138] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
   db[139] = {"float",32,null_int,null_long,alt.max_pressure,"Max Press [?]",0,1,0}; 
-  db[140] = {"float",32,null_int,null_long,alt.min_pressure,"Min Press [?]",0,1,0}; 
-  db[141] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Received",0,1,0}; 
-  db[142] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Received Flag",0,1,0};
+  db[140] = {"float",32,null_int,null_long,alt.min_pressure,"Min Press [?]",0,1,0};
+  db[141] = {"int",32,null_int,null_long,parameters.edm_flag_type,"EDM Flag Type",0,1,0}; 
+  db[142] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Received",0,1,0}; 
+  db[143] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Received Flag",0,1,0};
 }
 
 void calculate_RB_out_mssg_size()

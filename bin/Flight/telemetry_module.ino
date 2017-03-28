@@ -526,7 +526,8 @@ void execute_electrical_control_check()
               Serial.println(". Going into Emergency Descent Mode.");
             }                                    
           //Enter Emergency Descent Mode
-          set_emergency_decent_mode(); 
+          set_emergency_decent_mode();
+          parameters.edm_flag_type = 4;
          }
       }
       // Set Loadshed if We Pass Through the Higher Voltage Threshold
@@ -595,6 +596,7 @@ void execute_electrical_control_check()
   	     }
         //Enter Emergency Descent Mode
         set_emergency_decent_mode();
+        parameters.edm_flag_type = 1;
         }
       }
     }
@@ -641,6 +643,7 @@ void execute_altitude_control_check()
           }
           //Enter Emergency Descent Mode
           set_emergency_decent_mode();
+          parameters.edm_flag_type = 2;
         }
       }
       else
@@ -670,6 +673,7 @@ void execute_altitude_control_check()
           }
           //Enter Emergency Descent Mode
           set_emergency_decent_mode();
+          parameters.edm_flag_type = 3;
         }
       }
       else
