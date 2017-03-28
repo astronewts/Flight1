@@ -79,9 +79,13 @@
 #define MEDIUM_RATE_PERIOD_CUTDOWN                 10000 // ms
 #define LOW_RATE_PERIOD_CUTDOWN                    10000 // ms
 
-#define DEFAULT_ALTITUDE_LIMIT_LOW                 2// GL: 2 is for TEST // 23000.0 // meters (75000 ft)
-#define DEFAULT_ALTITUDE_SANITY_CHECK_LOW          1 // 3000.0 // meters (10000 ft)
-#define DEFAULT_ALTITUDE_SANITY_CHECK_HIGH         40000.0 // meters (130000 ft)
+#define DEFAULT_ALT_ALTITUDE_LIMIT_LOW                 2.0 // GL: 2 is for TEST // 23000.0 // meters (75000 ft)
+#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_LOW          1.0 // 3000.0 // meters (10000 ft)
+#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_HIGH         400.0 // meters (130000 ft)
+
+#define DEFAULT_GPS_ALTITUDE_LIMIT_LOW                 90.0 // GL: 2 is for TEST // 23000.0 // meters (75000 ft)
+#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_LOW          50.0 // 3000.0 // meters (10000 ft)
+#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_HIGH         400.0 // meters (130000 ft)
 
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           1.0  //Prev:-0.1  Note: These are purposely set too high to trigger, due to HW perfoming this action
@@ -159,7 +163,7 @@
 #define ADC_DELAY                       10  // ADC delay for high impedence sensors
 
 // DB CONSTANTS
-#define DB_SIZE                         140 // Size of the Database
+#define DB_SIZE                         148 // Size of the Database
 #define MAX_TLM_TYPE_SIZE               6 //
 #define MAX_SD_TITLE_SIZE               32 //
 
@@ -399,9 +403,13 @@ struct parameter_struct
   bool gps_alt_valid_flag;
   bool altimeter_altitude_valid_flag;
     
-  int altitude_limit_low;
-  int altitude_sanity_check_low;
-  int altitude_sanity_check_high;
+  int alt_altitude_limit_low;
+  int alt_altitude_sanity_check_low;
+  int alt_altitude_sanity_check_high;
+  int gps_altitude_limit_low;
+  int gps_altitude_sanity_check_low;
+  int gps_altitude_sanity_check_high;
+  
   int count_low_alt;
   int count_low_voltage;
 
@@ -410,7 +418,10 @@ struct parameter_struct
   int invalid_command_recieved_count;
 
   int test_count;
+  int signal_quality_record;
+  int signal_quality_error_record;
   int prompt_from_user_makes_sense;
+  int edm_flag_type;
 
   float battery_1_recharge_ratio;
   float battery_1_amphrs_charging;
