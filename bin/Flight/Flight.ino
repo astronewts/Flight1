@@ -155,6 +155,7 @@ void setup()
     Serial.println("Then we are in Signal Quality mode to test RB");
     Serial.println("Time [ms]  ;   Signal Quality (0=no bueno, 5=bueno)  ;  sig_qual_err (0=rb connected, 3=rb not connected)");
     parameters.vehicle_mode=SIGNAL_TEST_MODE;
+    Init_components();
     Flag_RB.loop_started=0;
     Init_RB();
   }
@@ -398,11 +399,14 @@ void Signal_test_loop()
   int signalQuality = -1;
   int sig_qual_err = -1;
   sig_qual_err = isbd.getSignalQuality(signalQuality);
+  parameters.signal_quality_record = signalQuality;
+  parameters.signal_quality_error_record = sig_qual_err;
   Serial.print(parameters.elasped_time_for_rb_quality_test);
   Serial.print("  ");
   Serial.print(signalQuality);
   Serial.print("  ");
   Serial.println(sig_qual_err);
+  write_telemetry_data_to_sd();
 }
 
 void Cutdown_test_loop()
@@ -612,6 +616,8 @@ void set_defaults()
   
   parameters.test_count = INITIAL_TEST_COUNT;
   parameters.rb_initialization_error_status = 0;
+  parameters.signal_quality_record = 0;
+  parameters.signal_quality_error_record = 0;
   parameters.num_rb_words_recieved = 0;
   parameters.edm_flag_type = 0;
   
@@ -818,12 +824,14 @@ void initialize_database()
   db[135] = {"float",32,null_int,null_long,alt.min_altitude_in_meters,"Min Alt [m]",0,1,0}; 
   db[136] = {"float",32,null_int,null_long,alt.mean_altitude_in_meters,"Mean Alt [m]",0,1,0}; 
   db[137] = {"float",32,null_int,null_long,alt.temperature,"Alt T [C]",0,1,0};
-  db[138] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [?]",0,1,0};
-  db[139] = {"float",32,null_int,null_long,alt.max_pressure,"Max Press [?]",0,1,0}; 
-  db[140] = {"float",32,null_int,null_long,alt.min_pressure,"Min Press [?]",0,1,0};
-  db[141] = {"int",32,null_int,null_long,parameters.edm_flag_type,"EDM Flag Type",0,1,0}; 
-  db[142] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Received",0,1,0}; 
-  db[143] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Received Flag",0,1,0};
+  db[138] = {"float",32,null_int,null_long,alt.pressure,"Alt Pressure [Pa]",0,1,0};
+  db[139] = {"float",32,null_int,null_long,alt.max_pressure,"Max Press [Pa]",0,1,0}; 
+  db[140] = {"float",32,null_int,null_long,alt.min_pressure,"Min Press [Pa]",0,1,0};
+  db[141] = {"int",8,parameters.edm_flag_type,null_long,null_float,"EDM Flag Type",0,1,0};
+  db[142] = {"int",8,parameters.signal_quality_record,null_long,null_float,"SQ_Rec",0,1,0};
+  db[143] = {"int",8,parameters.signal_quality_error_record,null_long,null_float,"SQ_Err_Rec",0,1,0};
+  db[144] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Received",0,1,0}; 
+  db[145] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Received Flag",0,1,0};
 }
 
 void calculate_RB_out_mssg_size()

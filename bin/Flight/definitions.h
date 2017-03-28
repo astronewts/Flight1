@@ -418,6 +418,8 @@ struct parameter_struct
   int invalid_command_recieved_count;
 
   int test_count;
+  int signal_quality_record;
+  int signal_quality_error_record;
   int prompt_from_user_makes_sense;
   int edm_flag_type;
 
