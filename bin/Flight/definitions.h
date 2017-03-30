@@ -40,10 +40,10 @@
 
 //Defaults
 #define DEFAULT_MODE                               1
-#define DEFAULT_LOOP_SLEEP                         3000
+#define DEFAULT_LOOP_SLEEP                         3000 // TODO: DELETE???
 #define DEFAULT_VOLTAGE_LOW_LIMIT_LOADSHED_ENTRY   8.5
 #define DEFAULT_VOLTAGE_LOW_LIMIT_CUTDOWN_ENTRY    8.0
-#define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             120000 // GL 100000 is for TEST //300000  //1080000 FLIGHT
+#define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             7200000 // GL 100000 is for TEST //300000  //1080000 FLIGHT
 #define DEFAULT_VOLTAGE_SANITY_CHECK_HIGH          18
 #define DEFAULT_VOLTAGE_SANITY_CHECK_LOW           6
 #define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_HIGH     20
@@ -53,13 +53,13 @@
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH     150
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80
 //#define DEFAULT_NORMAL_TRANSMIT_RATE               6000    // 1800000 // TEST ONLY!!! (Once every half hour)
-#define DEFAULT_NORMAL_TRANSMIT_RATE             1200000 // FOR FLIGHT!!!
+#define DEFAULT_NORMAL_TRANSMIT_RATE               1800000 // FOR FLIGHT!!!
 #define DEFAULT_SPARE_TRANSMIT_RATE                60000
-#define DEFAULT_TRANSIT_TRANSMIT_RATE              6000    // 30000
-#define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    45000
-#define DEFAULT_LOAD_SHED_TRANSMIT_RATE            60000
+#define DEFAULT_TRANSIT_TRANSMIT_RATE              300000    
+#define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    120000
+#define DEFAULT_LOAD_SHED_TRANSMIT_RATE            1800000
 
-#define DEFAULT_RB_AT_BUS_TIMEOUT                  20 // seconds // Default is 20 seconds
+#define DEFAULT_RB_AT_BUS_TIMEOUT                  20 // seconds // Default is 20 seconds // TODO: MAY WANT TO RE-REVIEW
 #define DEFAULT_RB_SEND_RECIEVE_TIMEOUT            300 // seconds // Default is 300 seconds
 
 #define DEFAULT_RB_POWER_MODE                      1
@@ -68,24 +68,25 @@
 
 #define DEFAULT_PYRO_PULSE_WIDTH                   8000
 #define DEFAULT_SD_CARD_WRITE_PERIOD               100 // TEST ONLY!!!
-//#define DEFAULT_SD_CARD_WRITE_PERIOD             60000  // FOR FLIGHT !!!
+
 #define DEFAULT_TLM_PROCESSING_PERIOD              5000
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
-#define HIGH_RATE_PERIOD                           50 // ms
-#define MEDIUM_RATE_PERIOD                         10000 // ms
-#define LOW_RATE_PERIOD                            10000 // ms
+#define HIGH_RATE_PERIOD                           100 // ms   {100 - 1000}
+#define MEDIUM_RATE_PERIOD                         10000 // ms {5000 - 10000}
+#define LOW_RATE_PERIOD                            30000 // ms {10000 - 30000}
+
 #define HIGH_RATE_PERIOD_CUTDOWN                   20 // ms
-#define MEDIUM_RATE_PERIOD_CUTDOWN                 10000 // ms
-#define LOW_RATE_PERIOD_CUTDOWN                    10000 // ms
+#define MEDIUM_RATE_PERIOD_CUTDOWN                 300000 // ms
+#define LOW_RATE_PERIOD_CUTDOWN                    300000 // ms
 
-#define DEFAULT_ALT_ALTITUDE_LIMIT_LOW                 2.0 // GL: 2 is for TEST // 23000.0 // meters (75000 ft)
-#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_LOW          1.0 // 3000.0 // meters (10000 ft)
-#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_HIGH         400.0 // meters (130000 ft)
+#define DEFAULT_ALT_ALTITUDE_LIMIT_LOW                 -51.0 // 23000.0 // meters (75000 ft)
+#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_LOW          -50.0 // 3000.0 // meters
+#define DEFAULT_ALT_ALTITUDE_SANITY_CHECK_HIGH         40000.0 // meters (130000 ft)
 
-#define DEFAULT_GPS_ALTITUDE_LIMIT_LOW                 90.0 // GL: 2 is for TEST // 23000.0 // meters (75000 ft)
-#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_LOW          50.0 // 3000.0 // meters (10000 ft)
-#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_HIGH         400.0 // meters (130000 ft)
+#define DEFAULT_GPS_ALTITUDE_LIMIT_LOW                 -51.0 // 23000.0 // meters (75000 ft)
+#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_LOW          -50.0 // 3000.0 // meters 
+#define DEFAULT_GPS_ALTITUDE_SANITY_CHECK_HIGH         40000.0 // meters (130000 ft)
 
 #define DEFAULT_B1_RECHARGE_RATIO                  1.1
 #define DEFAULT_B1_AMPHRS_TERM_THRESHOLD           1.0  //Prev:-0.1  Note: These are purposely set too high to trigger, due to HW perfoming this action
@@ -99,16 +100,15 @@
 #define DEFAULT_B2_VOLTAGE_TERM_THRESHOLD          15.0 //Prev:12.5  Note: These are purposely set too high to trigger, due to HW perfoming this action
 #define DEFAULT_B2_VOLTAGE_INIT_THRESHOLD          14.0 //Prev:10.0  Note: These are purposely set too high to trigger, due to HW perfoming this action
 
-#define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW    3.0
-#define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH   -2.0
+#define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_LOW    -2.0
+#define DEFAULT_CHARGE_CURRENT_SANITY_CHECK_HIGH   3.0
 
 #define ALTIMETER_CALIBRATION_CONSTANT              1013.25
 
 //Test Variables
 #define INITIAL_TEST_COUNT                          0
-#define CUTDOWN_TEST_TIME                           (15 * 60) // 30000 // Put here a number +20. Exemple 50 will correspond to a cut-down time of 30sec
+#define CUTDOWN_TEST_TIME                           (15 * 60) // TODO: FIX FOR TEATHER // Put here a number +20. Example 50 will correspond to a cut-down time of 30sec
 #define INITIALIZATION_TIMEOUT                      10000
-
 
 //Vehicle Modes
 #define FLIGHT_MODE                               1

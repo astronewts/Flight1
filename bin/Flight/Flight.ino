@@ -248,7 +248,7 @@ void loop()
 
 void Main_flight_loop()
 {
-  debug.mode = 0;
+  //debug.mode = 0;
 
   // Set active temperatures and transmit rate corresponding to normal mode 
   parameters.battery_temperature_limit_high = thresholds.normal_battery_temperature_limit_high;
@@ -273,91 +273,72 @@ void Main_flight_loop()
   parameters.battery_temperature_limit_low = thresholds.survival_battery_temperature_limit_low;
   parameters.transmit_period = thresholds.emergency_transit_transmit_period;
   }  
-
+  // HIGH rate processes
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
-    debug_println("===> DEBUG: HIGH-RATE PROCESS");
     collect_gps_data(gps_data_new);
     post_process_gps_alt();
     
+    collect_charge_current_data();
+    collect_low_rate_current_data();
+
+    collect_gyro_data();
+    post_process_gyro();
+
+    collect_alt_data();
+    post_process_alt_data();
+    
+    process_charge_current_tlm();
+    write_telemetry_data_to_sd();
+
+    parameters.high_rate_elapsed_time = 0;
+
+    //TEST CRAP
     if (debug.mode==1)
     {
       Serial.println("=> DEBUG: GPS DATA");
       print_gps_data();
-    }
-    collect_gyro_data();
-    post_process_gyro();
-    
-    if (debug.mode==1)
-    {
       Serial.println("=> DEBUG: GYRO DATA");
       print_gyro_data();
-    }
-    collect_charge_current_data();
-    collect_low_rate_current_data();
-    if (debug.mode==1)
-    {
       Serial.println("=> DEBUG: BATTERY CHARGE CURRENT DATA");
       print_battery_charge_current_data();
     }
-    process_charge_current_tlm();
-
-    write_telemetry_data_to_sd();
-    
-    parameters.high_rate_elapsed_time = 0;
   }
 
   // Medium rate processes
   if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
-  {
-    debug_println();
-    debug_println("===> DEBUG: MEDIUM-RATE PROCESS");
-
-    debug_println("collect_analog_telemetry();");
+  {    
     collect_analog_telemetry();
+    execute_thermal_control_check();
 
-// only for heater test:
-    debug.mode=1;
+    execute_electrical_control_check();
+
+    parameters.medium_rate_elapsed_time =  0;
+
+    //TEST CRAP
     if (debug.mode==1)
     {
-    print_heater_test_autocutdown_test();
-    }
-    debug.mode=0;
-// END only for hearter test
-
-    debug_println("collect_alt_data();");
-    collect_alt_data();
-    post_process_alt_data();
-    execute_altitude_control_check();
-        
-    debug_println("=> DEBUG: ALTIMETER DATA");
-    if (debug.mode) {
+      print_heater_test_autocutdown_test();
       print_alt_data();
     }
-    parameters.medium_rate_elapsed_time =  0;
   }
 
   // Low-rate processes
   if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD)
   {
+    execute_altitude_control_check();
+    
     parameters.low_rate_elapsed_time=0;
   }
 
   // House-Keeping processes
   if(parameters.tlm_processing_time > parameters.tlm_processing_period)
   {
-    debug_println("===> DEBUG: RUN FLIGHT HOUSEKEEPING CODE");
-    // RUN FLIGHT HOUSEKEEPING CODE
-    execute_thermal_control_check();
-    debug.mode=1;
-    execute_electrical_control_check();
-    debug.mode=0;
-
     // Process Camera
     // TODO: Figure out How to Write process_camera_function();
     parameters.tlm_processing_time = 0.0;
   }
-  debug.mode = 0;
+  //debug.mode = 0;
 }
 
 void RB_Send_Receive_data()

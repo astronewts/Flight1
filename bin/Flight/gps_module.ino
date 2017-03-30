@@ -31,7 +31,7 @@ void collect_gps_data(struct gps_data_struct data)
     //data.gps_location_age = constrain(gps.location.age() / 1000, 0, 255);
     gps_data.gps_location_age = gps.location.age();
     //data.gps_altitude = constrain(gps.altitude.meters(), 0, (1<<16)-1);
-    gps_data.gps_altitude = (gps.altitude.meters()+30.0);
+    gps_data.gps_altitude = (gps.altitude.meters());
     gps_data.gps_altitude_age = gps.altitude.age();
     //data.gps_heading = constrain(gps.course.deg() * 360 / 256, 0, 255);
     gps_data.gps_heading = gps.course.deg();

@@ -1,7 +1,7 @@
 void collect_alt_data()
 {
    if (bme.begin()) {  
-     alt.altitude_in_meters = bme.readAltitude(ALTIMETER_CALIBRATION_CONSTANT)+100; // ADJUST THE INPUT HERE!!!!
+     alt.altitude_in_meters = bme.readAltitude(ALTIMETER_CALIBRATION_CONSTANT); // ADJUST THE INPUT HERE!!!!
      alt.temperature = bme.readTemperature();
      alt.pressure = bme.readPressure(); 
    }
