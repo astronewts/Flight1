@@ -5530,14 +5530,14 @@ molded</description>
 </classes>
 <parts>
 <part name="GPS1" library="ISM300F2" deviceset="ISM300F2" device=""/>
-<part name="C1" library="adafruit" deviceset="C-US" device="C0805K"/>
-<part name="C2" library="adafruit" deviceset="C-US" device="C0805K"/>
-<part name="C3" library="adafruit" deviceset="C-US" device="C0805K"/>
-<part name="C4" library="adafruit" deviceset="C-US" device="C0805K"/>
-<part name="R1" library="adafruit" deviceset="R-US_" device="R0805"/>
-<part name="R2" library="adafruit" deviceset="R-US_" device="R0805"/>
-<part name="R3" library="adafruit" deviceset="R-US_" device="R0805"/>
-<part name="R4" library="adafruit" deviceset="R-US_" device="R0805"/>
+<part name="C1" library="adafruit" deviceset="C-US" device="C0805K" value="27pF"/>
+<part name="C2" library="adafruit" deviceset="C-US" device="C0805K" value="27pF"/>
+<part name="C3" library="adafruit" deviceset="C-US" device="C0805K" value="27pF"/>
+<part name="C4" library="adafruit" deviceset="C-US" device="C0805K" value="27pF"/>
+<part name="R1" library="adafruit" deviceset="R-US_" device="R0805" value="33"/>
+<part name="R2" library="adafruit" deviceset="R-US_" device="R0805" value="33"/>
+<part name="R3" library="adafruit" deviceset="R-US_" device="R0805" value="33"/>
+<part name="R4" library="adafruit" deviceset="R-US_" device="R0805" value="33"/>
 <part name="SUPPLY1" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY2" library="supply2" deviceset="VCC" device=""/>
 <part name="SUPPLY3" library="supply2" deviceset="GND" device=""/>
@@ -5546,11 +5546,12 @@ molded</description>
 <part name="SUPPLY6" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY7" library="supply2" deviceset="GND" device=""/>
 <part name="JP1" library="adafruit" deviceset="PINHD-1X8" device="BIG"/>
-<part name="L1" library="eagle-ltspice" deviceset="L" device="L4532P"/>
-<part name="C5" library="adafruit" deviceset="C-US" device="C0805K"/>
+<part name="L1" library="eagle-ltspice" deviceset="L" device="L4532P" value="33nH"/>
+<part name="C5" library="adafruit" deviceset="C-US" device="C0805K" value="27pF"/>
 <part name="SUPPLY8" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY9" library="supply2" deviceset="VCC" device=""/>
 <part name="SUPPLY10" library="supply2" deviceset="VCC" device=""/>
+<part name="R5" library="adafruit" deviceset="R-US_" device="R0805" value="4700"/>
 </parts>
 <sheets>
 <sheet>
@@ -5565,7 +5566,7 @@ molded</description>
 <instance part="R1" gate="G$1" x="33.02" y="38.1" rot="R180"/>
 <instance part="R2" gate="G$1" x="38.1" y="33.02" rot="R180"/>
 <instance part="R3" gate="G$1" x="104.14" y="38.1" rot="R180"/>
-<instance part="R4" gate="G$1" x="104.14" y="33.02" rot="R180"/>
+<instance part="R4" gate="G$1" x="99.06" y="33.02" rot="R180"/>
 <instance part="SUPPLY1" gate="GND" x="43.18" y="17.78"/>
 <instance part="SUPPLY2" gate="G$1" x="99.06" y="66.04"/>
 <instance part="SUPPLY3" gate="GND" x="96.52" y="20.32"/>
@@ -5579,6 +5580,7 @@ molded</description>
 <instance part="SUPPLY8" gate="GND" x="30.48" y="55.88"/>
 <instance part="SUPPLY9" gate="G$1" x="40.64" y="81.28"/>
 <instance part="SUPPLY10" gate="G$1" x="116.84" y="93.98"/>
+<instance part="R5" gate="G$1" x="109.22" y="43.18" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -5630,7 +5632,13 @@ molded</description>
 <pinref part="GPS1" gate="G$1" pin="VCC"/>
 <pinref part="SUPPLY2" gate="G$1" pin="VCC"/>
 <wire x1="88.9" y1="48.26" x2="99.06" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="99.06" y1="48.26" x2="99.06" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="48.26" x2="99.06" y2="55.88" width="0.1524" layer="91"/>
+<pinref part="R5" gate="G$1" pin="1"/>
+<wire x1="99.06" y1="55.88" x2="99.06" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="114.3" y1="43.18" x2="116.84" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="43.18" x2="116.84" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="55.88" x2="99.06" y2="55.88" width="0.1524" layer="91"/>
+<junction x="99.06" y="55.88"/>
 </segment>
 <segment>
 <pinref part="L1" gate="G$1" pin="2"/>
@@ -5700,14 +5708,14 @@ molded</description>
 <segment>
 <pinref part="GPS1" gate="G$1" pin="RXB"/>
 <pinref part="R4" gate="G$1" pin="2"/>
-<wire x1="88.9" y1="33.02" x2="99.06" y2="33.02" width="0.1524" layer="91"/>
+<wire x1="88.9" y1="33.02" x2="93.98" y2="33.02" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="RXB" class="0">
 <segment>
 <pinref part="R4" gate="G$1" pin="1"/>
 <pinref part="C4" gate="G$1" pin="1"/>
-<wire x1="109.22" y1="33.02" x2="114.3" y2="33.02" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="33.02" x2="114.3" y2="33.02" width="0.1524" layer="91"/>
 <wire x1="114.3" y1="33.02" x2="114.3" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="114.3" y1="33.02" x2="116.84" y2="33.02" width="0.1524" layer="91"/>
 <junction x="114.3" y="33.02"/>
@@ -5768,6 +5776,13 @@ molded</description>
 <pinref part="JP1" gate="G$1" pin="2"/>
 <wire x1="139.7" y1="83.82" x2="124.46" y2="83.82" width="0.1524" layer="91"/>
 <label x="124.46" y="83.82" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="GPS1" gate="G$1" pin="RESET"/>
+<pinref part="R5" gate="G$1" pin="2"/>
+<wire x1="88.9" y1="43.18" x2="104.14" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

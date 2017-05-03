@@ -5529,15 +5529,51 @@ molded</description>
 </class>
 </classes>
 <parts>
-<part name="GPS1" library="ISM300F2" deviceset="ISM300F2" device=""/>
-<part name="C1" library="adafruit" deviceset="C-US" device="C0805K" value="27pF"/>
-<part name="C2" library="adafruit" deviceset="C-US" device="C0805K" value="27pF"/>
-<part name="C3" library="adafruit" deviceset="C-US" device="C0805K" value="27pF"/>
-<part name="C4" library="adafruit" deviceset="C-US" device="C0805K" value="27pF"/>
-<part name="R1" library="adafruit" deviceset="R-US_" device="R0805" value="33"/>
-<part name="R2" library="adafruit" deviceset="R-US_" device="R0805" value="33"/>
-<part name="R3" library="adafruit" deviceset="R-US_" device="R0805" value="33"/>
-<part name="R4" library="adafruit" deviceset="R-US_" device="R0805" value="33"/>
+<part name="GPS1" library="ISM300F2" deviceset="ISM300F2" device="">
+<attribute name="MF" value=""/>
+<attribute name="MPN" value=""/>
+<attribute name="OC_NEWARK" value="unknown"/>
+</part>
+<part name="C1" library="adafruit" deviceset="C-US" device="C0805K" value="27pF">
+<attribute name="MF" value=""/>
+<attribute name="MPN" value="C0805C270J5GACTU"/>
+<attribute name="OC_NEWARK" value="36X2729"/>
+</part>
+<part name="C2" library="adafruit" deviceset="C-US" device="C0805K" value="27pF">
+<attribute name="MF" value=""/>
+<attribute name="MPN" value="C0805C270J5GACTU"/>
+<attribute name="OC_NEWARK" value="36X2729"/>
+</part>
+<part name="C3" library="adafruit" deviceset="C-US" device="C0805K" value="27pF">
+<attribute name="MF" value=""/>
+<attribute name="MPN" value="C0805C270J5GACTU"/>
+<attribute name="OC_NEWARK" value="36X2729"/>
+</part>
+<part name="C4" library="adafruit" deviceset="C-US" device="C0805K" value="27pF">
+<attribute name="MF" value=""/>
+<attribute name="MPN" value="C0805C270J5GACTU"/>
+<attribute name="OC_NEWARK" value="36X2729"/>
+</part>
+<part name="R1" library="adafruit" deviceset="R-US_" device="R0805" value="33">
+<attribute name="MF" value="VISHAY/DALE"/>
+<attribute name="MPN" value="CRCW120633R2FKEA"/>
+<attribute name="OC_NEWARK" value="42K4999"/>
+</part>
+<part name="R2" library="adafruit" deviceset="R-US_" device="R0805" value="33">
+<attribute name="MF" value="VISHAY/DALE"/>
+<attribute name="MPN" value="CRCW120633R2FKEA"/>
+<attribute name="OC_NEWARK" value="42K4999"/>
+</part>
+<part name="R3" library="adafruit" deviceset="R-US_" device="R0805" value="33">
+<attribute name="MF" value="VISHAY/DALE"/>
+<attribute name="MPN" value="CRCW120633R2FKEA"/>
+<attribute name="OC_NEWARK" value="42K4999"/>
+</part>
+<part name="R4" library="adafruit" deviceset="R-US_" device="R0805" value="33">
+<attribute name="MF" value="VISHAY/DALE"/>
+<attribute name="MPN" value="CRCW120633R2FKEA"/>
+<attribute name="OC_NEWARK" value="42K4999"/>
+</part>
 <part name="SUPPLY1" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY2" library="supply2" deviceset="VCC" device=""/>
 <part name="SUPPLY3" library="supply2" deviceset="GND" device=""/>
@@ -5545,28 +5581,80 @@ molded</description>
 <part name="SUPPLY5" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY6" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY7" library="supply2" deviceset="GND" device=""/>
-<part name="JP1" library="adafruit" deviceset="PINHD-1X8" device="BIG"/>
-<part name="L1" library="eagle-ltspice" deviceset="L" device="L4532P" value="33nH"/>
-<part name="C5" library="adafruit" deviceset="C-US" device="C0805K" value="27pF"/>
+<part name="JP1" library="adafruit" deviceset="PINHD-1X8" device="BIG">
+<attribute name="MF" value=""/>
+<attribute name="MPN" value=""/>
+<attribute name="OC_NEWARK" value="unknown"/>
+</part>
+<part name="L1" library="eagle-ltspice" deviceset="L" device="L4532P" value="33nH">
+<attribute name="MF" value=""/>
+<attribute name="MPN" value="MCWL06KT33N"/>
+<attribute name="OC_NEWARK" value="20T1101"/>
+</part>
+<part name="C5" library="adafruit" deviceset="C-US" device="C0805K" value="27pF">
+<attribute name="MF" value=""/>
+<attribute name="MPN" value="C0805C270J5GACTU"/>
+<attribute name="OC_NEWARK" value="36X2729"/>
+</part>
 <part name="SUPPLY8" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY9" library="supply2" deviceset="VCC" device=""/>
 <part name="SUPPLY10" library="supply2" deviceset="VCC" device=""/>
-<part name="R5" library="adafruit" deviceset="R-US_" device="R0805" value="4700"/>
+<part name="R5" library="adafruit" deviceset="R-US_" device="R0805" value="4700">
+<attribute name="MF" value="VISHAY/DALE"/>
+<attribute name="MPN" value="CRCW12104K70FKEA"/>
+<attribute name="OC_NEWARK" value="53K3253"/>
+</part>
 </parts>
 <sheets>
 <sheet>
 <plain>
 </plain>
 <instances>
-<instance part="GPS1" gate="G$1" x="48.26" y="25.4"/>
-<instance part="C1" gate="G$1" x="12.7" y="33.02"/>
-<instance part="C2" gate="G$1" x="30.48" y="25.4"/>
-<instance part="C3" gate="G$1" x="132.08" y="33.02"/>
-<instance part="C4" gate="G$1" x="114.3" y="27.94"/>
-<instance part="R1" gate="G$1" x="33.02" y="38.1" rot="R180"/>
-<instance part="R2" gate="G$1" x="38.1" y="33.02" rot="R180"/>
-<instance part="R3" gate="G$1" x="104.14" y="38.1" rot="R180"/>
-<instance part="R4" gate="G$1" x="99.06" y="33.02" rot="R180"/>
+<instance part="GPS1" gate="G$1" x="48.26" y="25.4">
+<attribute name="OC_NEWARK" x="48.26" y="25.4" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="48.26" y="25.4" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="48.26" y="25.4" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="C1" gate="G$1" x="12.7" y="33.02">
+<attribute name="OC_NEWARK" x="12.7" y="33.02" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="12.7" y="33.02" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="12.7" y="33.02" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="C2" gate="G$1" x="30.48" y="25.4">
+<attribute name="OC_NEWARK" x="30.48" y="25.4" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="30.48" y="25.4" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="30.48" y="25.4" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="C3" gate="G$1" x="132.08" y="33.02">
+<attribute name="OC_NEWARK" x="132.08" y="33.02" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="132.08" y="33.02" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="132.08" y="33.02" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="C4" gate="G$1" x="114.3" y="27.94">
+<attribute name="OC_NEWARK" x="114.3" y="27.94" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="114.3" y="27.94" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="114.3" y="27.94" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="R1" gate="G$1" x="33.02" y="38.1" rot="R180">
+<attribute name="OC_NEWARK" x="33.02" y="38.1" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="33.02" y="38.1" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="33.02" y="38.1" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="R2" gate="G$1" x="38.1" y="33.02" rot="R180">
+<attribute name="OC_NEWARK" x="38.1" y="33.02" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="38.1" y="33.02" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="38.1" y="33.02" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="R3" gate="G$1" x="104.14" y="38.1" rot="R180">
+<attribute name="OC_NEWARK" x="104.14" y="38.1" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="104.14" y="38.1" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="104.14" y="38.1" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="R4" gate="G$1" x="99.06" y="33.02" rot="R180">
+<attribute name="OC_NEWARK" x="99.06" y="33.02" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="99.06" y="33.02" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="99.06" y="33.02" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="SUPPLY1" gate="GND" x="43.18" y="17.78"/>
 <instance part="SUPPLY2" gate="G$1" x="99.06" y="66.04"/>
 <instance part="SUPPLY3" gate="GND" x="96.52" y="20.32"/>
@@ -5574,13 +5662,29 @@ molded</description>
 <instance part="SUPPLY5" gate="GND" x="12.7" y="25.4"/>
 <instance part="SUPPLY6" gate="GND" x="114.3" y="17.78"/>
 <instance part="SUPPLY7" gate="GND" x="132.08" y="25.4"/>
-<instance part="JP1" gate="G$1" x="142.24" y="78.74"/>
-<instance part="L1" gate="G$1" x="30.48" y="78.74"/>
-<instance part="C5" gate="G$1" x="30.48" y="66.04"/>
+<instance part="JP1" gate="G$1" x="142.24" y="78.74">
+<attribute name="OC_NEWARK" x="142.24" y="78.74" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="142.24" y="78.74" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="142.24" y="78.74" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="L1" gate="G$1" x="30.48" y="78.74">
+<attribute name="OC_NEWARK" x="30.48" y="78.74" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="30.48" y="78.74" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="30.48" y="78.74" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="C5" gate="G$1" x="30.48" y="66.04">
+<attribute name="OC_NEWARK" x="30.48" y="66.04" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="30.48" y="66.04" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="30.48" y="66.04" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="SUPPLY8" gate="GND" x="30.48" y="55.88"/>
 <instance part="SUPPLY9" gate="G$1" x="40.64" y="81.28"/>
 <instance part="SUPPLY10" gate="G$1" x="116.84" y="93.98"/>
-<instance part="R5" gate="G$1" x="109.22" y="43.18" rot="R180"/>
+<instance part="R5" gate="G$1" x="109.22" y="43.18" rot="R180">
+<attribute name="OC_NEWARK" x="109.22" y="43.18" size="1.778" layer="96" display="off"/>
+<attribute name="MF" x="109.22" y="43.18" size="1.778" layer="96" display="off"/>
+<attribute name="MPN" x="109.22" y="43.18" size="1.778" layer="96" display="off"/>
+</instance>
 </instances>
 <busses>
 </busses>

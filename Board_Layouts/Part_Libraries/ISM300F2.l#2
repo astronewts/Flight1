@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.2" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -192,7 +192,7 @@
 <wire x1="-9" y1="-9" x2="9" y2="-9" width="0.127" layer="51"/>
 <wire x1="9" y1="-9" x2="9" y2="9" width="0.127" layer="51"/>
 <wire x1="9" y1="9" x2="-9" y2="9" width="0.127" layer="51"/>
-<text x="-7" y="11" size="1.27" layer="25">&gt;NAME</text>
+<text x="-4.15" y="10.43" size="1.27" layer="25">&gt;NAME</text>
 <text x="2" y="-12.5" size="1.27" layer="27">&gt;VALUE</text>
 <polygon width="0.127" layer="39">
 <vertex x="-2.333334375" y="2.05"/>
@@ -200,7 +200,7 @@
 <vertex x="6.806665625" y="-5.32"/>
 <vertex x="6.806665625" y="2.05"/>
 </polygon>
-<circle x="-12.7" y="11.43" radius="1.27" width="0.127" layer="21"/>
+<circle x="-12" y="7.6" radius="0.848528125" width="0.127" layer="21"/>
 </package>
 </packages>
 <symbols>

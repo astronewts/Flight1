@@ -277,7 +277,14 @@
 <wire x1="-9" y1="-9" x2="9" y2="-9" width="0.127" layer="51"/>
 <wire x1="9" y1="-9" x2="9" y2="9" width="0.127" layer="51"/>
 <wire x1="9" y1="9" x2="-9" y2="9" width="0.127" layer="51"/>
-<text x="-4.15" y="10.43" size="1.27" layer="25">&gt;NAME</text>
+<circle x="-11" y="10.8" radius="0.721109375" width="0.127" layer="22"/>
+<wire x1="-6.5" y1="-12.5" x2="-6.5" y2="-10.5" width="0.127" layer="22"/>
+<wire x1="-6" y1="-11" x2="-6.5" y2="-10.5" width="0.127" layer="22"/>
+<wire x1="-6.5" y1="-10.5" x2="-7" y2="-11" width="0.127" layer="22"/>
+<wire x1="5" y1="11.5" x2="4.5" y2="11" width="0.127" layer="22"/>
+<wire x1="4" y1="11.5" x2="4.5" y2="11" width="0.127" layer="22"/>
+<wire x1="4.5" y1="11" x2="4.5" y2="13.5" width="0.127" layer="22"/>
+<text x="-7" y="11" size="1.27" layer="25">&gt;NAME</text>
 <text x="2" y="-12.5" size="1.27" layer="27">&gt;VALUE</text>
 <polygon width="0.127" layer="39">
 <vertex x="-2.333334375" y="2.05"/>
@@ -285,7 +292,6 @@
 <vertex x="6.806665625" y="-5.32"/>
 <vertex x="6.806665625" y="2.05"/>
 </polygon>
-<circle x="-8.4" y="10.6" radius="0.721109375" width="0.127" layer="21"/>
 </package>
 </packages>
 <symbols>
@@ -5519,56 +5525,19 @@ molded</description>
 <variantdefs>
 </variantdefs>
 <classes>
-<class number="0" name="default" width="0.3048" drill="0.508">
-<clearance class="0" value="0.508"/>
+<class number="0" name="default" width="0" drill="0">
 </class>
 </classes>
 <parts>
-<part name="GPS1" library="ISM300F2" deviceset="ISM300F2" device="">
-<attribute name="MF" value=""/>
-<attribute name="MPN" value=""/>
-<attribute name="OC_NEWARK" value="unknown"/>
-</part>
-<part name="C1" library="adafruit" deviceset="C-US" device="C0805K" value="27pF">
-<attribute name="MF" value=""/>
-<attribute name="MPN" value="C0805C270J5GACTU"/>
-<attribute name="OC_NEWARK" value="36X2729"/>
-</part>
-<part name="C2" library="adafruit" deviceset="C-US" device="C0805K" value="27pF">
-<attribute name="MF" value=""/>
-<attribute name="MPN" value="C0805C270J5GACTU"/>
-<attribute name="OC_NEWARK" value="36X2729"/>
-</part>
-<part name="C3" library="adafruit" deviceset="C-US" device="C0805K" value="27pF">
-<attribute name="MF" value=""/>
-<attribute name="MPN" value="C0805C270J5GACTU"/>
-<attribute name="OC_NEWARK" value="36X2729"/>
-</part>
-<part name="C4" library="adafruit" deviceset="C-US" device="C0805K" value="27pF">
-<attribute name="MF" value=""/>
-<attribute name="MPN" value="C0805C270J5GACTU"/>
-<attribute name="OC_NEWARK" value="36X2729"/>
-</part>
-<part name="R1" library="adafruit" deviceset="R-US_" device="R0805" value="33">
-<attribute name="MF" value="VISHAY/DALE"/>
-<attribute name="MPN" value="CRCW120633R2FKEA"/>
-<attribute name="OC_NEWARK" value="42K4999"/>
-</part>
-<part name="R2" library="adafruit" deviceset="R-US_" device="R0805" value="33">
-<attribute name="MF" value="VISHAY/DALE"/>
-<attribute name="MPN" value="CRCW120633R2FKEA"/>
-<attribute name="OC_NEWARK" value="42K4999"/>
-</part>
-<part name="R3" library="adafruit" deviceset="R-US_" device="R0805" value="33">
-<attribute name="MF" value="VISHAY/DALE"/>
-<attribute name="MPN" value="CRCW120633R2FKEA"/>
-<attribute name="OC_NEWARK" value="42K4999"/>
-</part>
-<part name="R4" library="adafruit" deviceset="R-US_" device="R0805" value="33">
-<attribute name="MF" value="VISHAY/DALE"/>
-<attribute name="MPN" value="CRCW120633R2FKEA"/>
-<attribute name="OC_NEWARK" value="42K4999"/>
-</part>
+<part name="GPS1" library="ISM300F2" deviceset="ISM300F2" device=""/>
+<part name="C1" library="adafruit" deviceset="C-US" device="C0805K"/>
+<part name="C2" library="adafruit" deviceset="C-US" device="C0805K"/>
+<part name="C3" library="adafruit" deviceset="C-US" device="C0805K"/>
+<part name="C4" library="adafruit" deviceset="C-US" device="C0805K"/>
+<part name="R1" library="adafruit" deviceset="R-US_" device="R0805"/>
+<part name="R2" library="adafruit" deviceset="R-US_" device="R0805"/>
+<part name="R3" library="adafruit" deviceset="R-US_" device="R0805"/>
+<part name="R4" library="adafruit" deviceset="R-US_" device="R0805"/>
 <part name="SUPPLY1" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY2" library="supply2" deviceset="VCC" device=""/>
 <part name="SUPPLY3" library="supply2" deviceset="GND" device=""/>
@@ -5576,80 +5545,27 @@ molded</description>
 <part name="SUPPLY5" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY6" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY7" library="supply2" deviceset="GND" device=""/>
-<part name="JP1" library="adafruit" deviceset="PINHD-1X8" device="BIG">
-<attribute name="MF" value=""/>
-<attribute name="MPN" value=""/>
-<attribute name="OC_NEWARK" value="unknown"/>
-</part>
-<part name="L1" library="eagle-ltspice" deviceset="L" device="L4532P" value="33nH">
-<attribute name="MF" value=""/>
-<attribute name="MPN" value="MCWL06KT33N"/>
-<attribute name="OC_NEWARK" value="20T1101"/>
-</part>
-<part name="C5" library="adafruit" deviceset="C-US" device="C0805K" value="27pF">
-<attribute name="MF" value=""/>
-<attribute name="MPN" value="C0805C270J5GACTU"/>
-<attribute name="OC_NEWARK" value="36X2729"/>
-</part>
+<part name="JP1" library="adafruit" deviceset="PINHD-1X8" device="BIG"/>
+<part name="L1" library="eagle-ltspice" deviceset="L" device="L4532P"/>
+<part name="C5" library="adafruit" deviceset="C-US" device="C0805K"/>
 <part name="SUPPLY8" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY9" library="supply2" deviceset="VCC" device=""/>
 <part name="SUPPLY10" library="supply2" deviceset="VCC" device=""/>
-<part name="R5" library="adafruit" deviceset="R-US_" device="R0805" value="4700">
-<attribute name="MF" value="VISHAY/DALE"/>
-<attribute name="MPN" value="CRCW12104K70FKEA"/>
-<attribute name="OC_NEWARK" value="53K3253"/>
-</part>
 </parts>
 <sheets>
 <sheet>
 <plain>
 </plain>
 <instances>
-<instance part="GPS1" gate="G$1" x="48.26" y="25.4">
-<attribute name="OC_NEWARK" x="48.26" y="25.4" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="48.26" y="25.4" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="48.26" y="25.4" size="1.778" layer="96" display="off"/>
-</instance>
-<instance part="C1" gate="G$1" x="12.7" y="33.02">
-<attribute name="OC_NEWARK" x="12.7" y="33.02" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="12.7" y="33.02" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="12.7" y="33.02" size="1.778" layer="96" display="off"/>
-</instance>
-<instance part="C2" gate="G$1" x="30.48" y="25.4">
-<attribute name="OC_NEWARK" x="30.48" y="25.4" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="30.48" y="25.4" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="30.48" y="25.4" size="1.778" layer="96" display="off"/>
-</instance>
-<instance part="C3" gate="G$1" x="132.08" y="33.02">
-<attribute name="OC_NEWARK" x="132.08" y="33.02" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="132.08" y="33.02" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="132.08" y="33.02" size="1.778" layer="96" display="off"/>
-</instance>
-<instance part="C4" gate="G$1" x="114.3" y="27.94">
-<attribute name="OC_NEWARK" x="114.3" y="27.94" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="114.3" y="27.94" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="114.3" y="27.94" size="1.778" layer="96" display="off"/>
-</instance>
-<instance part="R1" gate="G$1" x="33.02" y="38.1" rot="R180">
-<attribute name="OC_NEWARK" x="33.02" y="38.1" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="33.02" y="38.1" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="33.02" y="38.1" size="1.778" layer="96" display="off"/>
-</instance>
-<instance part="R2" gate="G$1" x="38.1" y="33.02" rot="R180">
-<attribute name="OC_NEWARK" x="38.1" y="33.02" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="38.1" y="33.02" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="38.1" y="33.02" size="1.778" layer="96" display="off"/>
-</instance>
-<instance part="R3" gate="G$1" x="104.14" y="38.1" rot="R180">
-<attribute name="OC_NEWARK" x="104.14" y="38.1" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="104.14" y="38.1" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="104.14" y="38.1" size="1.778" layer="96" display="off"/>
-</instance>
-<instance part="R4" gate="G$1" x="99.06" y="33.02" rot="R180">
-<attribute name="OC_NEWARK" x="99.06" y="33.02" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="99.06" y="33.02" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="99.06" y="33.02" size="1.778" layer="96" display="off"/>
-</instance>
+<instance part="GPS1" gate="G$1" x="48.26" y="25.4"/>
+<instance part="C1" gate="G$1" x="12.7" y="33.02"/>
+<instance part="C2" gate="G$1" x="30.48" y="25.4"/>
+<instance part="C3" gate="G$1" x="132.08" y="33.02"/>
+<instance part="C4" gate="G$1" x="114.3" y="27.94"/>
+<instance part="R1" gate="G$1" x="33.02" y="38.1" rot="R180"/>
+<instance part="R2" gate="G$1" x="38.1" y="33.02" rot="R180"/>
+<instance part="R3" gate="G$1" x="104.14" y="38.1" rot="R180"/>
+<instance part="R4" gate="G$1" x="104.14" y="33.02" rot="R180"/>
 <instance part="SUPPLY1" gate="GND" x="43.18" y="17.78"/>
 <instance part="SUPPLY2" gate="G$1" x="99.06" y="66.04"/>
 <instance part="SUPPLY3" gate="GND" x="96.52" y="20.32"/>
@@ -5657,29 +5573,12 @@ molded</description>
 <instance part="SUPPLY5" gate="GND" x="12.7" y="25.4"/>
 <instance part="SUPPLY6" gate="GND" x="114.3" y="17.78"/>
 <instance part="SUPPLY7" gate="GND" x="132.08" y="25.4"/>
-<instance part="JP1" gate="G$1" x="142.24" y="78.74">
-<attribute name="OC_NEWARK" x="142.24" y="78.74" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="142.24" y="78.74" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="142.24" y="78.74" size="1.778" layer="96" display="off"/>
-</instance>
-<instance part="L1" gate="G$1" x="30.48" y="78.74">
-<attribute name="OC_NEWARK" x="30.48" y="78.74" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="30.48" y="78.74" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="30.48" y="78.74" size="1.778" layer="96" display="off"/>
-</instance>
-<instance part="C5" gate="G$1" x="30.48" y="66.04">
-<attribute name="OC_NEWARK" x="30.48" y="66.04" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="30.48" y="66.04" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="30.48" y="66.04" size="1.778" layer="96" display="off"/>
-</instance>
+<instance part="JP1" gate="G$1" x="142.24" y="78.74"/>
+<instance part="L1" gate="G$1" x="30.48" y="78.74"/>
+<instance part="C5" gate="G$1" x="30.48" y="66.04"/>
 <instance part="SUPPLY8" gate="GND" x="30.48" y="55.88"/>
 <instance part="SUPPLY9" gate="G$1" x="40.64" y="81.28"/>
 <instance part="SUPPLY10" gate="G$1" x="116.84" y="93.98"/>
-<instance part="R5" gate="G$1" x="109.22" y="43.18" rot="R180">
-<attribute name="OC_NEWARK" x="109.22" y="43.18" size="1.778" layer="96" display="off"/>
-<attribute name="MF" x="109.22" y="43.18" size="1.778" layer="96" display="off"/>
-<attribute name="MPN" x="109.22" y="43.18" size="1.778" layer="96" display="off"/>
-</instance>
 </instances>
 <busses>
 </busses>
@@ -5731,13 +5630,7 @@ molded</description>
 <pinref part="GPS1" gate="G$1" pin="VCC"/>
 <pinref part="SUPPLY2" gate="G$1" pin="VCC"/>
 <wire x1="88.9" y1="48.26" x2="99.06" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="99.06" y1="48.26" x2="99.06" y2="55.88" width="0.1524" layer="91"/>
-<pinref part="R5" gate="G$1" pin="1"/>
-<wire x1="99.06" y1="55.88" x2="99.06" y2="63.5" width="0.1524" layer="91"/>
-<wire x1="114.3" y1="43.18" x2="116.84" y2="43.18" width="0.1524" layer="91"/>
-<wire x1="116.84" y1="43.18" x2="116.84" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="116.84" y1="55.88" x2="99.06" y2="55.88" width="0.1524" layer="91"/>
-<junction x="99.06" y="55.88"/>
+<wire x1="99.06" y1="48.26" x2="99.06" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="L1" gate="G$1" pin="2"/>
@@ -5807,14 +5700,14 @@ molded</description>
 <segment>
 <pinref part="GPS1" gate="G$1" pin="RXB"/>
 <pinref part="R4" gate="G$1" pin="2"/>
-<wire x1="88.9" y1="33.02" x2="93.98" y2="33.02" width="0.1524" layer="91"/>
+<wire x1="88.9" y1="33.02" x2="99.06" y2="33.02" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="RXB" class="0">
 <segment>
 <pinref part="R4" gate="G$1" pin="1"/>
 <pinref part="C4" gate="G$1" pin="1"/>
-<wire x1="104.14" y1="33.02" x2="114.3" y2="33.02" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="33.02" x2="114.3" y2="33.02" width="0.1524" layer="91"/>
 <wire x1="114.3" y1="33.02" x2="114.3" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="114.3" y1="33.02" x2="116.84" y2="33.02" width="0.1524" layer="91"/>
 <junction x="114.3" y="33.02"/>
@@ -5875,13 +5768,6 @@ molded</description>
 <pinref part="JP1" gate="G$1" pin="2"/>
 <wire x1="139.7" y1="83.82" x2="124.46" y2="83.82" width="0.1524" layer="91"/>
 <label x="124.46" y="83.82" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="N$1" class="0">
-<segment>
-<pinref part="GPS1" gate="G$1" pin="RESET"/>
-<pinref part="R5" gate="G$1" pin="2"/>
-<wire x1="88.9" y1="43.18" x2="104.14" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

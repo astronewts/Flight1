@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.19" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.2" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -200,7 +200,7 @@
 <vertex x="6.806665625" y="-5.32"/>
 <vertex x="6.806665625" y="2.05"/>
 </polygon>
-<circle x="-7.79" y="11.97" radius="0.95" width="0.127" layer="21"/>
+<circle x="-11" y="7.6" radius="0.4472125" width="0.127" layer="21"/>
 </package>
 </packages>
 <symbols>

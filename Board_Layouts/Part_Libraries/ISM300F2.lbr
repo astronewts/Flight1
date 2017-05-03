@@ -200,7 +200,7 @@
 <vertex x="6.806665625" y="-5.32"/>
 <vertex x="6.806665625" y="2.05"/>
 </polygon>
-<circle x="-8.4" y="10.6" radius="0.721109375" width="0.127" layer="21"/>
+<circle x="-9.8" y="9.8" radius="0.4472125" width="0.127" layer="21"/>
 </package>
 </packages>
 <symbols>
