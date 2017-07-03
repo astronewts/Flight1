@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="8.2.2">
+<eagle version="6.6.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -47336,7 +47336,7 @@ With round pins</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="PINHD-1X10" prefix="TEN_P">
+<deviceset name="PINHD-1X10">
 <description>&lt;b&gt;Pin header 1x10 0.1" spacing&lt;/b&gt;
 &lt;p&gt;
 With round pins</description>
