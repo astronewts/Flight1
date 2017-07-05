@@ -14153,22 +14153,22 @@ wire to board 2.54 mm (0.100") pitch header</description>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="C7" library="adafruit" deviceset="CPOL-US" device="CT7343" value="100uF">
+<part name="C7" library="adafruit" deviceset="CPOL-US" device="CT7343" value="330uF">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value="TCN4337M020R0100"/>
 <attribute name="OC_NEWARK" value="13AC9461"/>
 </part>
-<part name="C8" library="adafruit" deviceset="CPOL-US" device="CT7343" value="100uF">
+<part name="C8" library="adafruit" deviceset="CPOL-US" device="CT7343" value="330uF">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value="TCN4337M020R0100"/>
 <attribute name="OC_NEWARK" value="13AC9461"/>
 </part>
-<part name="C9" library="adafruit" deviceset="CPOL-US" device="CT7343" value="100uF">
+<part name="C9" library="adafruit" deviceset="CPOL-US" device="CT7343" value="330uF">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value="TCN4337M020R0100"/>
 <attribute name="OC_NEWARK" value="13AC9461"/>
 </part>
-<part name="C10" library="adafruit" deviceset="CPOL-US" device="CT7343" value="100uF">
+<part name="C10" library="adafruit" deviceset="CPOL-US" device="CT7343" value="330uF">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value="TCN4337M020R0100"/>
 <attribute name="OC_NEWARK" value="13AC9461"/>

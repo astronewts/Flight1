@@ -1841,29 +1841,31 @@ design rules under a new name.</description>
 <attribute name="OC_NEWARK" value="18T0705" x="60.8112" y="106.6238" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="52.4292" y="120.5938" size="1.778" layer="27" ratio="10"/>
 </element>
-<element name="C7" library="adafruit" package="CT7343" value="100uF" x="65.9" y="80.7" smashed="yes" rot="R270">
+<element name="C7" library="adafruit" package="CT7343" value="330uF" x="65.9" y="80.7" smashed="yes" rot="R270">
 <attribute name="MF" value="" x="65.9" y="80.7" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="TCN4337M020R0100" x="65.9" y="80.7" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="NAME" x="61.94" y="82.075" size="1.27" layer="25" rot="R270"/>
 <attribute name="OC_NEWARK" value="13AC9461" x="65.9" y="80.7" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
-<element name="C8" library="adafruit" package="CT7343" value="100uF" x="65.8746" y="93.476" smashed="yes" rot="R270">
+<element name="C8" library="adafruit" package="CT7343" value="330uF" x="65.8746" y="93.476" smashed="yes" rot="R270">
 <attribute name="MF" value="" x="65.8746" y="93.476" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="TCN4337M020R0100" x="65.8746" y="93.476" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="NAME" x="61.9146" y="94.951" size="1.27" layer="25" rot="R270"/>
 <attribute name="OC_NEWARK" value="13AC9461" x="65.8746" y="93.476" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="VALUE" x="62.0646" y="96.651" size="1.27" layer="27" rot="R270"/>
 </element>
-<element name="C9" library="adafruit" package="CT7343" value="100uF" x="70.95" y="80.7" smashed="yes" rot="R270">
+<element name="C9" library="adafruit" package="CT7343" value="330uF" x="70.95" y="80.7" smashed="yes" rot="R270">
 <attribute name="MF" value="" x="70.95" y="80.7" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="TCN4337M020R0100" x="70.95" y="80.7" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="NAME" x="73.49" y="82.375" size="1.27" layer="25" rot="R270"/>
 <attribute name="OC_NEWARK" value="13AC9461" x="70.95" y="80.7" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
-<element name="C10" library="adafruit" package="CT7343" value="100uF" x="70.93" y="93.476" smashed="yes" rot="R270">
+<element name="C10" library="adafruit" package="CT7343" value="330uF" x="70.93" y="93.476" smashed="yes" rot="R270">
 <attribute name="MF" value="" x="70.93" y="93.476" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="TCN4337M020R0100" x="70.93" y="93.476" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="NAME" x="73.57" y="94.951" size="1.27" layer="25" rot="R270"/>
 <attribute name="OC_NEWARK" value="13AC9461" x="70.93" y="93.476" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="VALUE" x="67.12" y="96.651" size="1.27" layer="27" rot="R270"/>
 </element>
 <element name="GPS" library="adafruit" package="1X08-BIG" value="" x="107.5" y="15" rot="R90">
 <attribute name="MF" value="" x="107.5" y="15" size="1.778" layer="27" rot="R90" display="off"/>
