@@ -1,8 +1,4 @@
-if str2num(FileName(5:6))<70
-DB=importdata('Database_arduino_old.txt');
-else
 DB=importdata('Database_arduino.txt');
-end
 %
 for r=1:size(DB,1)
 Line=strrep(char(DB(r,:)),'&','');

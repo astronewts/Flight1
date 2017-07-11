@@ -44,7 +44,7 @@ display(char(strcat('=> There are ',{' '},num2str(size(mssg_rockblock,1)),{' '},
 %
 display('2-Starting the decoding');
 for lw = 1:size(mssg_rockblock,1)
-    try
+    %try
         %%%%%%%%%%%%%%%%% Create bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         mssg = char(mssg_rockblock{lw,1});
         length_words = length(mssg);
@@ -131,14 +131,14 @@ for lw = 1:size(mssg_rockblock,1)
         end
         display(char(strcat('Success for RB message ',{' '},num2str(lw),{' -'},{' '},Date_mssg_rockblock(lw,1),{' '},'- Corresponds to SD CARD',{' '},num2str(SD_Num_RB(lw)))));
         %%%%%%%%%%%%%%%%% END Decode bin word %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    catch
-        display(char(strcat('FAILURE for RB message ',{' '},num2str(lw),{' -'},{' '},Date_mssg_rockblock(lw,1),{' '},'- Corresponds to SD CARD',{' '},num2str(SD_Num_RB(lw)))));
-        for n = 1:nb_var
-            var_processed(n)=NaN;
-            %
-            Big_matrix(lw,n)=var_processed(n);
-            %
-            assignin('base',strcat(var_name{n},'_RB'),Big_matrix(:,n));
-        end
-    end
+    %catch
+%         display(char(strcat('FAILURE for RB message ',{' '},num2str(lw),{' -'},{' '},Date_mssg_rockblock(lw,1),{' '},'- Corresponds to SD CARD',{' '},num2str(SD_Num_RB(lw)))));
+%         for n = 1:nb_var
+%             var_processed(n)=NaN;
+%             %
+%             Big_matrix(lw,n)=var_processed(n);
+%             %
+%             assignin('base',strcat(var_name{n},'_RB'),Big_matrix(:,n));
+%         end
+   % end
 end % end of loop on the words of the input file
