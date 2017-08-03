@@ -10,11 +10,12 @@ void collect_alt_data()
 void print_alt_data()
 { 
   Serial.println("-----------ALTIMITER Telemetry---------------"); 
-  if (!bme.begin()) { 
-     Serial.println("");
-     Serial.println("ALTIMETER IS NOT WORKING!!!! NOOOOOOOOOOO!!!!!!!!");
-  }
-  else {
+  //NOTE: This check was removed, as the continuous pinging in the AlphaNewt v1.0 board was not reading ALT correctly.
+  //if (!bme.begin()) { 
+  //   Serial.println("");
+  //   Serial.println("ALTIMETER IS NOT WORKING!!!! NOOOOOOOOOOO!!!!!!!!");
+  //}
+  //else {
     Serial.print("Alt: Altitude in Meters: ");
     Serial.println(alt.altitude_in_meters);
     Serial.print("Alt: Temp:");
@@ -22,5 +23,5 @@ void print_alt_data()
     Serial.print("Alt: Pressure:");
     Serial.println(alt.pressure);
     Serial.println(" ");
-  }
+  //}
 }
