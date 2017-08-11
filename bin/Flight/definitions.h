@@ -70,8 +70,12 @@
 #define DEFAULT_SD_CARD_WRITE_PERIOD               100 // TEST ONLY!!!
 
 #define DEFAULT_TLM_PROCESSING_PERIOD              5000
+
 #define DEFAULT_CAMERA_PERIOD                      1200000
 #define DEFAULT_CAMERA_ON_TIME                     10000
+#define DEFAULT_CAMERA_DELAY_TAKE_PICTURE          5000
+
+
 #define HIGH_RATE_PERIOD                           100 // ms   {100 - 1000}
 #define MEDIUM_RATE_PERIOD                         10000 // ms {5000 - 10000}
 #define LOW_RATE_PERIOD                            30000 // ms {10000 - 30000}
@@ -141,15 +145,18 @@
 #define PIN_CUTDOWN_2_FIRE              4
 #define PIN_BATTERY_1_CHARGE_CUTOFF     6
 #define PIN_BATTERY_2_CHARGE_CUTOFF     7
-#define PIN_CAMERA_SWITCH               9
 #define PIN_HEATER_CONTROL_1            8 // 5 // was 22: correct pin num
 #define PIN_HEATER_CONTROL_2            5 // 8 // was 23
 #define PIN_GYRO_POWER                  28
+#define PIN_CAMERA_SWITCH               22
+#define GOPRO_TRIG                      24
+#define GOPRO_ID1                       26
+#define GOPRO_ID2                       30
+#define GOPRO_ID3                       31
 #define BMP_SCK                         38
 #define BMP_MISO                        36
 #define BMP_MOSI                        34 
 #define BMP_CS                          32
-
 
 #define RESOLUTION_PRESSURE_SENSOR      12
 
@@ -392,6 +399,7 @@ struct parameter_struct
   bool camera_status;
   unsigned int camera_period;
   unsigned int camera_on_time;
+  unsigned int camera_delay_take_picture;
   bool battery_1_charging_status;
   bool battery_2_charging_status;
   bool battery_1_temp_tlm_valid_flag;
