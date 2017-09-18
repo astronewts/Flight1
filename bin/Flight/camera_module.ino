@@ -34,7 +34,7 @@ void process_camera_function()
             //delay(1500);
           }
          // Is it time to take a picture?
-         if(parameters.camera_period_elapsed_time > (parameters.camera_period - parameters.camera_on_time))
+         if(parameters.camera_period_elapsed_time > (parameters.camera_period - parameters.camera_on_time + parameters.camera_delay_take_picture))
          {
             // Get the current state of ID1
             int start = digitalRead(GOPRO_ID1);
