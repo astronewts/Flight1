@@ -52,3 +52,4 @@ void loop() {
     
     // 1.5 second delay between photos. Longer or shorter works fine.
     delay(1500);
+}
