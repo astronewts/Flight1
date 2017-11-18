@@ -8598,7 +8598,6 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <text x="-60.96" y="45.72" size="1.778" layer="91">SDA/SCL = GYRO/Current Mon</text>
 <text x="-40.64" y="78.74" size="1.778" layer="91">X0 = USB_Comp</text>
 <text x="-40.64" y="60.96" size="1.778" layer="91">X1 = GPS</text>
-<text x="157.48" y="93.98" size="1.778" layer="91">CAMERA CIRCUIT</text>
 <rectangle x1="208.28" y1="53.34" x2="233.68" y2="88.9" layer="97"/>
 </plain>
 <instances>
@@ -9697,6 +9696,11 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <pinref part="ARD_5" gate="G$1" pin="5"/>
 <junction x="-45.72" y="60.96"/>
 </segment>
+<segment>
+<wire x1="86.36" y1="-5.08" x2="48.26" y2="-5.08" width="0.1524" layer="91"/>
+<label x="48.26" y="-5.08" size="1.778" layer="95" rot="R180" xref="yes"/>
+<pinref part="GPS" gate="G$1" pin="6"/>
+</segment>
 </net>
 <net name="RX1" class="0">
 <segment>
@@ -9704,6 +9708,11 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <label x="-58.42" y="58.42" size="1.778" layer="95" rot="R180" xref="yes"/>
 <pinref part="ARD_5" gate="G$1" pin="6"/>
 <junction x="-45.72" y="58.42"/>
+</segment>
+<segment>
+<label x="68.58" y="-2.54" size="1.778" layer="95" rot="R180" xref="yes"/>
+<pinref part="GPS" gate="G$1" pin="5"/>
+<wire x1="68.58" y1="-2.54" x2="86.36" y2="-2.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SDA" class="0">
@@ -10816,6 +10825,12 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <pinref part="ARD_3" gate="G$1" pin="4"/>
 <junction x="-104.14" y="66.04"/>
 </segment>
+<segment>
+<label x="88.9" y="124.46" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="88.9" y1="124.46" x2="114.3" y2="124.46" width="0.1524" layer="91"/>
+<pinref part="X1" gate="-3" pin="S"/>
+<junction x="114.3" y="124.46"/>
+</segment>
 </net>
 <net name="PYRO_1_PWR_RTN" class="1">
 <segment>
@@ -10975,6 +10990,12 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <junction x="81.28" y="-68.58"/>
 <wire x1="81.28" y1="-68.58" x2="81.28" y2="-63.5" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="X2" gate="-2" pin="S"/>
+<wire x1="114.3" y1="91.44" x2="111.76" y2="91.44" width="0.1524" layer="91"/>
+<label x="111.76" y="91.44" size="1.778" layer="95" rot="R180" xref="yes"/>
+<junction x="114.3" y="91.44"/>
+</segment>
 </net>
 <net name="S/A_PWR_IN" class="1">
 <segment>
@@ -11078,13 +11099,6 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="86.36" y1="5.08" x2="48.26" y2="5.08" width="0.1524" layer="91"/>
 <label x="48.26" y="5.08" size="1.778" layer="95" rot="R180" xref="yes"/>
 <pinref part="GPS" gate="G$1" pin="2"/>
-</segment>
-</net>
-<net name="GPS_RX" class="0">
-<segment>
-<wire x1="86.36" y1="-5.08" x2="48.26" y2="-5.08" width="0.1524" layer="91"/>
-<label x="48.26" y="-5.08" size="1.778" layer="95" rot="R180" xref="yes"/>
-<pinref part="GPS" gate="G$1" pin="6"/>
 </segment>
 </net>
 <net name="GPS_VBAT" class="0">
@@ -11227,12 +11241,6 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <junction x="-213.36" y="119.38"/>
 </segment>
 </net>
-<net name="C_PWR/MODE" class="0">
-<segment>
-<label x="165.1" y="88.9" size="1.778" layer="95" xref="yes"/>
-<wire x1="165.1" y1="88.9" x2="165.1" y2="91.44" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="CAMERA_PWR" class="1">
 <segment>
 <pinref part="C3_CMD" gate="-1" pin="14"/>
@@ -11295,22 +11303,6 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <junction x="114.3" y="81.28"/>
 </segment>
 </net>
-<net name="S/A_PWR_OUT_RTN" class="0">
-<segment>
-<pinref part="X2" gate="-2" pin="S"/>
-<wire x1="114.3" y1="91.44" x2="111.76" y2="91.44" width="0.1524" layer="91"/>
-<label x="111.76" y="91.44" size="1.778" layer="95" rot="R180" xref="yes"/>
-<junction x="114.3" y="91.44"/>
-</segment>
-</net>
-<net name="BATT2_TS2" class="0">
-<segment>
-<label x="88.9" y="124.46" size="1.778" layer="95" rot="R180" xref="yes"/>
-<wire x1="88.9" y1="124.46" x2="114.3" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="X1" gate="-3" pin="S"/>
-<junction x="114.3" y="124.46"/>
-</segment>
-</net>
 <net name="1PPS" class="0">
 <segment>
 <pinref part="GPS" gate="G$1" pin="9"/>
@@ -11323,13 +11315,6 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="86.36" y1="0" x2="48.26" y2="0" width="0.1524" layer="91"/>
 <label x="48.26" y="0" size="1.778" layer="95" rot="R180" xref="yes"/>
 <pinref part="GPS" gate="G$1" pin="4"/>
-</segment>
-</net>
-<net name="GPS_TX" class="0">
-<segment>
-<label x="68.58" y="-2.54" size="1.778" layer="95" rot="R180" xref="yes"/>
-<pinref part="GPS" gate="G$1" pin="5"/>
-<wire x1="68.58" y1="-2.54" x2="86.36" y2="-2.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="LOAD_OUT" class="1">
@@ -11349,7 +11334,11 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 </sheet>
 </sheets>
 <errors>
-<approved hash="104,1,68.58,43.18,X12,VBUS,+5V,,,"/>
+<approved hash="202,1,213.36,66.04,IC1,-IN,,,,"/>
+<approved hash="202,1,213.36,71.12,IC1,+IN,,,,"/>
+<approved hash="104,1,218.44,76.2,IC1,VS,C_SCL,,,"/>
+<approved hash="104,1,218.44,60.96,IC1,GND,C_GND,,,"/>
+<approved hash="106,1,86.36,-12.7,1PPS,,,,,"/>
 <approved hash="106,1,215.9,-2.54,5V_OUT,,,,,"/>
 <approved hash="106,1,-104.14,101.6,A0,,,,,"/>
 <approved hash="106,1,-104.14,99.06,A1,,,,,"/>
@@ -11365,6 +11354,7 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <approved hash="106,1,-45.72,93.98,D6,,,,,"/>
 <approved hash="106,1,-45.72,96.52,D7,,,,,"/>
 <approved hash="106,1,-45.72,111.76,D9,,,,,"/>
+<approved hash="106,1,-213.36,119.38,D22,,,,,"/>
 <approved hash="106,1,-157.48,114.3,D29,,,,,"/>
 <approved hash="106,1,-157.48,109.22,D33,,,,,"/>
 <approved hash="106,1,-157.48,106.68,D35,,,,,"/>
@@ -11386,6 +11376,9 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <approved hash="106,1,-157.48,83.82,D53,,,,,"/>
 <approved hash="106,1,-104.14,63.5,DAC0,,,,,"/>
 <approved hash="106,1,-104.14,60.96,DAC1,,,,,"/>
+<approved hash="106,1,86.36,5.08,GPS_EN,,,,,"/>
+<approved hash="106,1,86.36,0,GPS_FIX,,,,,"/>
+<approved hash="106,1,86.36,2.54,GPS_VBAT,,,,,"/>
 <approved hash="106,1,-104.14,124.46,IOREF,,,,,"/>
 <approved hash="106,1,215.9,-12.7,LI_ION,,,,,"/>
 <approved hash="106,1,63.5,-71.12,N$47,,,,,"/>
@@ -11396,15 +11389,11 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <approved hash="106,1,55.88,-114.3,N$72,,,,,"/>
 <approved hash="106,1,215.9,-7.62,NET_AV,,,,,"/>
 <approved hash="106,1,215.9,-10.16,ON_OFF,,,,,"/>
-<approved hash="106,1,73.66,5.08,RF_IN,,,,,"/>
 <approved hash="106,1,215.9,-5.08,RI,,,,,"/>
 <approved hash="106,1,215.9,25.4,RTS,,,,,"/>
 <approved hash="106,1,-45.72,63.5,RX2,,,,,"/>
-<approved hash="106,1,73.66,-7.62,RXB,,,,,"/>
 <approved hash="106,1,-45.72,66.04,TX2,,,,,"/>
-<approved hash="106,1,73.66,-5.08,TXB,,,,,"/>
 <approved hash="106,1,-104.14,127,UNKNOWN,,,,,"/>
-<approved hash="106,1,73.66,2.54,VBAT,,,,,"/>
 <approved hash="106,1,215.9,17.78,VCC_RB,,,,,"/>
 <approved hash="113,1,-103.849,119.606,ARD_1,,,,,"/>
 <approved hash="113,1,-103.849,94.2061,ARD_2,,,,,"/>
@@ -11418,39 +11407,37 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <approved hash="113,1,216.137,-32.7939,LCC,,,,,"/>
 <approved hash="113,1,160.257,-60.7339,B2CC,,,,,"/>
 <approved hash="113,1,216.137,-58.1939,SACC,,,,,"/>
-<approved hash="113,1,-77.5123,39.5961,ARD_4,,,,,"/>
+<approved hash="113,1,-90.2123,34.5161,ARD_4,,,,,"/>
 <approved hash="113,1,216.137,20.5461,RB1,,,,,"/>
 <approved hash="113,1,216.137,-4.85394,RB2,,,,,"/>
 <approved hash="113,1,53.34,-37.8471,C1_TLM,,,,,"/>
 <approved hash="113,1,55.88,-70.8671,C2_PWR,,,,,"/>
 <approved hash="113,1,63.5,-106.427,C3_CMD,,,,,"/>
-<approved hash="113,1,-261.899,59.6875,PO1,,,,,"/>
-<approved hash="113,1,-256.819,11.4275,PVIN1,,,,,"/>
-<approved hash="113,1,-256.494,6.34746,PEXT1,,,,,"/>
-<approved hash="113,1,-244.119,59.6875,PO2,,,,,"/>
-<approved hash="113,1,-239.039,11.4275,PVIN2,,,,,"/>
-<approved hash="113,1,-238.714,6.34746,PEXT2,,,,,"/>
-<approved hash="113,1,-226.339,59.6875,PO3,,,,,"/>
-<approved hash="113,1,-221.259,11.4275,PVIN3,,,,,"/>
-<approved hash="113,1,-220.934,6.34746,PEXT3,,,,,"/>
-<approved hash="113,1,-208.559,59.6875,PO4,,,,,"/>
-<approved hash="113,1,-203.479,11.4275,PVIN4,,,,,"/>
-<approved hash="113,1,-203.154,6.34746,PEXT4,,,,,"/>
-<approved hash="113,1,-190.779,59.6875,PO5,,,,,"/>
-<approved hash="113,1,-185.699,11.4275,PVIN5,,,,,"/>
-<approved hash="113,1,-185.374,6.34746,PEXT5,,,,,"/>
-<approved hash="113,1,-172.999,59.6875,PO6,,,,,"/>
-<approved hash="113,1,-167.919,11.4275,PVIN6,,,,,"/>
-<approved hash="113,1,-167.594,6.34746,PEXT6,,,,,"/>
-<approved hash="113,1,-155.219,59.6875,PO7,,,,,"/>
-<approved hash="113,1,-152.679,11.4275,PVIN7,,,,,"/>
-<approved hash="113,1,-152.354,6.34746,PEXT7,,,,,"/>
-<approved hash="113,1,73.8971,0.226059,GPS,,,,,"/>
+<approved hash="113,1,-241.579,21.5875,PO1,,,,,"/>
+<approved hash="113,1,-244.119,-6.35254,PVIN1,,,,,"/>
+<approved hash="113,1,-243.794,-11.4325,PEXT1,,,,,"/>
+<approved hash="113,1,-223.799,21.5875,PO2,,,,,"/>
+<approved hash="113,1,-226.339,-6.35254,PVIN2,,,,,"/>
+<approved hash="113,1,-226.014,-11.4325,PEXT2,,,,,"/>
+<approved hash="113,1,-206.019,21.5875,PO3,,,,,"/>
+<approved hash="113,1,-208.559,-6.35254,PVIN3,,,,,"/>
+<approved hash="113,1,-208.234,-11.4325,PEXT3,,,,,"/>
+<approved hash="113,1,-188.239,21.5875,PO4,,,,,"/>
+<approved hash="113,1,-190.779,-6.35254,PVIN4,,,,,"/>
+<approved hash="113,1,-190.454,-11.4325,PEXT4,,,,,"/>
+<approved hash="113,1,-170.459,21.5875,PO5,,,,,"/>
+<approved hash="113,1,-172.999,-6.35254,PVIN5,,,,,"/>
+<approved hash="113,1,-172.674,-11.4325,PEXT5,,,,,"/>
+<approved hash="113,1,-152.679,21.5875,PO6,,,,,"/>
+<approved hash="113,1,-155.219,-6.35254,PVIN6,,,,,"/>
+<approved hash="113,1,-154.894,-11.4325,PEXT6,,,,,"/>
+<approved hash="113,1,-134.899,21.5875,PO7,,,,,"/>
+<approved hash="113,1,-139.979,-6.35254,PVIN7,,,,,"/>
+<approved hash="113,1,-139.654,-11.4325,PEXT7,,,,,"/>
 <approved hash="113,1,18.8334,108.176,FLT_CMP_TEMP,,,,,"/>
 <approved hash="113,1,21.4487,100.556,FLT_CMP_TMP_NEG,,,,,"/>
-<approved hash="113,1,313.856,124.686,B1_CHRG_CONTROLLER,,,,,"/>
-<approved hash="113,1,301.156,66.2661,B2_CHRG_CONTROLLER,,,,,"/>
-<approved hash="113,1,296.707,42.1361,B2_CONN_EXTRA,,,,,"/>
+<approved hash="113,1,86.5971,-1.04394,GPS,,,,,"/>
+<approved hash="113,1,63.9657,37.5183,X3,,,,,"/>
 </errors>
 </schematic>
 </drawing>
