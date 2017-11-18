@@ -156,7 +156,6 @@
 <hole x="68.58" y="-12.38" drill="3.2004"/>
 <hole x="92.71" y="30.8" drill="3.2004"/>
 <hole x="17.78" y="30.8" drill="3.2004"/>
-<hole x="2.1844" y="34.864" drill="3.2004"/>
 <text x="19.1" y="-17.9" size="1.016" layer="51">ARD Hole</text>
 <text x="71.1" y="-13.1" size="1.016" layer="51">ARD Hole</text>
 <text x="95.2" y="30.6" size="1.016" layer="51">ARD Hole</text>

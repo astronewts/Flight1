@@ -6467,7 +6467,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <packages>
 </packages>
 <symbols>
-<symbol name="GND">
+<symbol name="GND" urn="urn:adsk.eagle:symbol:26990/1" library_version="2">
 <wire x1="-1.27" y1="0" x2="1.27" y2="0" width="0.254" layer="94"/>
 <wire x1="1.27" y1="0" x2="0" y2="-1.27" width="0.254" layer="94"/>
 <wire x1="0" y1="-1.27" x2="-1.27" y2="0" width="0.254" layer="94"/>
@@ -6476,7 +6476,7 @@ In this library the device names are the same as the pin names of the symbols, t
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="GND" prefix="SUPPLY">
+<deviceset name="GND" urn="urn:adsk.eagle:component:27037/1" prefix="SUPPLY" library_version="2">
 <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
 <gates>
 <gate name="GND" symbol="GND" x="0" y="0"/>
@@ -6502,7 +6502,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <packages>
 </packages>
 <symbols>
-<symbol name="+5V">
+<symbol name="+5V" urn="urn:adsk.eagle:symbol:26929/1" library_version="1">
 <wire x1="1.27" y1="-1.905" x2="0" y2="0" width="0.254" layer="94"/>
 <wire x1="0" y1="0" x2="-1.27" y2="-1.905" width="0.254" layer="94"/>
 <text x="-2.54" y="-5.08" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
@@ -6510,7 +6510,7 @@ In this library the device names are the same as the pin names of the symbols, t
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="+5V" prefix="P+">
+<deviceset name="+5V" urn="urn:adsk.eagle:component:26963/1" prefix="P+" library_version="1">
 <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
 <gates>
 <gate name="1" symbol="+5V" x="0" y="0"/>
@@ -6529,7 +6529,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <description>&lt;b&gt;Pin Header Connectors&lt;/b&gt;&lt;p&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
 <packages>
-<package name="2X03">
+<package name="2X03" urn="urn:adsk.eagle:footprint:22348/1" library_version="2">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
 <wire x1="-3.81" y1="-1.905" x2="-3.175" y2="-2.54" width="0.1524" layer="21"/>
 <wire x1="-1.905" y1="-2.54" x2="-1.27" y2="-1.905" width="0.1524" layer="21"/>
@@ -6568,7 +6568,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <rectangle x1="2.286" y1="1.016" x2="2.794" y2="1.524" layer="51"/>
 <rectangle x1="2.286" y1="-1.524" x2="2.794" y2="-1.016" layer="51"/>
 </package>
-<package name="2X03/90">
+<package name="2X03/90" urn="urn:adsk.eagle:footprint:22349/1" library_version="2">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
 <wire x1="-3.81" y1="-1.905" x2="-1.27" y2="-1.905" width="0.1524" layer="21"/>
 <wire x1="-1.27" y1="-1.905" x2="-1.27" y2="0.635" width="0.1524" layer="21"/>
@@ -6605,8 +6605,16 @@ In this library the device names are the same as the pin names of the symbols, t
 <rectangle x1="2.159" y1="-4.699" x2="2.921" y2="-2.921" layer="51"/>
 </package>
 </packages>
+<packages3d>
+<package3d name="2X03" urn="urn:adsk.eagle:package:22462/2" type="model" library_version="2">
+<description>PIN HEADER</description>
+</package3d>
+<package3d name="2X03/90" urn="urn:adsk.eagle:package:22464/1" type="box" library_version="2">
+<description>PIN HEADER</description>
+</package3d>
+</packages3d>
 <symbols>
-<symbol name="PINH2X3">
+<symbol name="PINH2X3" urn="urn:adsk.eagle:symbol:22347/1" library_version="2">
 <wire x1="-6.35" y1="-5.08" x2="8.89" y2="-5.08" width="0.4064" layer="94"/>
 <wire x1="8.89" y1="-5.08" x2="8.89" y2="5.08" width="0.4064" layer="94"/>
 <wire x1="8.89" y1="5.08" x2="-6.35" y2="5.08" width="0.4064" layer="94"/>
@@ -6622,7 +6630,7 @@ In this library the device names are the same as the pin names of the symbols, t
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="PINHD-2X3" prefix="JP" uservalue="yes">
+<deviceset name="PINHD-2X3" urn="urn:adsk.eagle:component:22532/2" prefix="JP" uservalue="yes" library_version="2">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
 <gates>
 <gate name="A" symbol="PINH2X3" x="0" y="0"/>
@@ -6637,6 +6645,9 @@ In this library the device names are the same as the pin names of the symbols, t
 <connect gate="A" pin="5" pad="5"/>
 <connect gate="A" pin="6" pad="6"/>
 </connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:22462/2"/>
+</package3dinstances>
 <technologies>
 <technology name=""/>
 </technologies>
@@ -6650,6 +6661,9 @@ In this library the device names are the same as the pin names of the symbols, t
 <connect gate="A" pin="5" pad="5"/>
 <connect gate="A" pin="6" pad="6"/>
 </connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:22464/1"/>
+</package3dinstances>
 <technologies>
 <technology name=""/>
 </technologies>
@@ -6662,7 +6676,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <description>&lt;b&gt;Power Transistors&lt;/b&gt;&lt;p&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
 <packages>
-<package name="TO220AV">
+<package name="TO220AV" urn="urn:adsk.eagle:footprint:29375/1" library_version="2">
 <description>&lt;b&gt;Molded Package&lt;/b&gt;&lt;p&gt;
 grid 2.54 mm</description>
 <wire x1="5.08" y1="-1.143" x2="4.953" y2="-4.064" width="0.1524" layer="21"/>
@@ -6686,8 +6700,14 @@ grid 2.54 mm</description>
 <rectangle x1="1.651" y1="-1.27" x2="3.429" y2="-0.762" layer="51"/>
 </package>
 </packages>
+<packages3d>
+<package3d name="TO220AV" urn="urn:adsk.eagle:package:29487/2" type="model" library_version="2">
+<description>Molded Package
+grid 2.54 mm</description>
+</package3d>
+</packages3d>
 <symbols>
-<symbol name="NPN">
+<symbol name="NPN" urn="urn:adsk.eagle:symbol:29368/1" library_version="2">
 <wire x1="2.54" y1="2.54" x2="0" y2="0" width="0.1524" layer="94"/>
 <wire x1="0" y1="0" x2="1.651" y2="-1.651" width="0.1524" layer="94"/>
 <wire x1="2.159" y1="-2.159" x2="2.286" y2="-2.286" width="0.1524" layer="94"/>
@@ -6709,7 +6729,7 @@ grid 2.54 mm</description>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="TIP41C" prefix="Q">
+<deviceset name="TIP41C" urn="urn:adsk.eagle:component:29555/2" prefix="Q" library_version="2">
 <description>&lt;b&gt;NPN TRANSISTOR&lt;/b&gt;</description>
 <gates>
 <gate name="1" symbol="NPN" x="0" y="0"/>
@@ -6721,6 +6741,9 @@ grid 2.54 mm</description>
 <connect gate="1" pin="C" pad="C"/>
 <connect gate="1" pin="E" pad="E"/>
 </connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:29487/2"/>
+</package3dinstances>
 <technologies>
 <technology name=""/>
 </technologies>
@@ -6733,7 +6756,7 @@ grid 2.54 mm</description>
 <description>&lt;b&gt;Transistors&lt;/b&gt;&lt;p&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
 <packages>
-<package name="TO92">
+<package name="TO92" urn="urn:adsk.eagle:footprint:29825/1" library_version="2">
 <description>&lt;b&gt;TO 92&lt;/b&gt;</description>
 <wire x1="-2.0946" y1="-1.651" x2="-2.6549" y2="-0.254" width="0.127" layer="21" curve="-32.781"/>
 <wire x1="-2.6549" y1="-0.254" x2="-0.7863" y2="2.5485" width="0.127" layer="21" curve="-78.3185"/>
@@ -6755,8 +6778,13 @@ grid 2.54 mm</description>
 <text x="1.143" y="0" size="1.27" layer="51" ratio="10">1</text>
 </package>
 </packages>
+<packages3d>
+<package3d name="TO92" urn="urn:adsk.eagle:package:29893/2" type="model" library_version="2">
+<description>TO 92</description>
+</package3d>
+</packages3d>
 <symbols>
-<symbol name="NPN">
+<symbol name="NPN" urn="urn:adsk.eagle:symbol:29821/1" library_version="2">
 <wire x1="2.54" y1="2.54" x2="0.508" y2="1.524" width="0.1524" layer="94"/>
 <wire x1="1.778" y1="-1.524" x2="2.54" y2="-2.54" width="0.1524" layer="94"/>
 <wire x1="2.54" y1="-2.54" x2="1.27" y2="-2.54" width="0.1524" layer="94"/>
@@ -6776,7 +6804,7 @@ grid 2.54 mm</description>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="2N3904" prefix="T">
+<deviceset name="2N3904" urn="urn:adsk.eagle:component:29952/2" prefix="T" library_version="2">
 <description>&lt;b&gt;NPN TRANSISTOR&lt;/b&gt;</description>
 <gates>
 <gate name="G1" symbol="NPN" x="0" y="0"/>
@@ -6788,6 +6816,9 @@ grid 2.54 mm</description>
 <connect gate="G1" pin="C" pad="1"/>
 <connect gate="G1" pin="E" pad="3"/>
 </connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:29893/2"/>
+</package3dinstances>
 <technologies>
 <technology name=""/>
 </technologies>
@@ -7458,15 +7489,20 @@ wire to board 2.54 mm (0.100") pitch header</description>
 <description>&lt;b&gt;Single Pads&lt;/b&gt;&lt;p&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
 <packages>
-<package name="SMD1,27-2,54" library_version="1">
+<package name="SMD1,27-2,54" urn="urn:adsk.eagle:footprint:30822/1" library_version="1">
 <description>&lt;b&gt;SMD PAD&lt;/b&gt;</description>
 <smd name="1" x="0" y="0" dx="1.27" dy="2.54" layer="1"/>
 <text x="0" y="0" size="0.0254" layer="27">&gt;VALUE</text>
 <text x="-0.8" y="-2.4" size="1.27" layer="25" rot="R90">&gt;NAME</text>
 </package>
 </packages>
+<packages3d>
+<package3d name="SMD1,27-2,54" urn="urn:adsk.eagle:package:30839/1" type="box" library_version="1">
+<description>SMD PAD</description>
+</package3d>
+</packages3d>
 <symbols>
-<symbol name="PAD" library_version="1">
+<symbol name="PAD" urn="urn:adsk.eagle:symbol:30808/1" library_version="1">
 <wire x1="-1.016" y1="1.016" x2="1.016" y2="-1.016" width="0.254" layer="94"/>
 <wire x1="-1.016" y1="-1.016" x2="1.016" y2="1.016" width="0.254" layer="94"/>
 <text x="-1.143" y="1.8542" size="1.778" layer="95">&gt;NAME</text>
@@ -7475,7 +7511,7 @@ wire to board 2.54 mm (0.100") pitch header</description>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="SMD2" prefix="PAD" uservalue="yes" library_version="1">
+<deviceset name="SMD2" urn="urn:adsk.eagle:component:30857/1" prefix="PAD" uservalue="yes" library_version="1">
 <description>&lt;b&gt;SMD PAD&lt;/b&gt;</description>
 <gates>
 <gate name="1" symbol="PAD" x="0" y="0"/>
@@ -7485,6 +7521,9 @@ wire to board 2.54 mm (0.100") pitch header</description>
 <connects>
 <connect gate="1" pin="P" pad="1"/>
 </connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:30839/1"/>
+</package3dinstances>
 <technologies>
 <technology name=""/>
 </technologies>
@@ -7952,9 +7991,9 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="-17.7" y1="11" x2="-17.7" y2="15" width="0.127" layer="21"/>
 <wire x1="-17.7" y1="15" x2="0" y2="15" width="0.127" layer="21"/>
 <wire x1="0" y1="-6" x2="0" y2="15" width="0.127" layer="21"/>
-<wire x1="-17.7" y1="11" x2="-27.8" y2="11" width="0.127" layer="21"/>
-<wire x1="-27.8" y1="11" x2="-27.8" y2="-2" width="0.127" layer="21"/>
-<wire x1="-27.8" y1="-2" x2="-17.7" y2="-2" width="0.127" layer="21"/>
+<wire x1="-17.7" y1="11" x2="-23.9" y2="11" width="0.127" layer="21"/>
+<wire x1="-23.9" y1="11" x2="-23.9" y2="-2" width="0.127" layer="21"/>
+<wire x1="-23.9" y1="-2" x2="-17.7" y2="-2" width="0.127" layer="21"/>
 <text x="-12" y="17" size="1.27" layer="25">&gt;NAME</text>
 <text x="-12" y="-9" size="1.27" layer="27">&gt;VALUE</text>
 <wire x1="-3.7" y1="15" x2="-3.7" y2="-6" width="0.127" layer="27"/>
@@ -8204,7 +8243,7 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="ARD_4" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-2X3" device="">
+<part name="ARD_4" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-2X3" device="" package3d_urn="urn:adsk.eagle:package:22462/2">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
@@ -8245,12 +8284,12 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <attribute name="MPN" value="CRCW120633R2FKEA"/>
 <attribute name="OC_NEWARK" value="42K4999"/>
 </part>
-<part name="Q5" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="">
+<part name="Q5" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="" package3d_urn="urn:adsk.eagle:package:29487/2">
 <attribute name="MF" value="FAIRCHILD SEMICONDUCTOR"/>
 <attribute name="MPN" value="TIP41C"/>
 <attribute name="OC_NEWARK" value="58K2429"/>
 </part>
-<part name="Q4" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="">
+<part name="Q4" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="" package3d_urn="urn:adsk.eagle:package:29487/2">
 <attribute name="MF" value="FAIRCHILD SEMICONDUCTOR"/>
 <attribute name="MPN" value="TIP41C"/>
 <attribute name="OC_NEWARK" value="58K2429"/>
@@ -8260,12 +8299,12 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <attribute name="MPN" value="CRCW120633R2FKEA"/>
 <attribute name="OC_NEWARK" value="42K4999"/>
 </part>
-<part name="T2" library="transistor" library_urn="urn:adsk.eagle:library:402" deviceset="2N3904" device="">
+<part name="T2" library="transistor" library_urn="urn:adsk.eagle:library:402" deviceset="2N3904" device="" package3d_urn="urn:adsk.eagle:package:29893/2">
 <attribute name="MF" value="NTE ELECTRONICS"/>
 <attribute name="MPN" value="2N3904"/>
 <attribute name="OC_NEWARK" value="33C8259"/>
 </part>
-<part name="Q2" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="">
+<part name="Q2" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="" package3d_urn="urn:adsk.eagle:package:29487/2">
 <attribute name="MF" value="FAIRCHILD SEMICONDUCTOR"/>
 <attribute name="MPN" value="TIP41C"/>
 <attribute name="OC_NEWARK" value="58K2429"/>
@@ -8286,12 +8325,12 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <attribute name="MPN" value="CRCW120633R2FKEA"/>
 <attribute name="OC_NEWARK" value="42K4999"/>
 </part>
-<part name="T1" library="transistor" library_urn="urn:adsk.eagle:library:402" deviceset="2N3904" device="">
+<part name="T1" library="transistor" library_urn="urn:adsk.eagle:library:402" deviceset="2N3904" device="" package3d_urn="urn:adsk.eagle:package:29893/2">
 <attribute name="MF" value="NTE ELECTRONICS"/>
 <attribute name="MPN" value="2N3904"/>
 <attribute name="OC_NEWARK" value="33C8259"/>
 </part>
-<part name="Q1" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="">
+<part name="Q1" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="" package3d_urn="urn:adsk.eagle:package:29487/2">
 <attribute name="MF" value="FAIRCHILD SEMICONDUCTOR"/>
 <attribute name="MPN" value="TIP41C"/>
 <attribute name="OC_NEWARK" value="58K2429"/>
@@ -8337,12 +8376,12 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <attribute name="MPN" value="CRCW120633R2FKEA"/>
 <attribute name="OC_NEWARK" value="42K4999"/>
 </part>
-<part name="Q7" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="">
+<part name="Q7" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="" package3d_urn="urn:adsk.eagle:package:29487/2">
 <attribute name="MF" value="FAIRCHILD SEMICONDUCTOR"/>
 <attribute name="MPN" value="TIP41C"/>
 <attribute name="OC_NEWARK" value="58K2429"/>
 </part>
-<part name="Q6" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="">
+<part name="Q6" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="" package3d_urn="urn:adsk.eagle:package:29487/2">
 <attribute name="MF" value="FAIRCHILD SEMICONDUCTOR"/>
 <attribute name="MPN" value="TIP41C"/>
 <attribute name="OC_NEWARK" value="58K2429"/>
@@ -8356,12 +8395,12 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <attribute name="MPN" value="CRCW120633R2FKEA"/>
 <attribute name="OC_NEWARK" value="42K4999"/>
 </part>
-<part name="T3" library="transistor" library_urn="urn:adsk.eagle:library:402" deviceset="2N3904" device="">
+<part name="T3" library="transistor" library_urn="urn:adsk.eagle:library:402" deviceset="2N3904" device="" package3d_urn="urn:adsk.eagle:package:29893/2">
 <attribute name="MF" value="NTE ELECTRONICS"/>
 <attribute name="MPN" value="2N3904"/>
 <attribute name="OC_NEWARK" value="33C8259"/>
 </part>
-<part name="Q3" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="">
+<part name="Q3" library="transistor-power" library_urn="urn:adsk.eagle:library:400" deviceset="TIP41C" device="" package3d_urn="urn:adsk.eagle:package:29487/2">
 <attribute name="MF" value="FAIRCHILD SEMICONDUCTOR"/>
 <attribute name="MPN" value="TIP41C"/>
 <attribute name="OC_NEWARK" value="58K2429"/>
@@ -8393,107 +8432,107 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <attribute name="OC_NEWARK" value="18T0705"/>
 </part>
 <part name="SUPPLY13" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
-<part name="PO1" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PO1" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PVIN1" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PVIN1" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PEXT1" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PEXT1" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PO2" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PO2" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PVIN2" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PVIN2" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PEXT2" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PEXT2" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PO3" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PO3" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PVIN3" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PVIN3" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PEXT3" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PEXT3" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PO4" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PO4" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PVIN4" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PVIN4" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PEXT4" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PEXT4" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PO5" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PO5" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PVIN5" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PVIN5" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PEXT5" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PEXT5" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PO6" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PO6" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PVIN6" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PVIN6" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PEXT6" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PEXT6" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PO7" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PO7" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PVIN7" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PVIN7" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
 </part>
-<part name="PEXT7" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="">
+<part name="PEXT7" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="SMD2" device="" package3d_urn="urn:adsk.eagle:package:30839/1">
 <attribute name="MF" value=""/>
 <attribute name="MPN" value=""/>
 <attribute name="OC_NEWARK" value="unknown"/>
