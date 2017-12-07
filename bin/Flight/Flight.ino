@@ -94,7 +94,7 @@ char get_user_input()
 void setup()
 {
   Serial.begin(115200);
-  Serial1.begin(4800);
+  Serial1.begin(9600);
   Serial.println("\nASTRONEWTS CODE START: \n");
   //
   Serial.println("**** Set_output_pins:");
@@ -243,7 +243,6 @@ void loop()
     Main_flight_loop();
     debug.mode = 1;
     RB_Send_Receive_data();
-
   }
     //RB_Send_Receive_data();
 }

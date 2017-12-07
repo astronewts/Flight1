@@ -1,8 +1,7 @@
 #include "Arduino.h"
 
-static const int RXPin = 4, TXPin = 3;
-static const uint32_t GPSBaud = 4800;
-static char sz[64];
+
+//Note: For the Ultimate Adafruit, GPSBaud needs to be 9600;
     
 // The TinyGPS++ object
 TinyGPSPlus gps;
