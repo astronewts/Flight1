@@ -7,11 +7,6 @@ char buffer[128];
 //Collect All Analog TLM
 void collect_analog_telemetry()
 {
-  //Air Pressure Data
-  raw_telemetry_data.raw_air_pressure = analogRead(PIN_PRESSURE_SENSOR);
-  telemetry_data.air_pressure = raw_telemetry_data.raw_air_pressure * PRESSURE_CONSTANT;
-  delay(100);
-
   //Battery 1-1 Temp
   raw_telemetry_data.raw_battery_1_temp_1 = analogRead(PIN_BATTERY1_1_TEMP);
   telemetry_data.battery_1_temp_1 = calculate_temp(raw_telemetry_data.raw_battery_1_temp_1);

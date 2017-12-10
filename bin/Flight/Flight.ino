@@ -369,7 +369,7 @@ void RB_Send_Receive_data()
     }
     debug_println("===> DEBUG: STARTING TO SEND/RECIEVE DATA WITH RB");
     parameters.transmit_elapsed_time = 0;
-    Flag_RB.try_send_reveive = 0;
+    Flag_RB.try_send_receive = 0;
     sendreceive_satellite_data();
   }
 }
@@ -711,7 +711,7 @@ void initialize_database()
   db[17] = {"long",12,null_int,raw_telemetry_data.raw_inner_external_temp,null_float,"Inner Ext T [Cts]",2,1,0};
   db[18] = {"long",12,null_int,raw_telemetry_data.raw_outter_external_temp,null_float,"Outer Ext T [Cts]",2,1,0};
   db[19] = {"long",12,null_int,raw_telemetry_data.raw_internal_temp,null_float,"Int T [Cts]",2,1,1};
-  db[20] = {"long",12,null_int,raw_telemetry_data.raw_air_pressure,null_float,"Air Pres [Pa]",0,0,0};
+  db[20] = {"int",8,Flag_RB.try_send_receive,null_long,null_float,"RB Flag",0,1,1};
   db[21] = {"long",12,null_int,raw_telemetry_data.raw_analog_VIN_voltage,null_float,"VIN Voltage [Cts]",4,1,0};
   db[22] = {"float",32,null_int,null_long,telemetry_data.battery_1_charge_current,"B1 Charge Current [A]",0,1,0};
   db[23] = {"float",32,null_int,null_long,telemetry_data.shuntvoltage_batt1,"B1 Shunt V [V]",0,0,0};
@@ -789,15 +789,15 @@ void initialize_database()
   db[95] = {"float",32,null_int,null_long,parameters.battery_2_amphrs_discharging,"B2 Amp Hours Discharg [A]",0,1,0};
   db[96] = {"float",32,null_int,null_long,parameters.sa_amphrs,"SA Total Amp Hrs [A.h]",0,1,0};
   db[97] = {"float",32,null_int,null_long,parameters.load_amphrs,"Load Total Amp Hrs [A.h]",0,1,0};
-  db[98] = {"int",16,parameters.battery_temperature_limit_high+273,null_long,null_float,"B Active T Lim High [Cts]",5,1,0};
-  db[99] = {"int",16,parameters.battery_temperature_limit_low+273,null_long,null_float,"B Active T Lim Low [Cts]",5,1,0}; 
-  db[100] = {"int",16,parameters.battery_temperature_sanity_check_high+273,null_long,null_float,"B T Sanity Check High [Cts]",5,1,0};
-  db[101] = {"int",16,thresholds.normal_battery_temperature_limit_high+273,null_long,null_float,"B Norm T Lim High [Cts]",5,1,0};
-  db[102] = {"int",16,thresholds.normal_battery_temperature_limit_low+273,null_long,null_float,"B Norm T Lim Low [Cts]",5,1,0};
-  db[103] = {"int",16,thresholds.survival_battery_temperature_limit_high+273,null_long,null_float,"B Surv T Lim High [Cts]",5,1,0};
-  db[104] = {"int",16,thresholds.survival_battery_temperature_limit_low+273,null_long,null_float,"B Surv T Lim Low [Cts]",5,1,0};         
-  db[105] = {"int",16,parameters.battery_temperature_sanity_check_low+273,null_long,null_float,"B T San Check Low [Cts]",5,1,0};     
-  db[106] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_loadshed_entry,"Loadshed Entry Volt Lim [Cts]",0,1,0};      
+  db[98] = {"int",16,parameters.battery_temperature_limit_high+273,null_long,null_float,"B Active T Lim High [K]",5,1,0};
+  db[99] = {"int",16,parameters.battery_temperature_limit_low+273,null_long,null_float,"B Active T Lim Low [K]",5,1,0}; 
+  db[100] = {"int",16,parameters.battery_temperature_sanity_check_high+273,null_long,null_float,"B T Sanity Check High [K]",5,1,0};
+  db[101] = {"int",16,thresholds.normal_battery_temperature_limit_high+273,null_long,null_float,"B Norm T Lim High [K]",5,1,0};
+  db[102] = {"int",16,thresholds.normal_battery_temperature_limit_low+273,null_long,null_float,"B Norm T Lim Low [K]",5,1,0};
+  db[103] = {"int",16,thresholds.survival_battery_temperature_limit_high+273,null_long,null_float,"B Surv T Lim High [K]",5,1,0};
+  db[104] = {"int",16,thresholds.survival_battery_temperature_limit_low+273,null_long,null_float,"B Surv T Lim Low [K]",5,1,0};         
+  db[105] = {"int",16,parameters.battery_temperature_sanity_check_low+273,null_long,null_float,"B T San Check Low [K]",5,1,0};     
+  db[106] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_loadshed_entry,"Loadshed Entry Volt Lim [V]",0,1,0};      
   db[107] = {"float",32,null_int,null_long,parameters.low_voltage_limit_for_auto_cutdown,"Auto Cut Volt Lim [V]",0,1,0};
   db[108] = {"int",16,parameters.low_voltage_time_limit/1000,null_long,null_float,"Low Volt Time until Cut [s]",0,1,0};
   db[109] = {"int",16,parameters.gps_altitude_limit_low,null_long,null_float,"GPS Alt Limit Low [m]",0,1,0};

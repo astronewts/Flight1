@@ -127,7 +127,6 @@
 #define FLIGHT_MODE_WITH_DEBUG                    9
 
 //Analog Pins
-#define PIN_PRESSURE_SENSOR                    A0
 // SPARE                                       A1
 // SPARE                                       A2
 #define PIN_ANALOG_VIN_VOLTAGE                 A3
@@ -266,7 +265,7 @@ struct debug_struct
 
 struct Flag_RB_struct
 {
-  int try_send_reveive;
+  int try_send_receive;
   int loop_started;
 };
 
@@ -364,7 +363,6 @@ struct raw_telemetry_data_struct
   unsigned long raw_inner_external_temp;
   unsigned long raw_outter_external_temp;
   unsigned long raw_internal_temp;
-  unsigned long raw_air_pressure;
   unsigned long raw_analog_VIN_voltage;
 };
 

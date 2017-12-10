@@ -294,12 +294,12 @@ void sendreceive_satellite_data()
       }
 
       // If we are here, it means the send/receive was complete
-      Flag_RB.try_send_reveive=1;
+      Flag_RB.try_send_receive=1;
       write_telemetry_data_to_sd();
       gyro.count_between_RB=0;
       alt.count_between_RB=0;
       gps_data.count_between_RB=0;
-      Flag_RB.try_send_reveive=0;
+      Flag_RB.try_send_receive=0;
 
       Serial.print("ELAPSED TIME SINCE LAST TRANSMIT: ");
       Serial.println(parameters.transmit_elapsed_time);
