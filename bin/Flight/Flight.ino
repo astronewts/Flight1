@@ -276,18 +276,9 @@ void Main_flight_loop()
   }  
   // HIGH rate processes
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
-  {
-//    collect_gps_data(gps_data_new);
-    post_process_gps_alt();
-    
+  {    
     collect_charge_current_data();
     collect_low_rate_current_data();
-
-    collect_gyro_data();
-    post_process_gyro();
-
-    collect_alt_data();
-    post_process_alt_data();
     
     process_charge_current_tlm();
     write_telemetry_data_to_sd();
@@ -297,10 +288,6 @@ void Main_flight_loop()
     //TEST CRAP
     if (debug.mode==1)
     {
-      Serial.println("=> DEBUG: GPS DATA");
-      print_gps_data();
-      Serial.println("=> DEBUG: GYRO DATA");
-      print_gyro_data();
       Serial.println("=> DEBUG: BATTERY CHARGE CURRENT DATA");
       print_battery_charge_current_data();
     }
@@ -310,6 +297,14 @@ void Main_flight_loop()
   if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
   {    
     collect_gps_data(gps_data_new);
+    post_process_gps_alt();
+
+    collect_gyro_data();
+    post_process_gyro();
+
+    collect_alt_data();
+    post_process_alt_data();
+
     collect_analog_telemetry();
     execute_thermal_control_check();
 
@@ -322,6 +317,10 @@ void Main_flight_loop()
     {
       print_heater_test_autocutdown_test();
       print_alt_data();
+      Serial.println("=> DEBUG: GPS DATA");
+      print_gps_data();
+      Serial.println("=> DEBUG: GYRO DATA");
+      print_gyro_data();
     }
   }
 
