@@ -281,7 +281,7 @@ void Main_flight_loop()
     collect_low_rate_current_data();
     
     process_charge_current_tlm();
-    write_telemetry_data_to_sd();
+//    write_telemetry_data_to_sd();
 
     parameters.high_rate_elapsed_time = 0;
 
@@ -293,12 +293,25 @@ void Main_flight_loop()
     }
   }
 
+  // Specific frequency for GPS:
+  if(parameters.gps_rate_elapsed_time > GPS_RATE_PERIOD)
+  {  
+    collect_gps_data(gps_data_new);
+    post_process_gps_alt();
+    //TEST CRAP
+    if (debug.mode==1)
+    {
+      print_heater_test_autocutdown_test();
+      print_alt_data();
+      Serial.println("=> DEBUG: GPS DATA");
+      print_gps_data();
+    } 
+    parameters.gps_rate_elapsed_time = 0;
+  }
+  
   // Medium rate processes
   if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
   {    
-    collect_gps_data(gps_data_new);
-    post_process_gps_alt();
-
     collect_gyro_data();
     post_process_gyro();
 
@@ -310,6 +323,8 @@ void Main_flight_loop()
 
     execute_electrical_control_check();
 
+    write_telemetry_data_to_sd();
+
     parameters.medium_rate_elapsed_time =  0;
 
     //TEST CRAP
@@ -317,8 +332,6 @@ void Main_flight_loop()
     {
       print_heater_test_autocutdown_test();
       print_alt_data();
-      Serial.println("=> DEBUG: GPS DATA");
-      print_gps_data();
       Serial.println("=> DEBUG: GYRO DATA");
       print_gyro_data();
     }
