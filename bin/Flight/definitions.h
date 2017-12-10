@@ -77,7 +77,8 @@
 
 
 #define HIGH_RATE_PERIOD                           100 // ms   {100 - 1000}
-#define MEDIUM_RATE_PERIOD                         10000 // ms {5000 - 10000}
+#define GPS_RATE_PERIOD                            500 // ms   {100 - 1000}
+#define MEDIUM_RATE_PERIOD                         1000 // ms {5000 - 10000}
 #define LOW_RATE_PERIOD                            30000 // ms {10000 - 30000}
 
 #define HIGH_RATE_PERIOD_CUTDOWN                   20 // ms
@@ -459,6 +460,7 @@ struct parameter_struct
   elapsedMillis sd_card_write_elapsed_time;
   elapsedMillis tlm_processing_time;
   elapsedMillis high_rate_elapsed_time;
+  elapsedMillis gps_rate_elapsed_time;
   elapsedMillis medium_rate_elapsed_time;
   elapsedMillis low_rate_elapsed_time;
   elapsedMillis battery_1_charge_current_read_elapsed_time;
