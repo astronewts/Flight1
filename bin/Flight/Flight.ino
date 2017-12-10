@@ -32,7 +32,7 @@
 #include "I2Cdev.h"
 // ORI #include "MPU9150Lib.h"
 // From SparkFun: does not work for our Arduino #include "MPU9250Lib.h"
-#include "MPU9250_asukiaaa.h"
+//#include "MPU9250_asukiaaa.h"
 #include "CalLib.h"
 #include "DueFlash.h"
 #include <dmpKey.h>
@@ -277,7 +277,7 @@ void Main_flight_loop()
   // HIGH rate processes
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD)
   {
-    collect_gps_data(gps_data_new);
+//    collect_gps_data(gps_data_new);
     post_process_gps_alt();
     
     collect_charge_current_data();
@@ -309,6 +309,7 @@ void Main_flight_loop()
   // Medium rate processes
   if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
   {    
+    collect_gps_data(gps_data_new);
     collect_analog_telemetry();
     execute_thermal_control_check();
 

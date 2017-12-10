@@ -1,3 +1,27 @@
+if exist('SD_Num_SD')==1
+    ind=find(isnan(SD_Num_SD)==0);
+    SD_number=mean(SD_Num_SD(ind));
+    clear ind
+else
+    if exist('SD_Num_RB')==1
+         ind=find(isnan(SD_Num_RB)==0);
+        SD_number=mean(SD_Num_RB(ind));
+        clear(ind)
+    end
+end
+%
+extra='';
+%
+if exist('SD_number')==1
+    Output_dir=strcat('D:\Astronewts\Postprocessed_data\','Results_',num2str(SD_number),extra,'\');
+else
+    Output_dir=strcat('D:\Astronewts\Postprocessed_data\Buffer\');
+end
+if exist(Output_dir,'dir')==1
+else
+mkdir(Output_dir);    
+end
+
 %% Create figures
 % figure(1)
 % line(Elapsed_Time_ms_SD/1000,Heat_State_1_SD*30,'Color',[0 0 0])
@@ -15,23 +39,23 @@
 % line(Elapsed_Time_ms_SD/1000,10+Veh_Mode_SD,'Color',[0 0 0.5])
 % ylim([10 32])
 % close all
-figure(1)
-line(Elapsed_Time_ms_SD/1000,Alt_m_SD,'Marker','o')
-line(Elapsed_Time_ms_SD/1000,GPS_Alt_m_SD,'Color',[1 0 0],'Marker','+')
-grid on
-legend([{'Altimeter'};{'GPS'}],'Location','NorthWest')
-xlabel('Time [s]')
-ylabel('Altitude [m]')
-saveas(gcf,'Altitude.png','png')
-close(gcf)
-%
-figure(2)
-line(Elapsed_Time_ms_SD/1000,Veh_Mode_SD)
-grid on
-xlabel('Time [s]')
-ylabel('Veh mode')
-saveas(gcf,'Veh_mode.png','png')
-close(gcf)
+% figure(1)
+% line(Elapsed_Time_ms_SD/1000,Alt_m_SD,'Marker','o')
+% line(Elapsed_Time_ms_SD/1000,GPS_Alt_m_SD,'Color',[1 0 0],'Marker','+')
+% grid on
+% legend([{'Altimeter'};{'GPS'}],'Location','NorthWest')
+% xlabel('Time [s]')
+% ylabel('Altitude [m]')
+% saveas(gcf,'Altitude.png','png')
+% close(gcf)
+% %
+% figure(2)
+% line(Elapsed_Time_ms_SD/1000,Veh_Mode_SD)
+% grid on
+% xlabel('Time [s]')
+% ylabel('Veh mode')
+% saveas(gcf,'Veh_mode.png','png')
+% close(gcf)
 % %
 % figure(3)
 % line(GPS_Long_deg_SD,GPS_Lat_deg_SD)
@@ -72,28 +96,30 @@ close(gcf)
 % line(Elapsed_Time_s_RB,Min_GPS_Alt_m_RB,'Color',[0 0.5 0],'Marker','+','LineStyle','none')
 % line(Elapsed_Time_s_RB,Mean_GPS_Alt_m_RB,'Color',[0 0 0],'Marker','v','LineStyle','none')
 %%
-% close all
-% Read_Database_from_Arduino
-% clearvars -except *_RB *_SD *var_name
-% for v=121:140%size(var_name,2)
-%     try
-% Y_SD=evalin('base',strcat(char(var_name(1,v)),'_SD'));
-%     end
-%     try
-% Y_RB=evalin('base',strcat(char(var_name(1,v)),'_RB'));
-%     end
-% %
-% if (exist('Y_SD')==1 )%&& exist('Y_RB')==1) 
-% h=figure(v);
-% set(gcf,'Visible','on')
-% line(Elapsed_Time_ms_SD/1000,Y_SD)
-% %line(Elapsed_Time_s_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
-% xlabel('Time [s]')
-% ylabel(strrep(char(var_name(1,v)),'_','-'))
-% %xlim([3000 6000])
-% grid on
-% clear Y_RB Y_SD
-% else
-% display(strcat(char(var_name(1,v)),'=> DOES NOT EXIST'))    
-% end
-% end
+close all
+Read_Database_from_Arduino
+clearvars -except *_RB *_SD *var_name Output_dir
+for v=1:size(var_name,2)
+    try
+        Y_SD=evalin('base',strcat(char(var_name(1,v)),'_SD'));
+    end
+    try
+        Y_RB=evalin('base',strcat(char(var_name(1,v)),'_RB'));
+    end
+    %
+    h=figure(v);
+    set(gcf,'Visible','on')
+    if exist('Y_SD')==1
+        line(Elapsed_Time_ms_SD/1000,Y_SD)
+    end
+    if exist('Y_RB')==1
+        line(Elapsed_Time_s_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+    end
+    xlabel('Time [s]')
+    ylabel(strrep(char(var_name(1,v)),'_','-'))
+   % xlim([0 120])
+    grid on
+    clear Y_RB Y_SD
+    saveas(h,strcat(Output_dir,char(var_name(1,v)),'.png'),'png')
+    close(h)
+end
