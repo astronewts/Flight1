@@ -1,13 +1,19 @@
 if exist('SD_Num_SD')==1
-    SD_number=mean(SD_Num_SD);
+    ind=find(isnan(SD_Num_SD)==0);
+    SD_number=mean(SD_Num_SD(ind));
+    clear ind
 else
     if exist('SD_Num_RB')==1
-        SD_number=mean(SD_Num_RB);
+         ind=find(isnan(SD_Num_RB)==0);
+        SD_number=mean(SD_Num_RB(ind));
+        clear(ind)
     end
 end
 %
+extra='';
+%
 if exist('SD_number')==1
-    Output_dir=strcat('D:\Astronewts\Postprocessed_data\','Results_',num2str(SD_number),'\');
+    Output_dir=strcat('D:\Astronewts\Postprocessed_data\','Results_',num2str(SD_number),extra,'\');
 else
     Output_dir=strcat('D:\Astronewts\Postprocessed_data\Buffer\');
 end
@@ -111,7 +117,7 @@ for v=1:size(var_name,2)
     end
     xlabel('Time [s]')
     ylabel(strrep(char(var_name(1,v)),'_','-'))
-    %xlim([3000 6000])
+   % xlim([0 120])
     grid on
     clear Y_RB Y_SD
     saveas(h,strcat(Output_dir,char(var_name(1,v)),'.png'),'png')
