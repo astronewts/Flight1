@@ -32,7 +32,7 @@
 #include "I2Cdev.h"
 // ORI #include "MPU9150Lib.h"
 // From SparkFun: does not work for our Arduino #include "MPU9250Lib.h"
-#include "MPU9250_asukiaaa.h"
+//#include "MPU9250_asukiaaa.h"
 #include "CalLib.h"
 #include "DueFlash.h"
 #include <dmpKey.h>
