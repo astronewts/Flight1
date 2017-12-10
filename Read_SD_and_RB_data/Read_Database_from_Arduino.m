@@ -46,7 +46,6 @@ nb_double_underscore=size(strfind(Name_variable_mod,'__'),2);
 for u=1:nb_double_underscore
 Name_variable_mod=strrep(Name_variable_mod,'__','_');
 end
-var_name(var_ind)=cellstr(Name_variable_mod);
 %
 Names_Arduino_Database(var_ind,1)=cellstr(Name_variable);
 Names_Variable_MATLAB(var_ind,1)=cellstr(Name_variable_mod);

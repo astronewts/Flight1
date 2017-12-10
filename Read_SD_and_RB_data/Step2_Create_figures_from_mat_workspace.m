@@ -10,7 +10,7 @@ else
     end
 end
 %
-extra='after_mod';
+extra='';
 %
 if exist('SD_number')==1
     Output_dir=strcat('D:\Astronewts\Postprocessed_data\','Results_',num2str(SD_number),extra,'\');
@@ -24,7 +24,7 @@ end
 %%
 close all
 Read_Database_from_Arduino
-clearvars -except *_RB *_SD *var_name Output_dir Names_*
+clearvars -except *_RB *_SD Output_dir Names_*
 for v=1:size(Names_Arduino_Database,1)
     try
         Y_SD=evalin('base',strcat(char(Names_Variable_MATLAB(v,1)),'_SD'));
@@ -45,7 +45,7 @@ for v=1:size(Names_Arduino_Database,1)
     ylabel(char(Names_after_conversion_for_figures(v,1)))
     grid on
     clear Y_RB Y_SD
-    saveas(h,strcat(Output_dir,char(var_name(1,v)),'.png'),'png')
+    saveas(h,strcat(Output_dir,char(Names_Variable_MATLAB(v,1)),'.png'),'png')
     close(h)
 end
 
