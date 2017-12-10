@@ -10,7 +10,7 @@ else
     end
 end
 %
-extra='';
+extra='after_mod';
 %
 if exist('SD_number')==1
     Output_dir=strcat('D:\Astronewts\Postprocessed_data\','Results_',num2str(SD_number),extra,'\');
@@ -20,6 +20,33 @@ end
 if exist(Output_dir,'dir')==1
 else
 mkdir(Output_dir);    
+end
+%%
+close all
+Read_Database_from_Arduino
+clearvars -except *_RB *_SD *var_name Output_dir Names_*
+for v=1:size(Names_Arduino_Database,1)
+    try
+        Y_SD=evalin('base',strcat(char(Names_Variable_MATLAB(v,1)),'_SD'));
+    end
+    try
+        Y_RB=evalin('base',strcat(char(Names_Variable_MATLAB(v,1)),'_RB'));
+    end
+    %
+    h=figure(v);
+    set(gcf,'Visible','on')
+    if exist('Y_SD')==1
+        line(Elapsed_Time_ms_SD/1000,Y_SD)
+    end
+    if exist('Y_RB')==1
+        line(Elapsed_Time_s_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+    end
+    xlabel('Time [s]')
+    ylabel(char(Names_after_conversion_for_figures(v,1)))
+    grid on
+    clear Y_RB Y_SD
+    saveas(h,strcat(Output_dir,char(var_name(1,v)),'.png'),'png')
+    close(h)
 end
 
 %% Create figures
@@ -95,31 +122,3 @@ end
 % line(Elapsed_Time_s_RB,Max_GPS_Alt_m_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
 % line(Elapsed_Time_s_RB,Min_GPS_Alt_m_RB,'Color',[0 0.5 0],'Marker','+','LineStyle','none')
 % line(Elapsed_Time_s_RB,Mean_GPS_Alt_m_RB,'Color',[0 0 0],'Marker','v','LineStyle','none')
-%%
-close all
-Read_Database_from_Arduino
-clearvars -except *_RB *_SD *var_name Output_dir
-for v=1:size(var_name,2)
-    try
-        Y_SD=evalin('base',strcat(char(var_name(1,v)),'_SD'));
-    end
-    try
-        Y_RB=evalin('base',strcat(char(var_name(1,v)),'_RB'));
-    end
-    %
-    h=figure(v);
-    set(gcf,'Visible','on')
-    if exist('Y_SD')==1
-        line(Elapsed_Time_ms_SD/1000,Y_SD)
-    end
-    if exist('Y_RB')==1
-        line(Elapsed_Time_s_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
-    end
-    xlabel('Time [s]')
-    ylabel(strrep(char(var_name(1,v)),'_','-'))
-   % xlim([0 120])
-    grid on
-    clear Y_RB Y_SD
-    saveas(h,strcat(Output_dir,char(var_name(1,v)),'.png'),'png')
-    close(h)
-end

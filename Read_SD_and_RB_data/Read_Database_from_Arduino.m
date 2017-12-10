@@ -1,4 +1,14 @@
-DB=importdata('Database_arduino.txt');
+Potential_arduino_location=strcat(PathName,FileName_wo_ext,'_Database_arduino.txt');
+%
+if exist(Potential_arduino_location)==2
+    Location_Database=Potential_arduino_location;
+else
+    Location_Database='Database_arduino.txt';
+    copyfile('Database_arduino.txt',Potential_arduino_location);
+end
+disp(['Location of Arduino Database=>',Location_Database])
+%
+DB=importdata(Location_Database);
 %
 for r=1:size(DB,1)
 Line=strrep(char(DB(r,:)),'&','');
@@ -38,7 +48,10 @@ Name_variable_mod=strrep(Name_variable_mod,'__','_');
 end
 var_name(var_ind)=cellstr(Name_variable_mod);
 %
-%var_units(var_ind)=cellstr(Line(Open_bracket(2)+1:Close_bracket(2)-1));
+Names_Arduino_Database(var_ind,1)=cellstr(Name_variable);
+Names_Variable_MATLAB(var_ind,1)=cellstr(Name_variable_mod);
+Names_after_conversion_for_figures(var_ind,1)=cellstr(Name_variable);
 end
 %
 nb_var=size(DB,1);
+%

@@ -1,11 +1,19 @@
 display('**********************************************************');
 display('1-Please choose a file with RB messages: .txt, .xls or csv');
 %
-[fileName,PathName,FilterIndex]=uigetfile ({'*.xls','xls-files';'*.txt','txt-files';'*.csv','csv-files'});
-display(char(strcat('You selected the file=>',fileName)));
+[FileName,PathName,FilterIndex]=uigetfile ({'*.xls','xls-files';'*.txt','txt-files';'*.csv','csv-files'});
+display(char(strcat('You selected the file=>',FileName)));
+FileName_wo_ext=strrep(FileName,'.txt','');
+FileName_wo_ext=strrep(FileName,'.TXT','');
+FileName_wo_ext=strrep(FileName,'.xls','');
+FileName_wo_ext=strrep(FileName,'.XLS','');
+FileName_wo_ext=strrep(FileName,'.xlsx','');
+FileName_wo_ext=strrep(FileName,'.XLSX','');
+FileName_wo_ext=strrep(FileName,'.csv','');
+FileName_wo_ext=strrep(FileName,'.CSV','');
 %
-if strfind(fileName,'xls')
-    [Data,Txt]=xlsread(strcat(PathName,fileName));
+if strfind(FileName,'xls')
+    [Data,Txt]=xlsread(strcat(PathName,FileName));
     c=0;
     for lw=5:size(Txt,1)
         if strcmp(char(Txt(lw,3)),'MO')==1
@@ -16,8 +24,8 @@ if strfind(fileName,'xls')
     end
 end
 %
-if strfind(fileName,'csv')
-    [Data,Txt]=xlsread(strcat(PathName,fileName));
+if strfind(FileName,'csv')
+    [Data,Txt]=xlsread(strcat(PathName,FileName));
     c=0;
     for lw=2:size(Txt,1)
         if strcmp(char(Txt(lw,3)),'MO')==1
@@ -28,8 +36,8 @@ if strfind(fileName,'csv')
     end
 end
 %
-if strfind(fileName,'txt')
-    fileID = fopen(strcat(PathName,fileName));
+if strfind(FileName,'txt')
+    fileID = fopen(strcat(PathName,FileName));
     mssg_rockblock = textscan(fileID,'%s');
     fclose(fileID);
     for lw=1:size(mssg_rockblock{1,1},1);
