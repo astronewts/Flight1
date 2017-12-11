@@ -50,13 +50,13 @@ for v=1:size(Names_Arduino_Database,1)
 end
 
 %% Create figures
-% figure(1)
-% line(Elapsed_Time_ms_SD/1000,Heat_State_1_SD*30,'Color',[0 0 0])
-% line(Elapsed_Time_ms_SD/1000,(B1_T_1_C_SD+B1_T_2_C_SD)/2,'Color',[0 0.5 0])
-% line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_Low_K_SD,'Color',[1 0 0])
-% line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_High_K_SD,'Color',[1 0.8 0])
-% line(Elapsed_Time_ms_SD/1000,10+Veh_Mode_SD,'Color',[0 0 0.5])
-% ylim([10 32])
+figure(1)
+line(Elapsed_Time_ms_SD/1000,Heat_State_1_SD*30,'Color',[0 0 0])
+line(Elapsed_Time_ms_SD/1000,(B1_T_1_C_SD+B1_T_2_C_SD)/2,'Color',[0 0.5 0])
+line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_Low_K_SD,'Color',[1 0 0])
+line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_High_K_SD,'Color',[1 0.8 0])
+line(Elapsed_Time_ms_SD/1000,10+Veh_Mode_SD,'Color',[0 0 0.5])
+ylim([10 32])
 % %
 % figure(2)
 % line(Elapsed_Time_ms_SD/1000,Heat_State_2_SD*30,'Color',[0 0 0])
