@@ -41,14 +41,14 @@ void print_battery_charge_current_data()
   // Current Sensor #1
   Serial.println("");
   Serial.print("Battery 1 Bus Voltage:     "); Serial.print(telemetry_data.busvoltage_batt1); Serial.println(" V");
-  Serial.print("Battery 1 Shunt Voltage:   "); Serial.print(telemetry_data.shuntvoltage_batt1); Serial.println(" mV");
+//  Serial.print("Battery 1 Shunt Voltage:   "); Serial.print(telemetry_data.shuntvoltage_batt1); Serial.println(" mV");
   Serial.print("Battery 1 Load Voltage:    "); Serial.print(telemetry_data.loadvoltage_batt1); Serial.println(" V");
   Serial.print("Battery 1 Charge Current:  "); Serial.print(telemetry_data.battery_1_charge_current); Serial.println(" mA");
   Serial.println("");
 
   // Current Sensor #2
   Serial.print("Battery 2 Bus Voltage:     "); Serial.print(telemetry_data.busvoltage_batt2); Serial.println(" V");
-  Serial.print("Battery 2 Shunt Voltage:   "); Serial.print(telemetry_data.shuntvoltage_batt2); Serial.println(" mV");
+//  Serial.print("Battery 2 Shunt Voltage:   "); Serial.print(telemetry_data.shuntvoltage_batt2); Serial.println(" mV");
   Serial.print("Battery 2 Load Voltage:    "); Serial.print(telemetry_data.loadvoltage_batt2); Serial.println(" V");
   Serial.print("Battery 2 Charge Current:  "); Serial.print(telemetry_data.battery_2_charge_current); Serial.println(" mA");
   Serial.println("");
@@ -59,15 +59,15 @@ void print_low_rate_current_data()
   // Current Sensor #3
   Serial.println("");
   Serial.print("Solar Array Bus Voltage:   "); Serial.print(telemetry_data.busvoltage_sa); Serial.println(" V");
-  Serial.print("Solar Array Shunt Voltage: "); Serial.print(telemetry_data.shuntvoltage_sa); Serial.println(" mV");
+//  Serial.print("Solar Array Shunt Voltage: "); Serial.print(telemetry_data.shuntvoltage_sa); Serial.println(" mV");
   Serial.print("Solar Array Load Voltage:  "); Serial.print(telemetry_data.loadvoltage_sa); Serial.println(" V");
   Serial.print("Solar Array Current:       "); Serial.print(telemetry_data.sa_current); Serial.println(" mA");
   Serial.println("");
 
   // Current Sensor #4
   Serial.print("Load Path Bus Voltage:     "); Serial.print(telemetry_data.busvoltage_load_path); Serial.println(" V");
-  Serial.print("Load Path Shunt Voltage:   "); Serial.print(telemetry_data.shuntvoltage_load_path); Serial.println(" mV");
-  Serial.print("Load Path Voltage:         "); Serial.print(telemetry_data.loadvoltage_load_path); Serial.println(" V");
+//  Serial.print("Load Path Shunt Voltage:   "); Serial.print(telemetry_data.shuntvoltage_load_path); Serial.println(" mV");
+//  Serial.print("Load Path Voltage:         "); Serial.print(telemetry_data.loadvoltage_load_path); Serial.println(" V");
   Serial.print("Load Path Current:         "); Serial.print(telemetry_data.load_path_current); Serial.println(" mA");
   Serial.println("");  
 }
