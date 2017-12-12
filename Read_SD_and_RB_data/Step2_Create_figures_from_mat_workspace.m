@@ -4,9 +4,9 @@ if exist('SD_Num_SD')==1
     clear ind
 else
     if exist('SD_Num_RB')==1
-         ind=find(isnan(SD_Num_RB)==0);
+        ind=find(isnan(SD_Num_RB)==0);
         SD_number=mean(SD_Num_RB(ind));
-        clear(ind)
+        clear ind
     end
 end
 %
@@ -19,13 +19,28 @@ else
 end
 if exist(Output_dir,'dir')==1
 else
-mkdir(Output_dir);    
+    mkdir(Output_dir);
+end
+%%
+if exist('Date_message_RB_PST')==1
+    h=figure(1);
+    set(gcf,'Visible','off')
+    line(Elapsed_Time_s_RB,Elapsed_Time_s_RB,'Color',[1 0 0],'Marker','+','LineStyle','-')
+    for m=1:size(Elapsed_Time_s_RB,1)
+        text(Elapsed_Time_s_RB(m,1),Elapsed_Time_s_RB(m,1),char(Date_message_RB_PST(m)),'Color',[0 0 0])
+    end
+    xlabel('Time [s]')
+    ylabel('Date and Time of RB messages')
+    grid on
+    saveas(h,strcat(Output_dir,'Date_Time_of_RB_messages.png'),'png')
+    close(h)
 end
 %%
 close all
 Read_Database_from_Arduino
-clearvars -except *_RB *_SD Output_dir Names_*
+clearvars -except *_RB *_SD Output_dir Names_* Date_message_RB_PST
 for v=1:size(Names_Arduino_Database,1)
+    disp(strcat(num2str(v),'=>',char(Names_after_conversion_for_figures(v,1))));
     try
         Y_SD=evalin('base',strcat(char(Names_Variable_MATLAB(v,1)),'_SD'));
     end
@@ -34,12 +49,12 @@ for v=1:size(Names_Arduino_Database,1)
     end
     %
     h=figure(v);
-    set(gcf,'Visible','on')
+    set(gcf,'Visible','off')
     if exist('Y_SD')==1
         line(Elapsed_Time_ms_SD/1000,Y_SD)
     end
     if exist('Y_RB')==1
-        line(Elapsed_Time_s_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','none')
+        line(Elapsed_Time_s_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','-')
     end
     xlabel('Time [s]')
     ylabel(char(Names_after_conversion_for_figures(v,1)))
@@ -50,13 +65,7 @@ for v=1:size(Names_Arduino_Database,1)
 end
 
 %% Create figures
-figure(1)
-line(Elapsed_Time_ms_SD/1000,Heat_State_1_SD*30,'Color',[0 0 0])
-line(Elapsed_Time_ms_SD/1000,(B1_T_1_C_SD+B1_T_2_C_SD)/2,'Color',[0 0.5 0])
-line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_Low_K_SD,'Color',[1 0 0])
-line(Elapsed_Time_ms_SD/1000,B_Active_T_Lim_High_K_SD,'Color',[1 0.8 0])
-line(Elapsed_Time_ms_SD/1000,10+Veh_Mode_SD,'Color',[0 0 0.5])
-ylim([10 32])
+
 % %
 % figure(2)
 % line(Elapsed_Time_ms_SD/1000,Heat_State_2_SD*30,'Color',[0 0 0])

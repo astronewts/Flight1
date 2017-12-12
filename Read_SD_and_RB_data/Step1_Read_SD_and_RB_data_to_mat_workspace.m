@@ -23,4 +23,4 @@ if (strcmp(answer,'r'))==1
     Read_RB_mssg_to_mat_workspace;
 end
 %
-clearvars -except *_RB *_SD Data Txt Names_* FileName_wo_ext PathName
+clearvars -except *_RB *_SD Data Txt Names_* FileName_wo_ext PathName Date_message_RB_PST
