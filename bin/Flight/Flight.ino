@@ -645,6 +645,8 @@ void set_defaults()
   digitalWrite(GOPRO_ID2, HIGH);
   digitalWrite(GOPRO_ID3, LOW);  
 
+  digitalWrite(GPS_EN, LOW);
+
   // Change the analog read resolution to 12 bits
   analogReadResolution(RESOLUTION_PRESSURE_SENSOR);
 
@@ -668,6 +670,7 @@ void set_output_pins()
   pinMode(GOPRO_ID2, OUTPUT);
   pinMode(GOPRO_ID3, OUTPUT);
   pinMode(GOPRO_TRIG, OUTPUT);
+  pinMode(GPS_EN, OUTPUT);
 }
 
 void initialize_database()
