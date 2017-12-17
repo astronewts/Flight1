@@ -1,10 +1,16 @@
-function Value_processed=convert_raw_data(Value_raw, Calib_type);
+function Value_processed=convert_raw_data(Value_raw, Calib_type)
     Value_processed=Value_raw;
+if Calib_type==0
+    Value_processed=Value_raw;
+end
 if Calib_type==1
     Value_processed=Value_raw/1000;
 end
 if Calib_type==2
     Value_processed=convert_temperatures(Value_raw);
+end
+if Calib_type==3
+    Value_processed=Value_raw;
 end
 if Calib_type==4
     Value_processed=convert_voltage(Value_raw);
@@ -42,12 +48,10 @@ for c=1:size(counts,1)
  end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-function Voltage=convert_voltage(counts);
+function Voltage=convert_voltage(counts)
 %
 VOLTAGE_CONSTANT_1= 3.3;
 VOLTAGE_CONSTANT_2= 4095.0;
 VOLTAGE_CONSTANT_3= 5.0151;
 VOLTAGE_CONSTANT_4= 0.6301;
 Voltage = ((counts * VOLTAGE_CONSTANT_1)/VOLTAGE_CONSTANT_2) * VOLTAGE_CONSTANT_3 + VOLTAGE_CONSTANT_4;
-
-
