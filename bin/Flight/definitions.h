@@ -256,6 +256,10 @@ struct gyro_struct
   float mx;
   float my;
   float mz;
+  float qzero;
+  float qx;
+  float qy;
+  float qz;
   int count_between_RB;
 };
 
