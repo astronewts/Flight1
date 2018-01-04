@@ -268,15 +268,8 @@ void setup()
   // Read the WHO_AM_I register, this is a good test of communication
   byte c = readByte(0x68, 0x75);  // Read WHO_AM_I register for MPU-9250
   Serial.print("MPU9250 "); Serial.print("I AM "); Serial.print(c, HEX); Serial.print(" I should be "); Serial.println(0x71, HEX);
-  delay(5000);
-  c = readByte(0x68, 0x75);  // Read WHO_AM_I register for MPU-9250
-  Serial.print("MPU9250 "); Serial.print("I AM "); Serial.print(c, HEX); Serial.print(" I should be "); Serial.println(0x71, HEX);
-  delay(5000);
-  c = readByte(0x68, 0x75);  // Read WHO_AM_I register for MPU-9250
-  Serial.print("MPU9250 "); Serial.print("I AM "); Serial.print(c, HEX); Serial.print(" I should be "); Serial.println(0x71, HEX);
-
-
-  if (c == 0x20) // WHO_AM_I should always be 0x68
+  
+  if (c == 0x71) // WHO_AM_I should always be 0x68
   {  
     Serial.println("MPU9250 is online...");
     
