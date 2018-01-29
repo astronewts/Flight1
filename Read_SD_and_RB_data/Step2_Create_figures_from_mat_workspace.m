@@ -22,23 +22,57 @@ else
     mkdir(Output_dir);
 end
 %%
+close all
+Read_Database_from_Arduino
+clearvars -except *_RB *_SD Output_dir Names_* Date_message_RB_PST 
+%
+%%
+t_SD=1;
+if exist('SD_Num_SD')==1
+    if max(Elapsed_Time_ms_SD/1000>600)
+        t_SD=60;
+        Time_label='Time [min]';
+    end
+    if max(Elapsed_Time_ms_SD/1000>6*3600)
+        t_SD=3600;
+        Time_label='Time [hr]';
+    end
+    if max(Elapsed_Time_ms_SD/1000>5*24*3600)
+        t_SD=24*3600;
+        Time_label='Time [days]';
+    end
+end
+t_RB=1;
+    if exist('SD_Num_RB')==1
+    if max(Elapsed_Time_s_RB>600)
+        t_RB=60;
+        Time_label='Time [min]';
+    end
+    if max(Elapsed_Time_s_RB>6*3600)
+        t_RB=3600;
+        Time_label='Time [hr]';
+    end
+    if max(Elapsed_Time_s_RB>5*24*3600)
+        t_RB=24*3600;
+        Time_label='Time [days]';
+    end
+end
+%
+%%
 if exist('Date_message_RB_PST')==1
     h=figure(1);
     set(gcf,'Visible','off')
-    line(Elapsed_Time_s_RB,Elapsed_Time_s_RB,'Color',[1 0 0],'Marker','+','LineStyle','-')
+    line(Elapsed_Time_s_RB/t_RB,Elapsed_Time_s_RB/t_RB,'Color',[1 0 0],'Marker','+','LineStyle','-')
     for m=1:size(Elapsed_Time_s_RB,1)
-        text(Elapsed_Time_s_RB(m,1),Elapsed_Time_s_RB(m,1),char(Date_message_RB_PST(m)),'Color',[0 0 0])
+        text(Elapsed_Time_s_RB(m,1)/t_RB,Elapsed_Time_s_RB(m,1)/t_RB,char(Date_message_RB_PST(m)),'Color',[0 0 0])
     end
-    xlabel('Time [s]')
+    xlabel(Time_label)
     ylabel('Date and Time of RB messages')
     grid on
     saveas(h,strcat(Output_dir,'Date_Time_of_RB_messages.png'),'png')
     close(h)
 end
 %%
-close all
-Read_Database_from_Arduino
-clearvars -except *_RB *_SD Output_dir Names_* Date_message_RB_PST
 for v=1:size(Names_Arduino_Database,1)
     disp(strcat(num2str(v),'=>',char(Names_after_conversion_for_figures(v,1))));
     try
@@ -51,12 +85,12 @@ for v=1:size(Names_Arduino_Database,1)
     h=figure(v);
     set(gcf,'Visible','off')
     if exist('Y_SD')==1
-        line(Elapsed_Time_ms_SD/1000,Y_SD)
+        line(Elapsed_Time_ms_SD/(1000*t_SD),Y_SD)
     end
     if exist('Y_RB')==1
-        line(Elapsed_Time_s_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','-')
+        line(Elapsed_Time_s_RB/t_RB,Y_RB,'Color',[1 0 0],'Marker','+','LineStyle','-')
     end
-    xlabel('Time [s]')
+    xlabel(Time_label)
     ylabel(char(Names_after_conversion_for_figures(v,1)))
     grid on
     clear Y_RB Y_SD
