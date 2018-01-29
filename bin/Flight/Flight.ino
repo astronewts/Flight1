@@ -312,7 +312,7 @@ void Main_flight_loop()
   // Medium rate processes
   if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
   {    
-    collect_gyro_data();
+    readGyroData();
     post_process_gyro();
 
     collect_alt_data();
@@ -432,7 +432,7 @@ void Cutdown_test_loop()
   // High rate processes
   if(parameters.high_rate_elapsed_time > HIGH_RATE_PERIOD_CUTDOWN)
   {
-    collect_gyro_data();
+    readGyroData();
     post_process_gyro();
     
     collect_gps_data(gps_data_new);
@@ -479,7 +479,7 @@ void Terminal_test_loop()
   post_process_alt_data();
 
   //Collect gyro data
-  collect_gyro_data();
+  readGyroData();
   post_process_gyro();
 
   // Process All Software Data
@@ -509,7 +509,7 @@ void Init_components()
   Serial.println("===> current_sense_setup done ");
   Serial.println("");
   Serial.println("****gyro_setup");
-  gyro_setup();
+  gyroSetup();
   Serial.println("===> gyro setup done ");
   Serial.println("");
 }
@@ -658,6 +658,8 @@ void set_defaults()
   digitalWrite(GOPRO_ID2, HIGH);
   digitalWrite(GOPRO_ID3, LOW);  
 
+  digitalWrite(GPS_EN, LOW);
+
   // Change the analog read resolution to 12 bits
   analogReadResolution(RESOLUTION_PRESSURE_SENSOR);
 
@@ -681,6 +683,7 @@ void set_output_pins()
   pinMode(GOPRO_ID2, OUTPUT);
   pinMode(GOPRO_ID3, OUTPUT);
   pinMode(GOPRO_TRIG, OUTPUT);
+  pinMode(GPS_EN, OUTPUT);
 }
 
 void initialize_database()

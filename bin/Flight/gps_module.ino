@@ -9,6 +9,10 @@ TinyGPSPlus gps;
 void collect_gps_data(struct gps_data_struct data)
 
 {
+  // Wake up the GPS
+  digitalWrite(GPS_EN, HIGH);
+  delay(4000);
+  
   if(Serial1.available())
   {
    // smartDelay ensures that the GPS is fed 
@@ -54,6 +58,10 @@ void collect_gps_data(struct gps_data_struct data)
     gps_data.gps_hdop_valid = gps.hdop.isValid();
  
     gps_data.gps_num_satellites = gps.satellites.value(); 
+  }
+  // Tell the GPS to go back to sleep ...
+  if (parameters.time_since_start > 30000) {
+    digitalWrite(GPS_EN, LOW);
   }
 }
 

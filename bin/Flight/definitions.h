@@ -157,6 +157,7 @@
 #define BMP_MISO                        36
 #define BMP_MOSI                        34 
 #define BMP_CS                          32
+#define GPS_EN                          41
 
 #define RESOLUTION_PRESSURE_SENSOR      12
 
@@ -255,6 +256,10 @@ struct gyro_struct
   float mx;
   float my;
   float mz;
+  float qzero;
+  float qx;
+  float qy;
+  float qz;
   int count_between_RB;
 };
 

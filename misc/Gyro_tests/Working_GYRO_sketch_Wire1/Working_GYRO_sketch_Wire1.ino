@@ -25,7 +25,7 @@
  We have disabled the internal pull-ups used by the Wire library in the Wire.h/twi.c utility file.
  We are also using the 400 kHz fast I2C mode by setting the TWI_FREQ  to 400000L /twi.h utility file.
  */
-#include <SPI.h>
+ 
 #include <Wire.h>   
 
 // See also MPU-9250 Register Map and Descriptions, Revision 4.0, RM-MPU-9250A-00, Rev. 1.4, 9/9/2013 for registers not listed in 
@@ -36,12 +36,12 @@
 #define AK8963_WHO_AM_I  0x00 // should return 0x48
 #define AK8963_INFO      0x01
 #define AK8963_ST1       0x02  // data ready status bit 0
-#define AK8963_XOUT_L   0x03  // data
-#define AK8963_XOUT_H  0x04
-#define AK8963_YOUT_L  0x05
-#define AK8963_YOUT_H  0x06
-#define AK8963_ZOUT_L  0x07
-#define AK8963_ZOUT_H  0x08
+#define AK8963_XOUT_L	 0x03  // data
+#define AK8963_XOUT_H	 0x04
+#define AK8963_YOUT_L	 0x05
+#define AK8963_YOUT_H	 0x06
+#define AK8963_ZOUT_L	 0x07
+#define AK8963_ZOUT_H	 0x08
 #define AK8963_ST2       0x09  // Data overflow bit 3 and data read error status bit 2
 #define AK8963_CNTL      0x0A  // Power down (0000), single-measurement (0001), self-test (1000) and Fuse ROM (1111) modes on bits 3:0
 #define AK8963_ASTC      0x0C  // Self test control
@@ -214,8 +214,8 @@ uint8_t Mmode = 0x02;        // 2 for 8 Hz, 6 for 100 Hz continuous magnetometer
 float aRes, gRes, mRes;      // scale resolutions per LSB for the sensors
   
 // Pin definitions
-int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
-int myLed = 13; // Set up pin 13 led for toggling
+//int intPin = 52;  // These can be changed, 2 and 3 are the Arduinos ext int pins
+//int myLed = 13; // Set up pin 13 led for toggling
 
 int16_t accelCount[3];  // Stores the 16-bit signed accelerometer sensor output
 int16_t gyroCount[3];   // Stores the 16-bit signed gyro sensor output
@@ -253,35 +253,34 @@ float ax, ay, az, gx, gy, gz, mx, my, mz; // variables to hold latest sensor dat
 float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};    // vector to hold quaternion
 float eInt[3] = {0.0f, 0.0f, 0.0f};       // vector to hold integral error for Mahony method
 
-void gyroSetup()
+void setup()
 {
   Wire1.begin();
   // TWBR = 12;  // 400 kbit/sec I2C speed
   Serial.begin(115200);
   
   // Set up the interrupt pin, its set as active high, push-pull
-  pinMode(intPin, INPUT);
-  digitalWrite(intPin, LOW);
-  pinMode(myLed, OUTPUT);
-  digitalWrite(myLed, HIGH);
+  //pinMode(intPin, INPUT);
+  //digitalWrite(intPin, LOW);
+  //pinMode(myLed, OUTPUT);
+  //digitalWrite(myLed, HIGH);
   
   // Read the WHO_AM_I register, this is a good test of communication
-  byte c = readByte(0x68, WHO_AM_I_MPU9250);  // Read WHO_AM_I register for MPU-9250
+  byte c = readByte(0x68, 0x75);  // Read WHO_AM_I register for MPU-9250
   Serial.print("MPU9250 "); Serial.print("I AM "); Serial.print(c, HEX); Serial.print(" I should be "); Serial.println(0x71, HEX);
-
+  
   if (c == 0x71) // WHO_AM_I should always be 0x68
   {  
     Serial.println("MPU9250 is online...");
     
     MPU9250SelfTest(SelfTest); // Start by performing self test and reporting values
-    
     Serial.print("x-axis self test: acceleration trim within : "); Serial.print(SelfTest[0],1); Serial.println("% of factory value");
     Serial.print("y-axis self test: acceleration trim within : "); Serial.print(SelfTest[1],1); Serial.println("% of factory value");
     Serial.print("z-axis self test: acceleration trim within : "); Serial.print(SelfTest[2],1); Serial.println("% of factory value");
     Serial.print("x-axis self test: gyration trim within : "); Serial.print(SelfTest[3],1); Serial.println("% of factory value");
     Serial.print("y-axis self test: gyration trim within : "); Serial.print(SelfTest[4],1); Serial.println("% of factory value");
     Serial.print("z-axis self test: gyration trim within : "); Serial.print(SelfTest[5],1); Serial.println("% of factory value");
-
+ 
     calibrateMPU9250(gyroBias, accelBias); // Calibrate gyro and accelerometers, load biases in bias registers
   
     initMPU9250(); 
@@ -306,14 +305,16 @@ void gyroSetup()
   {
     Serial.print("Could not connect to MPU9250: 0x");
     Serial.println(c, HEX);
+    
+    //I2C_recovery();
     while(1) ; // Loop forever if communication doesn't happen
   }
 }
 
-void readGyroData()
+void loop()
 {  
   // If intPin goes high, all data registers have new data
-  if (readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01) {  // On interrupt, check if data ready interrupt
+  if (readByte(0x68, INT_STATUS) & 0x01) {  // On interrupt, check if data ready interrupt
     readAccelData(accelCount);  // Read the x/y/z adc values
     getAres();
     
@@ -357,7 +358,7 @@ void readGyroData()
   // in the LSM9DS0 sensor. This rotation can be modified to allow any convenient orientation convention.
   // This is ok by aircraft orientation standards!  
   // Pass gyro rate as rad/s
-  // MadgwickQuaternionUpdate(ax, ay, az, gx*PI/180.0f, gy*PI/180.0f, gz*PI/180.0f,  my,  mx, mz);
+//  MadgwickQuaternionUpdate(ax, ay, az, gx*PI/180.0f, gy*PI/180.0f, gz*PI/180.0f,  my,  mx, mz);
   MahonyQuaternionUpdate(ax, ay, az, gx*PI/180.0f, gy*PI/180.0f, gz*PI/180.0f, my, mx, mz);
 
 
@@ -380,30 +381,15 @@ void readGyroData()
     Serial.print("X-mag field: "); Serial.print(mx); Serial.print(" mG "); 
     Serial.print("Y-mag field: "); Serial.print(my); Serial.print(" mG "); 
     Serial.print("Z-mag field: "); Serial.print(mz); Serial.println(" mG"); 
-
+ 
     tempCount = readTempData();  // Read the adc values
     temperature = ((float) tempCount) / 333.87 + 21.0; // Temperature in degrees Centigrade
    // Print temperature in degrees Centigrade      
     Serial.print("Temperature is ");  Serial.print(temperature, 1);  Serial.println(" degrees C"); // Print T values to tenths of s degree C
     }
-
-    gyro.ax = 1000*ax; // mg
-    gyro.ay = 1000*ay; // mg
-    gyro.az = 1000*az; // mg
-    gyro.gx = gx; // deg/sec
-    gyro.gy = gy; // deg/sec
-    gyro.gz = gz; // deg/sec
-    gyro.mx = mx; // mG
-    gyro.my = my; // mG
-    gyro.mz = mz; // mG
-    gyro.gyro_temp = temperature;
-    gyro.qzero = q[0];
-    gyro.qx = q[1];
-    gyro.qy = q[2];
-    gyro.qz = q[3];
     
     count = millis();
-    digitalWrite(myLed, !digitalRead(myLed));  // toggle led
+    //digitalWrite(myLed, !digitalRead(myLed));  // toggle led
     }
     }
     else {
@@ -473,45 +459,9 @@ void readGyroData()
     sumCount = 0;
     sum = 0;    
     }
-   }
+    }
+
 }
-
-void print_gyro_data()
-{
-    // Print acceleration values in milligs!
-    Serial.print("X-acceleration: "); Serial.print(1000*ax); Serial.print(" mg ");
-    Serial.print("Y-acceleration: "); Serial.print(1000*ay); Serial.print(" mg ");
-    Serial.print("Z-acceleration: "); Serial.print(1000*az); Serial.println(" mg ");
-    // Print gyro values in degree/sec
-    Serial.print("X-gyro rate: "); Serial.print(gx, 3); Serial.print(" degrees/sec "); 
-    Serial.print("Y-gyro rate: "); Serial.print(gy, 3); Serial.print(" degrees/sec "); 
-    Serial.print("Z-gyro rate: "); Serial.print(gz, 3); Serial.println(" degrees/sec"); 
-    // Print mag values in degree/sec
-    Serial.print("X-mag field: "); Serial.print(mx); Serial.print(" mG "); 
-    Serial.print("Y-mag field: "); Serial.print(my); Serial.print(" mG "); 
-    Serial.print("Z-mag field: "); Serial.print(mz); Serial.println(" mG"); 
-
-    tempCount = readTempData();  // Read the adc values
-    temperature = ((float) tempCount) / 333.87 + 21.0; // Temperature in degrees Centigrade
-   // Print temperature in degrees Centigrade      
-    Serial.print("Temperature is ");  Serial.print(temperature, 1);  Serial.println(" degrees C"); // Print T values to tenths of s degree C
-
-    Serial.print("Quaternian: ");
-    Serial.print("q0 = "); Serial.print(q[0]);
-    Serial.print(" qx = "); Serial.print(q[1]); 
-    Serial.print(" qy = "); Serial.print(q[2]); 
-    Serial.print(" qz = "); Serial.println(q[3]); 
-
-    Serial.print("Yaw, Pitch, Roll: ");
-    Serial.print(yaw, 2);
-    Serial.print(", ");
-    Serial.print(pitch, 2);
-    Serial.print(", ");
-    Serial.println(roll, 2); 
-    Serial.print("rate = "); Serial.print((float)sumCount/sum, 2); Serial.println(" Hz");
-    Serial.println("");
-}
-
 
 //===================================================================================================================
 //====== Set of useful function to access acceleration. gyroscope, magnetometer, and temperature data
@@ -520,8 +470,8 @@ void print_gyro_data()
 void getMres() {
   switch (Mscale)
   {
-  // Possible magnetometer scales (and their register bit settings) are:
-  // 14 bit resolution (0) and 16 bit resolution (1)
+ 	// Possible magnetometer scales (and their register bit settings) are:
+	// 14 bit resolution (0) and 16 bit resolution (1)
     case MFS_14BITS:
           mRes = 10.*4912./8190.; // Proper scale to return milliGauss
           break;
@@ -534,8 +484,8 @@ void getMres() {
 void getGres() {
   switch (Gscale)
   {
-  // Possible gyro scales (and their register bit settings) are:
-  // 250 DPS (00), 500 DPS (01), 1000 DPS (10), and 2000 DPS  (11). 
+ 	// Possible gyro scales (and their register bit settings) are:
+	// 250 DPS (00), 500 DPS (01), 1000 DPS (10), and 2000 DPS  (11). 
         // Here's a bit of an algorith to calculate DPS/(ADC tick) based on that 2-bit value:
     case GFS_250DPS:
           gRes = 250.0/32768.0;
@@ -555,8 +505,8 @@ void getGres() {
 void getAres() {
   switch (Ascale)
   {
-  // Possible accelerometer scales (and their register bit settings) are:
-  // 2 Gs (00), 4 Gs (01), 8 Gs (10), and 16 Gs  (11). 
+ 	// Possible accelerometer scales (and their register bit settings) are:
+	// 2 Gs (00), 4 Gs (01), 8 Gs (10), and 16 Gs  (11). 
         // Here's a bit of an algorith to calculate DPS/(ADC tick) based on that 2-bit value:
     case AFS_2G:
           aRes = 2.0/32768.0;
@@ -928,34 +878,82 @@ void MPU9250SelfTest(float * destination) // Should return percent deviation fro
      destination[i+3] = 100.0*((float)(gSTAvg[i] - gAvg[i]))/factoryTrim[i+3] - 100.; // Report percent differences
    }
    
-} 
+}
+
+        
         // Wire.h read and write protocols
-void writeByte(uint8_t address, uint8_t subAddress, uint8_t data)
+        void writeByte(uint8_t address, uint8_t subAddress, uint8_t data)
 {
-  Wire1.beginTransmission(address);  // Initialize the Tx buffer
-  Wire1.write(subAddress);           // Put slave register address in Tx buffer
-  Wire1.write(data);                 // Put data in Tx buffer
-  Wire1.endTransmission();           // Send the Tx buffer
+	Wire1.beginTransmission(address);  // Initialize the Tx buffer
+	Wire1.write(subAddress);           // Put slave register address in Tx buffer
+	Wire1.write(data);                 // Put data in Tx buffer
+	Wire1.endTransmission();           // Send the Tx buffer
 }
 
-uint8_t readByte(uint8_t address, uint8_t subAddress)
+        uint8_t readByte(uint8_t address, uint8_t subAddress)
 {
-  uint8_t data; // `data` will store the register data   
-  Wire1.beginTransmission(address);         // Initialize the Tx buffer
-  Wire1.write(subAddress);                   // Put slave register address in Tx buffer
-  Wire1.endTransmission(false);             // Send the Tx buffer, but send a restart to keep connection alive
-  Wire1.requestFrom(address, (uint8_t) 1);  // Read one byte from slave register address 
-  data = Wire1.read();                      // Fill Rx buffer with result
-  return data;                             // Return data read from slave register
+	uint8_t data; // `data` will store the register data	 
+	Wire1.beginTransmission(address);         // Initialize the Tx buffer
+	Wire1.write(subAddress);	                 // Put slave register address in Tx buffer
+	Wire1.endTransmission(false);             // Send the Tx buffer, but send a restart to keep connection alive
+	Wire1.requestFrom(address, (uint8_t) 1);  // Read one byte from slave register address 
+	data = Wire1.read();                      // Fill Rx buffer with result
+	return data;                             // Return data read from slave register
 }
 
-void readBytes(uint8_t address, uint8_t subAddress, uint8_t count, uint8_t * dest)
+        void readBytes(uint8_t address, uint8_t subAddress, uint8_t count, uint8_t * dest)
 {  
-  Wire1.beginTransmission(address);   // Initialize the Tx buffer
-  Wire1.write(subAddress);            // Put slave register address in Tx buffer
-  Wire1.endTransmission(false);       // Send the Tx buffer, but send a restart to keep connection alive
-  uint8_t i = 0;
+	Wire1.beginTransmission(address);   // Initialize the Tx buffer
+	Wire1.write(subAddress);            // Put slave register address in Tx buffer
+	Wire1.endTransmission(false);       // Send the Tx buffer, but send a restart to keep connection alive
+	uint8_t i = 0;
         Wire1.requestFrom(address, count);  // Read bytes from slave register address 
-  while (Wire1.available()) {
+	while (Wire1.available()) {
         dest[i++] = Wire1.read(); }         // Put read results in the Rx buffer
+}
+
+void I2C_recovery() {
+ Serial.println("Starting I2C bus recovery");
+  delay(2000);
+  int SDAPIN = 70;
+  int CLKPIN = 71;
+  //try i2c bus recovery at 100kHz = 5uS high, 5uS low
+  pinMode(SDAPIN, OUTPUT);//keeping SDA high during recovery
+  digitalWrite(SDAPIN, HIGH);
+  pinMode(CLKPIN, OUTPUT);
+  for (int i = 0; i < 10; i++) { //9nth cycle acts as NACK
+    digitalWrite(CLKPIN, HIGH);
+    delayMicroseconds(5);
+    digitalWrite(CLKPIN, LOW);
+    delayMicroseconds(5);
+  }
+
+  //a STOP signal (SDA from low to high while CLK is high)
+  digitalWrite(SDAPIN, LOW);
+  delayMicroseconds(5);
+  digitalWrite(CLKPIN, HIGH);
+  delayMicroseconds(2);
+  digitalWrite(SDAPIN, HIGH);
+  delayMicroseconds(2);
+  //bus status is now : FREE
+
+  Serial.println("bus recovery done, starting scan in 2 secs");
+  //return to power up mode
+  pinMode(SDAPIN, INPUT);
+  pinMode(CLKPIN, INPUT);
+  delay(2000);
+  //pins + begin advised in https://github.com/esp8266/Arduino/issues/452
+  //Wire1.pins(SDAPIN, CLKPIN); //this changes default values for sda and clock as well
+  Wire1.begin();
+  //only pins: no signal on clk and sda
+  //only begin: no signal on clk, no signal on sda
+
+
+  //no further processing in case of error
+  /*
+  while(true)
+  {
+    i2c_scan(); 
+  }
+  */
 }
