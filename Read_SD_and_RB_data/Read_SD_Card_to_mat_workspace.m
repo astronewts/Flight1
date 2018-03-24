@@ -2,7 +2,7 @@
 display('**********************************************************');
 display('1-Please choose a SD card file')
 try
-    [FileName,PathName,FilterIndex]=uigetfile('*.csv','SELECT A CSV FILE','D:\Astronewts\SD_data\CSV_files_SDHC_card\Raw_CSV_files\');
+    [FileName,PathName,FilterIndex]=uigetfile('*.csv','SELECT A CSV FILE','D:\Astronewts\SD_data\CSV_files_SDHC_card_March_2018\Raw_CSV_files\');
     display(strcat('You selected the SD card file=>',FileName));
     FileName_wo_ext=strrep(FileName,'.csv','');
     FileName_wo_ext=strrep(FileName,'.CSV','');

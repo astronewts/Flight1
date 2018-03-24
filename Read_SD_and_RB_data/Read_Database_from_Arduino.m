@@ -46,7 +46,6 @@ for r=1:size(DB,1)
     %
     Names_Arduino_Database(i,1)=cellstr(Name_variable);
     Names_Variable_MATLAB(i,1)=cellstr(Name_variable_mod);
-    Names_after_conversion_for_figures(i,1)=cellstr(Name_variable);
    end
 end
 nb_var=size(Names_Arduino_Database,1);

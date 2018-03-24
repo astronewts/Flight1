@@ -27,6 +27,7 @@ Read_Database_from_Arduino
 clearvars -except *_RB *_SD Output_dir Names_* Date_message_RB_PST 
 %
 %%
+    Time_label='Time [s]';
 t_SD=1;
 if exist('SD_Num_SD')==1
     if max(Elapsed_Time_ms_SD/1000>600)
