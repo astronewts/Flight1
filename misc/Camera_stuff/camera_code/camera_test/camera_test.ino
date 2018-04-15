@@ -24,6 +24,11 @@ elapsedMillis camera_period_elapsed_time;
 elapsedMillis camera_on_elapsed_time;
 
 void setup() {
+  Serial.begin(115200);
+
+  Serial.println("*************************");
+  Serial.println("* Setting Up The Camera *");
+  Serial.println("*************************");
   camera_enabled = true;
   camera_status = false;
 

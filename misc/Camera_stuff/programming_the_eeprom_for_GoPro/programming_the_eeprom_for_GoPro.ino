@@ -12,8 +12,8 @@
               -----
             -|1   8|- Arduino +5V
             -|2   7|- Jumper to +5V for Write Protect / <LC: GND TO WRITE TO IT>
-            -|3   6|- Arduino Pin Analog-5
-Arduino Gnd -|4   5|- Arduino Pin Analog-4
+            -|3   6|- Arduino Pin: SCL
+Arduino Gnd -|4   5|- Arduino Pin: SDA
               -----
               
     I put a 2.2K pull-up resistor between pin 5 and 8
@@ -47,19 +47,20 @@ void setup()
 
 void loop()
 {
-  Serial.println("Writing...");
+  //Serial.println("Writing...");
   
-  Wire.beginTransmission(0x50); // This is the 24LC01B device address
-  Wire.write(0x0);               // Start writing at address 0
-  Wire.write(0x09);              // Send 4 bytes of '0x09' to show its GoPro Compatible
-  Wire.endTransmission();       
-  delay(10);                    // Without a short delay, the EEPROM is still
+  //Wire.beginTransmission(0x50); // This is the 24LC01B device address
+  //Wire.write(0x0);               // Start writing at address 0
+  //Wire.write(0x09);              // Send 4 bytes of '0x09' to show its GoPro Compatible
+  //Wire.endTransmission();       
+  //delay(10);                    // Without a short delay, the EEPROM is still
                                 // writing when you start to write the next block
                                 // Feel free to experiment with the delay length
 
   Serial.println("Reading...");
   Wire.beginTransmission(0x50); // Now we're going to read it back
   Wire.write(0x0);               // Sending address 0, so it knows where we'll want
+  //Wire.read(0x0);
   Wire.endTransmission();       // to read from
 
   Wire.requestFrom(0x50,4);     // Start new transmission and keep reading for 12 bytes

@@ -279,6 +279,7 @@ void Main_flight_loop()
   {    
     collect_charge_current_data();
     collect_low_rate_current_data();
+    get_signal_quality();
     
     process_charge_current_tlm();
 //    write_telemetry_data_to_sd();
@@ -391,16 +392,13 @@ void Signal_test_loop()
   }
   
   delay(1000);
-  int signalQuality = -1;
-  int sig_qual_err = -1;
-  sig_qual_err = isbd.getSignalQuality(signalQuality);
-  parameters.signal_quality_record = signalQuality;
-  parameters.signal_quality_error_record = sig_qual_err;
+  get_signal_quality();
+
   Serial.print(parameters.elasped_time_for_rb_quality_test);
   Serial.print("  ");
-  Serial.print(signalQuality);
+  Serial.print(parameters.signal_quality_record);
   Serial.print("  ");
-  Serial.println(sig_qual_err);
+  Serial.println(parameters.signal_quality_error_record);
   write_telemetry_data_to_sd();
 }
 
@@ -557,6 +555,7 @@ void set_defaults()
   telemetry_data.loadvoltage_load_path = 0.0;
 
   parameters.vehicle_mode = DEFAULT_MODE;
+  parameters.frame_counter = 1;
   parameters.sd_card_num = 0;
   parameters.telemetry_format = FORMAT_1;  //FORMAT_1;
   parameters.command_count = 0.0;
@@ -612,9 +611,9 @@ void set_defaults()
   
   parameters.test_count = INITIAL_TEST_COUNT;
   parameters.rb_initialization_error_status = 0;
-  parameters.signal_quality_record = 0;
-  parameters.signal_quality_error_record = 0;
-  parameters.num_rb_words_recieved = 0;
+  parameters.signal_quality_record = -1;
+  parameters.signal_quality_error_record = -1;
+  parameters.rb_send_receive_err = -1;
   parameters.edm_flag_type = 0;
   
   alt.count_between_RB = 0;
@@ -705,6 +704,8 @@ void initialize_database()
   db[i] = {"int",8,parameters.sd_card_num,null_long,null_float,"SD_Num",0,1,1}; 
   i += 1;
   db[i] = {"int",8,parameters.vehicle_mode,null_long,null_float,"Veh Mode",0,1,1};
+  i += 1;
+  db[i] = {"int",8,parameters.frame_counter,null_long,null_float,"Frame Count",0,1,1};
   i += 1;
   db[i] = {"int",8,parameters.command_count,null_long,null_float,"CMD Count",0,1,0};            
   i += 1;
@@ -930,11 +931,11 @@ void initialize_database()
   i += 1;
   db[i] = {"int",8,parameters.cutdown_pulse_width/1000,null_long,null_float,"Pyro Pulse Width [s]",0,1,0};
   i += 1;
-  db[i] = {"int",16,parameters.camera_period/1000,null_long,null_float,"Cam Per [s]",0,1,0};
+  db[i] = {"int",16,parameters.camera_period/1000,null_long,null_float,"Cam Per [s]",0,0,0};
   i += 1;
-  db[i] = {"int",16,parameters.camera_on_time/1000,null_long,null_float,"Cam On Time [s]",0,1,0};
+  db[i] = {"int",16,parameters.camera_on_time/1000,null_long,null_float,"Cam On Time [s]",0,0,0};
   i += 1;
-  db[i] = {"int",16,parameters.camera_delay_take_picture/1000,null_long,null_float,"Cam Delay [s]",0,1,0};
+  db[i] = {"int",16,parameters.camera_delay_take_picture/1000,null_long,null_float,"Cam Delay [s]",0,0,0};
   i += 1;
   db[i] = {"int",1,parameters.battery_bus_low_voltage_flag,null_long,null_float,"Batt Bus Low V Flag",0,1,0};
   i += 1;
@@ -988,7 +989,7 @@ void initialize_database()
   i += 1;
   db[i] = {"int",8,parameters.signal_quality_error_record,null_long,null_float,"SQ_Err_Rec",0,1,0};
   i += 1;
-  db[i] = {"int",8,parameters.num_rb_words_recieved,null_long,null_float,"RB Words Recd",0,1,0}; 
+  db[i] = {"int",8,parameters.rb_send_receive_err,null_long,null_float,"Send Rcv Err",0,1,0}; 
   i += 1;
   db[i] = {"int",8,parameters.invalid_command_recieved_count,null_long,null_float,"Invalid CMD Recd Flag",0,1,0};
   i += 1;

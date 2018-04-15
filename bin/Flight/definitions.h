@@ -46,14 +46,14 @@
 #define DEFAULT_LOW_VOLTAGE_TIME_LIMIT             7200000 // GL 100000 is for TEST //300000  //1080000 FLIGHT
 #define DEFAULT_VOLTAGE_SANITY_CHECK_HIGH          18
 #define DEFAULT_VOLTAGE_SANITY_CHECK_LOW           6
-#define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_HIGH     20
-#define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_LOW      18
+#define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_HIGH     24
+#define DEFAULT_NORMAL_BATTERY_TEMP_LIMIT_LOW      22
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_HIGH   16
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW    14
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH     150
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80
-#define DEFAULT_NORMAL_TRANSMIT_RATE               3600000 // TEST ONLY!!! (Once every half hour)
-//#define DEFAULT_NORMAL_TRANSMIT_RATE               6000 //1800000 // FOR FLIGHT!!!
+#define DEFAULT_NORMAL_TRANSMIT_RATE                 300000 // TEST ONLY!!! (Once every half hour)
+//define DEFAULT_NORMAL_TRANSMIT_RATE               3600000 //1800000 // FOR FLIGHT!!!
 #define DEFAULT_SPARE_TRANSMIT_RATE                60000
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              300000    
 #define DEFAULT_EMERGENCY_TRANSIT_TRANSMIT_RATE    120000
@@ -378,6 +378,7 @@ struct parameter_struct
   unsigned long sd_card_write_period;
   unsigned long tlm_processing_period;
   int vehicle_mode;
+  int frame_counter;
   int sd_card_num;
   int telemetry_format;
   int command_count;
@@ -426,12 +427,12 @@ struct parameter_struct
   int count_low_voltage;
 
   int rb_initialization_error_status;
-  int num_rb_words_recieved;
+  int rb_send_receive_err;
   int invalid_command_recieved_count;
-
-  int test_count;
   int signal_quality_record;
   int signal_quality_error_record;
+
+  int test_count;
   int prompt_from_user_makes_sense;
   int edm_flag_type;
 

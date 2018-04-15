@@ -1,6 +1,5 @@
 #include "Arduino.h"
 
-
 //Note: For the Ultimate Adafruit, GPSBaud needs to be 9600;
     
 // The TinyGPS++ object

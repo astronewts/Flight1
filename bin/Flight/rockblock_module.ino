@@ -97,7 +97,16 @@ void initialize_rb()
 
 void sendreceive_satellite_data()
 {
-  debug.mode = 1;
+  //debug.mode = 1;
+  if (parameters.frame_counter > 254)
+  {
+    parameters.frame_counter = 1;
+  }
+  else
+  {
+    parameters.frame_counter = parameters.frame_counter + 1;
+  }
+  
   //do-while loop to Send/Receive until Iridium queue is cleared
   do
   {
@@ -181,7 +190,8 @@ void sendreceive_satellite_data()
     // Parameter:     quality – Return value: the strength of the signal (0=nonexistent, 5=high)
 
     int signalQuality = -1;
-    int sig_qual_err = isbd.getSignalQuality(signalQuality);
+    int sig_qual_err = -1;
+    sig_qual_err = isbd.getSignalQuality(signalQuality);
 
     if(debug.mode == 1)
     {
@@ -191,23 +201,26 @@ void sendreceive_satellite_data()
       Serial.println("##########");
       Serial.print("########  isbd.getSignalQuality(signalQuality) = ");
       Serial.print(sig_qual_err);
-      Serial.println(" ##########");
+      Serial.println("##########");
       Serial.println(" ");
     }
+
+    parameters.signal_quality_record = signalQuality;
+    parameters.signal_quality_error_record = sig_qual_err;
     
     if (sig_qual_err != 0)
     {
       // TODO: WRITE THIS TO THE ERROR BUFFER
       if(debug.mode == 1)
       {
-        Serial.println("SignalQuality failed: error ");
+         Serial.println("SignalQuality failed: error ");
          Serial.println(sig_qual_err);
          Serial.print("Time: ");
          Serial.println(parameters.transmit_elapsed_time);
       }
 
-      Serial.print("Error: ");
-      Serial.println(sig_qual_err);
+      //Serial.print("Error: ");
+      //Serial.println(sig_qual_err);
      
       // TODO: WRITE THIS TO THE SD BUFFER
       //
@@ -224,6 +237,8 @@ void sendreceive_satellite_data()
       //      #define ISBD_REENTRANT           9
       //      #define ISBD_IS_ASLEEP           10
       //      #define ISBD_NO_SLEEP_PIN        11
+    
+      write_telemetry_data_to_sd();
       return;
     }
 
@@ -252,7 +267,7 @@ void sendreceive_satellite_data()
       size_t rx_bufferSize = sizeof(rx_buffer);
 
       int send_receive_err = isbd.sendReceiveSBDBinary(tx_buffer, tx_bufferSize, rx_buffer, rx_bufferSize);
-
+      parameters.rb_send_receive_err = send_receive_err;
     //=========== end real command ======================================= //
     
       if (send_receive_err != 0)
@@ -290,6 +305,8 @@ void sendreceive_satellite_data()
           
           //Serial.println(send_receive_err);
         }
+        write_telemetry_data_to_sd();
+        parameters.rb_send_receive_err = -1;
         return;
       }
 
@@ -299,14 +316,16 @@ void sendreceive_satellite_data()
       gyro.count_between_RB=0;
       alt.count_between_RB=0;
       gps_data.count_between_RB=0;
-      Flag_RB.try_send_receive=0;
+      parameters.signal_quality_record = -1;
+      parameters.signal_quality_error_record = -1;
+      parameters.rb_send_receive_err = -1;
 
       Serial.print("ELAPSED TIME SINCE LAST TRANSMIT: ");
       Serial.println(parameters.transmit_elapsed_time);
       Serial.println("**Satellite transmit/receive complete!**");
 
-      //if(debug.mode == 1)
-      //  {
+      if(debug.mode == 1)
+      {
             Serial.println("");
             Serial.println("**This is output.dataword**");
             Serial.println(parameters.output_dataword);
@@ -349,7 +368,7 @@ void sendreceive_satellite_data()
               //  Returns:            The number of messages waiting.
                 Serial.println(isbd.getWaitingMessageCount());
         
-       //  } // end debug section
+       } // end debug section
          
       if (rx_bufferSize == 0)
         break; // all done with do-while loop to Send/Receive until Iridium queue is cleared
@@ -357,9 +376,11 @@ void sendreceive_satellite_data()
       // if a message has been received from Iridium, process the command 
       process_satellite_command();
   } while (isbd.getWaitingMessageCount() > 0);
-  
+
+  Flag_RB.try_send_receive=0;
+  write_telemetry_data_to_sd();
   debug.mode = 0; 
-   //////////End of Iridium Transmit Code/////////////////
+  //////////End of Iridium Transmit Code/////////////////
 }
 
 // procedure :
@@ -433,13 +454,6 @@ int process_satellite_command()
         Serial.println("Satellite message received! Processing command...");
         Serial.println("CommandString in hexadecimal format:");
         Serial.println(CommandString);
-    }
-    
-    if (parameters.command_count < 255) { 
-      parameters.num_rb_words_recieved = parameters.num_rb_words_recieved + 1;
-    }
-    else {  
-      parameters.num_rb_words_recieved = 1;
     }
   
     if(debug.mode == 1)
@@ -760,11 +774,15 @@ void write_output_telemetry_dataword()
    //   Serial.println("The following is the Output TLM word: ");
    //   Serial.println(parameters.output_dataword);
    //   Serial.println(" ");
-   // }
-    
+   // }  
 }
 
-
-
-
+void get_signal_quality()
+{
+  int signalQuality = -1;
+  int sig_qual_err = -1;
+  sig_qual_err = isbd.getSignalQuality(signalQuality);
+  parameters.signal_quality_record = signalQuality;
+  parameters.signal_quality_error_record = sig_qual_err;
+}
 
