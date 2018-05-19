@@ -306,7 +306,7 @@ void gyroSetup()
   {
     Serial.print("Could not connect to MPU9250: 0x");
     Serial.println(c, HEX);
-    while(1) ; // Loop forever if communication doesn't happen
+    //while(1) ; // Loop forever if communication doesn't happen
   }
 }
 

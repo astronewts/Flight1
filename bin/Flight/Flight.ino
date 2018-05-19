@@ -555,7 +555,7 @@ void set_defaults()
   telemetry_data.loadvoltage_load_path = 0.0;
 
   parameters.vehicle_mode = DEFAULT_MODE;
-  parameters.frame_counter = 1;
+  parameters.frame_counter = 0;
   parameters.sd_card_num = 0;
   parameters.telemetry_format = FORMAT_1;  //FORMAT_1;
   parameters.command_count = 0.0;
@@ -709,7 +709,7 @@ void initialize_database()
   i += 1;
   db[i] = {"int",8,parameters.command_count,null_long,null_float,"CMD Count",0,1,0};            
   i += 1;
-  db[i] = {"int",32,parameters.time_since_start/1000,null_long,null_float,"Elapsed Time [s]",0,1,1};  // FIX?
+  db[i] = {"int",32,parameters.time_since_start/1000,null_long,null_float,"Elapsed Time [s]",0,1,1};
   i += 1;
   db[i] = {"int",8,parameters.transmit_period/(1000*60),null_long,null_float,"Active Period [min]",0,1,0};
   i += 1;
@@ -1265,6 +1265,8 @@ void set_emergency_decent_mode()
   cutdown_fire();
   Serial.println("Pyro fire command initiated!");
 }
+
+
 
 void cutdown_fire()
 {

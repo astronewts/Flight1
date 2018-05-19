@@ -492,6 +492,4 @@ struct threshold_struct
 };
 
 
-
-
 #endif /* _FLIGHT_DEFINITIONS_ */
