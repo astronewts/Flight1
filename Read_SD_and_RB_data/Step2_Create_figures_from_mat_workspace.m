@@ -24,7 +24,8 @@ end
 %%
 close all
 Read_Database_from_Arduino
-clearvars -except *_RB *_SD Output_dir Names_* Date_message_RB_PST 
+clear -x *_RB *_SD Output_dir Names_* Date_message_RB_PST
+%clearvars -except *_RB *_SD Output_dir Names_* Date_message_RB_PST 
 %
 %%
     Time_label='Time [s]';
