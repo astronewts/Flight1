@@ -52,7 +52,7 @@
 #define DEFAULT_SURVIVAL_BATTERY_TEMP_LIMIT_LOW    14
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_HIGH     150
 #define DEFAULT_BATTERY_TEMP_SANITY_CHECK_LOW      -80
-#define DEFAULT_NORMAL_TRANSMIT_RATE                 300000 // TEST ONLY!!! (Once every half hour)
+#define DEFAULT_NORMAL_TRANSMIT_RATE                 60000 // TEST ONLY!!! (Once every half hour)
 //define DEFAULT_NORMAL_TRANSMIT_RATE               3600000 //1800000 // FOR FLIGHT!!!
 #define DEFAULT_SPARE_TRANSMIT_RATE                60000
 #define DEFAULT_TRANSIT_TRANSMIT_RATE              300000    
@@ -77,7 +77,7 @@
 
 
 #define HIGH_RATE_PERIOD                           100 // ms   {100 - 1000}
-#define GPS_RATE_PERIOD                            500 // ms   {100 - 1000}
+#define GPS_RATE_PERIOD                            5000 // ms   {100 - 1000}
 #define MEDIUM_RATE_PERIOD                         1000 // ms {5000 - 10000}
 #define LOW_RATE_PERIOD                            30000 // ms {10000 - 30000}
 

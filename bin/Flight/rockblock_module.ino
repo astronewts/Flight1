@@ -190,8 +190,8 @@ void sendreceive_satellite_data()
     // Parameter:     quality – Return value: the strength of the signal (0=nonexistent, 5=high)
 
     int signalQuality = -1;
-    int sig_qual_err = -1;
-    sig_qual_err = isbd.getSignalQuality(signalQuality);
+    int sig_qual_err = -1; //DEBUG123
+    sig_qual_err = isbd.getSignalQuality(signalQuality); //DEBUG123
 
     if(debug.mode == 1)
     {
@@ -206,7 +206,7 @@ void sendreceive_satellite_data()
     }
 
     parameters.signal_quality_record = signalQuality;
-    parameters.signal_quality_error_record = sig_qual_err;
+    parameters.signal_quality_error_record = sig_qual_err; //DEBUS123
     
     if (sig_qual_err != 0)
     {
@@ -238,7 +238,7 @@ void sendreceive_satellite_data()
       //      #define ISBD_IS_ASLEEP           10
       //      #define ISBD_NO_SLEEP_PIN        11
     
-      write_telemetry_data_to_sd();
+      write_telemetry_data_to_sd();  //DEBUG456
       return;
     }
 
@@ -305,7 +305,7 @@ void sendreceive_satellite_data()
           
           //Serial.println(send_receive_err);
         }
-        write_telemetry_data_to_sd();
+        write_telemetry_data_to_sd();   //DEBUG456
         parameters.rb_send_receive_err = -1;
         return;
       }
@@ -324,7 +324,7 @@ void sendreceive_satellite_data()
       Serial.println(parameters.transmit_elapsed_time);
       Serial.println("**Satellite transmit/receive complete!**");
 
-      if(debug.mode == 1)
+      if(debug.mode == 1)  //DEBUG123
       {
             Serial.println("");
             Serial.println("**This is output.dataword**");
@@ -368,7 +368,7 @@ void sendreceive_satellite_data()
               //  Returns:            The number of messages waiting.
                 Serial.println(isbd.getWaitingMessageCount());
         
-       } // end debug section
+       } // end debug section //DEBUG123
          
       if (rx_bufferSize == 0)
         break; // all done with do-while loop to Send/Receive until Iridium queue is cleared
@@ -378,7 +378,7 @@ void sendreceive_satellite_data()
   } while (isbd.getWaitingMessageCount() > 0);
 
   Flag_RB.try_send_receive=0;
-  write_telemetry_data_to_sd();
+  write_telemetry_data_to_sd();  //DEBUG456
   debug.mode = 0; 
   //////////End of Iridium Transmit Code/////////////////
 }

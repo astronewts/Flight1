@@ -30,7 +30,6 @@
 #include <Wire.h>
 #include <SPI.h>
 #include "I2Cdev.h"
-// ORI #include "MPU9150Lib.h" Test
 // From SparkFun: does not work for our Arduino #include "MPU9250Lib.h"
 //#include "MPU9250_asukiaaa.h"
 #include "CalLib.h"
@@ -279,10 +278,10 @@ void Main_flight_loop()
   {    
     collect_charge_current_data();
     collect_low_rate_current_data();
-    get_signal_quality();
+    get_signal_quality(); //DEBUG123
     
     process_charge_current_tlm();
-//    write_telemetry_data_to_sd();
+    write_telemetry_data_to_sd(); //DEBUG456
 
     parameters.high_rate_elapsed_time = 0;
 
@@ -297,15 +296,15 @@ void Main_flight_loop()
   // Specific frequency for GPS:
   if(parameters.gps_rate_elapsed_time > GPS_RATE_PERIOD)
   {  
-    collect_gps_data(gps_data_new);
-    post_process_gps_alt();
+    collect_gps_data(gps_data_new); //DEBUG789
+    post_process_gps_alt(); //DEBUG789
     //TEST CRAP
     if (debug.mode==1)
     {
       print_heater_test_autocutdown_test();
       print_alt_data();
       Serial.println("=> DEBUG: GPS DATA");
-      print_gps_data();
+      print_gps_data(); //DEBUG789
     } 
     parameters.gps_rate_elapsed_time = 0;
   }
@@ -313,11 +312,11 @@ void Main_flight_loop()
   // Medium rate processes
   if(parameters.medium_rate_elapsed_time > MEDIUM_RATE_PERIOD)
   {    
-    readGyroData();
-    post_process_gyro();
+    readGyroData(); //DEBUG789
+    post_process_gyro(); //DEBUG789
 
-    collect_alt_data();
-    post_process_alt_data();
+    collect_alt_data(); //DEBUG789-2
+    post_process_alt_data(); //DEBUG789-2
 
     collect_analog_telemetry();
     execute_thermal_control_check();
@@ -332,9 +331,9 @@ void Main_flight_loop()
     if (debug.mode==1)
     {
       print_heater_test_autocutdown_test();
-      print_alt_data();
+      print_alt_data(); //DEBUG789-2
       Serial.println("=> DEBUG: GYRO DATA");
-      print_gyro_data();
+      print_gyro_data(); //DEBUG789
     }
   }
 
@@ -342,6 +341,9 @@ void Main_flight_loop()
   if (parameters.low_rate_elapsed_time > LOW_RATE_PERIOD)
   {
     execute_altitude_control_check();
+
+
+    
     
     parameters.low_rate_elapsed_time=0;
   }
@@ -393,7 +395,7 @@ void Signal_test_loop()
   
   delay(1000);
   get_signal_quality();
-
+  
   Serial.print(parameters.elasped_time_for_rb_quality_test);
   Serial.print("  ");
   Serial.print(parameters.signal_quality_record);
@@ -507,7 +509,7 @@ void Init_components()
   Serial.println("===> current_sense_setup done ");
   Serial.println("");
   Serial.println("****gyro_setup");
-  gyroSetup();
+  gyroSetup();  //DEBUG789
   Serial.println("===> gyro setup done ");
   Serial.println("");
 }
